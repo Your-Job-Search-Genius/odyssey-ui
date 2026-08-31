@@ -14,6 +14,11 @@
  * it reads as a groove rather than a border, so it is a literal here.
  */
 .wsu-TabList {
+  /* Declared locally, not left to reset.css: that reset is scoped to
+     `.wsu-theme-root`, so a consumer who imports only the tokens would
+     otherwise get this box in content-box and the border added on top of
+     its size. */
+  box-sizing: border-box;
   display: inline-flex;
   gap: 1px;
   padding: 1px;
@@ -36,6 +41,7 @@
  * under RTL. Hover/disabled/focus-visible are assumed — see Tabs.tsx.
  */
 .wsu-Tab {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;

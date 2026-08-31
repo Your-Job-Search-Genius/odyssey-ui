@@ -74,55 +74,162 @@
   to { opacity: 0; transform: scale(0.96) translateY(4px); }
 }
 
+/**
+ * Header, body and footer geometry from the file's only real modal panel —
+ * "Type=Info, State=With Icon" (node 433:9598): 14px padding all round,
+ * a 10px gap under the header, 12px radius, no border. (The "Option Menu
+ * Modal" at 433:9607 is not a second panel: 433:9608 is the scrim and
+ * 433:9609 is a Create Resume menu floating on it.) The file's panels are
+ * 307-372px wide, so `md` and `lg` take this padding at widths the file
+ * never shows.
+ */
 .wsu-Modal__dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; /* 10px */
+  padding: 0.875rem; /* 14px */
   outline: none;
 }
 
+/**
+ * The header row centers its content (node 433:9554), except in the
+ * "With Description" variant, which top-aligns so the close control stays
+ * level with the title rather than with the two-line block.
+ */
 .wsu-Modal__header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: var(--wsu-space-4);
-  padding: var(--wsu-space-6);
-  padding-bottom: var(--wsu-space-4);
+}
+
+.wsu-Modal__header[data-has-description] {
+  align-items: flex-start;
+}
+
+/* "Variant5" centers the header and drops the close control. */
+.wsu-Modal__header[data-align="center"] {
+  justify-content: center;
+}
+.wsu-Modal__header[data-align="center"] .wsu-Modal__headerText {
+  flex: 0 1 auto;
+  align-items: center;
+  text-align: center;
 }
 
 .wsu-Modal__headerText {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
+  gap: 0.125rem; /* 2px */
+  min-width: 0;
+}
+
+/* Icon, title and badge sit 4px apart (nodes 433:9563, 433:9574). */
+.wsu-Modal__headerRow {
+  display: flex;
+  align-items: center;
   gap: var(--wsu-space-1);
   min-width: 0;
 }
 
-.wsu-Modal__title {
-  margin: 0;
-  font: var(--wsu-font-heading-md);
-  color: var(--wsu-color-text-heading);
+.wsu-Modal__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem; /* 20px */
+  height: 1.25rem;
+  color: var(--wsu-color-icon-default);
+}
+/* Icon sets its box as inline width/height, which a class rule can't outrank. */
+.wsu-Modal__icon > :where(svg) {
+  width: 100% !important;
+  height: 100% !important;
 }
 
+/**
+ * The file's three header title styles. `md` is Body/Base-Medium, which is
+ * what every variant but two uses — the previous 20px/SemiBold heading was
+ * this library's own, not the file's.
+ */
+.wsu-Modal__title {
+  margin: 0;
+  color: var(--wsu-color-text-heading);
+}
+.wsu-Modal__title[data-size="sm"] {
+  font: var(--wsu-font-body-sm-semibold); /* Figma "Body/Small-Semibold" */
+}
+.wsu-Modal__title[data-size="md"] {
+  font: var(--wsu-font-body-md); /* Figma "Body/Base-Medium" */
+}
+.wsu-Modal__title[data-size="lg"] {
+  font: var(--wsu-font-heading-lg); /* Figma "Heading/Large" */
+}
+
+/* The file's description is text-subheading, not the body colour. */
 .wsu-Modal__description {
   margin: 0;
   font: var(--wsu-font-body-sm);
-  color: var(--wsu-color-text-body);
+  color: var(--wsu-color-text-subheading);
 }
 
+/**
+ * The file draws the close control as a bare 20px glyph, which is under the
+ * 24x24 floor WCAG 2.5.8 sets for a pointer target. The glyph keeps its
+ * 20px size and gains a 28x28 hit area around it — the smallest change that
+ * clears the floor without altering what is drawn.
+ */
 .wsu-Modal__close {
+  display: inline-flex;
   flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem; /* 28px */
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--wsu-color-icon-default);
+  border-radius: var(--wsu-radius-sm);
+  cursor: pointer;
+}
+
+.wsu-Modal__close:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
 }
 
 .wsu-Modal__body {
-  padding-inline: var(--wsu-space-6);
-  padding-bottom: var(--wsu-space-6);
   font: var(--wsu-font-body-md);
   color: var(--wsu-color-text-body);
 }
 
+/**
+ * Footer arrangements from node 433:9582. The file gives the row no rule
+ * above it and no padding of its own — it is a plain button row inside the
+ * panel's own 14px — so the top border an earlier pass added is gone.
+ * Stacked buttons sit 8px apart (two 28px buttons in a 64px frame).
+ */
 .wsu-Modal__footer {
   display: flex;
-  justify-content: flex-end;
-  gap: var(--wsu-space-3);
-  padding: var(--wsu-space-4) var(--wsu-space-6);
-  border-top: 1px solid var(--wsu-color-border-default);
+  align-items: center;
+  gap: var(--wsu-space-2); /* 8px */
+}
+
+.wsu-Modal__footer[data-layout="single"] > * {
+  flex: 1 1 auto;
+}
+
+.wsu-Modal__footer[data-layout="horizontal"] {
+  justify-content: space-between;
+}
+
+.wsu-Modal__footer[data-layout="stacked"] {
+  flex-direction: column;
+}
+.wsu-Modal__footer[data-layout="stacked"] > * {
+  width: 100%;
 }
 
 @media (max-width: 480px) {

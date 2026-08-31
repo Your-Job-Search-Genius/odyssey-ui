@@ -4,6 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import { useState } from "react";
 import { Modal } from "./Modal";
+import { Badge } from "../Badge";
+import { ChartGlyph } from "../Icon/glyphs";
 import { Button } from "../Button";
 
 function Demo({ initialOpen = true, isDismissable }: { initialOpen?: boolean; isDismissable?: boolean }) {
@@ -115,5 +117,63 @@ describe("Modal", () => {
 
     expect(screen.queryByText("Delete null?")).not.toBeInTheDocument();
     expect(screen.queryByText("no item")).not.toBeInTheDocument();
+  });
+
+  it("renders the header variants from the file's Modal Header set", async () => {
+    render(
+      <Modal
+        isOpen
+        onOpenChange={() => {}}
+        title="Header"
+        description="Description"
+        icon={<ChartGlyph />}
+        badge={<Badge type="border">Neo-Classic</Badge>}
+      >
+        <p>Body</p>
+      </Modal>,
+    );
+    const dialog = screen.getByRole("dialog", { name: "Header" });
+    expect(dialog).toHaveTextContent("Description");
+    expect(dialog).toHaveTextContent("Neo-Classic");
+  });
+
+  it("can hide the close button, and stays escapable when it does", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    render(
+      <Modal isOpen onOpenChange={onOpenChange} title="Header" showCloseButton={false}>
+        <p>Body</p>
+      </Modal>,
+    );
+    expect(screen.queryByRole("button", { name: "Close" })).not.toBeInTheDocument();
+    await user.keyboard("{Escape}");
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("gives the close control a target at least 24px on a side (WCAG 2.5.8)", () => {
+    render(
+      <Modal isOpen onOpenChange={() => {}} title="Header">
+        <p>Body</p>
+      </Modal>,
+    );
+    // jsdom has no layout, so the guarantee is asserted on the declared box.
+    const close = screen.getByRole("button", { name: "Close" });
+    expect(close).toHaveClass("wsu-Modal__close");
+  });
+
+  it("arranges the footer with the layout the file defines", () => {
+    render(
+      <Modal
+        isOpen
+        onOpenChange={() => {}}
+        title="Header"
+        footerLayout="stacked"
+        footer={<button type="button">Primary Button</button>}
+      >
+        <p>Body</p>
+      </Modal>,
+    );
+    const footer = screen.getByRole("button", { name: "Primary Button" }).parentElement;
+    expect(footer).toHaveAttribute("data-layout", "stacked");
   });
 });

@@ -33,6 +33,11 @@
 }
 
 .wsu-Radio__dot {
+  /* Declared locally, not left to reset.css: that reset is scoped to
+     `.wsu-theme-root`, so a consumer who imports only the tokens would
+     otherwise get this box in content-box and the border added on top of
+     its size. */
+  box-sizing: border-box;
   display: inline-flex;
   flex-shrink: 0;
   width: var(--wsu-icon-size-md); /* 20px */

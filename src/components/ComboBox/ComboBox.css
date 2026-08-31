@@ -15,22 +15,35 @@
   color: var(--wsu-color-text-danger);
 }
 
+/**
+ * The field box matches the Inputs page's audited field exactly (see
+ * Input.css): a 44px row from 10px block padding, a 10px radius, and the
+ * 1px stroke drawn *inside* as an inset shadow — Figma strokes are inside
+ * the frame, so a real border would make the row 46px against the file's
+ * 44px, and would leave this control 2px shorter and 2px rounder than the
+ * Input beside it in a form.
+ */
 .wsu-ComboBox__field {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   background-color: var(--wsu-color-field-bg);
-  border: 1px solid var(--wsu-color-field-border);
-  border-radius: var(--wsu-radius-md);
-  transition: border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border);
+  border-radius: 0.625rem; /* 10px, as Input.css */
+  transition: box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
 }
 
 .wsu-ComboBox__field:focus-within {
-  border-color: var(--wsu-color-field-border-focus);
-  box-shadow: var(--wsu-shadow-focus-ring);
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-focus), var(--wsu-shadow-focus-ring);
 }
 
 .wsu-ComboBox[data-invalid] .wsu-ComboBox__field {
-  border-color: var(--wsu-color-field-border-danger);
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger);
+}
+
+.wsu-ComboBox[data-invalid] .wsu-ComboBox__field:focus-within {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger), var(--wsu-shadow-focus-ring);
 }
 
 .wsu-ComboBox__input {
@@ -39,8 +52,8 @@
   border: none;
   outline: none;
   background: transparent;
-  padding-inline: 0.8125rem;
-  padding-block: var(--wsu-space-2);
+  padding-inline: 0.8125rem; /* 13px */
+  padding-block: 0.625rem; /* 10px */
   font: var(--wsu-font-body-md);
   color: var(--wsu-color-text-heading);
 }
@@ -54,6 +67,7 @@
 }
 
 .wsu-ComboBox__toggle {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;

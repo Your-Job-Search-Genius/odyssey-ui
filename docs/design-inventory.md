@@ -332,17 +332,57 @@ the render. The brand mark is a third-party logo the library would not ship rega
 story keeps the tile's exact geometry around a neutral glyph.
 
 ### 2.7 Modal / Dialog — `react-aria-components` (`Modal`, `Dialog`, `DialogTrigger`)
-- Header variants: Default, centered (no close button), With Badge, With Icon, With Description,
-  With Tabs
-- Footer arrangements: Single CTA, Horizontal (Cancel+Confirm), Stacked, Stacked Inverted
-- Body/content chrome: radius 12px (Info type) or 16px (Option Menu type), `shadow.xs` on nested
-  panels
-- **No backdrop/scrim value found anywhere in the file** — assumed `rgba(0,0,0,0.4)` background
-  behind the modal (Modal API requirement: trap focus, restore focus on close, close on Escape,
-  lock body scroll, render through a portal at `z.overlay`/`z.modal`) — all APG-standard, not
-  Figma-derived, since Figma simply doesn't show it.
-- Close button = `cancel-01`/multiplication-sign icon, 20px, needs `aria-label="Close"` (or
-  localized equivalent) since it's icon-only.
+**Audited against the Modals page (`144:33142`).** The panel comes from the file's only real modal
+panel, "Type=Info, State=With Icon" (`433:9598`): white, 12px radius, **14px padding all round**, a
+10px gap under the header, no border. The "Option Menu Modal" (`433:9607`) is not a second panel —
+`433:9608` is the scrim and `433:9609` is a Create Resume menu floating on it. The scrim is that
+node: `rgba(78,78,78,0.76)` under an 8px blur.
+
+**Header set (`433:9554`)** — six variants, all one row:
+
+| Variant | Figma | Shipped |
+|---|---|---|
+| Default `433:9555` | title Body/Base-Medium, close at the far end, 24px tall | `titleSize="md"` (the default) |
+| Variant5 `433:9559` | centered Heading/Large, no close, 32px | `titleSize="lg" align="center" showCloseButton={false}` |
+| With Badge `433:9562` | title + `Badge`, 36px | `badge` prop |
+| With Icon `433:9567` | 20px glyph + 4px + title | `icon` prop |
+| With Description `433:9572` | icon+title over a 14/20 `text-subheading` line, top-aligned, 46px (verified 46.00) | `description` prop; the row switches to `flex-start` on its own |
+| With Tabs `458:946` | Body/Small-Semibold title beside a grouped Tabs, no close | `titleSize="sm"` + `headerAction` |
+
+**Footer set (`433:9582`)** — Single CTA (one full-width button), Horizontal (two, space-between),
+Stacked and Stacked Inverted (two full-width, 8px apart). Shipped as
+`footerLayout: "single" | "horizontal" | "stacked"`: "Stacked Inverted" is the same layout with the
+buttons in the other order, expressed by the order the children are passed rather than by a
+`column-reverse` that would leave the visual order out of step with the DOM and focus order
+(WCAG 1.3.2). The file gives the footer **no rule above it and no padding of its own** — the
+`border-top` an earlier pass added is gone.
+
+**Fixes this audit produced**
+- The title was `heading-md` (20/28 SemiBold), this library's own; the file's is Body/Base-Medium
+  (16/24) in four of six variants. All three of the file's title styles now ship.
+- Panel padding was 24px/16px; the file's is a uniform 14px with a 10px header gap.
+- The description was `text-body`; the file's is `text-subheading` (#414651).
+- The header text column gapped 4px; the file's is 2px.
+- The header row top-aligned always; the file centers except in "With Description".
+- The close control was a `CloseGlyph` in a text Button; the file's is the filled
+  `multiplication-sign-square`, now `CloseSquareGlyph`.
+
+**New tokens** — `--wsu-font-body-sm-semibold`, the file's named "Body/Small-Semibold" (14/20 at
+weight 600), which was missing from the type scale extracted from the Typography page.
+
+**Deviations, and why**
+| The file says | Shipped | Reason |
+|---|---|---|
+| The close control is a bare 20px glyph | 20px glyph inside a 28x28 button | 20px is under the 24x24 floor WCAG 2.5.8 sets for a pointer target. The glyph is unchanged; only the hit area grows, which also makes the Default header 28px rather than the file's 24px. |
+| The "With Badge" header's badge is 36px tall, its text 16px | the Badge page's own 32px chip | That instance overrides the size to 16px while keeping the `text-sm` variable attached — a detached override. The Badge page is the component's definition, so it wins. |
+| "With Tabs" hugs its content at a 13px gap | the shared header's space-between | The file's frame is 281px wide and hug-sized; a real panel is wider, and nothing in the file says what fills the difference. |
+
+**A structural constraint worth recording.** `Tabs` cannot wrap `<Modal>`: react-aria renders a
+collection's children a second time to build the collection, and the dialog's portal escapes that
+pass, so the whole dialog mounts twice (verified — two elements with `role="dialog"`). But the
+"With Tabs" header needs its `TabList` and the body's `TabPanel`s in one `Tabs` subtree, or the
+selected tab's `aria-controls` points at nothing. `Modal` therefore takes a `contentWrapper` render
+prop, which puts the provider inside the portal instead.
 
 ### 2.8 Tabs — `react-aria-components` (`Tabs`)
 - Only a single "Grouped" 3-tab instance exists in the file: selected (white pill, inset shadow) vs.
@@ -423,6 +463,37 @@ designed from WAI-ARIA APG patterns + this file's existing visual language (radi
 color tokens, the same focus-ring and error-text conventions used elsewhere) and explicitly marked
 "Not in source Figma — designed to match system" in their Storybook docs. Tooltip is detailed in
 §2.9 since React Aria owns its behavior; the rest are lower priority (see build order, §3).
+
+### 2.15 Cross-cutting: inside strokes and box-sizing
+
+Figma draws a stroke **inside** a frame's bounds; CSS adds a `border` **around** the content box.
+Wherever a node's measured size was reproduced as a fixed height/width *and* its stroke as a real
+border, the rendered box came out 2px larger than the file. The pattern that matches Figma is
+`box-shadow: inset 0 0 0 Npx <color>` with `border: none`, and it composes with a focus ring by
+stacking layers.
+
+A full sweep of every `border`/`border-*` declaration against every pinned dimension found:
+
+| Where | Was | Now |
+|---|---|---|
+| `Select` trigger | 42px tall, 12px radius, 8px block padding, real border | the Inputs page's audited field: 44px, 10px radius, 10px padding, inset stroke |
+| `ComboBox` field | same 42px/12px | same fix |
+| Alice panel, chat bubble, `Input` field, `Badge --border`, `Card` neutral, the Job logo tile | real borders inflating measured frames | inset strokes (fixed as each page was audited) |
+| `Checkbox`, `Radio`, `Table`, `Spinner`, `FileInput`, `Tabs`, `ComboBox` toggle | relied on reset.css for `border-box` | each declares it locally |
+| `Popover`, `Modal`, `Tooltip` | same, but **unreachable** by the reset | each stylesheet carries a scoped rule |
+
+That last row is the one that was actually broken rather than merely fragile: overlays render
+through a React Aria portal, as children of `document.body` and outside the `.wsu-theme-root` that
+`reset.css` scopes itself to, so the global `box-sizing: border-box` never applied to them at all.
+A 28px `min-height` plus 6px padding was rendering a 40px menu row against the file's 36px.
+
+Left alone deliberately: borders that *are* the drawn shape rather than a frame's stroke — the
+`Spinner` ring, the `Button` loading ring, the `Sidebar` submenu connector elbow, and the
+divider rules in `Card`, `Table`, `Input`'s prefix and the menu header.
+
+`Textarea` keeps its own 12px radius and 10px inline padding rather than the field's 10px/13px:
+it already uses the inset-stroke pattern, and nothing in the file confirms that a multi-line box
+shares the single-line field's values.
 
 ## 3. Proposed build order
 

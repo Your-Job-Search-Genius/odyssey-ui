@@ -27,6 +27,9 @@ export const typography = {
       the title line of a menu row with a description (node 433:9016). */
   bodyMdSemibold: { fontFamily: base, fontWeight: 600, fontSize: "1rem", lineHeight: "1.5rem", letterSpacing: "0" },
   bodySm: { fontFamily: base, fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0" },
+  /** Figma's "Body/Small-Semibold" — same metrics as bodySm at weight 600. Used for
+      the Modal header's compact title (node 458:946). */
+  bodySmSemibold: { fontFamily: base, fontWeight: 600, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0" },
 } satisfies Record<string, TypeStyle>;
 
 export type TypographyToken = keyof typeof typography;

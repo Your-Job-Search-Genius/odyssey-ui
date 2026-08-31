@@ -6,11 +6,22 @@ import {
   Dialog as AriaDialog,
   Heading,
 } from "react-aria-components";
-import { Button } from "../Button";
-import { CloseGlyph } from "../Icon/glyphs";
+import { CloseSquareGlyph } from "../Icon/glyphs";
 import "./Modal.css";
 
 export type ModalSize = "sm" | "md" | "lg";
+
+/** The file's three Modal Header title styles (node 433:9554). */
+export type ModalTitleSize = "sm" | "md" | "lg";
+
+/**
+ * The file's Modal Footer arrangements (node 433:9582). "Stacked Inverted"
+ * is not a fourth layout — it is `stacked` with the buttons in the other
+ * order, so it is expressed by the order the children are passed rather
+ * than by a `column-reverse` that would put the visual order out of step
+ * with the DOM order (WCAG 1.3.2).
+ */
+export type ModalFooterLayout = "single" | "horizontal" | "stacked";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -22,7 +33,46 @@ export interface ModalProps {
   children: ReactNode;
   /** Rendered in the footer row — typically one or more Buttons. */
   footer?: ReactNode;
+  /** How the footer arranges its children. Defaults to the file's "Horizontal". */
+  footerLayout?: ModalFooterLayout;
   size?: ModalSize;
+  /**
+   * A 20px glyph before the title — the file's "With Icon" and
+   * "With Description" headers.
+   */
+  icon?: ReactNode;
+  /** Content after the title — the file's "With Badge" header puts a `Badge` here. */
+  badge?: ReactNode;
+  /**
+   * Trailing header content before the close button — the file's "With Tabs"
+   * header puts a grouped `Tabs` here.
+   */
+  headerAction?: ReactNode;
+  /**
+   * `md` (default) is Body/Base-Medium, the file's usual header. `lg` is
+   * Heading/Large, its centered "Variant5". `sm` is Body/Small-Semibold,
+   * its "With Tabs" header.
+   */
+  titleSize?: ModalTitleSize;
+  /** Centers the header, as the file's "Variant5" does. */
+  align?: "start" | "center";
+  /**
+   * Defaults to true. The file's "Variant5" and "With Tabs" headers have no
+   * close control; `isDismissable` still leaves Escape and outside-click
+   * available, so hiding it never traps the user (WCAG 2.1.2).
+   */
+  showCloseButton?: boolean;
+  /**
+   * Wraps the header, body and footer in one element — for a control that
+   * spans them, such as the file's "With Tabs" header, whose `TabList` sits
+   * beside the title while its panels are the body. Those two have to be
+   * one `Tabs` subtree, and `Tabs` cannot go *around* this component:
+   * react-aria renders a collection's children a second time to build the
+   * collection, and the dialog's portal escapes that pass, so the whole
+   * dialog mounts twice (verified — two elements with `role="dialog"`).
+   * Wrapping from in here puts the provider inside the portal instead.
+   */
+  contentWrapper?: (content: ReactNode) => ReactNode;
   /** Escape and outside-click close the modal. Defaults to true; set false for a flow that must be explicitly confirmed or canceled. */
   isDismissable?: boolean;
 }
@@ -48,10 +98,45 @@ export interface ModalProps {
  * the last props seen while `isOpen` was true are cached and kept on
  * screen for as long as the dialog stays mounted while closing.
  */
-export function Modal({ isOpen, onOpenChange, title, description, children, footer, size = "md", isDismissable = true }: ModalProps) {
-  const lastOpenContent = useRef({ title, description, children, footer, size });
+export function Modal({
+  isOpen,
+  onOpenChange,
+  title,
+  description,
+  children,
+  footer,
+  footerLayout = "horizontal",
+  size = "md",
+  isDismissable = true,
+  icon,
+  badge,
+  headerAction,
+  titleSize = "md",
+  align = "start",
+  showCloseButton = true,
+  contentWrapper,
+}: ModalProps) {
+  const lastOpenContent = useRef({
+    title,
+    description,
+    children,
+    footer,
+    size,
+    icon,
+    badge,
+    headerAction,
+  });
   if (isOpen) {
-    lastOpenContent.current = { title, description, children, footer, size };
+    lastOpenContent.current = {
+      title,
+      description,
+      children,
+      footer,
+      size,
+      icon,
+      badge,
+      headerAction,
+    };
   }
   const content = lastOpenContent.current;
 
@@ -65,28 +150,60 @@ export function Modal({ isOpen, onOpenChange, title, description, children, foot
     >
       <AriaModal className={`wsu-Modal wsu-Modal--${content.size}`}>
         <AriaDialog className="wsu-Modal__dialog">
-          {({ close }) => (
-            <>
-              <div className="wsu-Modal__header">
-                <div className="wsu-Modal__headerText">
-                  <Heading slot="title" className="wsu-Modal__title">
-                    {content.title}
-                  </Heading>
-                  {content.description ? <p className="wsu-Modal__description">{content.description}</p> : null}
+          {({ close }) => {
+            const dialogContent = (
+              <>
+                <div
+                  className="wsu-Modal__header"
+                  data-align={align}
+                  data-has-description={content.description ? "" : undefined}
+                >
+                  <div className="wsu-Modal__headerText">
+                    <div className="wsu-Modal__headerRow">
+                      {content.icon ? (
+                        <span className="wsu-Modal__icon" aria-hidden="true">
+                          {content.icon}
+                        </span>
+                      ) : null}
+                      <Heading
+                        slot="title"
+                        className="wsu-Modal__title"
+                        data-size={titleSize}
+                      >
+                        {content.title}
+                      </Heading>
+                      {content.badge}
+                    </div>
+                    {content.description ? (
+                      <p className="wsu-Modal__description">
+                        {content.description}
+                      </p>
+                    ) : null}
+                  </div>
+                  {content.headerAction}
+                  {showCloseButton ? (
+                    <button
+                      type="button"
+                      className="wsu-Modal__close"
+                      aria-label="Close"
+                      onClick={close}
+                    >
+                      <CloseSquareGlyph size="md" />
+                    </button>
+                  ) : null}
                 </div>
-                <Button
-                  variant="text"
-                  size="sm"
-                  leadingIcon={<CloseGlyph />}
-                  aria-label="Close"
-                  onClick={close}
-                  className="wsu-Modal__close"
-                />
-              </div>
-              <div className="wsu-Modal__body">{content.children}</div>
-              {content.footer ? <div className="wsu-Modal__footer">{content.footer}</div> : null}
-            </>
-          )}
+                <div className="wsu-Modal__body">{content.children}</div>
+                {content.footer ? (
+                  <div className="wsu-Modal__footer" data-layout={footerLayout}>
+                    {content.footer}
+                  </div>
+                ) : null}
+              </>
+            );
+            return contentWrapper
+              ? contentWrapper(dialogContent)
+              : dialogContent;
+          }}
         </AriaDialog>
       </AriaModal>
     </AriaModalOverlay>

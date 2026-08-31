@@ -185,6 +185,8 @@
   --wsu-tracking-body-md-semibold: 0;
   --wsu-font-body-sm: 500 0.875rem/1.25rem var(--wsu-font-family);
   --wsu-tracking-body-sm: 0;
+  --wsu-font-body-sm-semibold: 600 0.875rem/1.25rem var(--wsu-font-family);
+  --wsu-tracking-body-sm-semibold: 0;
 
   /* Motion — every component transition references these, never a literal duration, so
      prefers-reduced-motion (below) can zero them out globally in one place. */

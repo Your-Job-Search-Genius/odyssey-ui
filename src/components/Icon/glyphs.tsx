@@ -401,3 +401,57 @@ export function PlusGlyph(props: GlyphProps) {
     </Icon>
   );
 }
+
+/**
+ * `multiplication-sign-square` — the close control on every Modal Header
+ * variant in the file (node 433:9558). A filled dark rounded square with a
+ * white cross, drawn at the node's own `inset 7.29%` of a 24px box; only
+ * the corner radius is read off the render. Distinct from `CloseGlyph`,
+ * which is the bare cross used elsewhere.
+ */
+export function CloseSquareGlyph(props: GlyphProps) {
+  return (
+    <Icon {...props}>
+      <rect x="1.75" y="1.75" width="20.5" height="20.5" rx="6" fill="currentColor" stroke="none" />
+      <path
+        d="m8.7 8.7 6.6 6.6M15.3 8.7l-6.6 6.6"
+        stroke="var(--wsu-color-text-on-primary)"
+        strokeWidth={2}
+        strokeLinecap="round"
+      />
+    </Icon>
+  );
+}
+
+/**
+ * `presentation-bar-chart-02` — the leading glyph on the file's "With Icon"
+ * and "With Description" modal headers (node 433:9569). Another house-style
+ * stand-in drawn from the rendered node, per the note above.
+ */
+export function ChartGlyph(props: GlyphProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 3h18M4.5 3v9.5A2.5 2.5 0 0 0 7 15h10a2.5 2.5 0 0 0 2.5-2.5V3" strokeWidth={ROW_STROKE} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 15v6m0 0-3 0m3 0 3 0" strokeWidth={ROW_STROKE} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8.5 11.5v-2M12 11.5v-4M15.5 11.5v-3" strokeWidth={ROW_STROKE} strokeLinecap="round" />
+    </Icon>
+  );
+}
+
+/**
+ * `star-circle` — the trailing mark on the badge in the file's "With Badge"
+ * modal header (node 433:9565), drawn at that node's `inset 5.21%` of a
+ * 24px box. A house-style stand-in, per the note above.
+ */
+export function StarCircleGlyph(props: GlyphProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="10.75" fill="currentColor" stroke="none" />
+      <path
+        d="m12 6.6 1.65 3.35 3.7.54-2.68 2.6.63 3.68L12 15.03l-3.3 1.74.63-3.68-2.68-2.6 3.7-.54z"
+        fill="var(--wsu-color-text-on-primary)"
+        stroke="none"
+      />
+    </Icon>
+  );
+}
