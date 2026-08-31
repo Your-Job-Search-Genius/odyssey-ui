@@ -78,7 +78,7 @@ export function warnOnContrastFailures(checks: ContrastCheck[]): ContrastResult[
       const required = THRESHOLDS[result.kind];
       // eslint-disable-next-line no-console
       console.warn(
-        `[@writesea/odyssey-ui] Contrast warning: "${result.label}" is ${
+        `[@your-job-search-genius/odyssey-ui] Contrast warning: "${result.label}" is ${
           result.ratio?.toFixed(2) ?? "unresolvable"
         }:1 (${result.foreground} on ${result.background}), below the ${required}:1 required for ${result.kind}.`,
       );

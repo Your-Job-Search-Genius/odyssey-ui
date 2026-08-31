@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verify release tag matches package.json version
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          TAG="${{ github.event.release.tag_name }}"
+          if [ "$PKG_VERSION" != "$TAG" ]; then
+            echo "::error::Release tag ($TAG) does not match package.json version ($PKG_VERSION). Bump the version and re-tag before releasing."
+            exit 1
+          fi
+
+      - run: pnpm run lint
+
+      - run: pnpm run typecheck
+
+      - run: pnpm run test
+
+      - run: pnpm run build
+
+      - name: Generate SBOM
+        run: pnpm run sbom
+
+      - name: Publish to GitHub Packages
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Attach SBOM to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.event.release.tag_name }}" sbom.json --clobber

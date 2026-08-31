@@ -21,7 +21,7 @@ export const TypeScale: Story = {
         Geist is licensed under the SIL Open Font License 1.1 — free and safe for commercial use,
         and confirmed available on Google Fonts from this environment. This Storybook loads it for
         real (see the rendered specimens below); the package itself doesn&rsquo;t force that network
-        request on every consumer — import <code>@writesea/odyssey-ui/fonts.css</code> to opt in,
+        request on every consumer — import <code>@your-job-search-genius/odyssey-ui/fonts.css</code> to opt in,
         or self-host, or fall back to the system stack below.
       </p>
       {Object.entries(typography).map(([name, style]) => (

@@ -59,7 +59,7 @@ export const CustomBrandTheme: Story = {
 A consumer installs the package and re-skins it like this:
 
 \`\`\`tsx
-import { createTheme, ThemeProvider } from "@writesea/odyssey-ui";
+import { createTheme, ThemeProvider } from "@your-job-search-genius/odyssey-ui";
 
 const oceanTheme = createTheme({
   colors: {

@@ -1,4 +1,4 @@
-# @writesea/odyssey-ui
+# @your-job-search-genius/odyssey-ui
 
 A production React component library built from the **Writesea Odyssey** Figma design
 system, with [WCAG 2.2 Level AA](https://www.w3.org/TR/WCAG22/) accessibility built in
@@ -27,7 +27,7 @@ for the accessibility checklist this library is built against.
 ## Installation
 
 ```sh
-npm install @writesea/odyssey-ui react react-dom
+npm install @your-job-search-genius/odyssey-ui react react-dom
 ```
 
 `react` and `react-dom` (`^18.0.0 || ^19.0.0`) are peer dependencies — bring your own.
@@ -38,13 +38,13 @@ Import the base stylesheet once, near the root of your app (it carries the desig
 tokens as CSS custom properties, a small reset, and every component's styles):
 
 ```ts
-import "@writesea/odyssey-ui/styles.css";
+import "@your-job-search-genius/odyssey-ui/styles.css";
 ```
 
 Then use components as you would any other React library:
 
 ```tsx
-import { Button, Input, ThemeProvider } from "@writesea/odyssey-ui";
+import { Button, Input, ThemeProvider } from "@your-job-search-genius/odyssey-ui";
 
 function App() {
   return (
@@ -66,8 +66,8 @@ Every component also has its own entry point with its own stylesheet, so a bundl
 you, manually) can pull in only what's used:
 
 ```tsx
-import { Button } from "@writesea/odyssey-ui/components/Button";
-import "@writesea/odyssey-ui/components/Button/styles.css";
+import { Button } from "@your-job-search-genius/odyssey-ui/components/Button";
+import "@your-job-search-genius/odyssey-ui/components/Button/styles.css";
 ```
 
 The package sets `"sideEffects": ["**/*.css"]`, so bundlers can safely drop unused
@@ -80,7 +80,7 @@ There are two ways to reskin the library, and you can mix them.
 ### 1. `createTheme()` + `ThemeProvider`
 
 ```tsx
-import { createTheme, ThemeProvider } from "@writesea/odyssey-ui";
+import { createTheme, ThemeProvider } from "@your-job-search-genius/odyssey-ui";
 
 const oceanTheme = createTheme({
   colors: {
@@ -144,7 +144,7 @@ Components reference a `Geist` / system-sans-serif font stack (see
 never injects a remote `@import` for you:
 
 ```ts
-import "@writesea/odyssey-ui/fonts.css";
+import "@your-job-search-genius/odyssey-ui/fonts.css";
 ```
 
 Skip this import (or supply your own self-hosted `Geist`, or omit the font entirely) and

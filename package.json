@@ -1,15 +1,20 @@
 {
-  "name": "@writesea/odyssey-ui",
+  "name": "@your-job-search-genius/odyssey-ui",
   "version": "0.1.0",
+  "packageManager": "pnpm@11.24.0",
   "description": "Writesea Odyssey design system — a production React component library built from the Writesea Odyssey Figma design system, with WCAG 2.2 AA accessibility built in.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mr-Excel/yjsg-ui.git"
+    "url": "https://github.com/Your-Job-Search-Genius/yjsg-ui.git"
   },
-  "homepage": "https://github.com/Mr-Excel/yjsg-ui#readme",
+  "homepage": "https://github.com/Your-Job-Search-Genius/yjsg-ui#readme",
   "bugs": {
-    "url": "https://github.com/Mr-Excel/yjsg-ui/issues"
+    "url": "https://github.com/Your-Job-Search-Genius/yjsg-ui/issues"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "react",
@@ -56,6 +61,7 @@
     "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "sbom": "cdxgen -t js -o sbom.json --spec-version 1.5",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
@@ -69,6 +75,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.10.0",
+    "@cyclonedx/cdxgen": "^12.8.4",
     "@react-types/shared": "^3.36.1",
     "@storybook/addon-a11y": "^8.4.7",
     "@storybook/addon-essentials": "^8.4.7",

@@ -25,7 +25,7 @@ export function useControllableState<T>({
   if (process.env.NODE_ENV !== "production" && isControlledRef.current !== isControlled) {
     // eslint-disable-next-line no-console
     console.warn(
-      "[@writesea/odyssey-ui] A component switched between controlled and uncontrolled. Decide between `value`/`onChange` (controlled) or `defaultValue` (uncontrolled) and keep it consistent across renders.",
+      "[@your-job-search-genius/odyssey-ui] A component switched between controlled and uncontrolled. Decide between `value`/`onChange` (controlled) or `defaultValue` (uncontrolled) and keep it consistent across renders.",
     );
   }
   isControlledRef.current = isControlled;

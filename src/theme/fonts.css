@@ -5,7 +5,7 @@
  * make for them) — import it explicitly if you want the real typeface
  * instead of falling back to the system font stack:
  *
- *   import "@writesea/odyssey-ui/dist/theme/fonts.css";
+ *   import "@your-job-search-genius/odyssey-ui/dist/theme/fonts.css";
  *
  * Geist is licensed under the SIL Open Font License 1.1 (free, including
  * commercial use). Prefer self-hosting (e.g. `next/font/google`, or
