@@ -21,18 +21,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11
+      - run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+      # Trusted user-level auth — project .npmrc cannot expand ${NODE_AUTH_TOKEN}.
+      - name: Authenticate to GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> "$HOME/.npmrc"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - run: pnpm install --frozen-lockfile
 
       - run: pnpm -C docs-site build
 

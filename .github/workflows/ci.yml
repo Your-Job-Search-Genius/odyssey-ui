@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   build:
@@ -20,6 +21,12 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
+
+      # Trusted user-level auth — project .npmrc cannot expand ${NODE_AUTH_TOKEN}.
+      - name: Authenticate to GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> "$HOME/.npmrc"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
       - run: pnpm install --frozen-lockfile
 
