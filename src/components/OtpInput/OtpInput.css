@@ -17,9 +17,13 @@
 
 /* Scoped under its parent so this reliably beats Input.css's base
    `.wsu-Input__control`/`--unstyled` rules (same specificity otherwise,
-   import order not guaranteed). */
+   import order not guaranteed). Unstyled Input sets `min-width: min-content`,
+   which for a bare text input is the UA's default ~20ch size — that would
+   blow each digit box out to ~245px unless we pin flex + min-width too. */
 .wsu-OtpInput__boxes .wsu-OtpInput__box {
+  flex: none;
   width: 2.75rem;
+  min-width: 2.75rem;
   height: 3rem;
   text-align: center;
   font: var(--wsu-font-heading-sm);

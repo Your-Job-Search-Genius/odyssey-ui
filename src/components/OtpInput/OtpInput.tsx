@@ -121,6 +121,7 @@ export function OtpInput({
             type="text"
             inputMode={type === "numeric" ? "numeric" : "text"}
             autoComplete={i === 0 ? "one-time-code" : "off"}
+            size={1}
             maxLength={1}
             value={digit}
             disabled={disabled}
