@@ -13,12 +13,15 @@ const featured = [
   "toast",
 ];
 
+const componentCount = registry.filter((c) => c.category !== "hooks").length;
+const hookCount = registry.length - componentCount;
+
 export function Home() {
   return (
     <article className="docs-article" style={{ maxWidth: "none" }}>
       <section className="docs-hero">
         <span className="docs-eyebrow">
-          {registry.length} components · WCAG 2.2 AA
+          {componentCount} components · {hookCount} hooks · WCAG 2.2 AA
         </span>
         <h1>
           Build accessible products with <em>Odyssey&nbsp;UI</em>

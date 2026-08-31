@@ -21,6 +21,12 @@ export interface DemoEntry {
   id: string;
   title: string;
   description?: string;
+  /**
+   * Render the preview canvas as block flow instead of centered flex.
+   * Needed by components that measure their container width (Table,
+   * Virtualizer) — a shrink-to-fit flex canvas collapses them to zero.
+   */
+  wide?: boolean;
 }
 
 export interface ComponentEntry {

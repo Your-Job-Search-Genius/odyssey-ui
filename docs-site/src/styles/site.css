@@ -549,6 +549,13 @@ body {
   background-image: radial-gradient(circle, #e4e5e8 1px, transparent 1px);
 }
 
+/* Wide demos (Table, Virtualizer, …): these components measure their
+   container, so the shrink-to-fit centered flex canvas would collapse them
+   to zero width. Block flow gives them the full canvas width. */
+.docs-demo__canvas--block {
+  display: block;
+}
+
 .docs-demo__error {
   padding: 1.25rem 1.5rem;
   font-size: 0.875rem;
@@ -860,6 +867,10 @@ body {
 
 :root[data-theme="dark"] .docs-hero h1 em {
   background: linear-gradient(120deg, #aa88ff, #9d8bff 60%, #c0a6ff);
+  /* The background shorthand resets background-clip — without re-clipping,
+     the transparent text disappears entirely in dark mode. */
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .docs-hero p {

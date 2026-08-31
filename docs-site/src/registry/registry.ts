@@ -898,22 +898,26 @@ export const registry: ComponentEntry[] = [
         id: "basic",
         title: "Basic",
         description: "Composable TableHeader/Column/TableBody/Row/Cell inside a scrolling container.",
+        wide: true,
       },
       {
         id: "sorting",
         title: "Sorting",
         description: "allowsSorting on columns plus sortDescriptor / onSortChange.",
+        wide: true,
       },
       {
         id: "data-table",
         title: "DataTable",
         description: "Columns/rows convenience API with a searchable filter field.",
+        wide: true,
       },
       {
         id: "selection",
         title: "Row selection",
         description:
           "Multiple selection with select-all, a disabled row, and onRowAction.",
+        wide: true,
       },
     ],
   },
@@ -1177,6 +1181,12 @@ export const registry: ComponentEntry[] = [
     keywords: ["accordion", "collapse", "expand"],
     demos: [
       {
+        id: "single",
+        title: "Single section",
+        description:
+          "A standalone collapsible section — header toggles the panel.",
+      },
+      {
         id: "basic",
         title: "Accordion",
         description: "DisclosureGroup with exclusive-open sections.",
@@ -1245,11 +1255,13 @@ export const registry: ComponentEntry[] = [
         id: "list",
         title: "List layout",
         description: "Five thousand rows windowed to the viewport.",
+        wide: true,
       },
       {
         id: "grid",
         title: "Grid layout",
         description: "A thousand cards in a virtualized CSS grid.",
+        wide: true,
       },
     ],
   },

@@ -84,7 +84,7 @@ export function DemoBlock({ slug, demo }: DemoBlockProps) {
                   </div>
                 }
               >
-                <PreviewCanvas>
+                <PreviewCanvas wide={demo.wide}>
                   <Demo />
                 </PreviewCanvas>
               </Suspense>
