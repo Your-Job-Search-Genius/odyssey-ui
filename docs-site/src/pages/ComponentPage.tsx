@@ -62,6 +62,8 @@ export function ComponentPage() {
         <ImportSnippet
           importNames={entry.importNames}
           subpath={entry.subpath}
+          importPackage={entry.importPackage}
+          skipTreeShake={entry.skipTreeShake}
         />
 
         {entry.demos.map((demo) => (

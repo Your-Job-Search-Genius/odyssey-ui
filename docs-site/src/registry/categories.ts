@@ -11,6 +11,7 @@ export const categories: Category[] = [
   { id: "layout", label: "Layout" },
   { id: "ai", label: "AI & Chat" },
   { id: "utilities", label: "Utilities" },
+  { id: "hooks", label: "React Aria Hooks" },
 ];
 
 export const categoryLabel = (id: string): string =>

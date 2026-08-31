@@ -223,7 +223,7 @@ export const registry: ComponentEntry[] = [
     name: "Select",
     category: "forms",
     description:
-      "Dropdown that lets users pick a single option from a list, with descriptions, disabled options, and a searchable recipe.",
+      "Dropdown that lets users pick a single option from a list, with descriptions, disabled options, and a searchable recipe. For multi-select dropdowns, use Menu with selectionMode or ListBox.",
     importNames: ["Select"],
     subpath: "Select",
     keywords: ["dropdown", "picker", "listbox"],
@@ -248,6 +248,12 @@ export const registry: ComponentEntry[] = [
         title: "Searchable",
         description: "Filter the list in place with a search field inside the popover.",
       },
+      {
+        id: "multi-select-menu",
+        title: "Multi-select dropdown",
+        description:
+          "Select is single-value only. For a checkable multi-select dropdown (Figma's Select Menu), use Menu with selectionMode=\"multiple\".",
+      },
     ],
   },
   {
@@ -262,8 +268,7 @@ export const registry: ComponentEntry[] = [
       {
         id: "basic",
         title: "Basic",
-        description:
-          "Type to filter a known list. Opens on focus and shows an empty state when nothing matches.",
+        description: "Type to filter a known list. Opens on focus and shows an empty state when nothing matches.",
       },
       {
         id: "error",
@@ -274,6 +279,11 @@ export const registry: ComponentEntry[] = [
         id: "disabled",
         title: "Disabled",
         description: "The whole field is inert, with a selected value still visible.",
+      },
+      {
+        id: "controlled",
+        title: "Controlled",
+        description: "selectedKey and onSelectionChange keep the choice in React state.",
       },
     ],
   },
@@ -725,12 +735,26 @@ export const registry: ComponentEntry[] = [
       {
         id: "with-icons",
         title: "With icons",
-        description: "Resume actions with a leading icon on every row, ending in a danger Delete.",
+        description:
+          "Resume actions with a leading icon on every row, ending in a danger Delete.",
       },
       {
         id: "user-menu",
         title: "User menu",
-        description: "A MenuHeader profile block with initials, name, and email above the menu items.",
+        description:
+          "A MenuHeader profile block with initials, name, and email above the menu items.",
+      },
+      {
+        id: "selection-multiple",
+        title: "Multi-select",
+        description:
+          "selectionMode=\"multiple\" turns rows into checkable menuitemcheckbox options.",
+      },
+      {
+        id: "selection-single",
+        title: "Single-select card",
+        description:
+          "Card variant with selectionMode=\"single\" for choosing one detailed option.",
       },
     ],
   },
@@ -777,6 +801,11 @@ export const registry: ComponentEntry[] = [
         id: "disabled",
         title: "Disabled tab",
         description: "A tab can be disabled without disabling the whole tablist.",
+      },
+      {
+        id: "controlled",
+        title: "Controlled",
+        description: "selectedKey and onSelectionChange keep the active tab in React state.",
       },
     ],
   },
@@ -880,6 +909,12 @@ export const registry: ComponentEntry[] = [
         title: "DataTable",
         description: "Columns/rows convenience API with a searchable filter field.",
       },
+      {
+        id: "selection",
+        title: "Row selection",
+        description:
+          "Multiple selection with select-all, a disabled row, and onRowAction.",
+      },
     ],
   },
   {
@@ -959,6 +994,11 @@ export const registry: ComponentEntry[] = [
         title: "Removable",
         description: "onRemove adds a delete button and Backspace shortcut to every tag.",
       },
+      {
+        id: "searchable",
+        title: "Searchable",
+        description: "Filter chips in place while keeping multiple selection.",
+      },
     ],
   },
   {
@@ -981,6 +1021,16 @@ export const registry: ComponentEntry[] = [
         title: "Descriptions",
         description: "Secondary lines and multiple selection.",
       },
+      {
+        id: "multiple",
+        title: "Multiple selection",
+        description: "selectionMode=\"multiple\" with defaultSelectedKeys.",
+      },
+      {
+        id: "searchable",
+        title: "Searchable multi-select",
+        description: "Filter a longer list in place while selecting several options.",
+      },
     ],
   },
   {
@@ -1002,6 +1052,11 @@ export const registry: ComponentEntry[] = [
         id: "actions",
         title: "With actions",
         description: "Trailing controls sit in their own grid cell, reachable with Tab.",
+      },
+      {
+        id: "multiple",
+        title: "Multiple selection",
+        description: "Select several people at once with selectionMode=\"multiple\".",
       },
     ],
   },
@@ -1195,6 +1250,313 @@ export const registry: ComponentEntry[] = [
         id: "grid",
         title: "Grid layout",
         description: "A thousand cards in a virtualized CSS grid.",
+      },
+    ],
+  },
+
+
+  // ── React Aria Hooks ────────────────────────────────────────
+  {
+    slug: "use-press",
+    name: "usePress",
+    category: "hooks",
+    description:
+      "Normalizes press across mouse, touch, keyboard (Enter/Space), and screen-reader virtual clicks — the primitive behind Button.",
+    importNames: ["usePress"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["press", "click", "pointer"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Press start/end/press events with pointerType, plus an isPressed highlight.",
+      },
+    ],
+  },
+  {
+    slug: "use-hover",
+    name: "useHover",
+    category: "hooks",
+    description:
+      "Pointer hover that ignores emulated mouse events on touch — unlike CSS :hover, which can stick after a tap.",
+    importNames: ["useHover"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["hover", "pointer"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Hover start/end with pointerType.",
+      },
+    ],
+  },
+  {
+    slug: "use-long-press",
+    name: "useLongPress",
+    category: "hooks",
+    description:
+      "Fires after a held press (500ms by default) and cancels competing usePress handlers once it wins.",
+    importNames: ["useLongPress", "usePress", "mergeProps"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["long press", "hold"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Short press vs long press on the same button.",
+      },
+    ],
+  },
+  {
+    slug: "use-keyboard",
+    name: "useKeyboard",
+    category: "hooks",
+    description:
+      "Keyboard handlers with stopped propagation by default, plus a Mod+/Arrow shortcuts map.",
+    importNames: ["useKeyboard"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["keyboard", "shortcuts"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Parent/child handlers and Mod+S / arrow shortcuts.",
+      },
+    ],
+  },
+  {
+    slug: "use-move",
+    name: "useMove",
+    category: "hooks",
+    description:
+      "Relative move deltas from pointer drag and from arrow keys after focus — for custom sliders and free dragging.",
+    importNames: ["useMove"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["drag", "move", "arrows"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Drag a ball with pointer or arrow keys.",
+      },
+    ],
+  },
+  {
+    slug: "use-focus",
+    name: "useFocus",
+    category: "hooks",
+    description:
+      "Focus events for the immediate target only — never when a descendant gains focus.",
+    importNames: ["useFocus"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["focus", "blur"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "focus, blur, and focus change on a single input.",
+      },
+    ],
+  },
+  {
+    slug: "use-focus-within",
+    name: "useFocusWithin",
+    category: "hooks",
+    description:
+      "Focus for an element and its descendants — the JS equivalent of :focus-within.",
+    importNames: ["useFocusWithin"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["focus-within", "group"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "A field group that highlights while focus is anywhere inside.",
+      },
+    ],
+  },
+  {
+    slug: "use-focus-ring",
+    name: "useFocusRing",
+    category: "hooks",
+    description:
+      "Keyboard-only focus visibility as a boolean — style with inline styles or a data attribute.",
+    importNames: ["useFocusRing"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["focus-visible", "ring"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "isFocusVisible drives an inline box-shadow.",
+      },
+    ],
+  },
+  {
+    slug: "use-focus-visible",
+    name: "useFocusVisible",
+    category: "hooks",
+    description:
+      "Page-level keyboard focus visibility — the primitive behind useFocusRing and FocusRing.",
+    importNames: ["useFocusVisible"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["focus-visible", "global"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "A global isFocusVisible readout.",
+      },
+    ],
+  },
+  {
+    slug: "focus-ring",
+    name: "FocusRing",
+    category: "hooks",
+    description:
+      "Applies a CSS class only while the user navigates with the keyboard — never on mouse or touch.",
+    importNames: ["FocusRing"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["focus-visible", "class"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "focusRingClass on a plain button.",
+      },
+    ],
+  },
+  {
+    slug: "focus-scope",
+    name: "FocusScope",
+    category: "hooks",
+    description:
+      "Contains Tab, auto-focuses on mount, and restores focus on unmount — the contract Modal relies on.",
+    importNames: ["FocusScope"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["focus trap", "modal", "dialog"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Open a contained dialog that restores focus on close.",
+      },
+    ],
+  },
+  {
+    slug: "use-clipboard",
+    name: "useClipboard",
+    category: "hooks",
+    description:
+      "Copy/cut/paste via the OS clipboard with multiple formats — the keyboard-accessible alternative to drag-and-drop.",
+    importNames: ["useClipboard"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["copy", "paste", "clipboard"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Mod+C from one box, Mod+V into another.",
+      },
+    ],
+  },
+  {
+    slug: "use-drag",
+    name: "useDrag",
+    category: "hooks",
+    description:
+      "Draggable elements with mouse/touch and keyboard/screen-reader parity, plus a custom DragPreview.",
+    importNames: ["useDrag", "useDrop", "DragPreview"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["drag", "drop", "dnd"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Drag a chip onto a drop target (pointer or keyboard).",
+      },
+    ],
+  },
+  {
+    slug: "use-drop",
+    name: "useDrop",
+    category: "hooks",
+    description:
+      "Drop targets that accept dragged items, including keyboard-accessible drop.",
+    importNames: ["useDrop", "useDrag", "DragPreview"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["drop", "dnd"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "A droppable region paired with a draggable source.",
+      },
+    ],
+  },
+  {
+    slug: "use-context-menu",
+    name: "useContextMenu",
+    category: "hooks",
+    description:
+      "Normalizes right-click, Control+click, long-press, and Shift+F10 into one onContextMenu callback.",
+    importNames: ["useContextMenu"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["context menu", "right click"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Logs coordinates from the normalized context menu event.",
+      },
+    ],
+  },
+  {
+    slug: "use-landmark",
+    name: "useLandmark",
+    category: "hooks",
+    description:
+      "Registers navigable landmarks and enables F6 / Shift+F6 cycling (Alt+F6 jumps to main).",
+    importNames: ["useLandmark"],
+    subpath: "",
+    importPackage: "react-aria",
+    skipTreeShake: true,
+    keywords: ["landmark", "F6", "navigation"],
+    demos: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Navigation, search, and region landmarks.",
       },
     ],
   },

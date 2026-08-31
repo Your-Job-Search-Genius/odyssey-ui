@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 // Side effect: pulls in the library's tokens/reset plus every component's CSS.
 import "@your-job-search-genius/odyssey-ui";
+// Shared chrome for react-aria hook demos (token-based boxes, event log, etc.).
+import "../../src/react-aria-hooks/shared/hook-demos.css";
 // Docs chrome styles load last so they win specificity ties with the library.
 import "./styles/site.css";
 import App from "./App";

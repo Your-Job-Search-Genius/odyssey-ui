@@ -8,7 +8,8 @@ export type CategoryId =
   | "feedback"
   | "layout"
   | "ai"
-  | "utilities";
+  | "utilities"
+  | "hooks";
 
 export interface Category {
   id: CategoryId;
@@ -16,7 +17,7 @@ export interface Category {
 }
 
 export interface DemoEntry {
-  /** File name without extension: "variants" -> demos/<slug>/variants.tsx */
+  /** File name without extension: "variants" -> demos/<slug>/<id>.tsx */
   id: string;
   title: string;
   description?: string;
@@ -31,8 +32,19 @@ export interface ComponentEntry {
   description: string;
   /** Value exports shown in the import snippet. */
   importNames: string[];
-  /** Component directory name for subpath imports, e.g. "DatePicker". */
+  /**
+   * Component directory name for subpath imports, e.g. "DatePicker".
+   * Unused when `importPackage` is set (hooks import from react-aria directly).
+   */
   subpath: string;
+  /**
+   * Package specifier for the import snippet. Defaults to the Odyssey UI
+   * package. Hooks use `"react-aria"` — they are the primitives this library
+   * builds on, not re-exported from the barrel.
+   */
+  importPackage?: string;
+  /** When true, only show a single import line (no tree-shaken CSS pair). */
+  skipTreeShake?: boolean;
   keywords?: string[];
   demos: DemoEntry[];
 }

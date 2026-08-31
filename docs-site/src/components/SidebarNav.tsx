@@ -25,7 +25,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
     .filter((g) => g.items.length > 0);
 
   return (
-    <nav aria-label="Components">
+    <nav aria-label="Documentation">
       <input
         type="search"
         className="docs-sidebar__filter"
