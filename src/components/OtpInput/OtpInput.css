@@ -1,0 +1,57 @@
+.wsu-OtpInput {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-2);
+}
+
+.wsu-OtpInput__label {
+  display: block;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-OtpInput__boxes {
+  display: flex;
+  gap: var(--wsu-space-2);
+}
+
+.wsu-OtpInput__box {
+  width: 2.75rem;
+  height: 3rem;
+  text-align: center;
+  font: var(--wsu-font-heading-sm);
+  color: var(--wsu-color-text-heading);
+  box-sizing: border-box;
+  background-color: var(--wsu-color-field-bg);
+  /* Matches the corrected field convention from the Inputs page: a 10px
+     radius with the stroke inset, so the box doesn't grow by its border. */
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border);
+  border-radius: 0.625rem; /* 10px */
+  transition: box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-OtpInput__box:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-focus), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-OtpInput__box[data-invalid] {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger);
+}
+
+.wsu-OtpInput__box:disabled {
+  background-color: var(--wsu-color-field-bg-disabled);
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-OtpInput__message {
+  margin: 0;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-OtpInput__message--error {
+  color: var(--wsu-color-text-danger);
+}

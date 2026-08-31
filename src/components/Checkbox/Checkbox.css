@@ -1,0 +1,85 @@
+/**
+ * Figma node 433:8697 (Checkboxes page). Geometry matches the file: a 20px
+ * control, with the row given a 24px min-height for the WCAG 2.5.8 target
+ * floor.
+ *
+ * TWO DELIBERATE DEVIATIONS, both re-confirmed against the file:
+ *
+ * 1. AA fix. The unchecked border is Gray/300 (#D5D7DA), ~1.44:1 against
+ *    white — under the 3:1 non-text-contrast floor for a control boundary
+ *    (WCAG 1.4.11). Uses `text-subtle` (Gray/500, 4.56:1) instead.
+ *
+ * 2. The page's own palette is STALE — confirmed by the design owner, so
+ *    this is settled rather than an open question. It cites Brand/600
+ *    #7F56D9, Brand/300 #D6BBFB, Brand/50 #F9F5FF, Gray/300 #D5D7DA and
+ *    Gray/100 #F5F5F5, with a "Focus ring/4px primary-100" of #F4EBFF —
+ *    none of which exist on the Colors page, whose brand ramp is #563BDB
+ *    and whose Gray/100 is #F6F6F6. Every other page binds Foundations/*
+ *    and Semantic/* variables; this one binds none. The canonical Primary
+ *    scale and the shared focus-ring token are therefore correct here, and
+ *    the file is what needs re-pointing, not this component.
+ */
+.wsu-Checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-2);
+  min-height: 1.5rem; /* 24px — WCAG 2.5.8 target size floor, even though the visual box is 20px */
+  cursor: pointer;
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Checkbox__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--wsu-icon-size-md); /* 20px */
+  height: var(--wsu-icon-size-md);
+  border: 1px solid var(--wsu-color-text-subtle);
+  border-radius: var(--wsu-radius-xs);
+  background-color: var(--wsu-color-surface-default);
+  color: var(--wsu-color-text-on-primary);
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing), border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Checkbox[data-hovered] .wsu-Checkbox__box {
+  border-color: var(--wsu-color-primary-bg-hover);
+  background-color: var(--wsu-color-surface-subtle);
+}
+
+.wsu-Checkbox[data-focus-visible] .wsu-Checkbox__box {
+  border-color: var(--wsu-color-border-focus);
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Checkbox[data-selected] .wsu-Checkbox__box,
+.wsu-Checkbox[data-indeterminate] .wsu-Checkbox__box {
+  background-color: var(--wsu-color-primary-bg);
+  border-color: var(--wsu-color-primary-bg);
+}
+
+.wsu-Checkbox[data-selected][data-hovered] .wsu-Checkbox__box,
+.wsu-Checkbox[data-indeterminate][data-hovered] .wsu-Checkbox__box {
+  background-color: var(--wsu-color-primary-bg-hover);
+  border-color: var(--wsu-color-primary-bg-hover);
+}
+
+.wsu-Checkbox[data-disabled] {
+  cursor: not-allowed;
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Checkbox[data-disabled] .wsu-Checkbox__box {
+  background-color: var(--wsu-color-surface-subtle);
+  border-color: var(--wsu-color-border-default);
+}
+
+.wsu-Checkbox__box :where(svg) {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.wsu-Checkbox__label {
+  user-select: none;
+}

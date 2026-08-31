@@ -1,0 +1,28 @@
+/**
+ * Minimal reset, scoped under `.wsu-theme-root` (the class ThemeProvider
+ * puts on its wrapper) so installing this library never resets styles for
+ * the rest of a host application. Individual components still each set
+ * their own `box-sizing`/margin resets locally as a defense in depth, since
+ * a consumer isn't required to import this file at all.
+ *
+ * The scoping class is wrapped in `:where()` so it contributes zero
+ * specificity — otherwise `.wsu-theme-root button { color: inherit }`
+ * (a class + a type selector, (0,1,1)) would outrank every component's own
+ * single-class color rule like `.wsu-Button--primary { color: ... }`
+ * ((0,1,0)), silently overriding the intended text color with whatever the
+ * button inherits from its ancestor instead.
+ */
+:where(.wsu-theme-root),
+:where(.wsu-theme-root) *,
+:where(.wsu-theme-root) *::before,
+:where(.wsu-theme-root) *::after {
+  box-sizing: border-box;
+}
+
+:where(.wsu-theme-root) button,
+:where(.wsu-theme-root) input,
+:where(.wsu-theme-root) textarea,
+:where(.wsu-theme-root) select {
+  font: inherit;
+  color: inherit;
+}

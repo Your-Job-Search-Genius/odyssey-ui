@@ -1,0 +1,93 @@
+.wsu-RadioGroup__label {
+  display: block;
+  margin-bottom: var(--wsu-space-2);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-RadioGroup__options {
+  display: flex;
+  gap: var(--wsu-space-3);
+}
+
+.wsu-RadioGroup__options--vertical {
+  flex-direction: column;
+}
+
+.wsu-RadioGroup__options--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Same AA-fix rationale as Checkbox.css: border uses text-subtle (Gray/500,
+   4.56:1) instead of Figma's Gray/300 (~1.44:1), which fails the 3:1
+   non-text floor. */
+.wsu-Radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-2);
+  min-height: 1.5rem; /* 24px — WCAG 2.5.8 */
+  cursor: pointer;
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Radio__dot {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--wsu-icon-size-md); /* 20px */
+  height: var(--wsu-icon-size-md);
+  border: 1px solid var(--wsu-color-text-subtle);
+  border-radius: 50%;
+  background-color: var(--wsu-color-surface-default);
+  position: relative;
+  transition: border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Radio__dot::after {
+  content: "";
+  position: absolute;
+  inset: 25%;
+  border-radius: 50%;
+  background-color: var(--wsu-color-text-on-primary);
+  transform: scale(0);
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Radio[data-hovered] .wsu-Radio__dot {
+  border-color: var(--wsu-color-primary-bg-hover);
+  background-color: var(--wsu-color-surface-subtle);
+}
+
+.wsu-Radio[data-focus-visible] .wsu-Radio__dot {
+  border-color: var(--wsu-color-border-focus);
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Radio[data-selected] .wsu-Radio__dot {
+  background-color: var(--wsu-color-primary-bg);
+  border-color: var(--wsu-color-primary-bg);
+}
+
+.wsu-Radio[data-selected] .wsu-Radio__dot::after {
+  transform: scale(1);
+}
+
+.wsu-Radio[data-selected][data-hovered] .wsu-Radio__dot {
+  background-color: var(--wsu-color-primary-bg-hover);
+  border-color: var(--wsu-color-primary-bg-hover);
+}
+
+.wsu-Radio[data-disabled] {
+  cursor: not-allowed;
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Radio[data-disabled] .wsu-Radio__dot {
+  background-color: var(--wsu-color-surface-subtle);
+  border-color: var(--wsu-color-border-default);
+}
+
+.wsu-Radio__label {
+  user-select: none;
+}

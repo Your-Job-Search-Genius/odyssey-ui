@@ -1,0 +1,15 @@
+/**
+ * Optional: loads the real Geist typeface from Google Fonts. Not imported
+ * by the package's main entry point (importing this always costs a
+ * consumer an extra network request, which isn't this library's call to
+ * make for them) — import it explicitly if you want the real typeface
+ * instead of falling back to the system font stack:
+ *
+ *   import "@writesea/odyssey-ui/dist/theme/fonts.css";
+ *
+ * Geist is licensed under the SIL Open Font License 1.1 (free, including
+ * commercial use). Prefer self-hosting (e.g. `next/font/google`, or
+ * downloading the files) over this CDN import for a production app that
+ * cares about third-party requests.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");

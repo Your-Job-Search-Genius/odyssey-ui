@@ -1,0 +1,102 @@
+.wsu-Tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-3);
+}
+.wsu-Tabs[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+/**
+ * Figma node 459:1583 ("Tab Group", Type=Grouped) — a segmented control:
+ * a 30px track holding 28px options, the selected one lifted out in white.
+ * The track colour is Gray/300, which has no semantic name in the system;
+ * it reads as a groove rather than a border, so it is a literal here.
+ */
+.wsu-TabList {
+  display: inline-flex;
+  gap: 1px;
+  padding: 1px;
+  background-color: #d5d7da; /* Foundations/Gray/300 */
+  border-radius: 1.125rem; /* 18px */
+  width: fit-content;
+}
+.wsu-Tabs[data-orientation="vertical"] .wsu-TabList {
+  flex-direction: column;
+}
+
+/**
+ * The file's 5px top / 3px bottom padding is consistent across all three
+ * options — an optical shift for the type's baseline, not noise, so it is
+ * taken literally. (Its 8/7 vs 9/8 left-right variance across positions is
+ * hug-width rounding and is evened to 8px.)
+ *
+ * Only the outer corners of the end options are rounded to the track's
+ * curve; everything else is 4px. Logical properties keep that correct
+ * under RTL. Hover/disabled/focus-visible are assumed — see Tabs.tsx.
+ */
+.wsu-Tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.5rem; /* 8px */
+  padding-block: 0.3125rem 0.1875rem; /* 5px / 3px */
+  min-height: 1.75rem; /* 28px */
+  border-radius: var(--wsu-radius-xs); /* 4px */
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing), color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Tabs:not([data-orientation="vertical"]) .wsu-Tab:first-child {
+  border-start-start-radius: 1.75rem; /* 28px */
+  border-end-start-radius: 1.75rem;
+}
+
+.wsu-Tabs:not([data-orientation="vertical"]) .wsu-Tab:last-child {
+  border-start-end-radius: 1.75rem;
+  border-end-end-radius: 1.75rem;
+}
+
+/* The file defines no vertical tab group; the ends are rounded on the
+   block axis instead so the shape still reads as one track. */
+.wsu-Tabs[data-orientation="vertical"] .wsu-Tab:first-child {
+  border-start-start-radius: 1.75rem;
+  border-start-end-radius: 1.75rem;
+}
+
+.wsu-Tabs[data-orientation="vertical"] .wsu-Tab:last-child {
+  border-end-start-radius: 1.75rem;
+  border-end-end-radius: 1.75rem;
+}
+
+.wsu-Tab[data-hovered]:not([data-selected]) {
+  background-color: rgba(255, 255, 255, 0.6);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Tab[data-selected] {
+  background-color: var(--wsu-color-surface-default);
+  color: var(--wsu-color-text-heading);
+  box-shadow: inset 0px -3px 2px 0px rgba(124, 124, 124, 0.08);
+}
+
+.wsu-Tab[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Tab[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-TabPanel {
+  border-radius: var(--wsu-radius-sm);
+}
+.wsu-TabPanel[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}

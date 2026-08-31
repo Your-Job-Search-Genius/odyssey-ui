@@ -1,0 +1,104 @@
+/**
+ * Figma node 433:7931 ("Issues"). A tinted card is 8px-radius with 2px
+ * side padding, so its body panel sits almost flush inside the tint; the
+ * neutral card is a different object — white, hairline-bordered and
+ * 15px-radius. Tints come from the Cards page's own scale, not Badge's.
+ */
+.wsu-Card {
+  box-sizing: border-box;
+  display: block;
+  border-radius: var(--wsu-radius-sm); /* 8px */
+  background-color: var(--wsu-color-surface-default);
+  overflow: hidden;
+}
+
+.wsu-Card--urgent { background-color: var(--wsu-color-card-urgent-bg); }
+.wsu-Card--critical { background-color: var(--wsu-color-card-critical-bg); }
+.wsu-Card--optional { background-color: var(--wsu-color-card-optional-bg); }
+.wsu-Card--general { background-color: var(--wsu-color-card-general-bg); }
+
+.wsu-Card--neutral {
+  background-color: var(--wsu-color-surface-default);
+  /* Inset so the hairline doesn't grow the card past the file's box. */
+  box-shadow: inset 0 0 0 1px var(--wsu-color-card-neutral-border);
+  border-radius: 0.9375rem; /* 15px */
+}
+
+.wsu-Card__summary {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem; /* 6px */
+  padding: 0.75rem; /* 12px */
+  cursor: pointer;
+  list-style: none;
+  font: var(--wsu-font-body-sm); /* 14/20 — the file's row type, not 16/24 */
+  color: var(--wsu-color-text-heading);
+}
+
+/* The neutral card's title is semibold in the file, unlike the tinted ones. */
+.wsu-Card--neutral .wsu-Card__summary {
+  font-weight: 600;
+}
+
+.wsu-Card__summary::-webkit-details-marker {
+  display: none;
+}
+
+.wsu-Card__summary--static {
+  cursor: default;
+}
+
+.wsu-Card__summary:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Card__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+/* The file draws the alert glyph in gray/base on every tint, not a
+   per-severity colour — the tint alone carries the hue. */
+.wsu-Card__icon {
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Card__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.wsu-Card__severityLabel {
+  font: var(--wsu-font-body-sm);
+  font-weight: 600;
+}
+
+.wsu-Card--excellent .wsu-Card__severityLabel { color: var(--wsu-color-severity-excellent-soft-text); }
+.wsu-Card--good .wsu-Card__severityLabel { color: var(--wsu-color-severity-good-soft-text); }
+.wsu-Card--fair .wsu-Card__severityLabel { color: var(--wsu-color-severity-fair-soft-text); }
+.wsu-Card--poor .wsu-Card__severityLabel { color: var(--wsu-color-severity-poor-soft-text); }
+.wsu-Card--bad .wsu-Card__severityLabel { color: var(--wsu-color-severity-bad-soft-text); }
+.wsu-Card--fail .wsu-Card__severityLabel { color: var(--wsu-color-severity-fail-soft-text); }
+
+.wsu-Card__chevron {
+  flex-shrink: 0;
+  color: var(--wsu-color-text-subtle);
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Card[open] > .wsu-Card__summary .wsu-Card__chevron {
+  transform: rotate(180deg);
+}
+
+.wsu-Card__body {
+  padding: var(--wsu-space-3);
+  background-color: var(--wsu-color-surface-default);
+  border-top: 1px solid var(--wsu-color-border-default);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-Card__summary--static + .wsu-Card__body {
+  border-top: none;
+}

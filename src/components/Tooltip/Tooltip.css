@@ -1,0 +1,52 @@
+/**
+ * Every overlay in this library renders through a React Aria portal, i.e.
+ * as a child of `document.body` and *outside* the `.wsu-theme-root` element
+ * that reset.css scopes itself to — so the global `box-sizing: border-box`
+ * never reaches it. Without this, `min-height` and `min-width` on a row are
+ * measured against the content box and silently add the padding on top
+ * (a 28px floor plus 6px padding rendered a 40px row against the file's 36px).
+ */
+.wsu-Tooltip,
+.wsu-Tooltip *,
+.wsu-Tooltip *::before,
+.wsu-Tooltip *::after {
+  box-sizing: border-box;
+}
+
+.wsu-Tooltip {
+  --wsu-tooltip-bg: var(--wsu-color-surface-inverse);
+  background-color: var(--wsu-tooltip-bg);
+  color: var(--wsu-color-text-on-inverse);
+  padding-inline: var(--wsu-space-2);
+  padding-block: var(--wsu-space-1);
+  border-radius: var(--wsu-radius-sm);
+  box-shadow: var(--wsu-shadow-sm);
+  font: var(--wsu-font-body-sm);
+  max-width: 16rem;
+  z-index: var(--wsu-z-tooltip);
+}
+
+.wsu-Tooltip[data-entering] {
+  animation: wsu-tooltip-in var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+.wsu-Tooltip[data-exiting] {
+  animation: wsu-tooltip-out var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+@keyframes wsu-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+@keyframes wsu-tooltip-out {
+  to {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+
+.wsu-Tooltip__arrow svg {
+  display: block;
+  color: var(--wsu-tooltip-bg);
+}

@@ -1,0 +1,47 @@
+/**
+ * Alice mark. The gradient ramp is an approximation of the file's "Alice"
+ * paint style, which isn't exposed as a variable and whose vector asset is
+ * unreachable here — see the doc comment in AliceIcon.tsx. Both ends are
+ * declared as custom properties so a consumer can retint the mark without
+ * forking the component.
+ */
+.wsu-AliceIcon {
+  --wsu-alice-mark-from: #3488ff; /* blue/500 */
+  --wsu-alice-mark-to: #563bdb; /* primary/base */
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.wsu-AliceIcon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading: a soft orb with a rotating highlight, matching the file's
+   gradient sphere with its two soft-light shine layers. */
+.wsu-AliceIcon__orb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 68% 22%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 45%),
+    radial-gradient(circle at 25% 78%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(135deg, var(--wsu-alice-mark-from), var(--wsu-alice-mark-to));
+  animation: wsu-alice-orb 1.4s linear infinite;
+}
+
+@keyframes wsu-alice-orb {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-AliceIcon__orb {
+    animation: none;
+  }
+}

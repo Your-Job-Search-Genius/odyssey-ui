@@ -1,0 +1,20 @@
+.wsu-Spinner {
+  display: inline-block;
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid var(--wsu-color-border-default);
+  border-top-color: var(--wsu-color-primary-bg);
+  animation: wsu-spinner-spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-Spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+@keyframes wsu-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

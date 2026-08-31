@@ -1,0 +1,87 @@
+/**
+ * Raw color palette extracted from the Writesea Odyssey Figma "Colors" page.
+ * Components must never reference this module directly — use `semantic.ts`
+ * (or the `--wsu-color-*` CSS custom properties) so meaning, not a hex value,
+ * is what components depend on.
+ */
+export const palette = {
+  white: "#FFFFFF",
+  gray: {
+    25: "#FDFDFD",
+    50: "#FAFAFA",
+    100: "#F6F6F6",
+    200: "#E9EAEB",
+    300: "#D5D7DA",
+    400: "#A4A7AE",
+    500: "#717680",
+    600: "#535862",
+    700: "#414651",
+    800: "#252B37",
+    900: "#101419",
+  },
+  primary: {
+    25: "#F5F4FF",
+    50: "#ECEAFF",
+    100: "#DBD8FF",
+    200: "#BEB4FF",
+    300: "#A091FF",
+    400: "#7F6DF7",
+    500: "#6E5CF4",
+    600: "#4731B5",
+    700: "#6941C6",
+    800: "#53389E",
+    900: "#563BDB",
+  },
+  error: {
+    25: "#FEF6F7",
+    50: "#FDEDEF",
+    100: "#FCD4D9",
+    200: "#FBADB6",
+    300: "#FA7A89",
+    400: "#FA4C61",
+    500: "#FA1D37",
+    600: "#D30D25",
+    700: "#9E1020",
+    800: "#6C0F1A",
+  },
+  warning: {
+    25: "#FDFBF7",
+    50: "#FCF8EE",
+    100: "#FBF3DA",
+    200: "#FAE8B2",
+    300: "#FBDF8E",
+    400: "#FDD663",
+    500: "#FABB00",
+    600: "#C79605",
+    700: "#967208",
+    800: "#674F09",
+  },
+  success: {
+    25: "#F6FEF9",
+    50: "#ECFDF3",
+    100: "#D1FADF",
+    200: "#A6F4C5",
+    300: "#6CE9A6",
+    400: "#32D583",
+    500: "#12B76A",
+    600: "#039855",
+    700: "#027A48",
+    800: "#05603A",
+    900: "#054F31",
+  },
+  blue: {
+    25: "#F7F9FD",
+    50: "#EDF3FC",
+    100: "#D5E5FC",
+    200: "#ACCDFB",
+    300: "#7DB2FC",
+    400: "#529AFE",
+    500: "#3488FF",
+    600: "#0668F4",
+    700: "#0C52B6",
+    800: "#0D3D82",
+  },
+} as const;
+
+export type Palette = typeof palette;
+export type GrayShade = keyof Palette["gray"];

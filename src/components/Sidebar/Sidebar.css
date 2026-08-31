@@ -1,0 +1,233 @@
+/**
+ * Geometry below is measured from Figma node 433:11097 ("Sidebar",
+ * Property 1=Expanded). Two component-local, non-global values:
+ * `--wsu-sidebar-icon-size` (18px — doesn't land on the shared icon-size
+ * scale of 16/20/24px, and recurs consistently across every item in the
+ * file, so it gets its own token here rather than being force-fit onto a
+ * neighboring shared size) and the connector's border color/radius, which
+ * approximates a small curved SVG asset from the file that couldn't be
+ * extracted (see the doc comment on the Sidebar nav glyphs in
+ * src/components/Icon/glyphs.tsx for why).
+ */
+.wsu-Sidebar {
+  /* Component-local tokens: every one of these is a literal Figma measurement
+     that doesn't land on a shared scale (18px icons vs the 16/20/24 icon
+     scale; 7px/5px radii vs 4/8; a 5px gap vs the 4px spacing step). They're
+     declared here rather than force-fit onto a neighbouring token, because
+     the whole point of this component is matching the source frame exactly. */
+  --wsu-sidebar-icon-size: 1.125rem; /* 18px */
+  --wsu-sidebar-item-radius: 0.4375rem; /* 7px */
+  --wsu-sidebar-item-gap: 0.3125rem; /* 5px */
+  --wsu-sidebar-rail-radius: 0.3125rem; /* 5px */
+
+  box-sizing: border-box;
+  width: 13.5625rem; /* 217px */
+  display: flex;
+  flex-direction: column;
+  gap: 1.3125rem; /* 21px — Figma's gap between the header block and the nav list */
+  background-color: var(--wsu-color-surface-subtle);
+  border-radius: var(--wsu-radius-md);
+  padding: var(--wsu-space-4);
+}
+
+.wsu-Sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1); /* 4px */
+}
+
+/* Pushes an optional footer to the bottom when the consumer gives the nav a
+   fixed height (Figma's frame is 217x808 with the utility block bottom-aligned). */
+.wsu-Sidebar__footer {
+  margin-top: auto;
+}
+
+/* A leaf item and a with-children container are the same box in Figma:
+   185px wide, 6px/10px/6px/5px padding, 7px radius. */
+.wsu-Sidebar__item,
+.wsu-Sidebar__details {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.375rem 0.625rem 0.375rem 0.3125rem; /* 6px 10px 6px 5px */
+  border-radius: var(--wsu-sidebar-item-radius);
+}
+
+.wsu-Sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-sidebar-item-gap);
+  border: none;
+  background: transparent;
+  color: var(--wsu-color-text-heading);
+  font: var(--wsu-font-body-sm);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wsu-Sidebar__item:hover {
+  color: var(--wsu-color-primary-bg);
+}
+
+.wsu-Sidebar__item:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Sidebar__item[aria-current="page"] {
+  background-color: var(--wsu-color-surface-accent);
+  color: var(--wsu-color-primary-bg);
+}
+
+/* The rail is a real flex child (see SidebarRail in Sidebar.tsx), always
+   present and transparent so hover/active never reflow the row — not an
+   absolutely-positioned pseudo-element hanging outside the item's box. */
+.wsu-Sidebar__rail {
+  flex-shrink: 0;
+  width: 0.125rem; /* 2px */
+  height: 1.375rem; /* 22px */
+  border-radius: var(--wsu-sidebar-rail-radius);
+  background-color: transparent;
+}
+
+.wsu-Sidebar__item[aria-current="page"] .wsu-Sidebar__rail {
+  background-color: var(--wsu-color-primary-bg);
+}
+
+.wsu-Sidebar__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--wsu-sidebar-icon-size);
+  height: var(--wsu-sidebar-icon-size);
+}
+
+/* `Icon` sets its dimensions as an inline style, which a class rule can't
+   outrank — so the nav has to assert its own 18px scale with `!important`
+   to keep a consumer-supplied glyph from rendering at whatever default
+   size it was authored with. */
+.wsu-Sidebar__icon > :where(svg) {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.wsu-Sidebar__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Figma nests Row 1 (icon + label + chevron) and Row 2 (connector + submenu)
+   inside ONE padded, rounded item box with a 5px gap between them — so the
+   <details> element carries that box and the <summary> is just Row 1 with no
+   padding of its own. Getting this wrong is what made the expanded item taller
+   than the design (the summary's own bottom padding stacked on top of the gap). */
+.wsu-Sidebar__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-sidebar-item-gap); /* 5px */
+}
+
+.wsu-Sidebar__item--parent {
+  padding: 0;
+  border-radius: 0;
+  cursor: pointer;
+  list-style: none;
+  justify-content: space-between;
+}
+
+.wsu-Sidebar__item--parent::-webkit-details-marker {
+  display: none;
+}
+
+/* Figma draws the chevron in Gray/Base, the same color as the label — the
+   collapsed item's entire palette is that one color — not a subdued gray. */
+.wsu-Sidebar__chevron {
+  flex-shrink: 0;
+  color: inherit;
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Sidebar__details[open] > .wsu-Sidebar__item--parent .wsu-Sidebar__chevron {
+  transform: rotate(180deg);
+}
+
+/* Submenu: Figma has no continuous rail down the child list — only a single
+   curved connector from the parent icon to the first child, then plain
+   stacked pills. Replaces the old full-height border-left rail, which was
+   a fabricated pattern not present in the source file. */
+.wsu-Sidebar__subrow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--wsu-sidebar-item-gap); /* 5px */
+  padding-left: 0.9375rem; /* 15px, measured inside the item's own 5px left padding */
+}
+
+/* Stands in for a 15x21px curved elbow vector in the file that can't be
+   exported here (see glyphs.tsx) — same footprint, drawn with a rounded
+   border corner. Its bottom edge lands on the first submenu row's centre. */
+.wsu-Sidebar__connector {
+  flex-shrink: 0;
+  width: 0.9375rem; /* 15px */
+  height: 1.3125rem; /* 21px */
+  border-left: 1px solid var(--wsu-color-border-default);
+  border-bottom: 1px solid var(--wsu-color-border-default);
+  border-bottom-left-radius: 0.5rem;
+}
+
+/* Tinted primary while the branch holds the active item, matching the file —
+   the expanded node's palette is Primary/Base + Primary/25 + Gray/Base only,
+   with no border gray in it at all. An expanded-but-inactive branch has no
+   counterpart in the file, so it keeps the neutral border color. */
+.wsu-Sidebar__connector[data-active] {
+  border-color: var(--wsu-color-primary-bg);
+}
+
+/* Hugs its widest label, like Figma's 112px hug-width column, so the active
+   pill spans the column rather than just its own text. */
+.wsu-Sidebar__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0.6875rem 0 0; /* 11px top, aligning row 1 with the connector elbow */
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; /* 10px */
+  width: fit-content;
+  max-width: 100%;
+}
+
+.wsu-Sidebar__subitem {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 1.375rem; /* 22px */
+  width: 100%;
+  padding: 0.125rem 0.25rem; /* 2px / 4px */
+  border: none;
+  border-radius: var(--wsu-radius-xs); /* 4px */
+  background: transparent;
+  color: var(--wsu-color-text-heading);
+  font: var(--wsu-font-body-sm);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.wsu-Sidebar__subitem:hover {
+  color: var(--wsu-color-primary-bg);
+}
+
+.wsu-Sidebar__subitem:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Sidebar__subitem[aria-current="page"] {
+  background-color: var(--wsu-color-surface-accent);
+  color: var(--wsu-color-primary-bg);
+}

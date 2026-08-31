@@ -1,0 +1,397 @@
+/**
+ * Shared chrome for every popover-anchored list in the library (Select,
+ * ComboBox, Menu). Sourced from Figma's Dropdown page (node 134:675): the
+ * six menus in "Menus" (433:9129) are all the same container with different
+ * item types from "Items" (433:8991) inside, so the container lives here and
+ * the item layouts are selected with `data-layout`.
+ *
+ * Container measurements come from the menu nodes themselves:
+ *   Default (433:9130)                  p10 · gap 7 · r12 · w209 · shadow/lg
+ *   Select Menu (433:9136)              p10 · gap 7 · r12 · w209 · shadow/md
+ *   User Menu (433:9139)                p10 · gap 7 · r12       · shadow/lg
+ *   Variant3 / Job Menu (433:9148/9151) p4  · gap 0 · r16 · w372 · shadow/lg
+ *   Dropdown Actions Card (433:9154)    p10 · gap 5 · r15 · w396 · shadow/lg
+ * All six carry a 0.75px `border-default` stroke.
+ */
+/**
+ * Every overlay in this library renders through a React Aria portal, i.e.
+ * as a child of `document.body` and *outside* the `.wsu-theme-root` element
+ * that reset.css scopes itself to — so the global `box-sizing: border-box`
+ * never reaches it. Without this, `min-height` and `min-width` on a row are
+ * measured against the content box and silently add the padding on top
+ * (a 28px floor plus 6px padding rendered a 40px row against the file's 36px).
+ */
+.wsu-Popover,
+.wsu-Popover *,
+.wsu-Popover *::before,
+.wsu-Popover *::after {
+  box-sizing: border-box;
+}
+
+.wsu-Popover {
+  z-index: var(--wsu-z-popover);
+  min-width: var(--trigger-width);
+  background-color: var(--wsu-color-surface-default);
+  /* 0.75px is the file's literal stroke on every menu — not a rounding of 1px:
+     the same nodes use 1px elsewhere (e.g. the "View" button at 433:9051). */
+  border: 0.75px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md); /* 12px */
+  box-shadow: var(--wsu-shadow-md);
+  overflow: hidden;
+}
+
+/* Action menus take shadow/lg; a checkable list is a picker and takes the
+   lighter shadow/md, as the file's Select Menu (433:9136) does and as
+   Select/ComboBox already do through the base rule above. */
+.wsu-Popover--menu {
+  box-shadow: var(--wsu-shadow-lg);
+  min-width: 13.0625rem; /* 209px */
+}
+
+.wsu-Popover--menu[data-selectable][data-variant="default"] {
+  box-shadow: var(--wsu-shadow-md);
+}
+
+.wsu-Popover--menu[data-variant="detailed"] {
+  border-radius: 1rem; /* 16px = radius.lg */
+  min-width: 23.25rem; /* 372px */
+}
+
+.wsu-Popover--menu[data-variant="card"] {
+  border-radius: 0.9375rem; /* 15px — the file's own value, between radius.md and radius.lg */
+  min-width: 24.75rem; /* 396px */
+}
+
+.wsu-Popover[data-entering] {
+  animation: wsu-popover-in var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+.wsu-Popover[data-exiting] {
+  animation: wsu-popover-out var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+@keyframes wsu-popover-in {
+  from { opacity: 0; transform: scale(0.98) translateY(-2px); }
+}
+@keyframes wsu-popover-out {
+  to { opacity: 0; transform: scale(0.98) translateY(-2px); }
+}
+
+.wsu-ListBox,
+.wsu-Menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem; /* 7px */
+  padding: 0.625rem; /* 10px */
+  max-height: 16rem;
+  overflow-y: auto;
+  outline: none;
+}
+
+.wsu-Menu[data-variant="detailed"] {
+  gap: 0;
+  padding: 0.25rem; /* 4px */
+}
+
+.wsu-Menu[data-variant="card"] {
+  gap: 0.3125rem; /* 5px */
+}
+
+/**
+ * The User Menu's profile block (433:9118), above the rule at 433:9141.
+ * That rule is 189px wide inside a 209px menu, i.e. inset by the container's
+ * own 10px padding — so the header carries the inset as a margin and the
+ * rule as its own bottom border.
+ */
+.wsu-Menu__header {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem; /* 6px */
+  margin-inline: 0.625rem; /* 10px — matches the menu's padding */
+  padding-block: 0.625rem 0.4375rem; /* 10px above, the 7px column gap below */
+  border-bottom: 1px solid var(--wsu-color-border-default);
+}
+
+.wsu-Menu__header + .wsu-Menu {
+  padding-top: 0.4375rem; /* 7px — the rule already supplied the 10px above it */
+}
+
+.wsu-ListBoxItem,
+.wsu-MenuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-1); /* 4px */
+  padding-inline: var(--wsu-space-2); /* 8px */
+  padding-block: 0.375rem; /* 6px */
+  min-height: 1.75rem; /* keeps rows comfortably above the 24px target-size floor */
+  border-radius: var(--wsu-radius-sm); /* 8px */
+  font: var(--wsu-font-body-sm); /* 14px/20px Medium */
+  color: var(--wsu-color-text-heading);
+  cursor: pointer;
+  outline: none;
+}
+
+/* "Right Icon" / Select Menu rows (433:8996): 8px all round, trailing mark. */
+.wsu-ListBoxItem,
+.wsu-MenuItem[data-layout="check"] {
+  justify-content: space-between;
+  padding-block: var(--wsu-space-2); /* 8px */
+}
+
+/* "With description" (433:9016) — the Variant3 menu's row. */
+.wsu-MenuItem[data-layout="description"] {
+  align-items: flex-start;
+  gap: 1.3125rem; /* 21px */
+  padding-inline: 1.4375rem; /* 23px */
+  padding-block: 0.875rem; /* 14px */
+  border-radius: var(--wsu-radius-md); /* 12px */
+}
+
+/* "Job" (433:9034) — the file pads the right edge to 64px to size the
+   swatch on the canvas; inside the Job Menu (433:9151) the row is `w-full`,
+   so the padding is symmetric here. */
+.wsu-MenuItem[data-layout="custom"] {
+  gap: var(--wsu-space-2); /* 8px */
+  padding: var(--wsu-space-2); /* 8px */
+  border-radius: var(--wsu-radius-md); /* 12px */
+}
+
+/* "Dropdown Actions" (433:9091) — a card-shaped row with its own column. */
+.wsu-MenuItem[data-layout="card"] {
+  justify-content: space-between;
+  border-radius: 0.8125rem; /* 13px */
+}
+
+.wsu-ListBoxItem[data-hovered],
+.wsu-MenuItem[data-hovered],
+.wsu-ListBoxItem[data-focused],
+.wsu-MenuItem[data-focused] {
+  background-color: var(--wsu-color-secondary-bg-hover); /* #f6f6f6 */
+}
+
+.wsu-ListBoxItem[data-focus-visible],
+.wsu-MenuItem[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+}
+
+.wsu-ListBoxItem[data-selected] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-ListBoxItem[data-disabled],
+.wsu-MenuItem[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* The file drops the whole disabled Dropdown Actions row to 50% (433:9106). */
+.wsu-MenuItem[data-layout="card"][data-disabled] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+  opacity: 0.5;
+}
+
+.wsu-ListBoxItem__check {
+  flex-shrink: 0;
+  color: var(--wsu-color-primary-bg);
+}
+
+.wsu-MenuItem__mark {
+  flex-shrink: 0;
+  color: var(--wsu-color-primary-bg);
+}
+.wsu-MenuItem__mark[data-state="unchecked"] {
+  color: var(--wsu-color-icon-default);
+}
+
+/**
+ * Figma paints the "Delete" row Foundations/Error/500 (#fa1d37), which is
+ * 3.97:1 on white and 3.67:1 on the hover fill — below the 4.5:1 that WCAG
+ * 1.4.3 requires of this 14px text. `text-danger` (#d30d25) is the same hue
+ * two steps darker and clears it at 5.45:1 / 5.04:1. See
+ * docs/design-inventory.md §2.6.
+ */
+.wsu-MenuItem[data-variant="danger"] {
+  color: var(--wsu-color-text-danger);
+}
+
+/* Icons take the file's "Dark" stroke, except on the danger and disabled
+   rows, where the file tints the glyph to match the label (433:9135). */
+.wsu-MenuItem__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem; /* 24px */
+  height: 1.5rem;
+  color: var(--wsu-color-icon-default);
+}
+/* Icon sets its box as inline width/height, which a class rule can't outrank. */
+.wsu-MenuItem__icon > :where(svg) {
+  width: 100% !important;
+  height: 100% !important;
+}
+.wsu-MenuItem[data-variant="danger"] .wsu-MenuItem__icon {
+  color: inherit;
+}
+.wsu-MenuItem[data-disabled] .wsu-MenuItem__icon {
+  color: var(--wsu-color-text-disabled);
+}
+.wsu-MenuItem[data-layout="description"] .wsu-MenuItem__icon {
+  width: 2rem; /* 32px */
+  height: 2rem;
+}
+
+.wsu-MenuItem__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem; /* 5px */
+  min-width: 0;
+}
+
+.wsu-MenuItem__title {
+  font: var(--wsu-font-body-md-semibold); /* Figma "Body/Base-Semibold", 16px/24px */
+  color: inherit;
+}
+
+/**
+ * Figma sets the description to #a4a7ae, which is 2.41:1 on white — it has
+ * the `text-subtle` variable attached but the value of `text-disabled`.
+ * `text-subtle` (#717680) is the intended role and passes at 4.56:1.
+ */
+.wsu-MenuItem__description {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  max-width: 16.5rem; /* 264px */
+}
+.wsu-MenuItem[data-layout="card"] .wsu-MenuItem__description {
+  color: var(--wsu-color-text-body); /* #535862 — the card row's own value */
+  max-width: none;
+}
+
+/* The card row stacks its header row, description and action 10px apart. */
+.wsu-MenuItem__column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; /* 10px */
+  align-items: flex-start;
+  min-width: 0;
+}
+.wsu-MenuItem__row {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-1); /* 4px */
+}
+
+/**
+ * MenuHeader — the User Profile block at node 433:9118. Its avatar radius
+ * (6.095px) and initials size (15.448px) are the file's literal values;
+ * both read as artifacts of a scaled instance (of ~6.25px and 16px), and
+ * they are reproduced rather than rounded because nothing in the file
+ * confirms the unscaled intent.
+ */
+.wsu-MenuHeader__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem; /* 32px */
+  height: 2rem;
+  border-radius: 6.095px;
+  background-color: var(--wsu-color-text-heading); /* #101419 */
+  color: var(--wsu-color-text-on-inverse);
+  font-family: var(--wsu-font-family);
+  font-weight: 500;
+  font-size: 15.448px;
+  line-height: 1;
+}
+
+.wsu-MenuHeader__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* The file overlaps the two lines by 5px, tightening a 20px leading to 15px.
+   Neither line's style is in the file's named type scale — the name is
+   Body/Small-Medium at weight 600 and the detail is 12px at a 20px leading —
+   so both are written out rather than mapped onto a token. */
+.wsu-MenuHeader__name {
+  margin-bottom: -0.3125rem;
+  font: 600 0.875rem/1.25rem var(--wsu-font-family);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-MenuHeader__detail {
+  font: 500 0.75rem/1.25rem var(--wsu-font-family);
+  color: var(--wsu-color-text-meta); /* Grayscale/Base #666970 — 5.50:1 on white */
+}
+
+/**
+ * Pieces of the file's "Job" row (433:9034), exposed as classes so the row
+ * can be rebuilt through `MenuAction.content` without re-deriving the
+ * measurements. The logo tile is 44×43.48 with a 0.66px stroke drawn
+ * *inside* the frame, so it is an inset shadow — a real border would make
+ * the tile 45.32px tall — stacked with the file's own 2.2px inner shadow.
+ */
+.wsu-MenuItem__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.75rem; /* 44px */
+  height: 2.7175rem; /* 43.48px */
+  border-radius: 9.942px;
+  background-color: var(--wsu-color-surface-default);
+  box-shadow:
+    inset 0 0 0 0.66px var(--wsu-color-border-default),
+    inset 0 -2.2px 2.2px 0 rgba(0, 0, 0, 0.07);
+}
+.wsu-MenuItem__logo > :where(svg, img) {
+  width: 1.925rem !important; /* 30.8px */
+  height: 1.925rem !important;
+}
+
+.wsu-MenuItem__group {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-2); /* 8px */
+  min-width: 0;
+}
+
+.wsu-MenuItem__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* Neither line is a named style in the file; both are written out. The
+   eyebrow's -5px margin is the file's own overlap, as in MenuHeader. */
+.wsu-MenuItem__eyebrow {
+  margin-bottom: -0.3125rem;
+  font: 500 0.75rem/1.25rem var(--wsu-font-family);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-MenuItem__heading {
+  font: var(--wsu-font-body-md-semibold);
+  color: var(--wsu-color-text-heading);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wsu-MenuItem[data-disabled] .wsu-MenuItem__eyebrow,
+.wsu-MenuItem[data-disabled] .wsu-MenuItem__heading {
+  color: var(--wsu-color-text-disabled);
+}
+
+/* A "Job" row that carries trailing controls pushes them to the far edge. */
+.wsu-MenuItem[data-layout="custom"] {
+  justify-content: space-between;
+}
+.wsu-MenuItem__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem; /* 6px */
+  flex-shrink: 0;
+}

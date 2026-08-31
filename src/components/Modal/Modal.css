@@ -1,0 +1,132 @@
+/**
+ * The scrim IS defined in the file after all — the Option Menu modal
+ * (node 433:9608) sits on a `rgba(78,78,78,0.76)` background with an 8px
+ * backdrop blur, correcting an earlier note that claimed no backdrop
+ * existed anywhere. The modal's own outer elevation remains this library's
+ * choice (the file gives its modals no drop shadow), as do the sizes
+ * (24/32/40rem): the frame widths found (227–372px) are reference-frame
+ * dimensions, not max-width tokens.
+ */
+.wsu-Modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--wsu-z-overlay);
+  background-color: rgba(78, 78, 78, 0.76);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wsu-space-4);
+}
+
+.wsu-Modal__overlay[data-entering] {
+  animation: wsu-modal-overlay-in var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+.wsu-Modal__overlay[data-exiting] {
+  animation: wsu-modal-overlay-out var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+@keyframes wsu-modal-overlay-in {
+  from { opacity: 0; }
+}
+@keyframes wsu-modal-overlay-out {
+  to { opacity: 0; }
+}
+
+/**
+ * Every overlay in this library renders through a React Aria portal, i.e.
+ * as a child of `document.body` and *outside* the `.wsu-theme-root` element
+ * that reset.css scopes itself to — so the global `box-sizing: border-box`
+ * never reaches it. Without this, `min-height` and `min-width` on a row are
+ * measured against the content box and silently add the padding on top
+ * (a 28px floor plus 6px padding rendered a 40px row against the file's 36px).
+ */
+.wsu-Modal__overlay,
+.wsu-Modal__overlay *,
+.wsu-Modal__overlay *::before,
+.wsu-Modal__overlay *::after {
+  box-sizing: border-box;
+}
+
+.wsu-Modal {
+  z-index: var(--wsu-z-modal);
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  background-color: var(--wsu-color-surface-default);
+  border-radius: var(--wsu-radius-md);
+  box-shadow: var(--wsu-shadow-xl);
+}
+
+.wsu-Modal--sm { max-width: 24rem; }
+.wsu-Modal--md { max-width: 32rem; }
+.wsu-Modal--lg { max-width: 40rem; }
+
+.wsu-Modal[data-entering] {
+  animation: wsu-modal-in var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+.wsu-Modal[data-exiting] {
+  animation: wsu-modal-out var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+@keyframes wsu-modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+}
+@keyframes wsu-modal-out {
+  to { opacity: 0; transform: scale(0.96) translateY(4px); }
+}
+
+.wsu-Modal__dialog {
+  outline: none;
+}
+
+.wsu-Modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--wsu-space-4);
+  padding: var(--wsu-space-6);
+  padding-bottom: var(--wsu-space-4);
+}
+
+.wsu-Modal__headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1);
+  min-width: 0;
+}
+
+.wsu-Modal__title {
+  margin: 0;
+  font: var(--wsu-font-heading-md);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Modal__description {
+  margin: 0;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-Modal__close {
+  flex-shrink: 0;
+}
+
+.wsu-Modal__body {
+  padding-inline: var(--wsu-space-6);
+  padding-bottom: var(--wsu-space-6);
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-Modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--wsu-space-3);
+  padding: var(--wsu-space-4) var(--wsu-space-6);
+  border-top: 1px solid var(--wsu-color-border-default);
+}
+
+@media (max-width: 480px) {
+  .wsu-Modal--sm, .wsu-Modal--md, .wsu-Modal--lg {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,203 @@
+/**
+ * Default Writesea Odyssey design tokens as CSS custom properties.
+ *
+ * This is the "documented CSS variable override" half of the theming API:
+ * a consumer who doesn't want to touch JS can override any `--wsu-*`
+ * variable on `:root` (or on any ancestor element) after importing this
+ * file. Consumers using `<ThemeProvider theme={createTheme(...)}>` get the
+ * same variables applied inline, scoped to that subtree instead — see
+ * ThemeProvider.tsx. Keep this file's values in sync with
+ * src/theme/{palette,semantic,typography,spacing,radius,shadow,zIndex,breakpoints}.ts
+ * (there is no build-time codegen step yet; the JS objects are the source
+ * of truth and this file is hand-mirrored from them).
+ */
+:root {
+  /* Typeface */
+  --wsu-font-family: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+
+  /* Color — semantic layer (see src/theme/semantic.ts for the raw-palette source of each value) */
+  --wsu-color-surface-default: #ffffff;
+  --wsu-color-surface-subtle: #fafafa;
+  --wsu-color-surface-raised: #ffffff;
+  --wsu-color-surface-inverse: #101419;
+  --wsu-color-text-on-inverse: #ffffff;
+  --wsu-color-surface-accent: #f5f4ff;
+
+  --wsu-color-text-heading: #101419;
+  --wsu-color-text-subheading: #414651;
+  --wsu-color-text-body: #535862;
+  --wsu-color-text-subtle: #717680;
+  --wsu-color-text-disabled: #a4a7ae;
+  --wsu-color-text-on-primary: #ffffff;
+  --wsu-color-text-danger: #d30d25;
+  --wsu-color-text-success: #027a48;
+  --wsu-color-text-warning: #674f09;
+  /* Figma "Grayscale/Base" — the secondary line of a menu header (433:9118). */
+  --wsu-color-text-meta: #666970;
+
+  --wsu-color-border-default: #e9eaeb;
+  --wsu-color-border-subtle: #f6f6f6;
+  --wsu-color-border-disabled: #e9eaeb;
+  --wsu-color-border-focus: #6e5cf4;
+  --wsu-color-border-danger: #d30d25;
+
+  /* Icon stroke — the file's "Dark" color style, kept separate from the text grays. */
+  --wsu-color-icon-default: #141b34;
+
+  --wsu-color-primary-bg: #563bdb;
+  --wsu-color-primary-bg-hover: #6941c6;
+  --wsu-color-primary-bg-active: #563bdb;
+  --wsu-color-primary-bg-disabled: #beb4ff;
+  --wsu-color-primary-text: #ffffff;
+
+  --wsu-color-secondary-bg: #fafafa;
+  --wsu-color-secondary-bg-hover: #f6f6f6;
+  --wsu-color-secondary-text: #101419;
+  --wsu-color-secondary-border: #f6f6f6;
+
+  --wsu-color-danger-bg: #d30d25;
+  --wsu-color-danger-bg-hover: #9e1020;
+  --wsu-color-danger-bg-active: #6c0f1a;
+  --wsu-color-danger-bg-disabled: #fbadb6;
+  --wsu-color-danger-text: #ffffff;
+
+  --wsu-color-field-bg: #ffffff;
+  --wsu-color-field-bg-disabled: #fafafa;
+  --wsu-color-field-placeholder: #717680;
+  --wsu-color-field-border: #e9eaeb;
+  --wsu-color-field-border-focus: #6e5cf4;
+  --wsu-color-field-border-danger: #d30d25;
+
+  --wsu-color-focus-ring: rgba(105, 65, 198, 0.55);
+
+  --wsu-color-severity-excellent-soft-bg: #d8ffe3;
+  --wsu-color-severity-excellent-soft-text: #066c23;
+  --wsu-color-severity-excellent-solid-bg: #19f958;
+  --wsu-color-severity-excellent-solid-text: #066c23;
+
+  --wsu-color-severity-good-soft-bg: #dbf6ff;
+  --wsu-color-severity-good-soft-text: #1b72b2;
+  --wsu-color-severity-good-solid-bg: #19c3f9;
+  --wsu-color-severity-good-solid-text: #00497f;
+
+  --wsu-color-severity-fair-soft-bg: #fff9db;
+  --wsu-color-severity-fair-soft-text: #946b00;
+  --wsu-color-severity-fair-solid-bg: #f9d519;
+  --wsu-color-severity-fair-solid-text: #795700;
+
+  --wsu-color-severity-poor-soft-bg: #ffecdb;
+  --wsu-color-severity-poor-soft-text: #953900;
+  --wsu-color-severity-poor-solid-bg: #ff8d29;
+  --wsu-color-severity-poor-solid-text: #6f2a00;
+
+  --wsu-color-severity-bad-soft-bg: #feeadc;
+  --wsu-color-severity-bad-soft-text: #6c2306;
+  --wsu-color-severity-bad-solid-bg: #f97319;
+  --wsu-color-severity-bad-solid-text: #5d1e05;
+
+  --wsu-color-severity-fail-soft-bg: #fedcdd;
+  --wsu-color-severity-fail-soft-text: #c91417;
+  --wsu-color-severity-fail-solid-bg: #ea171b;
+  --wsu-color-severity-fail-solid-text: #ffffff;
+
+  --wsu-color-card-urgent-bg: #fff0f0;
+  --wsu-color-card-critical-bg: #fff1e6;
+  --wsu-color-card-optional-bg: #e6f0ff;
+  --wsu-color-card-general-bg: #fff0f0;
+  --wsu-color-card-neutral-border: #f0f0f0;
+
+  /* Spacing */
+  --wsu-space-1: 0.25rem;
+  --wsu-space-2: 0.5rem;
+  --wsu-space-3: 0.75rem;
+  --wsu-space-4: 1rem;
+  --wsu-space-6: 1.5rem;
+  --wsu-space-8: 2rem;
+  --wsu-space-10: 2.5rem;
+  --wsu-space-12: 3rem;
+  --wsu-space-16: 4rem;
+
+  /* Radius */
+  --wsu-radius-xs: 0.25rem;
+  --wsu-radius-sm: 0.5rem;
+  --wsu-radius-md: 0.75rem;
+  --wsu-radius-lg: 1rem;
+  --wsu-radius-xl: 1.5rem;
+  --wsu-radius-full: 6.25rem;
+
+  /* Shadow */
+  --wsu-shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --wsu-shadow-sm: 0px 3px 6px 0px rgba(0, 0, 0, 0.08);
+  --wsu-shadow-md: 0px 6px 12px 0px rgba(0, 0, 0, 0.05);
+  --wsu-shadow-lg: 0px 15px 30px 0px rgba(0, 0, 0, 0.07);
+  --wsu-shadow-xl: 0px 8px 24px 0px rgba(0, 0, 0, 0.3);
+  --wsu-shadow-2xl: 0px 10px 30px 0px rgba(0, 0, 0, 0.4);
+  --wsu-shadow-3xl: 0px 12px 40px 0px rgba(0, 0, 0, 0.5);
+  --wsu-shadow-focus-ring: 0px 1px 2px 0px rgba(10, 13, 18, 0.05), 0px 0px 0px 4px rgba(105, 65, 198, 0.55);
+  /* Inset form — `inset var(--wsu-shadow-focus-ring)` would only inset the
+     first layer, quietly turning the ring back into an outer one. */
+  --wsu-shadow-focus-ring-inset: inset 0px 0px 0px 4px rgba(105, 65, 198, 0.55);
+
+  /* Z-index */
+  --wsu-z-dropdown: 1000;
+  --wsu-z-sticky: 1100;
+  --wsu-z-overlay: 1200;
+  --wsu-z-modal: 1300;
+  --wsu-z-popover: 1400;
+  --wsu-z-tooltip: 1500;
+  --wsu-z-toast: 1600;
+
+  /* Breakpoints (informational — CSS can't read custom properties inside @media, use these
+     as the canonical numbers if you hand-write a media query; components that need JS-side
+     breakpoint values should read src/theme/breakpoints.ts instead). */
+  --wsu-breakpoint-mobile: 402px;
+  --wsu-breakpoint-tablet: 768px;
+  --wsu-breakpoint-desktop: 1440px;
+
+  /* Icon sizes */
+  --wsu-icon-size-xs: 0.75rem;
+  --wsu-icon-size-sm: 1rem;
+  --wsu-icon-size-md: 1.25rem;
+  --wsu-icon-size-lg: 1.5rem;
+  --wsu-icon-size-xl: 2rem;
+
+  /* Typography */
+  --wsu-font-display-lg: 700 6rem/7rem var(--wsu-font-family);
+  --wsu-tracking-display-lg: 0;
+  --wsu-font-display-md: 700 4rem/4.75rem var(--wsu-font-family);
+  --wsu-tracking-display-md: 0;
+  --wsu-font-display-sm: 700 2.5rem/3rem var(--wsu-font-family);
+  --wsu-tracking-display-sm: 0;
+  --wsu-font-display-title: 700 1.875rem/2.375rem var(--wsu-font-family);
+  --wsu-tracking-display-title: -0.019em;
+  --wsu-font-heading-lg: 600 1.5rem/2rem var(--wsu-font-family);
+  --wsu-tracking-heading-lg: 0;
+  --wsu-font-heading-md: 600 1.25rem/1.75rem var(--wsu-font-family);
+  --wsu-tracking-heading-md: 0;
+  --wsu-font-heading-sm: 600 1.125rem/1.625rem var(--wsu-font-family);
+  --wsu-tracking-heading-sm: 0;
+  --wsu-font-body-lg: 600 1.125rem/1.75rem var(--wsu-font-family);
+  --wsu-tracking-body-lg: 0;
+  --wsu-font-body-md: 500 1rem/1.5rem var(--wsu-font-family);
+  --wsu-tracking-body-md: 0;
+  --wsu-font-body-md-semibold: 600 1rem/1.5rem var(--wsu-font-family);
+  --wsu-tracking-body-md-semibold: 0;
+  --wsu-font-body-sm: 500 0.875rem/1.25rem var(--wsu-font-family);
+  --wsu-tracking-body-sm: 0;
+
+  /* Motion — every component transition references these, never a literal duration, so
+     prefers-reduced-motion (below) can zero them out globally in one place. */
+  --wsu-motion-fast: 120ms;
+  --wsu-motion-base: 180ms;
+  --wsu-motion-slow: 280ms;
+  --wsu-motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --wsu-motion-fast: 0ms;
+    --wsu-motion-base: 0ms;
+    --wsu-motion-slow: 0ms;
+  }
+}

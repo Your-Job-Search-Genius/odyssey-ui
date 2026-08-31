@@ -1,0 +1,170 @@
+/**
+ * Sizes use an explicit `height` matched to the literal Figma symbol
+ * geometry (28/32/36px) rather than reconstructing it from padding, since
+ * that's what actually measured pixel-exact. Horizontal padding (12px) was
+ * confirmed identical across all three sizes.
+ *
+ * Radius is per-size, re-measured from the file: Default/lg is 9px, Medium
+ * and Small are 8px. An earlier pass consolidated all three onto the 8px
+ * token on the theory that 9px was measurement noise — it isn't, the file
+ * is internally consistent about it, so lg now carries its own value.
+ */
+.wsu-Button {
+  --wsu-button-icon-size: 1.125rem; /* 18px in every size, per the file */
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem; /* 6px — between the space-1 (4px) and space-2 (8px) steps */
+  border: none;
+  border-radius: var(--wsu-radius-sm);
+  padding-inline: var(--wsu-space-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing), border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing), opacity var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Button:disabled {
+  cursor: not-allowed;
+}
+
+.wsu-Button:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+/* Sizes */
+.wsu-Button--sm {
+  height: 1.75rem; /* 28px */
+  font: var(--wsu-font-body-sm);
+}
+.wsu-Button--md {
+  height: 2rem; /* 32px */
+  font: var(--wsu-font-body-sm);
+}
+.wsu-Button--lg {
+  height: 2.25rem; /* 36px */
+  border-radius: 0.5625rem; /* 9px — lg only; md and sm are 8px */
+  font: var(--wsu-font-body-md);
+}
+
+/**
+ * Icon-only is a square at the button's own height (36/32/28), with the
+ * 18px glyph centred. CONFIRMED by the design owner: keep these sizes.
+ *
+ * That resolves a genuine inconsistency in the file, which has no single
+ * rule here — at Default size the icon-only symbols measure 38x36
+ * (Primary), 32x36 (Accent) and 39.29x36 (Secondary); at Small they are
+ * 26x26 (Primary) but 32x32 (Secondary and Accent); and at Medium/Small
+ * their heights (30px, 26px) sit 2px under the text buttons of the same
+ * size, which would misalign a toolbar. Squaring to the button's height
+ * keeps every button on one baseline and clears the WCAG 2.5.8 24x24
+ * target floor at every size.
+ */
+.wsu-Button--icon-only {
+  padding-inline: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.wsu-Button--full-width {
+  width: 100%;
+}
+
+/* Primary */
+.wsu-Button--primary {
+  background-color: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-primary-text);
+}
+.wsu-Button--primary:hover:not(:disabled) {
+  background-color: var(--wsu-color-primary-bg-hover);
+}
+.wsu-Button--primary:active:not(:disabled) {
+  background-color: var(--wsu-color-primary-bg-active);
+}
+.wsu-Button--primary:disabled {
+  background-color: var(--wsu-color-primary-bg-disabled);
+  color: var(--wsu-color-primary-text);
+  opacity: 0.6;
+}
+
+/* Secondary */
+.wsu-Button--secondary {
+  background-color: var(--wsu-color-secondary-bg);
+  color: var(--wsu-color-secondary-text);
+  border: 0.75px solid var(--wsu-color-secondary-border);
+}
+.wsu-Button--secondary:hover:not(:disabled) {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+.wsu-Button--secondary:disabled {
+  color: var(--wsu-color-text-disabled);
+  opacity: 0.6;
+}
+
+/* Accent */
+.wsu-Button--accent {
+  background-color: var(--wsu-color-surface-default);
+  color: var(--wsu-color-text-heading);
+  border: 0.75px solid var(--wsu-color-border-default);
+  box-shadow: var(--wsu-shadow-xs);
+}
+.wsu-Button--accent:hover:not(:disabled) {
+  background-color: var(--wsu-color-surface-subtle);
+}
+.wsu-Button--accent:disabled {
+  color: var(--wsu-color-text-disabled);
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+/* Text */
+.wsu-Button--text {
+  background-color: transparent;
+  color: var(--wsu-color-text-heading);
+}
+.wsu-Button--text:hover:not(:disabled) {
+  background-color: var(--wsu-color-surface-subtle);
+}
+.wsu-Button--text:disabled {
+  color: var(--wsu-color-text-disabled);
+  opacity: 0.6;
+}
+
+/* Icon slot */
+.wsu-Button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+/* The file draws the glyph at 18px in every size, not scaled to the label. */
+.wsu-Button__icon :where(svg) {
+  width: var(--wsu-button-icon-size);
+  height: var(--wsu-button-icon-size);
+}
+
+.wsu-Button__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Loading spinner */
+.wsu-Button__spinner {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  opacity: 0.85;
+  animation: wsu-button-spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-Button__spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+@keyframes wsu-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

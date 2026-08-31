@@ -1,0 +1,91 @@
+.wsu-ComboBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1);
+  width: 100%;
+  --trigger-width: auto;
+}
+
+.wsu-ComboBox__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-ComboBox__required {
+  color: var(--wsu-color-text-danger);
+}
+
+.wsu-ComboBox__field {
+  display: flex;
+  align-items: center;
+  background-color: var(--wsu-color-field-bg);
+  border: 1px solid var(--wsu-color-field-border);
+  border-radius: var(--wsu-radius-md);
+  transition: border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-ComboBox__field:focus-within {
+  border-color: var(--wsu-color-field-border-focus);
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-ComboBox[data-invalid] .wsu-ComboBox__field {
+  border-color: var(--wsu-color-field-border-danger);
+}
+
+.wsu-ComboBox__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding-inline: 0.8125rem;
+  padding-block: var(--wsu-space-2);
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-ComboBox__input::placeholder {
+  color: var(--wsu-color-field-placeholder);
+}
+
+.wsu-ComboBox__input[data-disabled] {
+  cursor: not-allowed;
+}
+
+.wsu-ComboBox__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  align-self: stretch;
+  border: none;
+  background: transparent;
+  color: var(--wsu-color-text-subtle);
+  cursor: pointer;
+}
+
+.wsu-ComboBox__toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.wsu-ComboBox__toggle svg {
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-ComboBox__empty {
+  padding: var(--wsu-space-3);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  text-align: center;
+}
+
+.wsu-ComboBox__message {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-ComboBox__message--error {
+  color: var(--wsu-color-text-danger);
+}

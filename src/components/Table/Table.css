@@ -1,0 +1,71 @@
+/* Own scroll container so a wide table reflows at 320px without the whole page scrolling horizontally (WCAG 1.4.10). */
+.wsu-Table__scroll {
+  overflow-x: auto;
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+}
+
+.wsu-Table {
+  width: 100%;
+  border-collapse: collapse;
+  font: var(--wsu-font-body-sm);
+}
+
+.wsu-Table__header {
+  background-color: var(--wsu-color-surface-subtle);
+}
+
+.wsu-Table__th {
+  text-align: left;
+  padding: var(--wsu-space-3);
+  font-weight: 600;
+  color: var(--wsu-color-text-heading);
+  border-bottom: 1px solid var(--wsu-color-border-default);
+  white-space: nowrap;
+}
+
+.wsu-Table__th[aria-sort] {
+  cursor: pointer;
+}
+
+.wsu-Table__th:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+}
+
+.wsu-Table__thContent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-1);
+}
+
+.wsu-Table__sortIcon {
+  color: var(--wsu-color-text-disabled);
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Table__sortIcon--active {
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Table__tr {
+  border-bottom: 1px solid var(--wsu-color-border-subtle);
+}
+
+.wsu-Table__tr:last-child {
+  border-bottom: none;
+}
+
+.wsu-Table__tr[data-hovered] {
+  background-color: var(--wsu-color-surface-subtle);
+}
+
+.wsu-Table__tr[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+}
+
+.wsu-Table__td {
+  padding: var(--wsu-space-3);
+  color: var(--wsu-color-text-body);
+}
