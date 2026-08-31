@@ -23,7 +23,10 @@ function spaGithubPages404(): Plugin {
 }
 
 export default defineConfig({
-  base: "/yjsg-ui/",
+  // Must match the GitHub Pages project-site path, i.e. the repo name
+  // (github.com/Your-Job-Search-Genius/odyssey-ui -> /odyssey-ui/), not the
+  // local working-copy directory name.
+  base: "/odyssey-ui/",
   plugins: [react(), spaGithubPages404()],
   resolve: {
     alias: [
