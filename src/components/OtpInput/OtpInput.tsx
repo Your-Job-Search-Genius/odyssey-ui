@@ -1,6 +1,7 @@
 import { useId, useRef } from "react";
 import type { ClipboardEvent, KeyboardEvent } from "react";
 import { useControllableState } from "../../utils/useControllableState";
+import { Input } from "../Input";
 import "./OtpInput.css";
 
 export interface OtpInputProps {
@@ -111,7 +112,8 @@ export function OtpInput({
       </span>
       <div role="group" aria-labelledby={groupId} className="wsu-OtpInput__boxes">
         {digits.map((digit, i) => (
-          <input
+          <Input
+            unstyled
             key={i}
             ref={(el) => {
               inputRefs.current[i] = el;

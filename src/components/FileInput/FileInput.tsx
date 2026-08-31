@@ -1,7 +1,7 @@
 import { DropZone, FileTrigger, Pressable, isFileDropItem } from "react-aria-components";
 import type { DropItem } from "react-aria-components";
 import { Button } from "../Button";
-import { UploadGlyph } from "../Icon/glyphs";
+import { CloudUploadIcon } from "@your-job-search-genius/icons";
 import "./FileInput.css";
 
 export interface FileInputProps {
@@ -50,7 +50,7 @@ export function FileInput({
           if (files.length) onFilesSelected(files);
         }}
       >
-        <UploadGlyph className="wsu-FileInput__icon" />
+        <CloudUploadIcon size="1.25rem" className="wsu-FileInput__icon" />
         <p className="wsu-FileInput__label">{label}</p>
         <p className="wsu-FileInput__hint">Drag and drop, or</p>
         {/* Same trigger-wiring gap already found on Tooltip and Menu: a plain

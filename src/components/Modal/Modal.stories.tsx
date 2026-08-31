@@ -5,7 +5,7 @@ import { Modal } from "./Modal";
 import { Button } from "../Button";
 import { Badge } from "../Badge";
 import { Tabs, TabList, TabPanel } from "../Tabs";
-import { ChartGlyph, StarCircleGlyph } from "../Icon/glyphs";
+import { PresentationBarChart02Icon, StarCircleSolidIcon } from "@your-job-search-genius/icons";
 
 const meta: Meta<typeof Modal> = {
   title: "Figma Components/Composites/Modal",
@@ -156,19 +156,19 @@ export const FigmaHeaderCentered: Story = {
 /** Modal Header / With Badge — node 433:9562. */
 export const FigmaHeaderWithBadge: Story = {
   name: "Figma — Header: With Badge",
-  render: () => <HeaderDemo label="Header with badge" badge={<Badge type="border" trailingIcon={<StarCircleGlyph />}>Neo-Classic</Badge>} />,
+  render: () => <HeaderDemo label="Header with badge" badge={<Badge type="border" trailingIcon={<StarCircleSolidIcon />}>Neo-Classic</Badge>} />,
 };
 
 /** Modal Header / With Icon — node 433:9567. */
 export const FigmaHeaderWithIcon: Story = {
   name: "Figma — Header: With Icon",
-  render: () => <HeaderDemo label="Header with icon" icon={<ChartGlyph />} />,
+  render: () => <HeaderDemo label="Header with icon" icon={<PresentationBarChart02Icon />} />,
 };
 
 /** Modal Header / With Description — node 433:9572. */
 export const FigmaHeaderWithDescription: Story = {
   name: "Figma — Header: With Description",
-  render: () => <HeaderDemo label="Header with description" icon={<ChartGlyph />} description="Description" />,
+  render: () => <HeaderDemo label="Header with description" icon={<PresentationBarChart02Icon />} description="Description" />,
 };
 
 /**

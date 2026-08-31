@@ -1,0 +1,78 @@
+/**
+ * No Figma source (design-inventory.md §2.14). The track's `background` is
+ * computed and applied inline by `react-aria-components`, so this file only
+ * owns layout (grid, corner radius, cross-axis thickness) and the disabled
+ * treatment — it never sets `background` itself. The thumb reuses
+ * `.wsu-ColorThumb` from ColorArea.css; only its per-orientation centering
+ * (`top`/`left`) lives here, since that's specific to how ColorSlider lays
+ * its track out.
+ */
+.wsu-ColorSlider {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "track";
+  gap: var(--wsu-space-2);
+  outline: none;
+  touch-action: none;
+}
+
+.wsu-ColorSlider__header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--wsu-space-2);
+}
+
+.wsu-ColorSlider__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-ColorSlider__output {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-ColorSlider__track {
+  grid-area: track;
+  position: relative;
+  border-radius: var(--wsu-radius-md);
+}
+
+.wsu-ColorSlider[data-orientation="horizontal"] {
+  width: 12rem;
+}
+
+.wsu-ColorSlider[data-orientation="horizontal"] .wsu-ColorSlider__track {
+  height: var(--wsu-space-6);
+}
+
+.wsu-ColorSlider[data-orientation="horizontal"] .wsu-ColorThumb {
+  top: 50%;
+}
+
+.wsu-ColorSlider[data-orientation="vertical"] {
+  height: 12rem;
+}
+
+.wsu-ColorSlider[data-orientation="vertical"] .wsu-ColorSlider__track {
+  width: var(--wsu-space-6);
+  height: 100%;
+}
+
+.wsu-ColorSlider[data-orientation="vertical"] .wsu-ColorThumb {
+  left: 50%;
+}
+
+.wsu-ColorSlider[data-disabled] .wsu-ColorSlider__track {
+  filter: grayscale(1);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wsu-ColorSlider[data-disabled] .wsu-ColorSlider__label,
+.wsu-ColorSlider[data-disabled] .wsu-ColorSlider__output {
+  color: var(--wsu-color-text-disabled);
+}

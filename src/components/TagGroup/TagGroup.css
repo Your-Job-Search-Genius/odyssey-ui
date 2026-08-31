@@ -1,0 +1,108 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Chip shape reuses TagsInput's
+ * pill (itself borrowed from the Badge soft pill) so a selectable/removable
+ * tag reads as the same visual family as a typed one, differing only in
+ * the selected/hover/focus states `react-aria-components`' `Tag` drives.
+ */
+.wsu-TagGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem; /* 6px */
+}
+
+.wsu-TagGroup__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subheading);
+}
+
+.wsu-TagGroup__search {
+  margin-bottom: var(--wsu-space-2);
+  max-width: 20rem;
+}
+
+.wsu-TagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wsu-space-2); /* 8px */
+  outline: none;
+}
+
+.wsu-Tag {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-1);
+  padding: 0.25rem 0.625rem;
+  background-color: var(--wsu-color-secondary-border);
+  border: 1px solid transparent;
+  border-radius: var(--wsu-radius-full);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+  cursor: pointer;
+  outline: none;
+  max-width: 100%;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Tag:has(.wsu-Tag__remove) {
+  padding-inline-end: 0.25rem;
+}
+
+.wsu-Tag[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-Tag[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Tag[data-selected] {
+  background-color: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-Tag[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-Tag__remove {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  /* 24px keeps the target at the WCAG 2.5.8 floor even though the glyph is 11px. */
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.wsu-Tag__remove[data-hovered] {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.wsu-Tag[data-selected] .wsu-Tag__remove[data-hovered] {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.wsu-Tag__remove[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-TagGroup__message {
+  margin: 0;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-TagGroup__message--error {
+  color: var(--wsu-color-text-danger);
+}

@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
-import { ChevronDownGlyph } from "../Icon/glyphs";
+import { ArrowDown01SharpIcon } from "@your-job-search-genius/icons";
 import "./Sidebar.css";
 
 export interface SidebarItemData {
@@ -57,7 +57,7 @@ function SidebarItem({ item, activeId, depth }: { item: SidebarItemData; activeI
             ) : null}
             <span className="wsu-Sidebar__label">{item.label}</span>
             {/* Figma sizes the disclosure chevron the same 18px as the item icons. */}
-            <ChevronDownGlyph size="var(--wsu-sidebar-icon-size)" className="wsu-Sidebar__chevron" />
+            <ArrowDown01SharpIcon size="var(--wsu-sidebar-icon-size)" className="wsu-Sidebar__chevron" />
           </summary>
           <div className="wsu-Sidebar__subrow">
             {/* Figma tints the connector primary when the branch holds the active

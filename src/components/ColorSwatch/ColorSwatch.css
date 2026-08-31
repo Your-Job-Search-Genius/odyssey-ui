@@ -1,0 +1,12 @@
+/**
+ * No Figma source (design-inventory.md §2.14). The checkerboard-behind-
+ * gradient background is computed and applied inline by ColorSwatch.tsx
+ * (color not known until render) — this file only owns shape and border.
+ */
+.wsu-ColorSwatch {
+  display: inline-block;
+  width: var(--wsu-space-8);
+  height: var(--wsu-space-8);
+  border-radius: var(--wsu-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--wsu-color-border-default);
+}

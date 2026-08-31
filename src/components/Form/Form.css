@@ -1,0 +1,9 @@
+.wsu-Form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-6);
+}
+
+.wsu-Form > .wsu-Button {
+  align-self: flex-start;
+}

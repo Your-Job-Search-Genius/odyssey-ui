@@ -1,0 +1,62 @@
+/**
+ * No Figma source — assumed. Track/fill geometry follows
+ * react-aria-components' own Meter example (a fully-rounded pill track);
+ * fill colour reuses this library's severity grading scale (Badge.css)
+ * at the 70%/90% breakpoints from that same reference example.
+ */
+.wsu-Meter {
+  display: grid;
+  grid-template-areas:
+    "label value"
+    "track track";
+  grid-template-columns: 1fr auto;
+  column-gap: var(--wsu-space-2);
+  row-gap: var(--wsu-space-1);
+  max-width: 100%;
+  font: var(--wsu-font-body-sm);
+}
+
+.wsu-Meter__label {
+  grid-area: label;
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Meter__value {
+  grid-area: value;
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-Meter__track {
+  grid-area: track;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--wsu-space-2);
+  border-radius: var(--wsu-radius-full);
+  background-color: var(--wsu-color-border-default);
+  overflow: hidden;
+  forced-color-adjust: none;
+}
+
+.wsu-Meter__fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+
+.wsu-Meter__fill--excellent {
+  background-color: var(--wsu-color-severity-excellent-solid-bg);
+}
+
+.wsu-Meter__fill--fair {
+  background-color: var(--wsu-color-severity-fair-solid-bg);
+}
+
+.wsu-Meter__fill--fail {
+  background-color: var(--wsu-color-severity-fail-solid-bg);
+}
+
+@media (forced-colors: active) {
+  .wsu-Meter__fill {
+    background-color: Highlight;
+  }
+}

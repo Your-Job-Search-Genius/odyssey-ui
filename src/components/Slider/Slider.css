@@ -1,0 +1,142 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Track/thumb geometry mirrors
+ * `ColorSlider`'s (fully-rounded pill track, white-ringed circular thumb
+ * that grows on keyboard focus) so the two read as the same control family,
+ * but the fill and thumb paint this system's primary brand color instead of
+ * a live color value.
+ */
+.wsu-Slider {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "track";
+  gap: var(--wsu-space-2);
+  outline: none;
+  touch-action: none;
+}
+
+.wsu-Slider__header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--wsu-space-2);
+}
+
+.wsu-Slider__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Slider__output {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-Slider__track {
+  grid-area: track;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.wsu-Slider__rail {
+  position: relative;
+  width: 100%;
+  border-radius: var(--wsu-radius-full);
+  background: var(--wsu-color-border-default);
+}
+
+.wsu-Slider__fill {
+  position: absolute;
+  border-radius: inherit;
+  background: var(--wsu-color-primary-bg);
+}
+
+.wsu-Slider__thumb {
+  box-sizing: border-box;
+  position: absolute;
+  width: 1.25rem; /* 20px */
+  height: 1.25rem;
+  border-radius: var(--wsu-radius-full);
+  border: 2px solid #ffffff;
+  box-shadow: var(--wsu-shadow-sm);
+  background-color: var(--wsu-color-primary-bg);
+  cursor: pointer;
+  outline: none;
+  transition:
+    width var(--wsu-motion-fast) var(--wsu-motion-easing),
+    height var(--wsu-motion-fast) var(--wsu-motion-easing),
+    box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Slider__thumb[data-dragging] {
+  box-shadow: var(--wsu-shadow-md);
+}
+
+.wsu-Slider__thumb[data-focus-visible] {
+  width: 1.5rem; /* 24px — grows on keyboard focus */
+  height: 1.5rem;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Slider[data-orientation="horizontal"] {
+  width: 16rem;
+}
+
+.wsu-Slider[data-orientation="horizontal"] .wsu-Slider__track {
+  height: var(--wsu-space-6);
+}
+
+.wsu-Slider[data-orientation="horizontal"] .wsu-Slider__rail {
+  height: var(--wsu-space-2);
+}
+
+.wsu-Slider[data-orientation="horizontal"] .wsu-Slider__thumb {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wsu-Slider[data-orientation="vertical"] {
+  height: 12rem;
+}
+
+.wsu-Slider[data-orientation="vertical"] .wsu-Slider__header {
+  flex-direction: column;
+  align-items: center;
+}
+
+.wsu-Slider[data-orientation="vertical"] .wsu-Slider__track {
+  width: var(--wsu-space-6);
+  height: 100%;
+  justify-content: center;
+}
+
+.wsu-Slider[data-orientation="vertical"] .wsu-Slider__rail {
+  width: var(--wsu-space-2);
+  height: 100%;
+}
+
+.wsu-Slider[data-orientation="vertical"] .wsu-Slider__thumb {
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.wsu-Slider[data-disabled] .wsu-Slider__rail {
+  background: var(--wsu-color-border-disabled);
+}
+
+.wsu-Slider[data-disabled] .wsu-Slider__fill {
+  background: var(--wsu-color-border-disabled);
+}
+
+.wsu-Slider[data-disabled] .wsu-Slider__thumb {
+  cursor: not-allowed;
+  background-color: var(--wsu-color-primary-bg-disabled);
+  border-color: var(--wsu-color-border-disabled);
+}
+
+.wsu-Slider[data-disabled] .wsu-Slider__label,
+.wsu-Slider[data-disabled] .wsu-Slider__output {
+  color: var(--wsu-color-text-disabled);
+}

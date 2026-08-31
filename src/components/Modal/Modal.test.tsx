@@ -5,7 +5,7 @@ import { axe } from "vitest-axe";
 import { useState } from "react";
 import { Modal } from "./Modal";
 import { Badge } from "../Badge";
-import { ChartGlyph } from "../Icon/glyphs";
+import { PresentationBarChart02Icon } from "@your-job-search-genius/icons";
 import { Button } from "../Button";
 
 function Demo({ initialOpen = true, isDismissable }: { initialOpen?: boolean; isDismissable?: boolean }) {
@@ -126,7 +126,7 @@ describe("Modal", () => {
         onOpenChange={() => {}}
         title="Header"
         description="Description"
-        icon={<ChartGlyph />}
+        icon={<PresentationBarChart02Icon />}
         badge={<Badge type="border">Neo-Classic</Badge>}
       >
         <p>Body</p>

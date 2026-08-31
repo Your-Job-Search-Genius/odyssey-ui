@@ -78,6 +78,11 @@
   border-end-end-radius: 1.75rem;
 }
 
+/* Link tabs render as real anchors; the track styling replaces link chrome. */
+.wsu-Tab[href] {
+  text-decoration: none;
+}
+
 .wsu-Tab[data-hovered]:not([data-selected]) {
   background-color: rgba(255, 255, 255, 0.6);
   color: var(--wsu-color-text-heading);
@@ -105,4 +110,11 @@
 .wsu-TabPanel[data-focus-visible] {
   outline: none;
   box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+/* `shouldForceMount` keeps unselected panels in the DOM (native `inert`
+   attribute drops them from interaction/AT), but `inert` alone doesn't hide
+   anything visually — without this they'd render stacked on the active panel. */
+.wsu-TabPanel[data-inert] {
+  display: none;
 }

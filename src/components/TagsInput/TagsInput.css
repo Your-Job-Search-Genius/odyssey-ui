@@ -110,7 +110,9 @@
   cursor: not-allowed;
 }
 
-.wsu-TagsInput__control {
+/* Two classes so this reliably beats Input.css's `--unstyled` modifier
+   (same specificity, import order not guaranteed) regardless of load order. */
+.wsu-TagsInput__field .wsu-TagsInput__control {
   flex: 1;
   min-width: 6ch;
   padding: 0;

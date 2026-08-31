@@ -1,0 +1,61 @@
+/**
+ * No Figma source (not present in design-inventory.md, same as TagGroup).
+ * Styled from the WAI-ARIA APG breadcrumb pattern using this system's text
+ * and spacing tokens; the separator reuses ArrowRight01SharpIcon from
+ * @your-job-search-genius/icons rather than a new glyph.
+ */
+.wsu-Breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.wsu-Breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-1);
+}
+
+.wsu-Breadcrumb__link {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  outline: none;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: var(--wsu-radius-xs);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-Breadcrumb__link[data-hovered] {
+  color: var(--wsu-color-text-heading);
+  text-decoration: underline;
+}
+
+.wsu-Breadcrumb__link[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Breadcrumb__link[data-current] {
+  font: var(--wsu-font-body-sm-semibold);
+  color: var(--wsu-color-text-heading);
+  cursor: default;
+}
+
+.wsu-Breadcrumb__link[data-disabled] {
+  cursor: not-allowed;
+}
+
+.wsu-Breadcrumb__link[data-disabled]:not([data-current]) {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Breadcrumb__separator {
+  color: var(--wsu-color-text-disabled);
+  flex-shrink: 0;
+}

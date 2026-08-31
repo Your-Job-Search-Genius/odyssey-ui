@@ -1,0 +1,117 @@
+.wsu-SwitchField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1);
+}
+
+/* Same AA-fix rationale as Checkbox.css/Radio.css: the unselected track
+   border uses text-subtle (Gray/500, 4.56:1) instead of a lighter gray, to
+   clear the 3:1 non-text-contrast floor (WCAG 1.4.11). */
+.wsu-Switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-2);
+  min-height: 1.5rem; /* 24px — WCAG 2.5.8 target size floor */
+  cursor: pointer;
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-Switch__track {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 2.25rem; /* 36px */
+  height: var(--wsu-icon-size-md); /* 20px */
+  padding: 0.125rem;
+  border: 1px solid var(--wsu-color-text-subtle);
+  border-radius: var(--wsu-radius-full);
+  background-color: var(--wsu-color-surface-default);
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing), border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Switch__handle {
+  width: 1rem; /* 16px */
+  height: 1rem;
+  border-radius: var(--wsu-radius-full);
+  background-color: var(--wsu-color-text-subtle);
+  transform: translateX(0);
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing), background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Switch[data-hovered] .wsu-Switch__track {
+  border-color: var(--wsu-color-primary-bg-hover);
+}
+
+.wsu-Switch[data-focus-visible] .wsu-Switch__track {
+  border-color: var(--wsu-color-border-focus);
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Switch[data-selected] .wsu-Switch__track {
+  background-color: var(--wsu-color-primary-bg);
+  border-color: var(--wsu-color-primary-bg);
+}
+
+.wsu-Switch[data-selected] .wsu-Switch__handle {
+  background-color: var(--wsu-color-text-on-primary);
+  transform: translateX(1rem); /* track width - handle width - 2 * padding */
+}
+
+.wsu-Switch[data-selected][data-hovered] .wsu-Switch__track {
+  background-color: var(--wsu-color-primary-bg-hover);
+  border-color: var(--wsu-color-primary-bg-hover);
+}
+
+.wsu-Switch[data-invalid] .wsu-Switch__track {
+  border-color: var(--wsu-color-border-danger);
+}
+
+.wsu-Switch[data-invalid][data-selected] .wsu-Switch__track {
+  background-color: var(--wsu-color-border-danger);
+  border-color: var(--wsu-color-border-danger);
+}
+
+.wsu-Switch[data-disabled] {
+  cursor: not-allowed;
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Switch[data-disabled] .wsu-Switch__track {
+  background-color: var(--wsu-color-surface-subtle);
+  border-color: var(--wsu-color-border-disabled);
+}
+
+.wsu-Switch[data-disabled] .wsu-Switch__handle {
+  background-color: var(--wsu-color-border-disabled);
+}
+
+.wsu-Switch[data-disabled][data-selected] .wsu-Switch__track {
+  background-color: var(--wsu-color-primary-bg-disabled);
+  border-color: var(--wsu-color-primary-bg-disabled);
+}
+
+.wsu-Switch[data-disabled][data-selected] .wsu-Switch__handle {
+  background-color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-Switch__label {
+  user-select: none;
+}
+
+.wsu-Switch__message {
+  margin-left: calc(2.25rem + var(--wsu-space-2));
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  user-select: none;
+}
+
+.wsu-Switch__message--error {
+  color: var(--wsu-color-text-danger);
+}
+
+.wsu-SwitchField:has(.wsu-Switch[data-disabled]) .wsu-Switch__message {
+  color: var(--wsu-color-text-disabled);
+}

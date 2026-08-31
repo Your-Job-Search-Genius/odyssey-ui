@@ -201,8 +201,9 @@ its variants/states, and every Storybook story runs through the
 | `Tabs` | `react-aria-components` |
 | `Modal` | `react-aria-components` |
 | `Tooltip` | `react-aria-components` |
-| `Table` | `react-aria-components` (`role="grid"`) |
+| `Table` | `react-aria-components` (`role="grid"`, or `treegrid` with expandable rows) |
 | `FileInput` | `react-aria-components` (drag-and-drop + native file picker) |
+| `Meter` | `react-aria-components` (`meter`/`progressbar` role fallback) |
 
 Every component has a matching Storybook story set (`npm run storybook`) covering every
 variant, size, and state with interactive controls and usage guidance.

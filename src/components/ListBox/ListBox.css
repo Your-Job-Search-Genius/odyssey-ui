@@ -1,0 +1,59 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Row chrome is shared with
+ * Select/ComboBox/Menu via `../Select/popover-menu.css` (`.wsu-ListBox`,
+ * `.wsu-ListBoxItem`) — this file only adds the standalone container (those
+ * rows normally sit inside a `Popover`, which supplies the border; this
+ * component renders inline instead) and the optional description row.
+ */
+.wsu-ListBoxContainer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--wsu-color-surface-default);
+  border: 0.75px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  box-shadow: var(--wsu-shadow-sm);
+  overflow: hidden;
+}
+
+.wsu-ListBoxContainer__search {
+  padding: var(--wsu-space-2);
+  border-bottom: 1px solid var(--wsu-color-border-default);
+}
+
+/* Inside the search+list container the field itself shouldn't carry its own
+   focus/invalid chrome — the container's border already frames the whole
+   picker, matching CommandPalette's search bar. */
+.wsu-ListBoxContainer__search .wsu-SearchField__field {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.wsu-ListBoxContainer__search .wsu-SearchField__field:focus-within {
+  box-shadow: none;
+}
+
+.wsu-ListBox--standalone {
+  max-height: 20rem;
+}
+
+.wsu-ListBoxItem[data-layout="description"] {
+  align-items: flex-start;
+}
+
+.wsu-ListBoxItem__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem; /* 5px, matching Menu's description row */
+  min-width: 0;
+}
+
+.wsu-ListBoxItem__title {
+  font: var(--wsu-font-body-md-semibold);
+  color: inherit;
+}
+
+.wsu-ListBoxItem__description {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+}

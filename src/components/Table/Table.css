@@ -1,76 +1,545 @@
-/* Own scroll container so a wide table reflows at 320px without the whole page scrolling horizontally (WCAG 1.4.10). */
-.wsu-Table__scroll {
+/* Table — no Figma source (design-inventory.md §2.14); chrome reuses the
+   system's radius/spacing/colour/focus tokens. All state styling keys off
+   react-aria-components' data attributes. */
+
+/* ---------------------------------------------------------------------------
+ * Container — scroll + border chrome
+ * ------------------------------------------------------------------------ */
+
+/* Own scroll container so a wide table reflows at 320px without the whole
+   page scrolling horizontally (WCAG 1.4.10). Also the container-query root
+   for the `stacked` responsive layout. */
+.wsu-TableContainer {
   /* Declared locally, not left to reset.css: that reset is scoped to
      `.wsu-theme-root`, so a consumer who imports only the tokens would
      otherwise get this box in content-box and the border added on top of
      its size. */
   box-sizing: border-box;
-  overflow-x: auto;
+  position: relative;
+  overflow: auto;
+  max-height: var(--wsu-table-max-height, none);
   border: 1px solid var(--wsu-color-border-default);
   border-radius: var(--wsu-radius-md);
+  background-color: var(--wsu-color-surface-default);
+  container-type: inline-size;
+  container-name: wsu-table;
 }
+
+/* Inside a ResizableTableContainer columns get fixed widths, so cells
+   truncate instead of growing the row height. */
+.wsu-TableContainer--resizable .wsu-Table__cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------------------------
+ * Table root
+ * ------------------------------------------------------------------------ */
 
 .wsu-Table {
   width: 100%;
-  border-collapse: collapse;
+  /* `separate` (not `collapse`) so the sticky header cells keep their own
+     bottom border while the body scrolls beneath them. */
+  border-collapse: separate;
+  border-spacing: 0;
   font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+  outline: none;
 }
 
-.wsu-Table__header {
-  background-color: var(--wsu-color-surface-subtle);
+.wsu-Table[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  outline: 2px solid transparent; /* visible in forced-colors mode, where box-shadow is stripped */
+  outline-offset: -2px;
 }
 
-.wsu-Table__th {
-  text-align: left;
+/* Whole-table drop target (dropping on the collection root). */
+.wsu-Table[data-drop-target] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  background-color: var(--wsu-color-surface-accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Header
+ * ------------------------------------------------------------------------ */
+
+.wsu-Table__column {
+  box-sizing: border-box;
+  /* Sticky on the cells, not the thead — thead stickiness is still patchy
+     across engines. */
+  position: sticky;
+  top: 0;
+  z-index: 2;
   padding: var(--wsu-space-3);
-  font-weight: 600;
+  text-align: start;
+  font: var(--wsu-font-body-sm-semibold);
   color: var(--wsu-color-text-heading);
+  background-color: var(--wsu-color-surface-subtle);
   border-bottom: 1px solid var(--wsu-color-border-default);
   white-space: nowrap;
+  outline: none;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
 }
 
-.wsu-Table__th[aria-sort] {
+.wsu-Table__column--end {
+  text-align: end;
+}
+
+.wsu-Table__column[data-allows-sorting] {
   cursor: pointer;
 }
 
-.wsu-Table__th:focus-visible {
-  outline: none;
-  box-shadow: var(--wsu-shadow-focus-ring-inset);
+.wsu-Table__column[data-allows-sorting][data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
 }
 
-.wsu-Table__thContent {
-  display: inline-flex;
+.wsu-Table__column[data-allows-sorting][data-pressed] {
+  background-color: var(--wsu-color-surface-accent);
+}
+
+.wsu-Table__column[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+
+.wsu-Table__columnContent {
+  display: flex;
   align-items: center;
   gap: var(--wsu-space-1);
+  max-width: 100%;
 }
 
-.wsu-Table__sortIcon {
-  color: var(--wsu-color-text-disabled);
+.wsu-Table__column--end .wsu-Table__columnContent {
+  flex-direction: row-reverse;
+}
+
+/* The focusable child that arrow-key navigation lands on (focusMode="child"). */
+.wsu-Table__columnName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: var(--wsu-radius-xs);
+  outline: none;
+}
+
+.wsu-Table__column--end .wsu-Table__columnName {
+  flex: 0 1 auto;
+}
+
+.wsu-Table__columnName[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring);
+  outline: 2px solid transparent;
+}
+
+/* Arrow only appears once the column is actually sorted; `aria-sort` (set
+   by react-aria) carries the state for assistive tech, so the icon stays
+   aria-hidden. Reserve the space either way so the header doesn't shift. */
+.wsu-Table__sortIndicator {
+  display: inline-flex;
+  align-items: center;
+  visibility: hidden;
+  color: var(--wsu-color-text-heading);
   transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
 }
 
-.wsu-Table__sortIcon--active {
-  color: var(--wsu-color-text-heading);
+.wsu-Table__sortIndicator[data-direction] {
+  visibility: visible;
 }
 
-.wsu-Table__tr {
-  border-bottom: 1px solid var(--wsu-color-border-subtle);
+.wsu-Table__sortIndicator[data-direction="ascending"] {
+  transform: rotate(180deg);
 }
 
-.wsu-Table__tr:last-child {
-  border-bottom: none;
+/* ---------------------------------------------------------------------------
+ * Column resizer (inside <TableContainer resizable>)
+ * ------------------------------------------------------------------------ */
+
+.wsu-Table__resizer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: -6px;
+  width: 12px;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 1;
+  border-radius: var(--wsu-radius-xs);
 }
 
-.wsu-Table__tr[data-hovered] {
+.wsu-Table__resizer::after {
+  content: "";
+  position: absolute;
+  inset-block: 20%;
+  inset-inline-start: calc(50% - 0.5px);
+  width: 1px;
+  background-color: var(--wsu-color-border-default);
+}
+
+.wsu-Table__resizer[data-hovered]::after,
+.wsu-Table__resizer[data-resizing]::after {
+  inset-inline-start: calc(50% - 1px);
+  width: 2px;
+  background-color: var(--wsu-color-border-focus);
+}
+
+.wsu-Table__resizer[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Body, rows and cells
+ * ------------------------------------------------------------------------ */
+
+.wsu-Table__body[data-empty] {
+  text-align: center;
+  color: var(--wsu-color-text-meta);
+}
+
+.wsu-Table__row {
+  outline: none;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Table--striped .wsu-Table__body .wsu-Table__row:nth-child(even) {
   background-color: var(--wsu-color-surface-subtle);
 }
 
-.wsu-Table__tr[data-focus-visible] {
-  outline: none;
-  box-shadow: var(--wsu-shadow-focus-ring-inset);
+.wsu-Table__body .wsu-Table__row[data-hovered] {
+  background-color: var(--wsu-color-surface-subtle);
 }
 
-.wsu-Table__td {
+.wsu-Table__body .wsu-Table__row[data-selected] {
+  background-color: var(--wsu-color-surface-accent);
+}
+
+.wsu-Table__row[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+
+/* Link rows (`href`) act as navigation — show it. */
+.wsu-Table__row[data-href] {
+  cursor: pointer;
+}
+
+.wsu-Table__row[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Table__row[data-dragging] {
+  opacity: 0.55;
+}
+
+.wsu-Table__row[data-drop-target] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  background-color: var(--wsu-color-surface-accent);
+}
+
+.wsu-Table .react-aria-DropIndicator[data-drop-target] {
+  outline: 1px solid var(--wsu-color-border-focus);
+  outline-offset: -1px;
+}
+
+.wsu-Table__cell {
+  box-sizing: border-box;
   padding: var(--wsu-space-3);
-  color: var(--wsu-color-text-body);
+  text-align: start;
+  border-bottom: 1px solid var(--wsu-color-border-subtle);
+  outline: none;
+}
+
+.wsu-Table--compact .wsu-Table__cell {
+  padding-block: var(--wsu-space-2);
+}
+
+.wsu-Table--compact .wsu-Table__column {
+  padding-block: var(--wsu-space-2);
+}
+
+.wsu-Table__cell--end {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The row-header cell names the row for assistive tech — give it matching
+   visual weight. */
+.wsu-Table__cell[role="rowheader"] {
+  color: var(--wsu-color-text-heading);
+  font-weight: 500;
+}
+
+.wsu-Table__row[data-disabled] .wsu-Table__cell,
+.wsu-Table__row[data-disabled] .wsu-Table__cell[role="rowheader"] {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Table__body .wsu-Table__row:last-child .wsu-Table__cell {
+  border-bottom: none;
+}
+
+.wsu-Table__cell[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Selection and drag columns
+ * ------------------------------------------------------------------------ */
+
+.wsu-Table__column--selection,
+.wsu-Table__cell--selection {
+  width: 2.75rem;
+  padding-inline-end: 0;
+}
+
+.wsu-Table__column--drag,
+.wsu-Table__cell--drag {
+  width: 2.25rem;
+  padding-inline-end: 0;
+}
+
+/* The bare selection checkbox (no visible label — react-aria names it
+   "Select"/"Select All"). Vertical centring inside the cell. */
+.wsu-Table__selectionCheckbox {
+  vertical-align: middle;
+}
+
+.wsu-Table__dragButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 24px hit target (WCAG 2.5.8 floor). */
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--wsu-radius-sm);
+  background: transparent;
+  color: var(--wsu-color-icon-default);
+  cursor: grab;
+  vertical-align: middle;
+}
+
+.wsu-Table__dragButton[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-Table__dragButton[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring);
+  outline: 2px solid transparent;
+}
+
+/* ---------------------------------------------------------------------------
+ * Tree rows (treeColumn)
+ * ------------------------------------------------------------------------ */
+
+/* Indent by nesting level (react-aria sets --table-row-level); leaf rows
+   reserve the chevron's slot so their text lines up with parents'. */
+.wsu-Table__cell[data-tree-column] {
+  --wsu-table-chevron-slot: 1.75rem;
+  padding-inline-start: calc(
+    var(--wsu-space-3) + (var(--table-row-level, 1) - 1) * var(--wsu-space-4) + var(--wsu-table-chevron-slot)
+  );
+}
+
+.wsu-Table__cell[data-tree-column][data-has-child-items] {
+  --wsu-table-chevron-slot: 0rem;
+}
+
+.wsu-Table__chevronButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 24px hit target (WCAG 2.5.8 floor). */
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  margin-inline-end: var(--wsu-space-1);
+  border: none;
+  border-radius: var(--wsu-radius-sm);
+  background: transparent;
+  color: var(--wsu-color-icon-default);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.wsu-Table__chevronButton[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-Table__chevronButton[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring);
+  outline: 2px solid transparent;
+}
+
+.wsu-Table__chevronButton svg {
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Table__cell[data-expanded] .wsu-Table__chevronButton svg {
+  transform: rotate(90deg);
+}
+
+/* ---------------------------------------------------------------------------
+ * Footer + load-more
+ * ------------------------------------------------------------------------ */
+
+.wsu-Table__footer .wsu-Table__cell {
+  /* Sticks to the bottom of the scroll container, mirroring the header. */
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  font: var(--wsu-font-body-sm-semibold);
+  color: var(--wsu-color-text-heading);
+  background-color: var(--wsu-color-surface-subtle);
+  border-top: 1px solid var(--wsu-color-border-default);
+  border-bottom: none;
+}
+
+.wsu-Table__loadMoreContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wsu-space-3);
+}
+
+/* ---------------------------------------------------------------------------
+ * DataTable's search field
+ * ------------------------------------------------------------------------ */
+
+/* The filter field sits above the table's own bordered scroll container, so
+   it keeps its normal field chrome (unlike Select/Menu's internal search,
+   which sits inside a shared popover border). */
+.wsu-Table__search {
+  margin-bottom: var(--wsu-space-2);
+  max-width: 20rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Stacked responsive layout (<Table stacked>)
+ * ------------------------------------------------------------------------ */
+
+/* react-aria puts explicit grid/row/rowheader/gridcell roles on every
+   element, so switching display types here can't destroy table semantics
+   the way it would on a native styled table. */
+@container wsu-table (max-width: 40rem) {
+  .wsu-Table--stacked {
+    display: block;
+  }
+
+  /* Header row: visually hidden, still exposed to assistive tech (the
+     column headers keep naming each cell). */
+  .wsu-Table--stacked .wsu-Table__header {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .wsu-Table--stacked .wsu-Table__body,
+  .wsu-Table--stacked .wsu-Table__footer {
+    display: block;
+  }
+
+  .wsu-Table--stacked .wsu-Table__row {
+    display: block;
+    padding-block: var(--wsu-space-2);
+    border-bottom: 1px solid var(--wsu-color-border-subtle);
+  }
+
+  .wsu-Table--stacked .wsu-Table__body .wsu-Table__row:last-child {
+    border-bottom: none;
+  }
+
+  .wsu-Table--stacked .wsu-Table__cell {
+    display: flex;
+    align-items: baseline;
+    gap: var(--wsu-space-3);
+    padding-block: var(--wsu-space-1);
+    border-bottom: none;
+    text-align: start;
+  }
+
+  .wsu-Table--stacked .wsu-Table__cell--selection,
+  .wsu-Table--stacked .wsu-Table__cell--drag {
+    width: auto;
+  }
+
+  .wsu-Table--stacked .wsu-Table__stackLabel {
+    display: block;
+  }
+
+  .wsu-Table--stacked .wsu-Table__footer .wsu-Table__cell {
+    position: static;
+    border-top: none;
+  }
+}
+
+/* Column label repeated inside each cell for the stacked layout; inert
+   otherwise (and aria-hidden always — the real header names the cell). */
+.wsu-Table__stackLabel {
+  display: none;
+  flex: 0 0 7.5rem;
+  font: var(--wsu-font-body-sm-semibold);
+  color: var(--wsu-color-text-meta);
+}
+
+/* ---------------------------------------------------------------------------
+ * Utilities + media adjustments
+ * ------------------------------------------------------------------------ */
+
+.wsu-Table__visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-Table__row,
+  .wsu-Table__column,
+  .wsu-Table__sortIndicator,
+  .wsu-Table__chevronButton svg {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  /* box-shadow is stripped in forced-colors — the transparent outlines
+     declared above become the visible focus/drop indicators. */
+  .wsu-Table[data-focus-visible],
+  .wsu-Table__column[data-focus-visible],
+  .wsu-Table__columnName[data-focus-visible],
+  .wsu-Table__row[data-focus-visible],
+  .wsu-Table__cell[data-focus-visible],
+  .wsu-Table__resizer[data-focus-visible],
+  .wsu-Table__dragButton[data-focus-visible],
+  .wsu-Table__chevronButton[data-focus-visible] {
+    outline-color: Highlight;
+  }
+
+  .wsu-Table__row[data-selected] {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .wsu-Table__row[data-drop-target],
+  .wsu-Table .react-aria-DropIndicator[data-drop-target] {
+    outline: 2px solid Highlight;
+  }
 }

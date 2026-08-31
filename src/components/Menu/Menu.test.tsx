@@ -5,11 +5,11 @@ import { axe } from "vitest-axe";
 import { Menu } from "./Menu";
 import { MenuHeader } from "./MenuHeader";
 import { Button } from "../Button";
-import { CheckGlyph } from "../Icon/glyphs";
+import { Tick01Icon } from "@your-job-search-genius/icons";
 
 const items = [
   { id: "rename", label: "Rename" },
-  { id: "duplicate", label: "Duplicate", icon: <CheckGlyph /> },
+  { id: "duplicate", label: "Duplicate", icon: <Tick01Icon /> },
   { id: "archive", label: "Archive", disabled: true },
   { id: "delete", label: "Delete", danger: true },
 ];
@@ -123,6 +123,16 @@ describe("Menu", () => {
     // The profile block is chrome, not a row: it must not be inside `menu`.
     expect(menu).not.toHaveTextContent("Moremi Chris");
     expect(screen.getAllByRole("menuitem")).toHaveLength(items.length);
+  });
+
+  it("filters menu items as the user types when searchable", async () => {
+    const user = userEvent.setup();
+    render(<Menu trigger={<Button>Actions</Button>} items={items} searchable searchLabel="Search actions" />);
+    await user.click(screen.getByRole("button", { name: "Actions" }));
+    const search = await screen.findByRole("searchbox", { name: "Search actions" });
+    await user.type(search, "Rename");
+    expect(await screen.findByRole("menuitem", { name: "Rename" })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: "Duplicate" })).not.toBeInTheDocument();
   });
 
   it("has no axe violations, closed and open", async () => {

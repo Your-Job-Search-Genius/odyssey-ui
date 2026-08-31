@@ -1,7 +1,8 @@
 import { forwardRef, useId, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { useControllableState } from "../../utils/useControllableState";
-import { CloseGlyph } from "../Icon/glyphs";
+import { MultiplicationSignIcon } from "@your-job-search-genius/icons";
+import { Input } from "../Input";
 import "./TagsInput.css";
 
 export interface TagsInputProps {
@@ -116,14 +117,15 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(function T
                   disabled={disabled}
                   aria-label={removeLabel(tag)}
                 >
-                  <CloseGlyph size="0.75rem" />
+                  <MultiplicationSignIcon size="0.75rem" />
                 </button>
               </li>
             ))}
           </ul>
         ) : null}
 
-        <input
+        <Input
+          unstyled
           ref={ref}
           id={inputId}
           className="wsu-TagsInput__control"

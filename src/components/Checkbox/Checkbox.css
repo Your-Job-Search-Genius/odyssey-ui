@@ -88,3 +88,44 @@
 .wsu-Checkbox__label {
   user-select: none;
 }
+
+.wsu-Checkbox:has(.wsu-Checkbox__description) {
+  align-items: flex-start;
+}
+
+.wsu-Checkbox:has(.wsu-Checkbox__description) .wsu-Checkbox__box {
+  margin-top: 0.125rem; /* optical alignment with the label's first line */
+}
+
+.wsu-Checkbox__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1);
+}
+
+.wsu-Checkbox__description {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  user-select: none;
+}
+
+.wsu-CheckboxGroup__label {
+  display: block;
+  margin-bottom: var(--wsu-space-2);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-CheckboxGroup__options {
+  display: flex;
+  gap: var(--wsu-space-3);
+}
+
+.wsu-CheckboxGroup__options--vertical {
+  flex-direction: column;
+}
+
+.wsu-CheckboxGroup__options--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}

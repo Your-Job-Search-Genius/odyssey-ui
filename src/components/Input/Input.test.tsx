@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
@@ -43,7 +43,7 @@ describe("Input", () => {
     const user = userEvent.setup();
     function Controlled() {
       const [value, setValue] = useState("");
-      return <Input label="Email" value={value} onChange={(e) => setValue(e.target.value)} />;
+      return <Input label="Email" value={value} onChange={setValue} />;
     }
     render(<Controlled />);
     const input = screen.getByLabelText("Email") as HTMLInputElement;
@@ -66,9 +66,11 @@ describe("Input", () => {
     expect(document.getElementById(describedBy!)).toHaveTextContent("We'll never share this");
   });
 
-  it("marks required fields with aria-required, not color alone", () => {
-    render(<Input label="Email" required />);
-    expect(screen.getByLabelText(/Email/)).toHaveAttribute("aria-required", "true");
+  it("marks required fields as required, not color alone", () => {
+    // Default `validationBehavior="native"` uses the real `required` attribute (native form
+    // validation) rather than `aria-required` — see react-aria's useTextField.
+    render(<Input label="Email" isRequired />);
+    expect(screen.getByLabelText(/Email/)).toBeRequired();
   });
 
   it("toggles password visibility via a labeled, keyboard-operable button", async () => {
@@ -84,8 +86,23 @@ describe("Input", () => {
   });
 
   it("supports disabling the field", () => {
-    render(<Input label="Email" disabled />);
+    render(<Input label="Email" isDisabled />);
     expect(screen.getByLabelText("Email")).toBeDisabled();
+  });
+
+  it("renders a bare input when unstyled", () => {
+    render(<Input unstyled label="Segment" placeholder="000" aria-label="First segment" />);
+    const input = screen.getByLabelText("First segment");
+    expect(input).toHaveClass("wsu-Input__control", "wsu-Input__control--unstyled");
+    expect(document.querySelector(".wsu-Input")).not.toBeInTheDocument();
+    expect(document.querySelector(".wsu-Input__field")).not.toBeInTheDocument();
+  });
+
+  it("forwards className and style to the bare input when unstyled", () => {
+    render(<Input unstyled label="Segment" className="custom" style={{ flex: 1 }} aria-label="Segment" />);
+    const input = screen.getByLabelText("Segment");
+    expect(input).toHaveClass("wsu-Input__control", "custom");
+    expect(input).toHaveStyle({ flex: "1" });
   });
 
   it("has no axe violations across default, error, disabled, and password variants", async () => {
@@ -93,9 +110,9 @@ describe("Input", () => {
       <div>
         <Input label="Email" helperText="We'll never share this" />
         <Input label="Email" errorMessage="Enter a valid email" />
-        <Input label="Email" disabled />
+        <Input label="Email" isDisabled />
         <Input label="Password" type="password" />
-        <Input label="Email" required />
+        <Input label="Email" isRequired />
       </div>,
     );
     expect(await axe(container)).toHaveNoViolations();

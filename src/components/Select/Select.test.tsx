@@ -59,6 +59,16 @@ describe("Select", () => {
     expect(screen.getByRole("button", { name: /Document type/ })).toBeDisabled();
   });
 
+  it("filters options as the user types when searchable", async () => {
+    const user = userEvent.setup();
+    render(<Select label="Document type" items={items} searchable searchLabel="Search document types" />);
+    await user.click(screen.getByRole("button", { name: /Document type/ }));
+    const search = await screen.findByRole("searchbox", { name: "Search document types" });
+    await user.type(search, "cover");
+    expect(await screen.findByRole("option", { name: "Cover letter" })).toBeInTheDocument();
+    expect(screen.queryByRole("option", { name: "Resume" })).not.toBeInTheDocument();
+  });
+
   it("has no axe violations, closed and open", async () => {
     const user = userEvent.setup();
     const { container } = render(<Select label="Document type" items={items} helperText="Used for the export filename" />);

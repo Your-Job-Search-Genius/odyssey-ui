@@ -5,6 +5,10 @@
   color: var(--wsu-color-text-heading);
 }
 
+.wsu-RadioGroup__required {
+  color: var(--wsu-color-text-danger);
+}
+
 .wsu-RadioGroup__options {
   display: flex;
   gap: var(--wsu-space-3);
@@ -17,6 +21,22 @@
 .wsu-RadioGroup__options--horizontal {
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.wsu-RadioGroup__message {
+  margin-top: var(--wsu-space-2);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-RadioGroup__message--error {
+  color: var(--wsu-color-text-danger);
+}
+
+.wsu-RadioField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1);
 }
 
 /* Same AA-fix rationale as Checkbox.css: border uses text-subtle (Gray/500,
@@ -95,4 +115,15 @@
 
 .wsu-Radio__label {
   user-select: none;
+}
+
+.wsu-Radio__description {
+  margin-left: calc(var(--wsu-icon-size-md) + var(--wsu-space-2));
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  user-select: none;
+}
+
+.wsu-RadioField:has(.wsu-Radio[data-disabled]) .wsu-Radio__description {
+  color: var(--wsu-color-text-disabled);
 }

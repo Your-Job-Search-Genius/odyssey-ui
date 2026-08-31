@@ -15,7 +15,10 @@
   gap: var(--wsu-space-2);
 }
 
-.wsu-OtpInput__box {
+/* Scoped under its parent so this reliably beats Input.css's base
+   `.wsu-Input__control`/`--unstyled` rules (same specificity otherwise,
+   import order not guaranteed). */
+.wsu-OtpInput__boxes .wsu-OtpInput__box {
   width: 2.75rem;
   height: 3rem;
   text-align: center;

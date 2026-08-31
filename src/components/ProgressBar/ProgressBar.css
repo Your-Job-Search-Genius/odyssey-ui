@@ -1,0 +1,74 @@
+/**
+ * No Figma source — assumed. Track/fill geometry mirrors this system's
+ * Meter (fully-rounded pill track, solid fill), reusing the primary brand
+ * color rather than Meter's severity scale since progress toward
+ * completion isn't "good" or "bad" the way a quota level is.
+ */
+.wsu-ProgressBar {
+  display: grid;
+  grid-template-areas:
+    "label value"
+    "track track";
+  grid-template-columns: 1fr auto;
+  column-gap: var(--wsu-space-2);
+  row-gap: var(--wsu-space-1);
+  max-width: 100%;
+  font: var(--wsu-font-body-sm);
+}
+
+.wsu-ProgressBar__label {
+  grid-area: label;
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-ProgressBar__value {
+  grid-area: value;
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-ProgressBar__track {
+  grid-area: track;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--wsu-space-2);
+  border-radius: var(--wsu-radius-full);
+  background-color: var(--wsu-color-border-default);
+  overflow: hidden;
+  forced-color-adjust: none;
+}
+
+.wsu-ProgressBar__fill {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--wsu-color-primary-bg);
+  transition: width var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+
+/* Indeterminate: react-aria-components omits aria-valuenow, which we key
+   off of via the absence of a percentage value at render time (see
+   ProgressBar.tsx) — styled here with a fixed-width fill that sweeps the
+   track instead of a knowable width. */
+.wsu-ProgressBar:not([aria-valuenow]) .wsu-ProgressBar__fill {
+  animation: wsu-progressbar-sweep 1.4s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-ProgressBar:not([aria-valuenow]) .wsu-ProgressBar__fill {
+    animation-duration: 2.8s;
+  }
+}
+
+@keyframes wsu-progressbar-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@media (forced-colors: active) {
+  .wsu-ProgressBar__fill {
+    background-color: Highlight;
+  }
+}

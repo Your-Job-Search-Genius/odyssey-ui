@@ -1,2 +1,26 @@
-export { Table } from "./Table";
-export type { TableProps, TableColumn } from "./Table";
+export {
+  Table,
+  TableContainer,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableLoadMoreItem,
+  Column,
+  Row,
+  Cell,
+  DataTable,
+} from "./Table";
+export type {
+  TableProps,
+  TableContainerProps,
+  TableHeaderProps,
+  TableBodyProps,
+  TableFooterProps,
+  TableLoadMoreItemProps,
+  ColumnProps,
+  RowProps,
+  CellProps,
+  DataTableProps,
+  TableColumn,
+  ColumnSize,
+} from "./Table";

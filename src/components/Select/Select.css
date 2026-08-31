@@ -72,6 +72,25 @@
   transform: rotate(180deg);
 }
 
+/* No Figma source (design-inventory.md §2.14) — the searchable variant's
+   filter field sits inside the same popover as the list it filters, so it
+   drops its own field chrome (border/shadow/background) and takes a rule
+   from the list instead, the same treatment ListBox/GridList's internal
+   search field gets. */
+.wsu-Select__search {
+  padding: var(--wsu-space-2);
+  border-bottom: 1px solid var(--wsu-color-border-default);
+}
+
+.wsu-Select__search .wsu-SearchField__field {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.wsu-Select__search .wsu-SearchField__field:focus-within {
+  box-shadow: none;
+}
+
 .wsu-Select__message {
   font: var(--wsu-font-body-sm);
   color: var(--wsu-color-text-body);

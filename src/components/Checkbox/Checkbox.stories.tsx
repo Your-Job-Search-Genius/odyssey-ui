@@ -11,7 +11,7 @@ const meta: Meta<typeof Checkbox> = {
     docs: {
       description: {
         component:
-          "Built on `react-aria-components`' `Checkbox` — indeterminate state and the hidden-native-input pattern are easy to get subtly wrong by hand. **Use when:** a single independent on/off choice, or one item in a multi-select list. **Don't use when:** only one option in a set may be selected (use Radio) or the choice takes effect immediately without a submit step (consider a Switch instead — not yet in this library). The default unchecked border is intentionally darker than Figma's literal value — see the AA-fix note in Checkbox.css.",
+          "Built on `react-aria-components`' `Checkbox` — indeterminate state and the hidden-native-input pattern are easy to get subtly wrong by hand. **Use when:** a single independent on/off choice, or one item in a multi-select list. **Don't use when:** only one option in a set may be selected (use Radio) or the choice takes effect immediately without a submit step (use Switch instead). The default unchecked border is intentionally darker than Figma's literal value — see the AA-fix note in Checkbox.css.",
       },
     },
   },

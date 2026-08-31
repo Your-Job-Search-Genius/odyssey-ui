@@ -8,9 +8,12 @@ import {
   ListBoxItem,
   Label,
   Text,
+  Autocomplete as AriaAutocomplete,
+  useFilter,
 } from "react-aria-components";
 import type { Key } from "react-aria-components";
-import { ChevronDownGlyph, CheckGlyph } from "../Icon/glyphs";
+import { ArrowDown01SharpIcon, Tick01Icon } from "@your-job-search-genius/icons";
+import { SearchField } from "../SearchField/SearchField";
 import "./popover-menu.css";
 import "./Select.css";
 
@@ -32,6 +35,17 @@ export interface SelectProps {
   required?: boolean;
   helperText?: string;
   errorMessage?: string;
+  /**
+   * Renders a `SearchField` at the top of the popover, wired to
+   * `react-aria-components`' `Autocomplete` so typing filters the option
+   * list in place — this library's own "searchable select" recipe
+   * (docs/design-inventory.md §2.14) for long option lists, not a distinct
+   * Figma component.
+   */
+  searchable?: boolean;
+  /** Accessible name for the search field when `searchable` is set. */
+  searchLabel?: string;
+  searchPlaceholder?: string;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -54,10 +68,29 @@ export function Select({
   required,
   helperText,
   errorMessage,
+  searchable,
+  searchLabel = "Search",
+  searchPlaceholder,
   className,
   style,
 }: SelectProps) {
   const invalid = Boolean(errorMessage);
+  const { contains } = useFilter({ sensitivity: "base" });
+
+  const listbox = (
+    <ListBox items={items} className="wsu-ListBox">
+      {(item) => (
+        <ListBoxItem id={item.id} isDisabled={item.disabled} textValue={String(item.label)} className="wsu-ListBoxItem">
+          {({ isSelected }) => (
+            <>
+              {item.label}
+              {isSelected ? <Tick01Icon size="1.25rem" className="wsu-ListBoxItem__check" /> : null}
+            </>
+          )}
+        </ListBoxItem>
+      )}
+    </ListBox>
+  );
 
   return (
     <AriaSelect
@@ -89,21 +122,17 @@ export function Select({
           Text slot="errorMessage" below). */}
       <AriaButton className="wsu-Select__trigger">
         <SelectValue className="wsu-Select__value">{({ isPlaceholder, selectedText }) => (isPlaceholder ? placeholder : selectedText)}</SelectValue>
-        <ChevronDownGlyph size="sm" className="wsu-Select__chevron" />
+        <ArrowDown01SharpIcon size="1rem" className="wsu-Select__chevron" />
       </AriaButton>
       <Popover className="wsu-Popover">
-        <ListBox items={items} className="wsu-ListBox">
-          {(item) => (
-            <ListBoxItem id={item.id} isDisabled={item.disabled} textValue={String(item.label)} className="wsu-ListBoxItem">
-              {({ isSelected }) => (
-                <>
-                  {item.label}
-                  {isSelected ? <CheckGlyph size="md" className="wsu-ListBoxItem__check" /> : null}
-                </>
-              )}
-            </ListBoxItem>
-          )}
-        </ListBox>
+        {searchable ? (
+          <AriaAutocomplete filter={contains}>
+            <SearchField label={searchLabel} hideLabel placeholder={searchPlaceholder ?? searchLabel} className="wsu-Select__search" />
+            {listbox}
+          </AriaAutocomplete>
+        ) : (
+          listbox
+        )}
       </Popover>
       {invalid ? (
         <Text slot="errorMessage" className="wsu-Select__message wsu-Select__message--error">

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { axe } from "vitest-axe";
 import { BadgeGroup } from "./BadgeGroup";
-import { CheckGlyph } from "../Icon/glyphs";
+import { Tick01Icon } from "@your-job-search-genius/icons";
 
 describe("BadgeGroup", () => {
   it("renders both halves", () => {
@@ -23,7 +23,7 @@ describe("BadgeGroup", () => {
 
   it("hides a decorative icon from assistive tech", () => {
     const { container } = render(
-      <BadgeGroup label="Voice" icon={<CheckGlyph />}>
+      <BadgeGroup label="Voice" icon={<Tick01Icon />}>
         Content
       </BadgeGroup>,
     );
@@ -35,7 +35,7 @@ describe("BadgeGroup", () => {
       <div>
         {(["inline", "stacked"] as const).map((layout) =>
           (["leading", "trailing"] as const).map((pos) => (
-            <BadgeGroup key={`${layout}-${pos}`} layout={layout} badgePosition={pos} label="Voice" icon={<CheckGlyph />}>
+            <BadgeGroup key={`${layout}-${pos}`} layout={layout} badgePosition={pos} label="Voice" icon={<Tick01Icon />}>
               Content
             </BadgeGroup>
           )),

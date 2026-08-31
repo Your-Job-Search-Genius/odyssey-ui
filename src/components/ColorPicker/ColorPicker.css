@@ -1,0 +1,55 @@
+/**
+ * No Figma source (design-inventory.md §2.14) — same rationale as
+ * ColorArea/ColorField. The trigger button chrome is new (not derived from
+ * any other control in this system): a bare, unstyled button carrying a
+ * ColorSwatch preview and a visible label, matching
+ * `react-aria-components`' own vanilla-starter ColorPicker recipe. Popover
+ * content reuses the shared shell (`Select/popover-menu.css`'s
+ * `.wsu-Popover`) and only adds its own padding/layout on top.
+ */
+.wsu-ColorPicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-2); /* 8px */
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+  appearance: none;
+  vertical-align: middle;
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-ColorPicker[data-focus-visible] {
+  outline: 2px solid var(--wsu-color-border-focus);
+  outline-offset: 2px;
+}
+
+/* The `aria-hidden` wrapper around the trigger's swatch (see ColorPicker.tsx)
+   must not introduce its own box in the flex layout — `display: contents`
+   makes the swatch itself the flex item, as if the wrapper weren't there. */
+.wsu-ColorPicker > [aria-hidden="true"] {
+  display: contents;
+}
+
+/* Scoped rather than reusing bare `.wsu-ColorSwatch` (see ColorSwatch.css)
+   so this trigger-sized override can't fight the standalone component's
+   own default sizing depending on stylesheet load order. */
+.wsu-ColorPicker__swatch {
+  flex-shrink: 0;
+  width: 1.5rem; /* 24px */
+  height: 1.5rem;
+}
+
+.wsu-ColorPicker__dialog {
+  padding: var(--wsu-space-3); /* 12px */
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-3);
+  min-width: 12rem; /* 192px */
+  max-height: inherit;
+  overflow: auto;
+}

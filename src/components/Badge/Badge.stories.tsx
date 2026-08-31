@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Badge } from "./Badge";
-import { CheckGlyph } from "../Icon/glyphs";
+import { Tick01Icon } from "@your-job-search-genius/icons";
 
 const SEVERITIES = ["excellent", "good", "fair", "poor", "bad", "fail"] as const;
 
@@ -58,7 +58,7 @@ export const Types: Story = {
 
 export const WithIcon: Story = {
   render: (args) => (
-    <Badge {...args} icon={<CheckGlyph />}>
+    <Badge {...args} icon={<Tick01Icon />}>
       Excellent
     </Badge>
   ),
@@ -141,9 +141,9 @@ export const FigmaMatrix: Story = {
               {(
                 [
                   ["None", {}],
-                  ["Leading icon", { icon: <CheckGlyph /> }],
+                  ["Leading icon", { icon: <Tick01Icon /> }],
                   ["Trailing Icon", { count: 6, countLabel: "6 items" }],
-                  ["Hybrid", { icon: <CheckGlyph />, count: 6, countLabel: "6 items" }],
+                  ["Hybrid", { icon: <Tick01Icon />, count: 6, countLabel: "6 items" }],
                 ] as const
               ).map(([name, props]) => (
                 <tr key={name}>

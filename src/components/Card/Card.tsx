@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { ReactNode, Ref } from "react";
-import { ChevronDownGlyph } from "../Icon/glyphs";
+import { ArrowDown01SharpIcon } from "@your-job-search-genius/icons";
 import "./Card.css";
 
 /**
@@ -109,7 +109,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
     >
       <summary className="wsu-Card__summary">
         {header}
-        <ChevronDownGlyph size="sm" className="wsu-Card__chevron" />
+        <ArrowDown01SharpIcon size="1rem" className="wsu-Card__chevron" />
       </summary>
       <div className="wsu-Card__body">{children}</div>
     </details>

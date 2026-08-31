@@ -2,8 +2,9 @@ import { forwardRef, useId } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
 import { useControllableState } from "../../utils/useControllableState";
 import { AliceIcon } from "./AliceIcon";
-import { CountRing, ChevronGlyph } from "./internals";
+import { CountRing } from "./internals";
 import "./Alice.css";
+import { ArrowDown01SharpIcon } from "@your-job-search-genius/icons";
 
 export interface AliceQuestionCardProps extends Omit<HTMLAttributes<HTMLElement>, "onChange" | "title"> {
   /** The prompt Alice is asking. */
@@ -82,7 +83,7 @@ export const AliceQuestionCard = forwardRef<HTMLElement, AliceQuestionCardProps>
         {answered ? (
           <button type="button" className="wsu-AliceCard__state" onClick={onToggle}>
             Answered
-            <ChevronGlyph />
+            <ArrowDown01SharpIcon size="1.25rem" />
           </button>
         ) : (
           <div className="wsu-AliceCard__nav">

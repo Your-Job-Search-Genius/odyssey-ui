@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { Button } from "./Button";
-import { CheckGlyph, ChevronRightGlyph, CloseGlyph } from "../Icon/glyphs";
+import { Tick01Icon, ArrowRight01SharpIcon, MultiplicationSignIcon } from "@your-job-search-genius/icons";
 
 const meta: Meta<typeof Button> = {
   title: "Figma Components/Primitives/Button",
@@ -58,9 +58,9 @@ export const Sizes: Story = {
 export const WithIcons: Story = {
   render: (args) => (
     <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-      <Button {...args} leadingIcon={<CheckGlyph />}>Leading icon</Button>
-      <Button {...args} trailingIcon={<ChevronRightGlyph />}>Trailing icon</Button>
-      <Button {...args} leadingIcon={<CloseGlyph />} aria-label="Close" />
+      <Button {...args} leadingIcon={<Tick01Icon />}>Leading icon</Button>
+      <Button {...args} trailingIcon={<ArrowRight01SharpIcon />}>Trailing icon</Button>
+      <Button {...args} leadingIcon={<MultiplicationSignIcon />} aria-label="Close" />
     </div>
   ),
 };
@@ -169,12 +169,12 @@ export const FigmaMatrix: Story = {
                       </div>
                     </td>
                     <td style={td}>
-                      <Button variant={variant} size={size} leadingIcon={<CheckGlyph />}>
+                      <Button variant={variant} size={size} leadingIcon={<Tick01Icon />}>
                         {label[variant]}
                       </Button>
                     </td>
                     <td style={td}>
-                      <Button variant={variant} size={size} trailingIcon={<ChevronRightGlyph />}>
+                      <Button variant={variant} size={size} trailingIcon={<ArrowRight01SharpIcon />}>
                         {label[variant]}
                       </Button>
                     </td>
@@ -184,7 +184,7 @@ export const FigmaMatrix: Story = {
                       </Button>
                     </td>
                     <td style={td}>
-                      <Button variant={variant} size={size} leadingIcon={<CloseGlyph />} aria-label="Close" />
+                      <Button variant={variant} size={size} leadingIcon={<MultiplicationSignIcon />} aria-label="Close" />
                     </td>
                     <td style={td}>
                       <Button variant={variant} size={size} disabled>

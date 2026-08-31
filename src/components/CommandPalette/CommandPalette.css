@@ -1,0 +1,98 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Overlay mechanics (scrim
+ * colour/blur, portal box-sizing reset) are Modal's own audited values
+ * (Modal.css, node 433:9608) reused verbatim since this is the same kind
+ * of overlay; the frame itself is this library's own — a command palette
+ * carries no title/header/footer, so it doesn't reuse `.wsu-Modal`'s panel
+ * chrome, only its overlay layer.
+ */
+.wsu-CommandPalette__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--wsu-z-overlay);
+  background-color: rgba(78, 78, 78, 0.76);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--wsu-space-4);
+  padding-top: 12vh;
+}
+
+.wsu-CommandPalette__overlay[data-entering] {
+  animation: wsu-command-palette-overlay-in var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+.wsu-CommandPalette__overlay[data-exiting] {
+  animation: wsu-command-palette-overlay-out var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+@keyframes wsu-command-palette-overlay-in {
+  from { opacity: 0; }
+}
+@keyframes wsu-command-palette-overlay-out {
+  to { opacity: 0; }
+}
+
+.wsu-CommandPalette__overlay,
+.wsu-CommandPalette__overlay *,
+.wsu-CommandPalette__overlay *::before,
+.wsu-CommandPalette__overlay *::after {
+  box-sizing: border-box;
+}
+
+.wsu-CommandPalette {
+  z-index: var(--wsu-z-modal);
+  width: min(90vw, 32rem); /* 512px */
+  max-height: min(70vh, 28rem); /* 448px */
+  display: flex;
+  background-color: var(--wsu-color-surface-default);
+  border-radius: var(--wsu-radius-md);
+  box-shadow: var(--wsu-shadow-xl);
+  overflow: hidden;
+}
+
+.wsu-CommandPalette[data-entering] {
+  animation: wsu-command-palette-in var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+.wsu-CommandPalette[data-exiting] {
+  animation: wsu-command-palette-out var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+@keyframes wsu-command-palette-in {
+  from { opacity: 0; transform: scale(0.98) translateY(-4px); }
+}
+@keyframes wsu-command-palette-out {
+  to { opacity: 0; transform: scale(0.98) translateY(-4px); }
+}
+
+.wsu-CommandPalette__dialog {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  padding: var(--wsu-space-2);
+  gap: var(--wsu-space-2);
+  outline: none;
+}
+
+.wsu-CommandPalette__search {
+  padding-inline: var(--wsu-space-1);
+  padding-top: var(--wsu-space-1);
+}
+
+.wsu-CommandPalette__search .wsu-SearchField__field {
+  box-shadow: none;
+  background-color: transparent;
+  padding-inline: var(--wsu-space-1);
+}
+
+.wsu-CommandPalette__search .wsu-SearchField__field:focus-within {
+  box-shadow: none;
+}
+
+.wsu-CommandPalette__menu {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  border-top: 1px solid var(--wsu-color-border-default);
+  border-radius: 0;
+  padding-top: var(--wsu-space-2);
+}

@@ -1,0 +1,128 @@
+/**
+ * Every overlay in this library renders through a React Aria portal, i.e.
+ * as a child of `document.body` and *outside* the `.wsu-theme-root` element
+ * that reset.css scopes itself to — so the global `box-sizing: border-box`
+ * never reaches it. See Modal.css / Tooltip.css for the same note.
+ */
+.wsu-ToastRegion,
+.wsu-ToastRegion *,
+.wsu-ToastRegion *::before,
+.wsu-ToastRegion *::after {
+  box-sizing: border-box;
+}
+
+/**
+ * `inset-inline-end`/`inset-block-end` (rather than `right`/`bottom`) so the
+ * stack sits in the trailing corner in both LTR and RTL — react-aria-
+ * components already sets `dir` on this element from the ambient locale.
+ */
+.wsu-ToastRegion {
+  position: fixed;
+  inset-block-end: var(--wsu-space-4);
+  inset-inline-end: var(--wsu-space-4);
+  z-index: var(--wsu-z-toast);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--wsu-space-2);
+  max-width: calc(100vw - 2 * var(--wsu-space-4));
+  outline: none;
+}
+
+.wsu-Toast {
+  width: 22rem;
+  max-width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--wsu-space-3);
+  background-color: var(--wsu-color-surface-inverse);
+  color: var(--wsu-color-text-on-inverse);
+  padding: var(--wsu-space-3) var(--wsu-space-4);
+  border-radius: var(--wsu-radius-md);
+  box-shadow: var(--wsu-shadow-lg);
+  outline: none;
+  forced-color-adjust: none;
+  view-transition-class: wsu-toast;
+}
+
+.wsu-Toast[data-focus-visible] {
+  outline: 2px solid var(--wsu-color-text-on-inverse);
+  outline-offset: 2px;
+}
+
+.wsu-Toast__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 0.125rem; /* 2px */
+}
+
+.wsu-Toast__title {
+  font: var(--wsu-font-body-sm-semibold);
+}
+
+.wsu-Toast__description {
+  font: var(--wsu-font-body-sm);
+  opacity: 0.85;
+}
+
+/**
+ * The glyph stays 16px, but the hit target grows to the 28px floor Modal's
+ * close control also uses (WCAG 2.5.8); the negative margin pulls that
+ * larger box back so the glyph still lines up with the title above it.
+ */
+.wsu-Toast__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem; /* 28px */
+  height: 1.75rem;
+  margin: -0.1875rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--wsu-radius-sm);
+  background: transparent;
+  color: var(--wsu-color-text-on-inverse);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-Toast__close[data-hovered] {
+  background: rgba(255, 255, 255, 0.1);
+}
+.wsu-Toast__close[data-pressed] {
+  background: rgba(255, 255, 255, 0.15);
+}
+.wsu-Toast__close[data-focus-visible] {
+  outline: 2px solid var(--wsu-color-text-on-inverse);
+  outline-offset: 2px;
+}
+
+/**
+ * `react-aria-components`' Toast has no `[data-entering]`/`[data-exiting]`
+ * hold-open state the way ModalOverlay/Tooltip's overlays do — it drops out
+ * of `visibleToasts` immediately on close. Toast.tsx's `wrapUpdate` instead
+ * wraps every queue change in `document.startViewTransition`, and these
+ * rules animate the resulting `::view-transition-old/new` pseudo-elements.
+ * `--wsu-motion-slow` is 0ms under `prefers-reduced-motion: reduce`
+ * (tokens.css), which collapses this to an instant swap — WCAG 2.3.3.
+ */
+::view-transition-new(.wsu-toast):only-child {
+  animation: wsu-toast-slide-in var(--wsu-motion-slow) var(--wsu-motion-easing);
+}
+::view-transition-old(.wsu-toast):only-child {
+  animation: wsu-toast-slide-out var(--wsu-motion-slow) var(--wsu-motion-easing) forwards;
+}
+@keyframes wsu-toast-slide-out {
+  to {
+    translate: 100% 0;
+    opacity: 0;
+  }
+}
+@keyframes wsu-toast-slide-in {
+  from {
+    translate: 100% 0;
+    opacity: 0;
+  }
+}

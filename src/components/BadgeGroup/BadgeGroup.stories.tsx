@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { BadgeGroup } from "./BadgeGroup";
-import { CheckGlyph } from "../Icon/glyphs";
+import { Tick01Icon } from "@your-job-search-genius/icons";
 
 const meta: Meta<typeof BadgeGroup> = {
   title: "Figma Components/Primitives/BadgeGroup",
@@ -55,10 +55,10 @@ export const FigmaMatrix: Story = {
             <tr key={layout}>
               <td style={{ ...td, ...th }}>{layout}</td>
               <td style={td}>
-                <BadgeGroup {...args} layout={layout} badgePosition="trailing" icon={<CheckGlyph />} />
+                <BadgeGroup {...args} layout={layout} badgePosition="trailing" icon={<Tick01Icon />} />
               </td>
               <td style={td}>
-                <BadgeGroup {...args} layout={layout} badgePosition="leading" icon={<CheckGlyph />} />
+                <BadgeGroup {...args} layout={layout} badgePosition="leading" icon={<Tick01Icon />} />
               </td>
               <td style={td}>
                 <BadgeGroup {...args} layout={layout} badgePosition="trailing" />
@@ -78,10 +78,10 @@ export const FigmaMatrix: Story = {
 export const ContentTypes: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
-      <BadgeGroup label="Voice" icon={<CheckGlyph />}>
+      <BadgeGroup label="Voice" icon={<Tick01Icon />}>
         “I’m just a guy who loves tech 🚀”
       </BadgeGroup>
-      <BadgeGroup label="4.8" icon={<CheckGlyph />}>
+      <BadgeGroup label="4.8" icon={<Tick01Icon />}>
         Rating
       </BadgeGroup>
       <BadgeGroup label="New" badgePosition="leading">

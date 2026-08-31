@@ -1,0 +1,62 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Reuses `Calendar`'s grid/
+ * cell/nav rules wholesale (imported below) — a range picker is the same
+ * visual grammar as a single-date one until two dates are selected. The
+ * only new rules here are the range-selection ones: `CalendarGrid` renders
+ * a `table-layout: fixed` grid whose day cells are exactly as wide as their
+ * `<td>` (Calendar.css sizes `.wsu-Calendar__month` to 7 * 2.5rem cells), so
+ * adjacent cells sit flush with zero gap — a flat, square-edged background
+ * on `data-selected` cells therefore reads as one continuous bar without
+ * needing an absolutely-positioned overlay. Only the start/end cells keep
+ * the pill shape (and the primary-color fill); everything between is a flat
+ * bar in `secondary-bg-hover`, the same light-fill token `Calendar`'s own
+ * hover state and `Menu`'s row-hover state already use, rather than
+ * inventing a new tint.
+ */
+@import "../Calendar/Calendar.css";
+
+.wsu-RangeCalendarCell[data-selected] {
+  border-radius: 0;
+  margin-inline: 0;
+  background-color: var(--wsu-color-secondary-bg-hover);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-RangeCalendarCell[data-selected][data-selection-start] {
+  border-start-start-radius: var(--wsu-radius-full);
+  border-end-start-radius: var(--wsu-radius-full);
+}
+
+.wsu-RangeCalendarCell[data-selected][data-selection-end] {
+  border-start-end-radius: var(--wsu-radius-full);
+  border-end-end-radius: var(--wsu-radius-full);
+}
+
+/* A single-day selection (anchor just placed, not yet extended) carries both
+   data-selection-start and data-selection-end on the same cell — the two
+   rules above already combine into a full pill in that case. */
+.wsu-RangeCalendarCell[data-selected][data-selection-start],
+.wsu-RangeCalendarCell[data-selected][data-selection-end] {
+  background-color: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-RangeCalendarCell[data-selected][data-invalid] {
+  background-color: var(--wsu-color-danger-bg);
+}
+
+.wsu-RangeCalendarCell[data-selected][data-outside-month] {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-RangeCalendarCell[data-selected][data-selection-start][data-outside-month],
+.wsu-RangeCalendarCell[data-selected][data-selection-end][data-outside-month] {
+  color: var(--wsu-color-text-on-primary);
+}
+
+/* The flat bar sits behind the focus ring/hover states Calendar.css already
+   defines for `data-focus-visible`/`data-hovered` — reasserted here only
+   where the range fill would otherwise win the cascade by appearing later. */
+.wsu-RangeCalendarCell[data-selected][data-hovered]:not([data-selection-start]):not([data-selection-end]) {
+  background-color: var(--wsu-color-border-subtle);
+}

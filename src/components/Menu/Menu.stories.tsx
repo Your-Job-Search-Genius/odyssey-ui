@@ -5,16 +5,16 @@ import type { Selection } from "react-aria-components";
 import { Menu, MenuHeader } from ".";
 import { Button } from "../Button";
 import {
-  BriefcaseGlyph,
-  EditGlyph,
-  EyeGlyph,
-  FileStarGlyph,
-  FileUploadGlyph,
-  PlusGlyph,
-  RepeatGlyph,
-  SearchListGlyph,
-  TrashGlyph,
-} from "../Icon/glyphs";
+  Briefcase01Icon,
+  PencilIcon,
+  EyeIcon,
+  FileStarIcon,
+  FileUploadIcon,
+  PlusSignIcon,
+  RepeatIcon,
+  SearchList01Icon,
+  Delete02Icon,
+} from "@your-job-search-genius/icons";
 
 const meta: Meta<typeof Menu> = {
   title: "Figma Components/Composites/Menu",
@@ -39,11 +39,11 @@ type Story = StoryObj<typeof Menu>;
 
 /** The five rows of the Default menu, node 433:9130. */
 const resumeItems = [
-  { id: "default", label: "Make Default Resume", icon: <FileStarGlyph /> },
-  { id: "review", label: "Review against a job", icon: <SearchListGlyph /> },
-  { id: "edit", label: "Edit", icon: <EditGlyph /> },
-  { id: "reanalyze", label: "Re-Analyze", icon: <RepeatGlyph /> },
-  { id: "delete", label: "Delete", icon: <TrashGlyph />, danger: true },
+  { id: "default", label: "Make Default Resume", icon: <FileStarIcon /> },
+  { id: "review", label: "Review against a job", icon: <SearchList01Icon /> },
+  { id: "edit", label: "Edit", icon: <PencilIcon /> },
+  { id: "reanalyze", label: "Re-Analyze", icon: <RepeatIcon /> },
+  { id: "delete", label: "Delete", icon: <Delete02Icon />, danger: true },
 ];
 
 /**
@@ -55,7 +55,7 @@ const resumeItems = [
 function JobLogo() {
   return (
     <span className="wsu-MenuItem__logo" aria-hidden="true">
-      <BriefcaseGlyph />
+      <Briefcase01Icon />
     </span>
   );
 }
@@ -102,13 +102,13 @@ export const FigmaVariant3: Story = {
           id: "upload",
           label: "Upload Existing Resume",
           description: "Upload your resume here to enhance and polish it.",
-          icon: <FileUploadGlyph />,
+          icon: <FileUploadIcon />,
         },
         {
           id: "scratch",
           label: "Start From Scratch",
           description: "Upload your resume here to enhance and polish it.",
-          icon: <FileUploadGlyph />,
+          icon: <FileUploadIcon />,
         },
       ]}
     />
@@ -168,8 +168,8 @@ export const FigmaCardMenu: Story = {
         selectedKeys={selected}
         onSelectionChange={setSelected}
         items={[
-          { id: "card-1", label: "Title Header", description: "Description", icon: <SearchListGlyph /> },
-          { id: "card-2", label: "Title Header", description: "Description", icon: <SearchListGlyph /> },
+          { id: "card-1", label: "Title Header", description: "Description", icon: <SearchList01Icon /> },
+          { id: "card-2", label: "Title Header", description: "Description", icon: <SearchList01Icon /> },
         ]}
       />
     );
@@ -191,9 +191,9 @@ export const FigmaDropdownActionsItem: Story = {
           id: "add",
           label: "Title Header",
           description: "Description",
-          icon: <SearchListGlyph />,
+          icon: <SearchList01Icon />,
           actions: (
-            <Button variant="secondary" size="sm" leadingIcon={<PlusGlyph />}>
+            <Button variant="secondary" size="sm" leadingIcon={<PlusSignIcon />}>
               Button
             </Button>
           ),
@@ -222,10 +222,10 @@ export const FigmaJobWithActions: Story = {
           content: jobContent(),
           actions: (
             <span className="wsu-MenuItem__actions">
-              <Button variant="secondary" size="sm" leadingIcon={<EyeGlyph />}>
+              <Button variant="secondary" size="sm" leadingIcon={<EyeIcon />}>
                 View
               </Button>
-              <TrashGlyph size="md" />
+              <Delete02Icon size="1.25rem" />
             </span>
           ),
         },
@@ -256,6 +256,19 @@ export const Placements: Story = {
       ))}
     </div>
   ),
+};
+
+export const Searchable: Story = {
+  name: "Searchable (filterable via Autocomplete, designed, not in Figma)",
+  render: () => <Menu trigger={<Button variant="secondary">Resume actions</Button>} items={resumeItems} searchable searchLabel="Search actions" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Resume actions" }));
+    const search = await canvas.findByRole("searchbox", { name: "Search actions" });
+    await userEvent.type(search, "delete");
+    await expect(canvas.getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
+    await expect(canvas.queryByRole("menuitem", { name: "Edit" })).not.toBeInTheDocument();
+  },
 };
 
 export const KeyboardInteraction: Story = {

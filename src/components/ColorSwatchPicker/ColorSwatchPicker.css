@@ -1,0 +1,45 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Item geometry (radius,
+ * ring inset) matches `ColorSwatch.css`'s own radius/size exactly, since
+ * `ColorSwatchPickerItem` renders a `ColorSwatch` as its only child.
+ */
+.wsu-ColorSwatchPicker {
+  display: flex;
+  gap: var(--wsu-space-2);
+  flex-wrap: wrap;
+}
+
+.wsu-ColorSwatchPicker[data-layout="stack"] {
+  flex-direction: column;
+}
+
+.wsu-ColorSwatchPickerItem {
+  position: relative;
+  width: fit-content;
+  border-radius: var(--wsu-radius-sm);
+  outline: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-ColorSwatchPickerItem[data-focus-visible] {
+  outline: 2px solid var(--wsu-color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Two-tone ring (dark, then a light inset gap) so the selected indicator
+   stays visible against a swatch of any color — a single-tone ring can't. */
+.wsu-ColorSwatchPickerItem[data-selected]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--wsu-color-icon-default);
+  outline: 2px solid var(--wsu-color-surface-default);
+  outline-offset: -4px;
+}
+
+.wsu-ColorSwatchPickerItem[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}

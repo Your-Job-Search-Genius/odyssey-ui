@@ -114,6 +114,35 @@
   padding-top: 0.4375rem; /* 7px — the rule already supplied the 10px above it */
 }
 
+/* No Figma source (design-inventory.md §2.14) — the searchable Menu variant's
+   filter field sits inside the same popover as the list it filters, so it
+   drops its own field chrome, matching Select's searchable variant. */
+.wsu-Menu__search {
+  padding: var(--wsu-space-2);
+  border-bottom: 1px solid var(--wsu-color-border-default);
+}
+
+.wsu-Menu__search .wsu-SearchField__field {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.wsu-Menu__search .wsu-SearchField__field:focus-within {
+  box-shadow: none;
+}
+
+/* react-aria-components renders `renderEmptyState`'s content in an unclassed
+   node, so without this it falls through to the browser's serif UA default
+   instead of the design system's font. */
+.wsu-Menu__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--wsu-space-4);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+}
+
 .wsu-ListBoxItem,
 .wsu-MenuItem {
   display: flex;
@@ -163,7 +192,11 @@
 .wsu-ListBoxItem[data-hovered],
 .wsu-MenuItem[data-hovered],
 .wsu-ListBoxItem[data-focused],
-.wsu-MenuItem[data-focused] {
+.wsu-MenuItem[data-focused],
+/* Set manually (not by react-aria-components) by consumers driving a
+   virtual, aria-activedescendant-based highlight from outside the
+   collection — e.g. the inline @mentions recipe's textarea keydown handler. */
+.wsu-MenuItem[data-highlighted] {
   background-color: var(--wsu-color-secondary-bg-hover); /* #f6f6f6 */
 }
 

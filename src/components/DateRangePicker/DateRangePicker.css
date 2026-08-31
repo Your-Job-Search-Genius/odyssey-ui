@@ -1,0 +1,163 @@
+/**
+ * No Figma source (design-inventory.md §2.14). The field box is
+ * `DatePicker.css`'s group verbatim (10px radius, inset 1px stroke, 44px
+ * row, ComboBox-style 32px trigger) so a DateRangePicker drops into the
+ * same forms without looking like a foreign control — the only addition is
+ * the inner `__fields` row that packs two segmented `DateInput`s and a dash
+ * separator into the same field box, matching this system's own vanilla
+ * two-DateInput layout rather than a Figma-sourced one.
+ */
+.wsu-DateRangePicker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem; /* 6px, as DatePicker */
+  width: fit-content;
+  max-width: 100%;
+}
+
+.wsu-DateRangePicker__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subheading);
+  transition: color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-DateRangePicker:focus-within .wsu-DateRangePicker__label {
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-DateRangePicker__group {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 2.75rem; /* 44px */
+  min-width: 13.75rem; /* 220px — room for two date fields plus the dash */
+  max-width: 100%;
+  background-color: var(--wsu-color-field-bg);
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border);
+  border-radius: 0.625rem; /* 10px */
+  transition: box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-DateRangePicker__group[data-focus-within] {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-focus), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-DateRangePicker[data-invalid] .wsu-DateRangePicker__group {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger);
+}
+
+.wsu-DateRangePicker[data-invalid] .wsu-DateRangePicker__group[data-focus-within] {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-DateRangePicker[data-disabled] .wsu-DateRangePicker__group {
+  background-color: var(--wsu-color-field-bg-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-DateRangePicker__fields {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding-inline-start: 0.8125rem; /* 13px, as DatePicker's field padding */
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: clip;
+  scrollbar-width: none;
+  cursor: text;
+}
+
+.wsu-DateRangePicker__field {
+  font: var(--wsu-font-body-md);
+}
+
+.wsu-DateRangePicker__dash {
+  padding-inline: 0.25rem; /* 4px */
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-DateRangePicker__segment {
+  padding: 0.125rem;
+  border-radius: var(--wsu-radius-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  color: var(--wsu-color-text-heading);
+  outline: none;
+  caret-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-DateRangePicker__segment[data-type="literal"] {
+  padding: 0;
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-DateRangePicker__segment[data-placeholder] {
+  color: var(--wsu-color-field-placeholder);
+}
+
+.wsu-DateRangePicker__segment[data-focused] {
+  background-color: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-DateRangePicker__segment[data-invalid] {
+  color: var(--wsu-color-text-danger);
+}
+
+.wsu-DateRangePicker__segment[data-invalid][data-focused] {
+  background-color: var(--wsu-color-danger-bg);
+  color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-DateRangePicker__segment[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-DateRangePicker__trigger {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem; /* 32px, as DatePicker's toggle */
+  align-self: stretch;
+  margin-right: 0.25rem; /* 4px, keeps the icon off the group's rounded edge */
+  border: none;
+  border-radius: var(--wsu-radius-sm);
+  background: transparent;
+  color: var(--wsu-color-text-subtle);
+  cursor: pointer;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-DateRangePicker__trigger[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-DateRangePicker__trigger[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-DateRangePicker__trigger[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-DateRangePicker__popover {
+  padding: var(--wsu-space-2);
+}
+
+.wsu-DateRangePicker__message {
+  margin: 0;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-DateRangePicker__message--error {
+  color: var(--wsu-color-text-danger);
+}

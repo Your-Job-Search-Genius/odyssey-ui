@@ -1,0 +1,59 @@
+/**
+ * No Figma source — assumed. Radius/stroke geometry and the -90deg start
+ * rotation (12 o'clock, matching this system's Spinner) follow React
+ * Aria's own ProgressCircle reference example.
+ */
+.wsu-ProgressCircle {
+  display: inline-block;
+  box-sizing: border-box;
+  forced-color-adjust: none;
+}
+
+.wsu-ProgressCircle__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.wsu-ProgressCircle__track {
+  stroke: var(--wsu-color-border-default);
+}
+
+.wsu-ProgressCircle__fill {
+  stroke: var(--wsu-color-primary-bg);
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+
+.wsu-ProgressCircle:not([aria-valuenow]) .wsu-ProgressCircle__svg {
+  animation: wsu-progresscircle-spin 0.9s linear infinite;
+}
+
+.wsu-ProgressCircle:not([aria-valuenow]) .wsu-ProgressCircle__fill {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-ProgressCircle:not([aria-valuenow]) .wsu-ProgressCircle__svg {
+    animation-duration: 1.8s;
+  }
+}
+
+@keyframes wsu-progresscircle-spin {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
+}
+
+@media (forced-colors: active) {
+  .wsu-ProgressCircle__track {
+    stroke: GrayText;
+  }
+
+  .wsu-ProgressCircle__fill {
+    stroke: Highlight;
+  }
+}

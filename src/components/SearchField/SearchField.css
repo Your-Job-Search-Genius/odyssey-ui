@@ -1,0 +1,129 @@
+/**
+ * No Figma source (design-inventory.md §2.14) — field box matches Input's
+ * audited measurements (Input.css, itself off node 433:10223) exactly: a
+ * 44px row from 10px block padding, 10px radius, and the 1px stroke drawn
+ * as an inset shadow rather than a real border, for the same reason Input's
+ * is — a real border would make the row 46px against the matching field's
+ * 44px.
+ */
+.wsu-SearchField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem; /* 6px */
+  width: 100%;
+}
+
+.wsu-SearchField__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subheading);
+  transition: color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-SearchField:focus-within .wsu-SearchField__label {
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-SearchField__field {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem; /* 10px */
+  background-color: var(--wsu-color-field-bg);
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border);
+  border-radius: 0.625rem; /* 10px */
+  padding-inline: 0.8125rem; /* 13px */
+  padding-block: 0.625rem; /* 10px */
+  transition: box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-SearchField__field:focus-within {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-focus), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-SearchField[data-invalid] .wsu-SearchField__field {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger);
+}
+
+.wsu-SearchField[data-invalid] .wsu-SearchField__field:focus-within {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-SearchField[data-disabled] .wsu-SearchField__field {
+  background-color: var(--wsu-color-field-bg-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-SearchField__icon {
+  flex-shrink: 0;
+  color: var(--wsu-color-text-subtle);
+}
+
+.wsu-SearchField__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.wsu-SearchField__input::placeholder {
+  color: var(--wsu-color-field-placeholder);
+}
+
+/* type="search" (react-aria's useSearchField default) makes Chromium/WebKit
+   draw their own native cancel/decoration icons inside the input, stacking a
+   second "clear" affordance on top of .wsu-SearchField__clear below. */
+.wsu-SearchField__input::-webkit-search-cancel-button,
+.wsu-SearchField__input::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+}
+
+/* react-aria-components' SearchField root carries its own `data-empty` state
+   (verified in the DOM); the clear button has no `hidden` attribute of its
+   own, so this is the hook that keeps it out of view — and out of the tab
+   order via visibility, not display, so its focus-visible ring animation
+   doesn't jump — until there's something to clear. */
+.wsu-SearchField[data-empty] .wsu-SearchField__clear {
+  visibility: hidden;
+}
+
+.wsu-SearchField__clear {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--wsu-color-text-subtle);
+  cursor: pointer;
+  border-radius: var(--wsu-radius-xs);
+}
+
+.wsu-SearchField__clear:hover {
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-SearchField__clear:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-SearchField__message {
+  margin: 0;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-SearchField__message--error {
+  color: var(--wsu-color-text-danger);
+}

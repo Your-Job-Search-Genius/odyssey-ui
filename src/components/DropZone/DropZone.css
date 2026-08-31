@@ -1,0 +1,35 @@
+.wsu-DropZone {
+  /* Declared locally, not left to reset.css: that reset is scoped to
+     `.wsu-theme-root`, so a consumer who imports only the tokens would
+     otherwise get this box in content-box and the border added on top of
+     its size. */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--wsu-space-2);
+  min-height: 6rem;
+  padding: var(--wsu-space-6) var(--wsu-space-4);
+  border: 1px dashed var(--wsu-color-border-focus);
+  border-radius: var(--wsu-radius-md);
+  background-color: var(--wsu-color-surface-subtle);
+  color: var(--wsu-color-text-subtle);
+  font: var(--wsu-font-body-sm);
+  outline: none;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-DropZone[data-drop-target] {
+  background-color: var(--wsu-color-surface-accent);
+}
+
+.wsu-DropZone[data-focus-visible],
+.wsu-DropZone[data-drop-target] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-DropZone[data-disabled] {
+  opacity: 0.6;
+}

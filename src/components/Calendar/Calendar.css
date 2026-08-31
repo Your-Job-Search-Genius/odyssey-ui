@@ -1,0 +1,152 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Token usage mirrors Select's
+ * field/invalid conventions (focus ring, danger color) and GridList's row
+ * spacing scale. Cell sizing uses a fixed 7-column layout (CalendarGrid
+ * renders a native <table>) rather than container-query units, matching
+ * the rest of this system's CSS.
+ */
+.wsu-Calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-2);
+  width: fit-content;
+  max-width: 100%;
+  color: var(--wsu-color-text-body);
+  font: var(--wsu-font-body-md);
+}
+
+.wsu-Calendar__months {
+  display: flex;
+  gap: var(--wsu-space-4);
+}
+
+.wsu-Calendar__month {
+  width: 17.5rem; /* 7 columns * 2.5rem cell + gaps/padding */
+}
+
+.wsu-Calendar__header {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-1);
+  margin-bottom: var(--wsu-space-2);
+  min-height: 2rem;
+}
+
+.wsu-Calendar__heading {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font: var(--wsu-font-body-md-semibold);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-Calendar__nav,
+.wsu-Calendar__navPlaceholder {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+}
+
+.wsu-Calendar__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  border-radius: var(--wsu-radius-sm);
+  color: var(--wsu-color-text-subtle);
+  cursor: pointer;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Calendar__nav[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-Calendar__nav[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Calendar__nav[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-CalendarGrid {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.wsu-CalendarHeaderCell {
+  padding-block: var(--wsu-space-1);
+  font: var(--wsu-font-body-sm-semibold);
+  color: var(--wsu-color-text-subtle);
+  text-align: center;
+}
+
+.wsu-CalendarCell {
+  box-sizing: border-box;
+  width: 2.5rem; /* 40px */
+  height: 2.5rem;
+  margin: 0.125rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--wsu-radius-full);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-CalendarCell[data-outside-month] {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-CalendarCell[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-CalendarCell[data-pressed] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-CalendarCell[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-CalendarCell[data-selected] {
+  background-color: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-CalendarCell[data-selected][data-invalid] {
+  background-color: var(--wsu-color-danger-bg);
+}
+
+.wsu-CalendarCell[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-CalendarCell[data-unavailable] {
+  color: var(--wsu-color-text-danger);
+  text-decoration: line-through;
+}
+
+.wsu-CalendarCell[data-today]:not([data-selected]) {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-border-default);
+}
+
+.wsu-Calendar__message {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-Calendar__message--error {
+  color: var(--wsu-color-text-danger);
+}

@@ -1,0 +1,51 @@
+/**
+ * Reuses `.wsu-Popover`'s shared chrome from Select/popover-menu.css
+ * (background, border, radius, shadow, z-index, entering/exiting
+ * animation, and the portal box-sizing reset) — the same primitive that
+ * already backs Select, ComboBox and Menu (docs/design-inventory.md §5).
+ * This file adds only what's new for a popover carrying arbitrary content
+ * instead of a list: padding, an optional pointer arrow, and
+ * placement-based spacing for that arrow.
+ */
+.wsu-Popover--content {
+  padding: var(--wsu-space-4); /* 16px */
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-body);
+  /* The base rule sets `min-width: var(--trigger-width)` for Select's
+     match-the-field-width behavior; a content popover has no trigger to
+     match, so drop back to the box's natural width. */
+  min-width: 0;
+}
+
+.wsu-Popover__arrow svg {
+  display: block;
+  fill: var(--wsu-color-surface-default);
+  stroke: var(--wsu-color-border-default);
+  stroke-width: 2px;
+  paint-order: stroke;
+}
+
+.wsu-Popover--content[data-placement="top"]:has(.wsu-Popover__arrow) {
+  margin-bottom: 0.375rem; /* 6px */
+}
+
+.wsu-Popover--content[data-placement="bottom"]:has(.wsu-Popover__arrow) {
+  margin-top: 0.375rem;
+}
+.wsu-Popover--content[data-placement="bottom"] .wsu-Popover__arrow svg {
+  transform: rotate(180deg);
+}
+
+.wsu-Popover--content[data-placement="left"]:has(.wsu-Popover__arrow) {
+  margin-right: 0.375rem;
+}
+.wsu-Popover--content[data-placement="left"] .wsu-Popover__arrow svg {
+  transform: rotate(-90deg);
+}
+
+.wsu-Popover--content[data-placement="right"]:has(.wsu-Popover__arrow) {
+  margin-left: 0.375rem;
+}
+.wsu-Popover--content[data-placement="right"] .wsu-Popover__arrow svg {
+  transform: rotate(90deg);
+}

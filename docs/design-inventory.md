@@ -364,8 +364,8 @@ buttons in the other order, expressed by the order the children are passed rathe
 - The description was `text-body`; the file's is `text-subheading` (#414651).
 - The header text column gapped 4px; the file's is 2px.
 - The header row top-aligned always; the file centers except in "With Description".
-- The close control was a `CloseGlyph` in a text Button; the file's is the filled
-  `multiplication-sign-square`, now `CloseSquareGlyph`.
+- The close control was a `MultiplicationSignIcon` in a text Button; the file's is the filled
+  `multiplication-sign-square`, now `MultiplicationSignSquareSolidIcon`.
 
 **New tokens** — `--wsu-font-body-sm-semibold`, the file's named "Body/Small-Semibold" (14/20 at
 weight 600), which was missing from the type scale extracted from the Typography page.
@@ -427,15 +427,10 @@ for the expand/collapse affordance depending on final interaction design
   border-radius corner rather than an SVG.
 - Icons: every top-level item has one in Figma (18×18px — a size that doesn't land on the
   shared icon-size token scale, given its own component-local `--wsu-sidebar-icon-size` token
-  rather than force-fit onto 16/20px). **The glyphs themselves could not be extracted**: Figma's
-  vector asset host (`www.figma.com`, used by the MCP server's SVG export) is blocked by this
-  environment's egress policy — confirmed via repeated, consistent 403s at the proxy level, not
-  a transient failure. Shipped hand-authored stand-in glyphs instead (`src/components/Icon/
-  glyphs.tsx`, "Sidebar nav glyphs" section) matching each item's icon *identity* (confirmed by
-  name for 3 of them via Figma's own component descriptions: home-01/"house" for Dashboard,
-  invoice-03/"bill" for Offer Negotiation, help-circle and notification-02 for the two utility
-  items) — not pixel-exact vector data. Swap the `icon` prop for real exports once the asset
-  host is reachable, or a designer exports them directly; the component itself is icon-agnostic.
+  rather than force-fit onto 16/20px). Nav items now use real icons from
+  `@your-job-search-genius/icons` (e.g. `Home03Icon` for Dashboard, `LegalDocument01Icon` for
+  Offer Negotiation, `HelpCircleIcon` and `Notification02Icon` for the two utility items); the
+  component itself remains icon-agnostic via the `icon` prop.
 - Container: Default/Expanded/Minimized properties exist in Figma but render pixel-identical in
   every sample pulled (217px wide in all three) — **the "Minimized" icon-only collapsed-rail
   treatment other design systems typically have does not appear to exist here**; flagged rather
@@ -463,6 +458,152 @@ designed from WAI-ARIA APG patterns + this file's existing visual language (radi
 color tokens, the same focus-ring and error-text conventions used elsewhere) and explicitly marked
 "Not in source Figma — designed to match system" in their Storybook docs. Tooltip is detailed in
 §2.9 since React Aria owns its behavior; the rest are lower priority (see build order, §3).
+
+**Later addition, same rationale:** `SearchField`, `ListBox`, `GridList`, `TagGroup`, and
+`CommandPalette`, added to round out `react-aria-components`' `Autocomplete` filtering pattern
+(typing to filter a collection) across every collection type it supports, not just `ComboBox`.
+Each is designed the same way as the rest of this section — WAI-ARIA APG pattern + this system's
+existing tokens, marked "Not in source Figma" in Storybook — with one addition: a `searchable`
+prop was retrofitted onto `Select`, `Menu`, and `Table` (all already built) so they gain the same
+in-place-filter recipe without a breaking API change. (Since superseded for `Table`: it was
+rebuilt as composable parts mirroring `react-aria-components`' own Table API — sorting,
+selection, tree rows, column resizing, infinite scroll, drag-and-drop — and the old columns/rows
+API including `searchable` now lives on `DataTable`, built from those parts.) `TagGroup` is deliberately distinct from the
+existing `TagsInput`: `TagsInput` lets the user *type* arbitrary tags, `TagGroup` selects and/or
+removes tags from a **fixed, given** set. `CommandPalette` is a composition of already-built
+pieces (`Modal`'s overlay mechanics, `Autocomplete`+`SearchField`+`Menu`'s filtering) rather than
+new behavior of its own. The doc's inline-@mention-completions recipe was intentionally **not**
+productized into a component — upstream doesn't ship one either (it lives only as example code in
+their docs) — and is instead a Storybook-only recipe colocated with `Textarea`
+(`Textarea/InlineMentions.stories.tsx`), simplified to skip the `textarea-caret` dependency
+(anchors the popover to the whole field rather than the exact caret pixel). `Calendar` is a further
+later addition, same rationale: built on `react-aria-components`' `Calendar`/`CalendarGrid`, whose
+WAI-ARIA APG "grid" keyboard model (arrow keys move by day, Page Up/Down page by month) is handled
+entirely by the behavior layer, with spacing/radius/color/focus-ring tokens matching the rest of
+this system rather than a new visual language. `ColorArea` is a further later addition, same
+rationale: built on `react-aria-components`' `ColorArea`/`ColorThumb`, whose WAI-ARIA APG
+two-dimensional-slider keyboard model (arrow keys move a thumb across two color channels at once,
+exposed as two synchronized `slider`-role inputs) is handled entirely by the behavior layer, with
+radius/shadow/focus-ring/motion tokens matching the rest of this system rather than a new visual
+language. `ColorSlider` is a further later addition, same rationale: built on
+`react-aria-components`' `ColorSlider`/`SliderTrack`, reusing `ColorArea`'s `ColorThumb` visual for
+a single-channel (rather than two-dimensional) adjustment, exposed as one `slider`-role input. `ColorField` is a further later addition, same rationale: built on
+`react-aria-components`' `ColorField`, whose behavior layer parses and validates a typed hex value
+or a single color channel and clamps it to range on blur; chrome matches `Input`/`SearchField`'s
+field box exactly rather than introducing a new visual language. It's typically paired with
+`ColorArea` — the field for typing an exact value, the area for dragging a 2D channel pair.
+`ColorSwatch`/`ColorSwatchPicker` are a further later addition, same rationale: built on
+`react-aria-components`' `ColorSwatch`/`ColorSwatchPicker`/`ColorSwatchPickerItem`. `ColorSwatch`
+generates a localized, human-readable color description (e.g. "dark vibrant blue") for screen
+reader users — not safe to hand-roll. `ColorSwatchPicker` is a single-selection listbox of swatches
+(WAI-ARIA APG listbox pattern, roving tabindex), reusing `ColorSwatch` for each item; its selected
+indicator is a two-tone ring (dark ring, light inset gap) rather than a single-tone outline, since
+one tone alone can't stay visible against a swatch of every color. Radius/focus-ring tokens match
+the rest of this system. It's typically paired with `ColorArea`/`ColorSlider`/`ColorField` — the
+picker for choosing from a fixed palette, the others for dialing in an arbitrary color. `Group` is
+a further later addition, same rationale: built on `react-aria-components`' `Group`, a styled
+container for a set of related controls (e.g. a segmented input, or an input paired with an inline
+button) that reports hover/focus-within/disabled/invalid state as data attributes so the whole set
+shares one field box and one focus ring instead of each control drawing its own. Chrome matches
+`Input`/`ColorField`'s field box exactly. Unlike those, it's a layout primitive rather than a
+complete field — it has no label of its own and isn't meant to wrap a control that already draws
+its own box. `Link` is a
+further later addition, same rationale: built directly on `react-aria-components`' `Link` — the
+same primitive `Breadcrumb` already composes internally for each crumb — extracted here as its own
+exported, standalone primitive for any in-flow text link, rendering a real `<a>` when given an
+`href` (native navigation, works without JS) or a `role="link"` `<span>` driven by `onPress`
+otherwise, styled with this system's primary/focus-ring/disabled-text tokens rather than a new
+visual language. `Meter` is a further later addition, same rationale: built on
+`react-aria-components`' `Meter`, whose behavior layer supplies the `meter`/`progressbar` role
+fallback and `aria-valuenow`/`-min`/`-max`/`-text` wiring — easy to get subtly wrong by hand.
+Unlike `ProgressBar`, it represents a static quantity within a known range rather
+than an ongoing task's progress, so assistive tech announces it differently. Fill colour reuses
+this system's severity grading scale (§2.2 Badge) at 70%/90% thresholds — the same breakpoints
+React Aria's own reference example uses — rather than a new palette. `RangeCalendar` is a further
+later addition, same rationale: built on `react-aria-components`' `RangeCalendar`/`CalendarGrid`,
+whose WAI-ARIA APG grid keyboard model plus range-anchoring (click/Enter a start date, arrow keys
+preview, click/Enter again commits the end) is handled entirely by the behavior layer. It reuses
+`Calendar`'s grid/cell/nav classes and tokens wholesale; the only new visual language is the flat,
+square-edged bar connecting the days between the start/end pills — the grid's fixed-width cells sit
+flush against each other with no gap, so a plain background color on `data-selected` cells reads as
+one continuous bar without an overlay. `DateRangePicker` is a further later addition, same
+rationale: built on `react-aria-components`' `DateRangePicker`, pairing two `DateInput`s (start/end)
+with a `RangeCalendar` popover the same way `DatePicker` pairs one `DateInput` with `Calendar` —
+value, `minValue`/`maxValue`, and `isDateUnavailable` all flow from the picker into the nested
+`RangeCalendar` via context. Field chrome and trigger button are `DatePicker`'s group/toggle
+verbatim, with a dash-separated two-`DateInput` row in place of the single field. `ProgressBar` is
+a further later addition, same rationale: built on `react-aria-components`' `ProgressBar`, whose
+behavior layer supplies the `progressbar` role and `aria-valuenow`/`-min`/`-max`/`-text` wiring,
+including omitting `aria-valuenow` entirely for the indeterminate case. Track/fill geometry mirrors
+`Meter`'s (fully-rounded pill track) but fills with this system's primary brand colour rather than
+`Meter`'s severity scale, since progress toward completion isn't "good" or "bad" the way a quota
+level is; the indeterminate state sweeps a fixed-width fill across the track rather than freezing,
+slowing (not stopping) under `prefers-reduced-motion`, the same treatment `Spinner` uses.
+`ProgressCircle` is colocated in the same directory: the identical behavior layer rendered as an
+SVG ring per React Aria's own reference example, sized off this system's icon scale (`iconSize`) so
+it drops into icon-shaped slots the way `Spinner` does. `NumberField` is a further later addition,
+same rationale: built on `react-aria-components`' `NumberField`, whose behavior layer supplies
+locale-aware number parsing/formatting and typed-character filtering (`formatOptions`), min/max
+clamping, and step-based increment/decrement — none of it safe to hand-roll. The field box mirrors
+`DatePicker`'s group exactly (44px row, 10px radius, inset stroke) rather than introducing a new
+visual language, with the increment/decrement buttons occupying the trailing edge the way
+`DatePicker`'s trigger does, divided by the same inset-stroke token used for the field border
+itself. `Separator` is a further later addition, same rationale: built directly on
+`react-aria-components`' `Separator`, a purely presentational divider (`<hr>` for the default
+horizontal orientation, a `role="separator"` `<div>` for vertical) between groups of content —
+e.g. menu sections or page regions. Reuses the `border-default` token already drawn as ad hoc
+divider rules in `Card`/`Table`/`Input`'s prefix/the menu header (§2 audit above), extracted here
+as a standalone primitive rather than a new visual language. `Slider` is a further later addition,
+same rationale: built on `react-aria-components`' `Slider`/`SliderTrack`, whose WAI-ARIA APG slider
+keyboard model (arrow keys, Page Up/Down, Home/End, and — for a multi-thumb range — clamping one
+thumb against the other) is handled entirely by the behavior layer. Track/thumb geometry mirrors
+`ColorSlider`'s (fully-rounded pill track, white-ringed circular thumb that grows on keyboard
+focus) rather than a new visual language, minus the live-color background since a plain `Slider`
+has no color to paint — fill and thumb use `color.primary.bg` instead. Generic over `number`
+(single thumb) or `number[]` (multiple thumbs, e.g. a range), with `thumbLabels` naming each thumb
+in the multi-thumb case since each needs its own accessible name. `Switch` is a further later
+addition, same rationale: built on `react-aria-components`' current, non-deprecated
+`SwitchField`/`SwitchButton` composition (the same split `RadioGroup`/`Radio` already uses) for the
+visually-hidden-native-input pattern and hover/press/focus-visible state; geometry and token usage
+(20px control height, `text-subtle` border for the 3:1 non-text contrast floor) match
+`Checkbox`/`Radio` rather than a new visual language, since no Figma node exists to measure
+against. `ToggleButton`/`ToggleButtonGroup` are a further later addition, same rationale: built on
+`react-aria-components`' `ToggleButton`/`ToggleButtonGroup`, whose behavior layer supplies
+`aria-pressed` toggle semantics (standalone) or, inside a group, roving-tabindex arrow-key
+navigation plus one-of-many `radiogroup`/`radio` semantics in `single` mode — the WAI-ARIA APG
+"button"/"toolbar" patterns, easy to get subtly wrong by hand. Standalone `ToggleButton` chrome
+reuses `Button`'s per-size geometry (height/padding/icon slot) with a selected fill borrowed from
+`TagGroup`'s `Tag` `data-selected` treatment; grouped, the buttons collapse into one segmented track
+the same "shared-edge, outer-corners-only" way `Tabs`' `TabList` does, rather than either
+introducing a new visual language. `ToggleButton.stories.tsx` also includes an animated
+`SelectionIndicator` recipe — like `Textarea/InlineMentions.stories.tsx`, upstream's own recipe
+rather than a new component; `SelectionIndicator` isn't part of this library's exported API and is
+imported directly from `react-aria-components` inside the story. `Virtualizer` is a further later
+addition, same rationale:
+built on `react-aria-components`' `Virtualizer` plus its `ListLayout`/`GridLayout`/
+`WaterfallLayout`/`TableLayout` layout classes — a behavior-only wrapper with no visual style or
+DOM chrome of its own (like `Group`, but without even a container element: it renders only its
+child collection, positioned by a `Layout` object rather than CSS flexbox/grid). It composes
+with, rather than replaces, the collection components already in this library conceptually —
+`ListBox` under `ListLayout`, `GridList` under `GridLayout`/`WaterfallLayout`, `Table` under
+`TableLayout` — swapping only how a large collection's items are positioned and windowed to the
+viewport, so a 5,000-row list costs the same DOM size as a 50-row one. Its own Storybook stories
+compose raw `react-aria-components` primitives rather than this package's `ListBox`/`GridList`/
+`Table` wrappers, though: those wrappers' scrollable root carries its own CSS `padding`/`gap`/a
+fixed `max-height` (§2.14 above, ListBox/GridList), and `Virtualizer` positions every item via a
+transform computed by its `Layout` object — authored CSS padding on that same element would
+desync from that math (a plain inline `style.padding` gets reset by `react-aria-components` for
+exactly this reason; a class-based one can't be). Spacing is passed as `layoutOptions.gap`/
+`padding` instead, and the row chrome is still this system's own (`.wsu-ListBoxItem`'s token
+set), so the result reads as this library's — the divergence from the usual "compose the built
+wrapper" recipe is scoped to the container only. `shouldObserveItemSize` is the one opt-in escape
+hatch for rows whose height isn't knowable up front (e.g. an expandable row), at the cost of a
+`ResizeObserver` per item. **A test-environment caveat, not a product one:** jsdom performs no
+real layout, so `GridLayout`'s column math (which depends on measured container width) always
+windows to zero rendered rows there, and `ListLayout` can't be asserted to window down to a
+handful either — `Virtualizer.test.tsx` covers what jsdom can verify (correct roles, no axe
+violations); the actual windowing behavior is asserted in `Virtualizer.stories.tsx`'s `play`
+functions, which run against a real browser.
 
 ### 2.15 Cross-cutting: inside strokes and box-sizing
 

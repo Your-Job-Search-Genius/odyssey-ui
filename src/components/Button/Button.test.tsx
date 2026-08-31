@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import { Button } from "./Button";
-import { CheckGlyph } from "../Icon/glyphs";
+import { Tick01Icon } from "@your-job-search-genius/icons";
 
 describe("Button", () => {
   it("renders its label and forwards a ref", () => {
@@ -67,7 +67,7 @@ describe("Button", () => {
   });
 
   it("requires and applies an aria-label for an icon-only button", () => {
-    render(<Button leadingIcon={<CheckGlyph />} aria-label="Mark complete" />);
+    render(<Button leadingIcon={<Tick01Icon />} aria-label="Mark complete" />);
     expect(screen.getByRole("button", { name: "Mark complete" })).toBeInTheDocument();
   });
 
@@ -80,7 +80,7 @@ describe("Button", () => {
         <Button variant="text">Text</Button>
         <Button disabled>Disabled</Button>
         <Button loading>Loading</Button>
-        <Button leadingIcon={<CheckGlyph />} aria-label="Icon only" />
+        <Button leadingIcon={<Tick01Icon />} aria-label="Icon only" />
       </div>,
     );
     expect(await axe(container)).toHaveNoViolations();

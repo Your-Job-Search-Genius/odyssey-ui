@@ -1,0 +1,98 @@
+/**
+ * No Figma node exists for this component (see the doc comment in
+ * Disclosure.tsx) — chrome is assembled from the shared token scale and
+ * the chevron treatment already established by Card/Sidebar
+ * (ArrowDown01SharpIcon, rotate 180deg on expand).
+ */
+.wsu-Disclosure {
+  width: 100%;
+}
+
+.wsu-Disclosure .react-aria-Heading {
+  margin: 0;
+}
+
+.wsu-Disclosure__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-2);
+  width: 100%;
+  padding: var(--wsu-space-3);
+  border: none;
+  border-radius: var(--wsu-radius-xs);
+  background: none;
+  cursor: pointer;
+  text-align: start;
+  font: var(--wsu-font-body-md-semibold);
+  color: var(--wsu-color-text-heading);
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-Disclosure__trigger[data-hovered] {
+  background-color: var(--wsu-color-surface-subtle);
+}
+
+.wsu-Disclosure__trigger[data-pressed] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-Disclosure__trigger[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Disclosure__trigger[data-disabled] {
+  cursor: not-allowed;
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-Disclosure__label {
+  flex: 1;
+  min-width: 0;
+}
+
+.wsu-Disclosure__chevron {
+  flex-shrink: 0;
+  color: var(--wsu-color-text-subtle);
+  transition: transform var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-Disclosure[data-expanded] .wsu-Disclosure__chevron {
+  transform: rotate(180deg);
+}
+
+.wsu-Disclosure__trigger[data-disabled] .wsu-Disclosure__chevron {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-DisclosurePanel {
+  height: var(--disclosure-panel-height);
+  overflow: clip;
+  transition: height var(--wsu-motion-base) var(--wsu-motion-easing);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wsu-DisclosurePanel {
+    transition: none;
+  }
+}
+
+.wsu-DisclosurePanel__content {
+  padding: 0 var(--wsu-space-3) var(--wsu-space-3);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-DisclosureGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-sm);
+  overflow: hidden;
+}
+
+.wsu-DisclosureGroup .wsu-Disclosure + .wsu-Disclosure {
+  border-top: 1px solid var(--wsu-color-border-default);
+}

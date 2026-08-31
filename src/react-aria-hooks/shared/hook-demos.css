@@ -1,0 +1,273 @@
+/**
+ * Shared demo styling for the interactive React Aria hook docs
+ * (src/react-aria-hooks/**). Built entirely on the existing --wsu-*
+ * design tokens (see src/theme/tokens.css) so these demos look native to
+ * the design system rather than the generic docs styling they were
+ * adapted from.
+ */
+
+.wsu-hookDemo {
+  font-family: var(--wsu-font-family);
+  color: var(--wsu-color-text-body);
+  max-width: 42rem;
+}
+
+.wsu-hookDemo__intro {
+  color: var(--wsu-color-text-subtle);
+  font: var(--wsu-font-body-sm);
+  max-width: 36rem;
+  margin: 0 0 var(--wsu-space-4);
+}
+
+.wsu-hookDemo__row {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-4);
+  flex-wrap: wrap;
+}
+
+.wsu-hookDemo__button {
+  appearance: none;
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-sm);
+  background: var(--wsu-color-secondary-bg);
+  color: var(--wsu-color-secondary-text);
+  font: var(--wsu-font-body-sm-semibold);
+  padding: var(--wsu-space-2) var(--wsu-space-4);
+  cursor: pointer;
+  outline: none;
+}
+
+.wsu-hookDemo__button:hover {
+  background: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-hookDemo__button[data-pressed="true"] {
+  background: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-primary-text);
+  border-color: var(--wsu-color-primary-bg);
+}
+
+.wsu-hookDemo__button:focus-visible,
+.wsu-hookDemo__focusRing {
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-hookDemo__box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12rem;
+  height: 6rem;
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  background: var(--wsu-color-surface-subtle);
+  color: var(--wsu-color-text-body);
+  font: var(--wsu-font-body-sm-semibold);
+  text-align: center;
+  padding: var(--wsu-space-2);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background var(--wsu-motion-fast) var(--wsu-motion-easing),
+    border-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-hookDemo__box[data-active="true"] {
+  background: var(--wsu-color-surface-accent);
+  border-color: var(--wsu-color-border-focus);
+}
+
+.wsu-hookDemo__box:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-hookDemo__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-1);
+  font: var(--wsu-font-body-sm);
+}
+
+.wsu-hookDemo__input {
+  border: 1px solid var(--wsu-color-field-border);
+  border-radius: var(--wsu-radius-xs);
+  padding: var(--wsu-space-2) var(--wsu-space-3);
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-body);
+  background: var(--wsu-color-field-bg);
+}
+
+.wsu-hookDemo__input:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+  border-color: var(--wsu-color-field-border-focus);
+}
+
+.wsu-hookDemo__container {
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  padding: var(--wsu-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--wsu-space-3);
+  width: fit-content;
+}
+
+.wsu-hookDemo__container[data-active="true"] {
+  background: var(--wsu-color-surface-accent);
+  border-color: var(--wsu-color-border-focus);
+}
+
+.wsu-hookDemo__eventLog {
+  list-style: none;
+  margin: var(--wsu-space-4) 0 0;
+  padding: var(--wsu-space-2) var(--wsu-space-3);
+  border: 1px solid var(--wsu-color-border-subtle);
+  border-radius: var(--wsu-radius-sm);
+  background: var(--wsu-color-surface-subtle);
+  max-height: 12.5rem;
+  overflow: auto;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  max-width: 28rem;
+}
+
+.wsu-hookDemo__eventLog li {
+  padding: var(--wsu-space-1) 0;
+  border-bottom: 1px solid var(--wsu-color-border-subtle);
+}
+
+.wsu-hookDemo__eventLog li:last-child {
+  border-bottom: none;
+}
+
+.wsu-hookDemo__eventLogEmpty {
+  color: var(--wsu-color-text-disabled);
+  font: var(--wsu-font-body-sm);
+  margin: var(--wsu-space-4) 0 0;
+}
+
+.wsu-hookDemo__draggable {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wsu-space-2);
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-sm);
+  background: var(--wsu-color-surface-raised);
+  padding: var(--wsu-space-2) var(--wsu-space-4);
+  cursor: grab;
+  font: var(--wsu-font-body-sm-semibold);
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-hookDemo__draggable[data-dragging="true"] {
+  opacity: 0.5;
+}
+
+.wsu-hookDemo__draggable:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-hookDemo__droppable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12rem;
+  height: 6rem;
+  border: 2px dashed var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  color: var(--wsu-color-text-subtle);
+  font: var(--wsu-font-body-sm);
+  text-align: center;
+  padding: var(--wsu-space-2);
+}
+
+.wsu-hookDemo__droppable[data-drop-target="true"] {
+  border-color: var(--wsu-color-border-focus);
+  color: var(--wsu-color-text-heading);
+  background: var(--wsu-color-surface-accent);
+}
+
+.wsu-hookDemo__droppable:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-hookDemo__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 13.75rem;
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  overflow: hidden;
+}
+
+.wsu-hookDemo__listItem {
+  padding: var(--wsu-space-2) var(--wsu-space-4);
+  outline: none;
+  cursor: default;
+  border-bottom: 1px solid var(--wsu-color-border-subtle);
+}
+
+.wsu-hookDemo__listItem:last-child {
+  border-bottom: none;
+}
+
+.wsu-hookDemo__listItem[data-focus-visible="true"] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+}
+
+.wsu-hookDemo__listItem[data-drop-target="true"] {
+  background: var(--wsu-color-surface-accent);
+  color: var(--wsu-color-primary-bg);
+}
+
+.wsu-hookDemo__dropIndicator {
+  height: 2px;
+  margin: -1px 0;
+  outline: none;
+}
+
+.wsu-hookDemo__dropIndicator[data-drop-target="true"] {
+  background: var(--wsu-color-border-focus);
+}
+
+.wsu-hookDemo__moveArea {
+  position: relative;
+  width: 12.5rem;
+  height: 12.5rem;
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  background: var(--wsu-color-surface-subtle);
+  touch-action: none;
+}
+
+.wsu-hookDemo__ball {
+  position: absolute;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: var(--wsu-radius-full);
+  background: var(--wsu-color-primary-bg);
+  touch-action: none;
+}
+
+.wsu-hookDemo__ball:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-hookDemo__landmark {
+  border: 1px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  padding: var(--wsu-space-4);
+  margin-bottom: var(--wsu-space-4);
+}
+
+.wsu-hookDemo__landmark:focus-visible {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}

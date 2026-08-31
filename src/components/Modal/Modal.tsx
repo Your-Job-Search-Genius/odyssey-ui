@@ -6,7 +6,7 @@ import {
   Dialog as AriaDialog,
   Heading,
 } from "react-aria-components";
-import { CloseSquareGlyph } from "../Icon/glyphs";
+import { MultiplicationSignSquareSolidIcon } from "@your-job-search-genius/icons";
 import "./Modal.css";
 
 export type ModalSize = "sm" | "md" | "lg";
@@ -188,7 +188,7 @@ export function Modal({
                       aria-label="Close"
                       onClick={close}
                     >
-                      <CloseSquareGlyph size="md" />
+                      <MultiplicationSignSquareSolidIcon size="1.25rem" />
                     </button>
                   ) : null}
                 </div>

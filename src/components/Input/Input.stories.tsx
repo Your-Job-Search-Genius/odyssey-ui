@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { useState } from "react";
 import { Input } from "./Input";
-import { SearchGlyph, ChevronDownGlyph } from "../Icon/glyphs";
+import { Search02Icon, ArrowDown01SharpIcon } from "@your-job-search-genius/icons";
 import { Button } from "../Button";
 
 const meta: Meta<typeof Input> = {
@@ -13,7 +13,7 @@ const meta: Meta<typeof Input> = {
     docs: {
       description: {
         component:
-          "Native `<input>` with our label/helper/error wiring — no behavior library needed. **Use when:** collecting a single line of text/email/password/etc. **Don't use when:** the value spans multiple lines (use Textarea) or is picked from a fixed set (use Select/Combobox). `label` is required — there's no `aria-label`-only escape hatch, so every Input always has a programmatic, visible label (WCAG 3.3.2). The error state doesn't exist in the source Figma file; it's designed from WAI-ARIA APG conventions using the system's existing danger-text token.",
+          "Built on `react-aria-components`' `TextField`/`Input`, exposing their full prop set directly (`isDisabled`, `isRequired`, `isInvalid`, `isReadOnly`, `validate`, value-based `onChange`, ...). **Use when:** collecting a single line of text/email/password/etc. **Don't use when:** the value spans multiple lines (use Textarea) or is picked from a fixed set (use Select/Combobox). `label` is required — there's no `aria-label`-only escape hatch, so every Input always has a programmatic, visible label (WCAG 3.3.2). The error state doesn't exist in the source Figma file; it's designed from WAI-ARIA APG conventions using the system's existing danger-text token.",
       },
     },
   },
@@ -40,7 +40,7 @@ export const Controlled: Story = {
       const [value, setValue] = useState("");
       return (
         <div style={{ width: "20rem" }}>
-          <Input label="Controlled value" value={value} onChange={(e) => setValue(e.target.value)} />
+          <Input label="Controlled value" value={value} onChange={setValue} />
         </div>
       );
     }
@@ -49,25 +49,29 @@ export const Controlled: Story = {
 };
 
 export const WithHelperText: Story = {
-  render: (args) => (
+  render: () => (
     <div style={{ width: "20rem" }}>
-      <Input {...args} helperText="We'll only use this to send your resume feedback." />
+      <Input
+        label="Email address"
+        placeholder="you@example.com"
+        helperText="We'll only use this to send your resume feedback."
+      />
     </div>
   ),
 };
 
 export const Required: Story = {
-  render: (args) => (
+  render: () => (
     <div style={{ width: "20rem" }}>
-      <Input {...args} required />
+      <Input label="Email address" placeholder="you@example.com" isRequired />
     </div>
   ),
 };
 
 export const WithLeadingIcon: Story = {
-  render: (args) => (
+  render: () => (
     <div style={{ width: "20rem" }}>
-      <Input {...args} label="Search" placeholder="Search templates" leadingIcon={<SearchGlyph />} />
+      <Input label="Search" placeholder="Search templates" leadingIcon={<Search02Icon />} />
     </div>
   ),
 };
@@ -81,18 +85,51 @@ export const Password: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => (
+  render: () => (
     <div style={{ width: "20rem" }}>
-      <Input {...args} disabled defaultValue="you@example.com" />
+      <Input label="Email address" placeholder="you@example.com" isDisabled defaultValue="you@example.com" />
+    </div>
+  ),
+};
+
+export const ReadOnly: Story = {
+  name: "Read-only (RAC-native prop, no analog in the old native-input API)",
+  render: () => (
+    <div style={{ width: "20rem" }}>
+      <Input label="Email address" placeholder="you@example.com" isReadOnly defaultValue="you@example.com" />
     </div>
   ),
 };
 
 export const ErrorState: Story = {
   name: "Error (designed, not in Figma)",
-  render: (args) => (
+  render: () => (
     <div style={{ width: "20rem" }}>
-      <Input {...args} defaultValue="not-an-email" errorMessage="Enter a valid email address" />
+      <Input
+        label="Email address"
+        placeholder="you@example.com"
+        defaultValue="not-an-email"
+        errorMessage="Enter a valid email address"
+      />
+    </div>
+  ),
+};
+
+export const Unstyled: Story = {
+  name: "Unstyled (for use inside Group)",
+  render: () => (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.625rem",
+        width: "20rem",
+        padding: "0.625rem 0.8125rem",
+        borderRadius: "0.625rem",
+        boxShadow: "inset 0 0 0 1px var(--wsu-color-field-border)",
+      }}
+    >
+      <Input unstyled label="Search" placeholder="Search templates" style={{ flex: 1, minWidth: 0 }} />
     </div>
   ),
 };
@@ -130,7 +167,7 @@ export const FigmaTypes: Story = {
         prefix={
           <>
             US
-            <ChevronDownGlyph size="1rem" />
+            <ArrowDown01SharpIcon size="1rem" />
           </>
         }
         placeholder="Placeholder"
@@ -150,7 +187,7 @@ export const FigmaTypes: Story = {
       <Input label="Password" type="password" placeholder="Placeholder" helperText="This is a helper text" />
       <Input
         label="Search"
-        trailingIcon={<SearchGlyph />}
+        trailingIcon={<Search02Icon />}
         placeholder="Placeholder"
         helperText="This is a helper text"
       />

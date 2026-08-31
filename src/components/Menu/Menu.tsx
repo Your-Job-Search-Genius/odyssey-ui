@@ -5,9 +5,12 @@ import {
   MenuItem,
   Popover,
   Pressable,
+  Autocomplete as AriaAutocomplete,
+  useFilter,
 } from "react-aria-components";
 import type { Key, Selection } from "react-aria-components";
-import { CheckboxSquareGlyph, CheckboxSquareCheckedGlyph, CheckCircleSolidGlyph } from "../Icon/glyphs";
+import { CheckmarkSquare02Icon, CheckmarkSquare02SolidIcon, CheckmarkCircle02SolidIcon } from "@your-job-search-genius/icons";
+import { SearchField } from "../SearchField/SearchField";
 import "../Select/popover-menu.css";
 
 /** Container chrome, from the three shapes on Figma's Dropdown page (433:9129). */
@@ -74,6 +77,16 @@ export interface MenuProps {
   selectedKeys?: Selection;
   defaultSelectedKeys?: Selection;
   onSelectionChange?: (keys: Selection) => void;
+  /**
+   * Renders a `SearchField` above the menu items, wired to
+   * `react-aria-components`' `Autocomplete` so typing filters the visible
+   * rows in place — this library's own "filterable menu" recipe
+   * (docs/design-inventory.md §2.14) for long action/option lists.
+   */
+  searchable?: boolean;
+  /** Accessible name for the search field when `searchable` is set. */
+  searchLabel?: string;
+  searchPlaceholder?: string;
 }
 
 /**
@@ -95,7 +108,12 @@ export function Menu({
   selectedKeys,
   defaultSelectedKeys,
   onSelectionChange,
+  searchable,
+  searchLabel = "Search",
+  searchPlaceholder,
 }: MenuProps) {
+  const { contains } = useFilter({ sensitivity: "base" });
+
   function layoutFor(item: MenuAction) {
     if (item.content) return "custom";
     if (variant === "card") return "card";
@@ -104,27 +122,18 @@ export function Menu({
     return "default";
   }
 
-  return (
-    <MenuTrigger>
-      <Pressable>{trigger as unknown as ReactElement<DOMAttributes<HTMLElement>, string>}</Pressable>
-      <Popover
-        placement={placement}
-        className="wsu-Popover wsu-Popover--menu"
-        data-variant={variant}
-        data-selectable={selectionMode ? "" : undefined}
-      >
-        {header ? <div className="wsu-Menu__header">{header}</div> : null}
-        <AriaMenu
-          items={items}
-          onAction={onAction}
-          disabledKeys={items.filter((i) => i.disabled).map((i) => i.id)}
-          selectionMode={selectionMode}
-          selectedKeys={selectedKeys}
-          defaultSelectedKeys={defaultSelectedKeys}
-          onSelectionChange={onSelectionChange}
-          className="wsu-Menu"
-          data-variant={variant}
-        >
+  const menu = (
+    <AriaMenu
+      items={items}
+      onAction={onAction}
+      disabledKeys={items.filter((i) => i.disabled).map((i) => i.id)}
+      selectionMode={selectionMode}
+      selectedKeys={selectedKeys}
+      defaultSelectedKeys={defaultSelectedKeys}
+      onSelectionChange={onSelectionChange}
+      className="wsu-Menu"
+      data-variant={variant}
+    >
           {(item) => (
             <MenuItem
               id={item.id}
@@ -180,18 +189,38 @@ export function Menu({
                        checkmark-circle and leaves the others bare (433:9157);
                        every other menu carries the 20px square on both states. */
                     variant === "card" ? (
-                      isSelected ? <CheckCircleSolidGlyph size="1.625rem" className="wsu-MenuItem__mark" data-state="checked" /> : null
+                      isSelected ? <CheckmarkCircle02SolidIcon size="1.625rem" className="wsu-MenuItem__mark" data-state="checked" /> : null
                     ) : isSelected ? (
-                      <CheckboxSquareCheckedGlyph size="md" className="wsu-MenuItem__mark" data-state="checked" />
+                      <CheckmarkSquare02SolidIcon size="1.25rem" className="wsu-MenuItem__mark" data-state="checked" />
                     ) : (
-                      <CheckboxSquareGlyph size="md" className="wsu-MenuItem__mark" data-state="unchecked" />
+                      <CheckmarkSquare02Icon size="1.25rem" className="wsu-MenuItem__mark" data-state="unchecked" />
                     )
                   ) : null}
                 </>
               )}
             </MenuItem>
           )}
-        </AriaMenu>
+    </AriaMenu>
+  );
+
+  return (
+    <MenuTrigger>
+      <Pressable>{trigger as unknown as ReactElement<DOMAttributes<HTMLElement>, string>}</Pressable>
+      <Popover
+        placement={placement}
+        className="wsu-Popover wsu-Popover--menu"
+        data-variant={variant}
+        data-selectable={selectionMode ? "" : undefined}
+      >
+        {header ? <div className="wsu-Menu__header">{header}</div> : null}
+        {searchable ? (
+          <AriaAutocomplete filter={contains}>
+            <SearchField label={searchLabel} hideLabel placeholder={searchPlaceholder ?? searchLabel} className="wsu-Menu__search" />
+            {menu}
+          </AriaAutocomplete>
+        ) : (
+          menu
+        )}
       </Popover>
     </MenuTrigger>
   );

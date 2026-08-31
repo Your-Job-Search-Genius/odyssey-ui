@@ -1,0 +1,20 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Reuses the border-default
+ * token already drawn as ad hoc divider rules in Card/Table/Input/the menu
+ * header, extracted here as a standalone primitive instead of each
+ * component redrawing its own line.
+ */
+.wsu-Separator {
+  background-color: var(--wsu-color-border-default);
+  border-style: none;
+  border-radius: var(--wsu-radius-xs);
+  height: 1px;
+  width: 100%;
+}
+
+.wsu-Separator[aria-orientation="vertical"] {
+  width: 1px;
+  height: auto;
+  min-height: var(--wsu-space-8); /* 32px */
+  align-self: stretch;
+}

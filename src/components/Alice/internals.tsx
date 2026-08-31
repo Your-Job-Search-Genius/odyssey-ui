@@ -30,47 +30,6 @@ export function CountRing({ current, total }: { current: number; total: number }
   );
 }
 
-export function AcceptGlyph() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" className="wsu-AliceButton__accept">
-      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth={1.4} />
-      <path d="m5.2 8.2 1.9 1.9 3.7-4" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-export function DismissGlyph() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" className="wsu-AliceCard__dismissIcon">
-      <path d="m4.6 4.6 6.8 6.8M11.4 4.6l-6.8 6.8" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function CaretGlyph({ direction }: { direction: "up" | "down" }) {
-  return (
-    <svg
-      viewBox="0 0 9 4.5"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      width="9"
-      height="4.5"
-      style={direction === "up" ? { transform: "rotate(180deg)" } : undefined}
-    >
-      <path d="M0.6 0.6 4.5 3.9 8.4 0.6" stroke="currentColor" strokeWidth={1.1} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-export function ChevronGlyph() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false" width="20" height="20">
-      <path d="M6 8.5 10 12.5 14 8.5" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 export function renderCount(current: ReactNode, total: ReactNode) {
   return (
     <>

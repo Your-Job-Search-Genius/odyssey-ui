@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { axe } from "vitest-axe";
 import { Badge } from "./Badge";
-import { CheckGlyph } from "../Icon/glyphs";
+import { Tick01Icon } from "@your-job-search-genius/icons";
 
 describe("Badge", () => {
   it("renders its text content", () => {
@@ -37,14 +37,14 @@ describe("Badge", () => {
   });
 
   it("hides a decorative icon from assistive tech", () => {
-    render(<Badge icon={<CheckGlyph />}>Excellent</Badge>);
+    render(<Badge icon={<Tick01Icon />}>Excellent</Badge>);
     const icon = screen.getByText("Excellent").closest(".wsu-Badge")!.querySelector(".wsu-Badge__icon");
     expect(icon).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders a leading icon, a trailing icon and a count bubble", () => {
     const { rerender } = render(
-      <Badge type="border" icon={<CheckGlyph />} trailingIcon={<CheckGlyph />}>
+      <Badge type="border" icon={<Tick01Icon />} trailingIcon={<Tick01Icon />}>
         Label
       </Badge>,
     );
@@ -54,7 +54,7 @@ describe("Badge", () => {
 
     // A count replaces the trailing icon, matching the file's Trailing/Hybrid types.
     rerender(
-      <Badge type="tabs" icon={<CheckGlyph />} trailingIcon={<CheckGlyph />} count={6} countLabel="6 issues">
+      <Badge type="tabs" icon={<Tick01Icon />} trailingIcon={<Tick01Icon />} count={6} countLabel="6 issues">
         Label
       </Badge>,
     );

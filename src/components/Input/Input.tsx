@@ -1,21 +1,24 @@
 import { forwardRef, useId, useState } from "react";
-import type { InputHTMLAttributes, ReactNode } from "react";
-import { EyeGlyph } from "../Icon/glyphs";
+import type { CSSProperties, ForwardedRef, ReactElement, ReactNode, RefAttributes } from "react";
+import { TextField, Input as AriaInput, Label, Text } from "react-aria-components";
+import type { InputProps as RACInputProps, TextFieldProps } from "react-aria-components";
+import { EyeIcon } from "@your-job-search-genius/icons";
 import "./Input.css";
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> {
+type StyledInputProps = Omit<TextFieldProps, "children" | "className" | "style"> & {
   /** Visible, programmatically-associated label (WCAG 3.3.2 — always required, no `aria-label` escape hatch). */
   label: string;
-  /** Shown below the field when there's no error. Linked via `aria-describedby`. */
-  helperText?: string;
+  unstyled?: false;
+  placeholder?: string;
+  /** Shown below the field when there's no error. Rendered via react-aria-components' `Text` `description` slot. */
+  helperText?: ReactNode;
   /**
-   * Presence puts the field in the error state: red border, error icon,
-   * and this text rendered with `role="alert"` (WCAG 3.3.1 — errors are
-   * identified in text, not color alone; WCAG 4.1.3 — announced via a live
-   * region). This state doesn't exist in the source Figma file at all; see
-   * docs/design-inventory.md §2.4.
+   * Presence puts the field in the error state (red border, error icon, `role="alert"`) unless
+   * `isInvalid` is passed explicitly — WCAG 3.3.1 (errors identified in text, not color alone) and
+   * WCAG 4.1.3 (announced via a live region). This state doesn't exist in the source Figma file at
+   * all; see docs/design-inventory.md §2.4.
    */
-  errorMessage?: string;
+  errorMessage?: ReactNode;
   leadingIcon?: ReactNode;
   /** Ignored for `type="password"`, which always renders the built-in show/hide toggle instead. */
   trailingIcon?: ReactNode;
@@ -32,93 +35,160 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
    * this is present, as the file does.
    */
   action?: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+};
+
+type UnstyledInputProps = Omit<RACInputProps, "className" | "style"> & {
+  /**
+   * Renders only the bare react-aria-components `Input` — no label, field
+   * box, icons, or helper/error chrome. Use inside a composite such as
+   * `Group` that supplies the shared field box and focus ring, or as the
+   * text-entry primitive inside components like `TagsInput`/`OtpInput`.
+   * Supply `label` and/or `aria-label` for an accessible name.
+   */
+  unstyled: true;
+  label?: string;
+  className?: string;
+  style?: CSSProperties;
+};
+
+export type InputProps = StyledInputProps | UnstyledInputProps;
+
+/**
+ * Input — built on `react-aria-components`' `TextField`/`Input`. Exposes
+ * their full prop set directly (`isDisabled`, `isRequired`, `isInvalid`,
+ * `isReadOnly`, `validate`, `validationBehavior`, value-based `onChange`,
+ * every native text-input DOM attribute, ...) rather than a narrowed/renamed
+ * subset, so any RAC `TextField` capability is available with no translation
+ * layer. `unstyled` renders the bare RAC `Input` leaf instead (its own
+ * native-event `onChange`, `disabled`/`required`/`readOnly`), for
+ * composition inside `Group` or a custom widget that owns its own
+ * keyboard/value logic (`TagsInput`, `OtpInput`).
+ */
+function InputRender(props: InputProps, ref: ForwardedRef<HTMLInputElement>) {
+  const reactId = useId();
+  // Called unconditionally (Rules of Hooks) even though only the styled
+  // branch's password toggle uses it.
+  const [revealPassword, setRevealPassword] = useState(false);
+
+  if (props.unstyled) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- excluded from `rest` so it isn't forwarded to the DOM
+    const { unstyled, label, className, style, id, "aria-label": ariaLabel, ...rest } = props;
+
+    return (
+      <AriaInput
+        ref={ref}
+        id={id ?? reactId}
+        aria-label={ariaLabel ?? label}
+        className={
+          className
+            ? `wsu-Input__control wsu-Input__control--unstyled ${className}`
+            : "wsu-Input__control wsu-Input__control--unstyled"
+        }
+        style={style}
+        {...rest}
+      />
+    );
+  }
+
+  const {
+    label,
+    helperText,
+    errorMessage,
+    leadingIcon,
+    trailingIcon,
+    prefix,
+    action,
+    placeholder,
+    id,
+    className,
+    style,
+    type = "text",
+    isInvalid: isInvalidProp,
+    ...rest
+  } = props;
+  const inputId = id ?? reactId;
+  const isPassword = type === "password";
+  const invalid = isInvalidProp ?? Boolean(errorMessage);
+
+  return (
+    <TextField
+      {...rest}
+      id={inputId}
+      type={type}
+      isInvalid={invalid}
+      className={className ? `wsu-Input ${className}` : "wsu-Input"}
+      style={style}
+    >
+      {({ isDisabled, isInvalid, isRequired }) => (
+        <>
+          <Label className="wsu-Input__label">
+            {label}
+            {isRequired ? (
+              <span className="wsu-Input__required" aria-hidden="true">
+                {" "}
+                *
+              </span>
+            ) : null}
+          </Label>
+          <div
+            className="wsu-Input__field"
+            data-invalid={isInvalid || undefined}
+            data-disabled={isDisabled || undefined}
+            data-has-action={action ? "" : undefined}
+          >
+            {prefix ? <span className="wsu-Input__prefix">{prefix}</span> : null}
+            {leadingIcon ? (
+              <span className="wsu-Input__icon" aria-hidden="true">
+                {leadingIcon}
+              </span>
+            ) : null}
+            <AriaInput
+              ref={ref}
+              type={isPassword && revealPassword ? "text" : type}
+              placeholder={placeholder}
+              className="wsu-Input__control"
+            />
+            {isPassword ? (
+              <button
+                type="button"
+                className="wsu-Input__toggle"
+                onClick={() => setRevealPassword((v) => !v)}
+                disabled={isDisabled}
+                aria-pressed={revealPassword}
+                aria-label={revealPassword ? "Hide password" : "Show password"}
+              >
+                <EyeIcon size="1rem" />
+              </button>
+            ) : trailingIcon ? (
+              <span className="wsu-Input__icon" aria-hidden="true">
+                {trailingIcon}
+              </span>
+            ) : null}
+            {action ? <span className="wsu-Input__action">{action}</span> : null}
+          </div>
+          {isInvalid ? (
+            <Text slot="errorMessage" role="alert" className="wsu-Input__message wsu-Input__message--error">
+              {errorMessage}
+            </Text>
+          ) : helperText ? (
+            <Text slot="description" className="wsu-Input__message">
+              {helperText}
+            </Text>
+          ) : null}
+        </>
+      )}
+    </TextField>
+  );
 }
 
 /**
- * Input — semantic `<input>` with our own label/helper/error wiring; native
- * semantics are already correct, so no behavior library is needed (WCAG
- * doc §6). Works both controlled (`value`+`onChange`) and uncontrolled
- * (`defaultValue`), exactly like a native input, since we never intercept
- * the value ourselves.
+ * Wrapped and cast (rather than `forwardRef<HTMLInputElement, InputProps>(...)` directly) because
+ * `PropsWithoutRef`/`Omit` don't distribute over the `InputProps` union — applying them to a raw
+ * union collapses it to only the fields common to both `StyledInputProps` and `UnstyledInputProps`,
+ * which silently breaks discrimination for every prop unique to either branch.
  */
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, helperText, errorMessage, leadingIcon, trailingIcon, prefix, action, required, disabled, id, className, style, type = "text", ...rest },
-  ref,
-) {
-  const reactId = useId();
-  const inputId = id ?? reactId;
-  const helperId = `${inputId}-helper`;
-  const errorId = `${inputId}-error`;
-  const [revealPassword, setRevealPassword] = useState(false);
-  const isPassword = type === "password";
-  const invalid = Boolean(errorMessage);
-
-  const describedBy =
-    [invalid ? errorId : null, helperText ? helperId : null, rest["aria-describedby"]].filter(Boolean).join(" ") ||
-    undefined;
-
-  return (
-    <div className={className ? `wsu-Input ${className}` : "wsu-Input"} style={style}>
-      <label className="wsu-Input__label" htmlFor={inputId}>
-        {label}
-        {required ? (
-          <span className="wsu-Input__required" aria-hidden="true">
-            {" "}
-            *
-          </span>
-        ) : null}
-      </label>
-      <div
-        className="wsu-Input__field"
-        data-invalid={invalid || undefined}
-        data-disabled={disabled || undefined}
-        data-has-action={action ? "" : undefined}
-      >
-        {prefix ? <span className="wsu-Input__prefix">{prefix}</span> : null}
-        {leadingIcon ? (
-          <span className="wsu-Input__icon" aria-hidden="true">
-            {leadingIcon}
-          </span>
-        ) : null}
-        <input
-          ref={ref}
-          id={inputId}
-          type={isPassword && revealPassword ? "text" : type}
-          className="wsu-Input__control"
-          disabled={disabled}
-          required={required}
-          aria-required={required || undefined}
-          aria-invalid={invalid || undefined}
-          aria-describedby={describedBy}
-          {...rest}
-        />
-        {isPassword ? (
-          <button
-            type="button"
-            className="wsu-Input__toggle"
-            onClick={() => setRevealPassword((v) => !v)}
-            disabled={disabled}
-            aria-pressed={revealPassword}
-            aria-label={revealPassword ? "Hide password" : "Show password"}
-          >
-            <EyeGlyph size="sm" />
-          </button>
-        ) : trailingIcon ? (
-          <span className="wsu-Input__icon" aria-hidden="true">
-            {trailingIcon}
-          </span>
-        ) : null}
-        {action ? <span className="wsu-Input__action">{action}</span> : null}
-      </div>
-      {invalid ? (
-        <p id={errorId} className="wsu-Input__message wsu-Input__message--error" role="alert">
-          {errorMessage}
-        </p>
-      ) : helperText ? (
-        <p id={helperId} className="wsu-Input__message">
-          {helperText}
-        </p>
-      ) : null}
-    </div>
-  );
-});
+export const Input = forwardRef(InputRender) as (
+  props: InputProps & RefAttributes<HTMLInputElement>,
+) => ReactElement | null;

@@ -115,4 +115,5 @@ against the live docs before publishing.
 | Popover (dropdown menu chrome, option menu) | `react-aria-components` (`Popover`) | Positioning + dismiss-on-outside-click + focus management |
 | Tooltip | `react-aria-components` (`Tooltip`, `TooltipTrigger`) | Hover/focus delay timing, `Escape`-dismiss, `aria-describedby` wiring (1.4.13 compliance) |
 | Toast / status message | Plain HTML region with `aria-live` | Simple enough to hand-roll on top of a live-region primitive; no complex focus management needed |
+| Meter | `react-aria-components` (`Meter`) | `meter`/`progressbar` role fallback and `aria-valuenow`/`-min`/`-max`/`-text` wiring are error-prone to hand-roll correctly |
 | Sidebar nav item | Plain HTML `<a>`/`<button>` in a `<nav>`/`<ul>` | Native link/nav semantics suffice |

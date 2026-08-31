@@ -1,0 +1,59 @@
+/**
+ * No Figma source (design-inventory.md §2.14). `react-aria-components`'
+ * ColorArea computes and applies its own gradient background inline via
+ * `style` — this file only owns layout (square aspect ratio, corner
+ * radius) and the disabled treatment; it never sets `background` itself,
+ * so it can't fight the library's inline gradient. The thumb gets its
+ * background color the same way — inline, from the live color — so this
+ * file only owns its shape, border, shadow, and interaction states.
+ */
+.wsu-ColorArea {
+  position: relative;
+  width: 12rem;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--wsu-radius-md);
+  touch-action: none;
+  outline: none;
+}
+
+/* Deliberately doesn't fight the gradient's inline `background` with
+   `!important` (no other component in this system uses `!important`) —
+   dimming via filter reads as "off" without needing to override colors
+   the container doesn't itself control. */
+.wsu-ColorArea[data-disabled] {
+  filter: grayscale(1);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wsu-ColorThumb {
+  box-sizing: border-box;
+  position: absolute;
+  width: 1.25rem; /* 20px */
+  height: 1.25rem;
+  border-radius: var(--wsu-radius-full);
+  border: 2px solid #ffffff;
+  box-shadow: var(--wsu-shadow-sm);
+  background-color: var(--wsu-color-surface-default); /* fallback only — overwritten inline by the library with the live color */
+  cursor: pointer;
+  outline: none;
+  transition:
+    width var(--wsu-motion-fast) var(--wsu-motion-easing),
+    height var(--wsu-motion-fast) var(--wsu-motion-easing),
+    box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-ColorThumb[data-dragging] {
+  box-shadow: var(--wsu-shadow-md);
+}
+
+.wsu-ColorThumb[data-focus-visible] {
+  width: 1.5rem; /* 24px — grows on keyboard focus */
+  height: 1.5rem;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-ColorThumb[data-disabled] {
+  cursor: not-allowed;
+  border-color: var(--wsu-color-border-disabled);
+}

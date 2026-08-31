@@ -11,7 +11,7 @@ import {
   VisuallyHidden,
 } from "react-aria-components";
 import type { Key } from "react-aria-components";
-import { ChevronDownGlyph, CheckGlyph } from "../Icon/glyphs";
+import { ArrowDown01SharpIcon, Tick01Icon } from "@your-job-search-genius/icons";
 import "../Select/popover-menu.css";
 import "./ComboBox.css";
 
@@ -115,7 +115,7 @@ export function ComboBox({
             in aria-labelledby picks up the button's own visible/hidden content. */}
         <AriaButton className="wsu-ComboBox__toggle">
           <VisuallyHidden>Show suggestions</VisuallyHidden>
-          <ChevronDownGlyph size="sm" />
+          <ArrowDown01SharpIcon size="1rem" />
         </AriaButton>
       </div>
       <Popover className="wsu-Popover">
@@ -128,7 +128,7 @@ export function ComboBox({
               {({ isSelected }) => (
                 <>
                   {item.label}
-                  {isSelected ? <CheckGlyph size="md" className="wsu-ListBoxItem__check" /> : null}
+                  {isSelected ? <Tick01Icon size="1.25rem" className="wsu-ListBoxItem__check" /> : null}
                 </>
               )}
             </ListBoxItem>

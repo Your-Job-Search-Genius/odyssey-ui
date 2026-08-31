@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { Card } from "./Card";
-import { AlertCircleGlyph } from "../Icon/glyphs";
+import { AlertCircleIcon } from "@your-job-search-genius/icons";
 
 const SEVERITIES = ["urgent", "critical", "optional", "general", "neutral"] as const;
 
@@ -21,7 +21,7 @@ const meta: Meta<typeof Card> = {
     title: "Missing keywords",
     severity: "urgent",
     severityLabel: "Urgent",
-    icon: <AlertCircleGlyph />,
+    icon: <AlertCircleIcon />,
     children: 'Add "React" and "TypeScript" to your skills section to match this job description.',
   },
 };

@@ -53,3 +53,16 @@ export const KeyboardInteraction: Story = {
     await expect(trigger).toHaveTextContent("Cover letter");
   },
 };
+
+export const Searchable: Story = {
+  name: "Searchable (filterable via Autocomplete, designed, not in Figma)",
+  args: { searchable: true, searchLabel: "Search document types" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: /Document type/ }));
+    const search = await canvas.findByRole("searchbox", { name: "Search document types" });
+    await userEvent.type(search, "cover");
+    await expect(canvas.getByRole("option", { name: "Cover letter" })).toBeInTheDocument();
+    await expect(canvas.queryByRole("option", { name: "Resume" })).not.toBeInTheDocument();
+  },
+};

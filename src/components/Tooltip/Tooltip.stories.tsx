@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect, userEvent, within } from "@storybook/test";
 import { Tooltip } from "./Tooltip";
 import { Button } from "../Button";
-import { CloseGlyph } from "../Icon/glyphs";
+import { MultiplicationSignIcon } from "@your-job-search-genius/icons";
 
 const meta: Meta<typeof Tooltip> = {
   title: "Custom Components/Tooltip",
@@ -32,7 +32,7 @@ export const Playground: Story = {
 export const OnIconOnlyButton: Story = {
   render: () => (
     <Tooltip content="Close">
-      <Button leadingIcon={<CloseGlyph />} aria-label="Close" variant="text" />
+      <Button leadingIcon={<MultiplicationSignIcon />} aria-label="Close" variant="text" />
     </Tooltip>
   ),
   parameters: {

@@ -1,0 +1,125 @@
+/**
+ * No Figma source (design-inventory.md §2.14). The field box mirrors
+ * DatePicker's group (44px row, 10px radius, inset 1px stroke) so a
+ * NumberField drops into the same forms without looking like a foreign
+ * control; the stepper buttons occupy the trailing edge the way
+ * DatePicker's trigger does, divided from the input and each other by the
+ * same inset-stroke token rather than a real border (a real border would
+ * grow the row past the matching field's 44px).
+ */
+.wsu-NumberField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem; /* 6px, as Input/DatePicker */
+  width: fit-content;
+  max-width: 100%;
+}
+
+.wsu-NumberField__label {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subheading);
+  transition: color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-NumberField:focus-within .wsu-NumberField__label {
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-NumberField__required {
+  color: var(--wsu-color-text-danger);
+}
+
+.wsu-NumberField__group {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  height: 2.75rem; /* 44px */
+  min-width: 9.375rem; /* 150px */
+  max-width: 100%;
+  background-color: var(--wsu-color-field-bg);
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border);
+  border-radius: 0.625rem; /* 10px */
+  transition: box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-NumberField__group[data-focus-within] {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-focus), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-NumberField[data-invalid] .wsu-NumberField__group {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger);
+}
+
+.wsu-NumberField[data-invalid] .wsu-NumberField__group[data-focus-within] {
+  box-shadow: inset 0 0 0 1px var(--wsu-color-field-border-danger), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-NumberField[data-disabled] .wsu-NumberField__group {
+  background-color: var(--wsu-color-field-bg-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-NumberField__input {
+  flex: 1;
+  min-width: 0;
+  padding-inline-start: 0.8125rem; /* 13px, as Input's field padding */
+  border: none;
+  outline: none;
+  background: transparent;
+  font: var(--wsu-font-body-md);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-NumberField__input::placeholder {
+  color: var(--wsu-color-field-placeholder);
+}
+
+.wsu-NumberField[data-disabled] .wsu-NumberField__input {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-NumberField__stepper {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem; /* 32px, as DatePicker's/ComboBox's trigger */
+  border: none;
+  box-shadow: inset 1px 0 0 0 var(--wsu-color-field-border);
+  background: transparent;
+  color: var(--wsu-color-text-subtle);
+  cursor: pointer;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-NumberField__stepper--increment {
+  border-start-end-radius: 0.625rem; /* 10px, matches the group's own radius */
+  border-end-end-radius: 0.625rem;
+}
+
+.wsu-NumberField__stepper[data-hovered] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-NumberField__stepper[data-focus-visible] {
+  outline: none;
+  box-shadow: inset 1px 0 0 0 var(--wsu-color-field-border), var(--wsu-shadow-focus-ring);
+}
+
+.wsu-NumberField__stepper[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-NumberField__message {
+  margin: 0;
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-NumberField__message--error {
+  color: var(--wsu-color-text-danger);
+}

@@ -1,0 +1,39 @@
+/**
+ * No Figma source (not present in design-inventory.md, same as Breadcrumbs,
+ * which already draws its per-crumb link from this same react-aria-components
+ * primitive). Styled from the WAI-ARIA APG "link" semantics using this
+ * system's primary/focus-ring/disabled-text tokens rather than a new visual
+ * language.
+ */
+.wsu-Link {
+  color: var(--wsu-color-primary-bg);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  transition-property: color, text-decoration-thickness;
+  transition-duration: var(--wsu-motion-fast);
+  transition-timing-function: var(--wsu-motion-easing);
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  border-radius: var(--wsu-radius-xs);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wsu-Link[data-hovered] {
+  text-decoration-thickness: 2px;
+}
+
+.wsu-Link[data-pressed] {
+  color: var(--wsu-color-primary-bg-hover);
+}
+
+.wsu-Link[data-focus-visible] {
+  outline: none;
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-Link[data-disabled] {
+  cursor: not-allowed;
+  color: var(--wsu-color-text-disabled);
+  text-decoration: none;
+}

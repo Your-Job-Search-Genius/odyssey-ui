@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
 import { AliceIcon } from "./AliceIcon";
-import { AcceptGlyph, DismissGlyph, CaretGlyph } from "./internals";
 import "./Alice.css";
+import { CheckmarkCircle02Icon, MultiplicationSignIcon, ArrowUp01SharpIcon, ArrowDown01SharpIcon } from "@your-job-search-genius/icons";
 
 export interface AliceRewriteCardProps extends Omit<HTMLAttributes<HTMLElement>, "title"> {
   /** Header label — "Rewrite" for a single suggestion, "Contributions Rewrite" for a run. */
@@ -69,13 +69,13 @@ export const AliceRewriteCard = forwardRef<HTMLElement, AliceRewriteCardProps>(f
         {count ? (
           <div className="wsu-AliceCard__stepper">
             <button type="button" className="wsu-AliceCard__stepperButton" onClick={onPrev} aria-label="Previous rewrite" disabled={count.current <= 1}>
-              <CaretGlyph direction="up" />
+              <ArrowUp01SharpIcon size="0.5625rem" />
             </button>
             <span className="wsu-AliceCard__stepperCount">
               {count.current}/{count.total}
             </span>
             <button type="button" className="wsu-AliceCard__stepperButton" onClick={onNext} aria-label="Next rewrite" disabled={count.current >= count.total}>
-              <CaretGlyph direction="down" />
+              <ArrowDown01SharpIcon size="0.5625rem" />
             </button>
           </div>
         ) : null}
@@ -95,7 +95,7 @@ export const AliceRewriteCard = forwardRef<HTMLElement, AliceRewriteCardProps>(f
 
         <div className="wsu-AliceCard__actions">
           <button type="button" className="wsu-AliceButton" onClick={onAccept}>
-            <AcceptGlyph />
+            <CheckmarkCircle02Icon size="1rem" className="wsu-AliceButton__accept" />
             Accept
           </button>
           {secondaryAction === "dismiss" ? (
@@ -104,7 +104,7 @@ export const AliceRewriteCard = forwardRef<HTMLElement, AliceRewriteCardProps>(f
               className="wsu-AliceCard__ghostAction wsu-AliceCard__ghostAction--dismiss"
               onClick={onDismiss}
             >
-              <DismissGlyph />
+              <MultiplicationSignIcon size="1rem" className="wsu-AliceCard__dismissIcon" />
               Dismiss
             </button>
           ) : (

@@ -72,4 +72,19 @@ describe("Checkbox", () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it("renders and associates description text via aria-describedby", () => {
+    render(<Checkbox label="Product Updates" description="Get notified about new features and improvements" />);
+    const box = screen.getByRole("checkbox", { name: "Product Updates" });
+    const describedById = box.getAttribute("aria-describedby");
+    expect(describedById).toBeTruthy();
+    expect(document.getElementById(describedById as string)).toHaveTextContent(
+      "Get notified about new features and improvements",
+    );
+  });
+
+  it("has no axe violations with a description", async () => {
+    const { container } = render(<Checkbox label="Product Updates" description="Get notified about new features and improvements" />);
+    expect(await axe(container)).toHaveNoViolations();
+  });
 });

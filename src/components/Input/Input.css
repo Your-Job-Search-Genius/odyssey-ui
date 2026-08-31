@@ -78,6 +78,13 @@
   cursor: not-allowed;
 }
 
+/* Bare control for use inside Group — sizes to its content instead of stretching. */
+.wsu-Input__control--unstyled {
+  flex: 0 1 auto;
+  width: min-content;
+  min-width: min-content;
+}
+
 .wsu-Input__icon {
   display: inline-flex;
   flex-shrink: 0;

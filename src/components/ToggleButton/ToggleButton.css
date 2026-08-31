@@ -1,0 +1,131 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Reuses Button's per-size
+ * geometry (height/padding/icon slot, all sizes on the shared
+ * --wsu-radius-sm rather than Button lg's one-off 9px, since that override
+ * exists only to pixel-match a Figma symbol this component has none of) so
+ * a standalone ToggleButton sits on the same baseline as a Button beside
+ * it. The selected fill borrows Tag's data-selected treatment (primary-bg
+ * fill, on-primary text) rather than a new visual language.
+ */
+.wsu-ToggleButton {
+  --wsu-button-icon-size: 1.125rem; /* 18px, matches Button */
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem; /* 6px, matches Button */
+  background-color: var(--wsu-color-surface-default);
+  color: var(--wsu-color-text-heading);
+  border: 0.75px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-sm);
+  padding-inline: var(--wsu-space-3);
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  transition: background-color var(--wsu-motion-fast) var(--wsu-motion-easing), color var(--wsu-motion-fast) var(--wsu-motion-easing), border-color var(--wsu-motion-fast) var(--wsu-motion-easing), box-shadow var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
+
+.wsu-ToggleButton--sm {
+  height: 1.75rem; /* 28px */
+  font: var(--wsu-font-body-sm);
+}
+.wsu-ToggleButton--md {
+  height: 2rem; /* 32px */
+  font: var(--wsu-font-body-sm);
+}
+.wsu-ToggleButton--lg {
+  height: 2.25rem; /* 36px */
+  font: var(--wsu-font-body-md);
+}
+
+/* Square, at the button's own height — same WCAG 2.5.8 rationale as Button--icon-only. */
+.wsu-ToggleButton--icon-only {
+  padding-inline: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.wsu-ToggleButton :where(svg) {
+  width: var(--wsu-button-icon-size);
+  height: var(--wsu-button-icon-size);
+  flex-shrink: 0;
+}
+
+.wsu-ToggleButton[data-hovered]:not([data-selected]) {
+  background-color: var(--wsu-color-surface-subtle);
+}
+
+.wsu-ToggleButton[data-selected] {
+  background-color: var(--wsu-color-primary-bg);
+  color: var(--wsu-color-text-on-primary);
+  border-color: var(--wsu-color-primary-bg);
+}
+
+.wsu-ToggleButton[data-selected][data-hovered] {
+  background-color: var(--wsu-color-primary-bg-hover);
+  border-color: var(--wsu-color-primary-bg-hover);
+}
+
+.wsu-ToggleButton[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring);
+}
+
+.wsu-ToggleButton[data-disabled] {
+  cursor: not-allowed;
+  color: var(--wsu-color-text-disabled);
+  opacity: 0.6;
+}
+
+/**
+ * ToggleButtonGroup — segmented-control joining: adjacent ToggleButtons
+ * overlap by their shared 0.75px border so it reads as one hairline
+ * instead of a double-thick seam, and only the group's outer corners
+ * round — the same "one continuous track" treatment Tabs' TabList uses.
+ * Logical properties keep the rounding correct under RTL.
+ */
+.wsu-ToggleButtonGroup {
+  display: inline-flex;
+}
+
+.wsu-ToggleButtonGroup[data-orientation="vertical"] {
+  flex-direction: column;
+  width: fit-content;
+}
+
+.wsu-ToggleButtonGroup:not([data-orientation="vertical"]) > .wsu-ToggleButton {
+  border-radius: 0;
+  margin-inline-start: -0.75px;
+}
+
+.wsu-ToggleButtonGroup:not([data-orientation="vertical"]) > .wsu-ToggleButton:first-child {
+  margin-inline-start: 0;
+  border-start-start-radius: var(--wsu-radius-sm);
+  border-end-start-radius: var(--wsu-radius-sm);
+}
+
+.wsu-ToggleButtonGroup:not([data-orientation="vertical"]) > .wsu-ToggleButton:last-child {
+  border-start-end-radius: var(--wsu-radius-sm);
+  border-end-end-radius: var(--wsu-radius-sm);
+}
+
+.wsu-ToggleButtonGroup[data-orientation="vertical"] > .wsu-ToggleButton {
+  border-radius: 0;
+  margin-block-start: -0.75px;
+}
+
+.wsu-ToggleButtonGroup[data-orientation="vertical"] > .wsu-ToggleButton:first-child {
+  margin-block-start: 0;
+  border-start-start-radius: var(--wsu-radius-sm);
+  border-start-end-radius: var(--wsu-radius-sm);
+}
+
+.wsu-ToggleButtonGroup[data-orientation="vertical"] > .wsu-ToggleButton:last-child {
+  border-end-start-radius: var(--wsu-radius-sm);
+  border-end-end-radius: var(--wsu-radius-sm);
+}
+
+/* Keep the hovered/selected/focused item's border above its flat-edged neighbors. */
+.wsu-ToggleButtonGroup > .wsu-ToggleButton[data-selected],
+.wsu-ToggleButtonGroup > .wsu-ToggleButton[data-hovered],
+.wsu-ToggleButtonGroup > .wsu-ToggleButton[data-focus-visible] {
+  z-index: 1;
+}

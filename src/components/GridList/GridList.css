@@ -1,0 +1,137 @@
+/**
+ * No Figma source (design-inventory.md §2.14). Container chrome matches
+ * ListBox's (border/radius/shadow); row layout is its own since GridList
+ * rows carry more than a label (an optional image, description, actions).
+ */
+.wsu-GridListContainer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--wsu-color-surface-default);
+  border: 0.75px solid var(--wsu-color-border-default);
+  border-radius: var(--wsu-radius-md);
+  box-shadow: var(--wsu-shadow-sm);
+  overflow: hidden;
+}
+
+.wsu-GridListContainer__search {
+  padding: var(--wsu-space-2);
+  border-bottom: 1px solid var(--wsu-color-border-default);
+}
+
+.wsu-GridListContainer__search .wsu-SearchField__field {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.wsu-GridListContainer__search .wsu-SearchField__field:focus-within {
+  box-shadow: none;
+}
+
+.wsu-GridList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem; /* 7px, matching ListBox's row gap */
+  padding: 0.625rem; /* 10px */
+  max-height: 22rem;
+  overflow-y: auto;
+  outline: none;
+}
+
+.wsu-GridListItem {
+  display: flex;
+  align-items: center;
+  gap: var(--wsu-space-2); /* 8px */
+  padding: var(--wsu-space-2); /* 8px */
+  min-height: 2.75rem; /* 44px, matching Input/SearchField's field row */
+  border-radius: var(--wsu-radius-sm);
+  cursor: pointer;
+  outline: none;
+}
+
+.wsu-GridListItem[data-hovered],
+.wsu-GridListItem[data-focused] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-GridListItem[data-focus-visible] {
+  box-shadow: var(--wsu-shadow-focus-ring-inset);
+}
+
+.wsu-GridListItem[data-selected] {
+  background-color: var(--wsu-color-secondary-bg-hover);
+}
+
+.wsu-GridListItem[data-disabled] {
+  color: var(--wsu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.wsu-GridListItem__check {
+  flex-shrink: 0;
+  color: var(--wsu-color-primary-bg);
+}
+
+.wsu-GridListItem__checkPlaceholder {
+  flex-shrink: 0;
+  width: var(--wsu-icon-size-md);
+  height: var(--wsu-icon-size-md);
+}
+
+.wsu-GridListItem__image {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--wsu-radius-sm);
+  overflow: hidden;
+}
+
+.wsu-GridListItem__image > :where(img, svg) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wsu-GridListItem__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.wsu-GridListItem__title {
+  font: var(--wsu-font-body-md-semibold);
+  color: var(--wsu-color-text-heading);
+}
+
+.wsu-GridListItem[data-disabled] .wsu-GridListItem__title {
+  color: var(--wsu-color-text-disabled);
+}
+
+.wsu-GridListItem__description {
+  font: var(--wsu-font-body-sm);
+  color: var(--wsu-color-text-subtle);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* text-subtle only clears AA (4.56:1) against the plain surface; on the
+   hover/focused/selected row's secondary-bg-hover fill it drops to 4.21:1,
+   so those states switch to text-body (6.61:1 against the same fill). */
+.wsu-GridListItem[data-hovered] .wsu-GridListItem__description,
+.wsu-GridListItem[data-focused] .wsu-GridListItem__description,
+.wsu-GridListItem[data-selected] .wsu-GridListItem__description {
+  color: var(--wsu-color-text-body);
+}
+
+.wsu-GridListItem__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}

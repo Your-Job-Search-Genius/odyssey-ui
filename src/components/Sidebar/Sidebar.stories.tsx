@@ -2,41 +2,41 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Sidebar } from "./Sidebar";
 import type { SidebarItemData } from "./Sidebar";
 import {
-  DashboardGlyph,
-  BriefcaseGlyph,
-  ResumeGlyph,
-  CoverLetterGlyph,
-  AnalyzerGlyph,
-  InterviewGlyph,
-  AutoApplyGlyph,
-  OfferNegotiationGlyph,
-  HelpCircleGlyph,
-  BellGlyph,
-  ChevronUpGlyph,
-} from "../Icon/glyphs";
+  Home03Icon,
+  Briefcase01Icon,
+  File01Icon,
+  Mail01Icon,
+  Linkedin01Icon,
+  UserQuestion01Icon,
+  FlashIcon,
+  LegalDocument01Icon,
+  HelpCircleIcon,
+  Notification02Icon,
+  ArrowUp01SharpIcon,
+} from "@your-job-search-genius/icons";
 
 /**
  * The exact item set from Figma's "Side Navigation" frame (node 433:11097).
  * Every href is "#" so the nav is clickable in Storybook without navigating away.
  */
 const items: SidebarItemData[] = [
-  { id: "dashboard", label: "Dashboard", href: "#", icon: <DashboardGlyph /> },
-  { id: "job-board", label: "Job Board", href: "#", icon: <BriefcaseGlyph /> },
-  { id: "resume", label: "Resume", href: "#", icon: <ResumeGlyph /> },
-  { id: "cover-letter", label: "Cover Letter", href: "#", icon: <CoverLetterGlyph /> },
-  { id: "linkedin", label: "LinkedIn Analyzer", href: "#", icon: <AnalyzerGlyph /> },
+  { id: "dashboard", label: "Dashboard", href: "#", icon: <Home03Icon /> },
+  { id: "job-board", label: "Job Board", href: "#", icon: <Briefcase01Icon /> },
+  { id: "resume", label: "Resume", href: "#", icon: <File01Icon /> },
+  { id: "cover-letter", label: "Cover Letter", href: "#", icon: <Mail01Icon /> },
+  { id: "linkedin", label: "LinkedIn Analyzer", href: "#", icon: <Linkedin01Icon /> },
   {
     id: "interview",
     label: "Interview",
-    icon: <InterviewGlyph />,
+    icon: <UserQuestion01Icon />,
     children: [
       { id: "mock", label: "Mock Interview", href: "#" },
       { id: "prep", label: "Job Preparation", href: "#" },
       { id: "questions", label: "Question Bank", href: "#" },
     ],
   },
-  { id: "auto-apply", label: "Auto Apply", href: "#", icon: <AutoApplyGlyph /> },
-  { id: "offer", label: "Offer Negotiation", href: "#", icon: <OfferNegotiationGlyph /> },
+  { id: "auto-apply", label: "Auto Apply", href: "#", icon: <FlashIcon /> },
+  { id: "offer", label: "Offer Negotiation", href: "#", icon: <LegalDocument01Icon /> },
 ];
 
 const meta: Meta<typeof Sidebar> = {
@@ -157,8 +157,8 @@ function AccountFooter() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.8125rem" /* 13px */ }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "0.1875rem" /* 3px */ }}>
-        <UtilityRow icon={<HelpCircleGlyph size="1.125rem" />} label="Help and Support" />
-        <UtilityRow icon={<BellGlyph size="1.125rem" />} label="Notifications" />
+        <UtilityRow icon={<HelpCircleIcon size="1.125rem" />} label="Help and Support" />
+        <UtilityRow icon={<Notification02Icon size="1.125rem" />} label="Notifications" />
       </div>
       {/* 197px rule in a 185px content box — it bleeds 6px past the padding on each side. */}
       <hr
@@ -190,7 +190,7 @@ function AccountFooter() {
             Moremi Chris
           </span>
         </div>
-        <ChevronUpGlyph size="1.125rem" style={{ color: "var(--wsu-color-text-heading)" }} />
+        <ArrowUp01SharpIcon size="1.125rem" style={{ color: "var(--wsu-color-text-heading)" }} />
       </div>
     </div>
   );

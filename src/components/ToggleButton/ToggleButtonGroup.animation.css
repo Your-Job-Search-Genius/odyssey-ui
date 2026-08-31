@@ -1,0 +1,48 @@
+/**
+ * Storybook-only recipe (not a shipped variant) demonstrating
+ * `react-aria-components`' `SelectionIndicator`: an animated pill that
+ * slides between items as `ToggleButtonGroup` selection changes, via the
+ * library's own shared-element transition rather than a bespoke
+ * position-tracking calculation. Not in the source Figma file
+ * (design-inventory.md §2.14) — same rationale as
+ * `Textarea/InlineMentions.stories.tsx`: upstream's own recipe, colocated
+ * with the component it demonstrates rather than productized further.
+ *
+ * Only `background-color`/`border-color` on `.wsu-ToggleButton` are
+ * overridden here (each beaten on class-count specificity alone, so this
+ * wins regardless of import order against `ToggleButton.css`) — the
+ * merged-border geometry from that file is left untouched.
+ */
+.wsu-SegmentedControlDemo {
+  padding: 0.1875rem; /* 3px */
+  background-color: var(--wsu-color-surface-subtle);
+  border-radius: var(--wsu-radius-sm);
+}
+
+.wsu-SegmentedControlDemo .wsu-ToggleButton,
+.wsu-SegmentedControlDemo .wsu-ToggleButton[data-selected] {
+  position: relative;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.wsu-SegmentedControlDemo .wsu-ToggleButton[data-selected] {
+  color: var(--wsu-color-text-on-primary);
+}
+
+.wsu-SegmentedControlLabel {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sized to its own ToggleButton parent (inset:0 needs that parent's
+   `position: relative` above); `inherit` picks up whatever border-radius
+   that item resolved to (square for middle items, rounded for the ends). */
+.wsu-SegmentedControlIndicator {
+  position: absolute;
+  inset: -0.75px;
+  z-index: 0;
+  border-radius: inherit;
+  background-color: var(--wsu-color-primary-bg);
+  transition: translate var(--wsu-motion-fast) var(--wsu-motion-easing);
+}
