@@ -136,6 +136,59 @@ export const ProgrammaticDismissal: Story = {
   },
 };
 
+export const ColorfulVariants: Story = {
+  name: "Status variants (success / warning / error)",
+  render: function ColorfulVariants() {
+    const queue = useDemoQueue();
+    return (
+      <div style={{ display: "flex", gap: 8 }}>
+        <ToastRegion queue={queue} />
+        <Button
+          onClick={() =>
+            queue.add({
+              variant: "success",
+              title: "Application submitted",
+              description: "Your application was sent to the employer.",
+            })
+          }
+        >
+          Show success toast
+        </Button>
+        <Button
+          onClick={() =>
+            queue.add({
+              variant: "warning",
+              title: "Resume nearly full",
+              description: "You're close to the one-page limit.",
+            })
+          }
+        >
+          Show warning toast
+        </Button>
+        <Button
+          onClick={() =>
+            queue.add({
+              variant: "error",
+              title: "Upload failed",
+              description: "That file is larger than 10MB.",
+            })
+          }
+        >
+          Show error toast
+        </Button>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`content.variant` tints the toast's leading accent bar (success/warning/error) using this system's existing semantic and danger tokens — the dark surface itself doesn't change. Omit `variant` for the default neutral look used by every other story on this page.",
+      },
+    },
+  },
+};
+
 export const KeyboardInteraction: Story = {
   render: function KeyboardInteraction() {
     const queue = useDemoQueue();

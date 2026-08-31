@@ -56,6 +56,28 @@
   outline-offset: 2px;
 }
 
+/**
+ * Variant only tints a leading accent bar, not the surface — the dark
+ * background is this component's whole design language (see the
+ * `ToastRegion` docstring), so status color reads as a signal on top of it
+ * rather than replacing it. Reuses existing semantic/danger tokens instead
+ * of inventing new ones outside a design review.
+ */
+.wsu-Toast[data-variant] {
+  border-inline-start-width: 0.1875rem; /* 3px */
+  border-inline-start-style: solid;
+  padding-inline-start: calc(var(--wsu-space-4) - 0.1875rem);
+}
+.wsu-Toast[data-variant="success"] {
+  border-inline-start-color: var(--wsu-color-text-success);
+}
+.wsu-Toast[data-variant="warning"] {
+  border-inline-start-color: var(--wsu-color-text-warning);
+}
+.wsu-Toast[data-variant="error"] {
+  border-inline-start-color: var(--wsu-color-danger-bg);
+}
+
 .wsu-Toast__content {
   display: flex;
   flex-direction: column;
