@@ -78,11 +78,15 @@
   cursor: not-allowed;
 }
 
-/* Bare control for use inside Group — sizes to its content instead of stretching. */
+/* Bare control for use inside Group / OtpInput / TagsInput — don't stretch to
+   fill the field box. Avoid `min-width: min-content`: for a text <input> that
+   resolves to the UA default size=20 (~20ch), which blows past any explicit
+   width the composite sets (Group segments, OTP boxes). Callers that need a
+   floor set min-width themselves (TagsInput uses 6ch). */
 .wsu-Input__control--unstyled {
   flex: 0 1 auto;
-  width: min-content;
-  min-width: min-content;
+  width: auto;
+  min-width: 0;
 }
 
 .wsu-Input__icon {
