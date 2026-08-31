@@ -17,6 +17,8 @@ export type { ToastOptions };
 export interface ToastContent {
   title: string;
   description?: ReactNode;
+  /** Tints the toast's leading accent bar. Omit for the default neutral look. */
+  variant?: "success" | "warning" | "error";
 }
 
 /**
@@ -72,6 +74,7 @@ export function ToastRegion({ queue = toastQueue }: ToastRegionProps) {
         <AriaToast
           toast={toast}
           className="wsu-Toast"
+          data-variant={toast.content.variant}
           style={{ viewTransitionName: toast.key } as CSSProperties}
         >
           <AriaToastContent className="wsu-Toast__content">

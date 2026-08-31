@@ -25,6 +25,13 @@
   flex-direction: column-reverse;
   gap: var(--wsu-space-2);
   max-width: calc(100vw - 2 * var(--wsu-space-4));
+  /**
+   * Without a cap, a long stack just grows past the top of the viewport —
+   * still there, but invisible and unreachable by mouse. Bounding it and
+   * letting it scroll keeps every queued toast visible and dismissible.
+   */
+  max-height: calc(100vh - 2 * var(--wsu-space-4));
+  overflow-y: auto;
   outline: none;
 }
 
