@@ -1,13 +1,21 @@
-import { Button, ToastRegion, toastQueue } from "@your-job-search-genius/odyssey-ui";
+import { useState } from "react";
+import {
+  Button,
+  ToastRegion,
+  ToastQueue,
+  type ToastContent,
+} from "@your-job-search-genius/odyssey-ui";
 
 export default function ToastBasic() {
+  const [queue] = useState(() => new ToastQueue<ToastContent>());
+
   return (
     <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-      <ToastRegion />
+      <ToastRegion queue={queue} />
       <Button
         variant="secondary"
         onClick={() =>
-          toastQueue.add({
+          queue.add({
             title: "Files uploaded",
             description: "3 files uploaded successfully.",
           })
@@ -18,7 +26,7 @@ export default function ToastBasic() {
       <Button
         variant="secondary"
         onClick={() =>
-          toastQueue.add({
+          queue.add({
             variant: "success",
             title: "Application submitted",
             description: "Your application was sent to the employer.",
@@ -30,7 +38,7 @@ export default function ToastBasic() {
       <Button
         variant="secondary"
         onClick={() =>
-          toastQueue.add({
+          queue.add({
             variant: "warning",
             title: "Resume nearly full",
             description: "You're close to the one-page limit.",
@@ -42,7 +50,7 @@ export default function ToastBasic() {
       <Button
         variant="secondary"
         onClick={() =>
-          toastQueue.add({
+          queue.add({
             variant: "error",
             title: "Upload failed",
             description: "That file is larger than 10MB.",

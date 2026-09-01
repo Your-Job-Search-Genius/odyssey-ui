@@ -12,6 +12,7 @@ export * from "./components/Textarea";
 export * from "./components/Tabs";
 export * from "./components/Tooltip";
 export * from "./components/Popover";
+export * from "./components/PreviewTrigger";
 export * from "./components/Modal";
 export * from "./components/Select";
 export * from "./components/ComboBox";
