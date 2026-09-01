@@ -138,10 +138,16 @@ importers:
       react-router-dom:
         specifier: ^6.28.0
         version: 6.30.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-stately:
+        specifier: ^3.49.0
+        version: 3.49.0(react@18.3.1)
       shiki:
         specifier: ^3.0.0
         version: 3.23.0
     devDependencies:
+      '@react-types/shared':
+        specifier: ^3.36.1
+        version: 3.36.1(react@18.3.1)
       '@types/react':
         specifier: ^18.3.12
         version: 18.3.31
