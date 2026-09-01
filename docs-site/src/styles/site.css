@@ -1603,9 +1603,13 @@ body {
 
   .docs-btn--primary:hover,
   .docs-btn--ghost:hover,
-  .docs-card:hover,
-  .docs-header__link::after {
+  .docs-card:hover {
     transform: none;
+  }
+
+  /* Keep the nav underline's hidden resting state; just remove its motion. */
+  .docs-header__link::after {
+    transition: none;
   }
 }
 
