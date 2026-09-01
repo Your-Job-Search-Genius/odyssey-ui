@@ -30,17 +30,19 @@ if (import.meta.env.DEV) {
       console.warn(`[registry] demo file not referenced by registry: ${key}`);
     }
   }
-  // Keep `audiences` tags meaningful: an empty array or a redundant explicit
-  // "generic" both mean the same thing as omitting the field entirely.
+  // Keep `audiences` tags meaningful: an empty array, or an explicit
+  // ["generic"] with nothing else, both mean the same thing as omitting the
+  // field entirely. "generic" alongside other tags (e.g. ["generic", "client"])
+  // is meaningful and not redundant — it's the only way to say "serves both".
   for (const c of registry) {
     if (c.audiences?.length === 0) {
       console.warn(
         `[registry] ${c.slug}: "audiences" is an empty array — omit the field to mean generic.`,
       );
     }
-    if (c.audiences?.includes("generic")) {
+    if (c.audiences?.length === 1 && c.audiences[0] === "generic") {
       console.warn(
-        `[registry] ${c.slug}: "generic" is redundant inside "audiences" — omit the field entirely instead.`,
+        `[registry] ${c.slug}: "audiences: [\"generic\"]" is redundant — omit the field entirely instead.`,
       );
     }
   }

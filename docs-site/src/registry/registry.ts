@@ -1597,7 +1597,7 @@ export const registry: ComponentEntry[] = [
     slug: "badge",
     name: "Badge",
     category: "data-display",
-    audiences: ["client"],
+    audiences: ["generic", "client"],
     description: "Compact status label with semantic color variants and optional icons.",
     importNames: ["Badge"],
     subpath: "Badge",
@@ -1617,6 +1617,12 @@ export const registry: ComponentEntry[] = [
         id: "with-icon",
         title: "With icon",
         description: "A leading icon can accompany the badge's text label.",
+      },
+      {
+        id: "design-modes",
+        title: "Design modes",
+        description:
+          "designMode forces the generic/client/admin design for one instance. Generic and client render identically today — this is the hook a future admin-specific redesign would target.",
       },
     ],
   },

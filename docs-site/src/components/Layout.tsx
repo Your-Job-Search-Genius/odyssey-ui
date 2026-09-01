@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   GithubIcon,
   Menu01Icon,
   Search02Icon,
 } from "@your-job-search-genius/icons";
+import { useReveal } from "../lib/useReveal";
+import { Footer } from "./Footer";
 import { MobileDrawer } from "./MobileDrawer";
 import { SearchPalette } from "./SearchPalette";
 import { SidebarNav } from "./SidebarNav";
@@ -15,6 +17,9 @@ const GITHUB_URL = "https://github.com/Your-Job-Search-Genius/yjsg-ui";
 export function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const location = useLocation();
+
+  useReveal();
 
   return (
     <div className="docs-shell">
@@ -74,10 +79,18 @@ export function Layout() {
         <aside className="docs-sidebar">
           <SidebarNav />
         </aside>
-        <div className="docs-content" id="docs-content">
+        {/* Keyed on the path so each navigation replays the entrance
+            animation (docs-page-in) and useReveal re-scans fresh content. */}
+        <div
+          className="docs-content docs-page-in"
+          id="docs-content"
+          key={location.pathname}
+        >
           <Outlet />
         </div>
       </div>
+
+      <Footer />
 
       {drawerOpen && <MobileDrawer onClose={() => setDrawerOpen(false)} />}
       <SearchPalette isOpen={searchOpen} onOpenChange={setSearchOpen} />

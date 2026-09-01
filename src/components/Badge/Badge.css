@@ -15,6 +15,15 @@
   white-space: nowrap;
 }
 
+/**
+ * Badge also carries a wsu-Badge--{generic|client|admin} modifier (see
+ * Badge.tsx's `designMode` prop / docs/design-mode.md). No rules target it
+ * yet — "generic" and "client" both fall through to the unscoped styles
+ * above, i.e. today's one and only design. Add a `.wsu-Badge--admin { ... }`
+ * block here (mirroring the severity/type blocks below) once an actual
+ * distinct admin design exists.
+ */
+
 .wsu-Badge__icon {
   display: inline-flex;
   flex-shrink: 0;

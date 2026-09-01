@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { axe } from "vitest-axe";
 import { Badge } from "./Badge";
+import { ThemeProvider } from "../../theme/ThemeProvider";
 import { Tick01Icon } from "@your-job-search-genius/icons";
 
 describe("Badge", () => {
@@ -77,6 +78,31 @@ describe("Badge", () => {
     for (const s of severities) {
       expect(screen.getByText(s)).toBeInTheDocument();
     }
+  });
+
+  it("defaults to the generic design mode with no ThemeProvider mounted", () => {
+    render(<Badge>Excellent</Badge>);
+    expect(screen.getByText("Excellent").closest(".wsu-Badge")).toHaveClass("wsu-Badge--generic");
+  });
+
+  it("picks up the ambient ThemeProvider mode", () => {
+    render(
+      <ThemeProvider mode="client">
+        <Badge>Excellent</Badge>
+      </ThemeProvider>,
+    );
+    expect(screen.getByText("Excellent").closest(".wsu-Badge")).toHaveClass("wsu-Badge--client");
+  });
+
+  it("lets a local designMode prop override the ambient ThemeProvider mode", () => {
+    render(
+      <ThemeProvider mode="client">
+        <Badge designMode="admin">Excellent</Badge>
+      </ThemeProvider>,
+    );
+    const el = screen.getByText("Excellent").closest(".wsu-Badge")!;
+    expect(el).toHaveClass("wsu-Badge--admin");
+    expect(el).not.toHaveClass("wsu-Badge--client");
   });
 
   it("has no axe violations across every type x severity combination", async () => {

@@ -1,5 +1,7 @@
 import { forwardRef } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
+import { useDesignMode } from "../../theme/DesignModeContext";
+import type { DesignMode } from "../../theme/types";
 import "./Badge.css";
 
 export type BadgeSeverity = "excellent" | "good" | "fair" | "poor" | "bad" | "fail";
@@ -13,6 +15,13 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
    */
   severity?: BadgeSeverity;
   type?: BadgeType;
+  /**
+   * Force a specific team's design for this instance, overriding the
+   * ambient `ThemeProvider` `mode`. Defaults to "generic" — today's
+   * default look, identical to "client" until a distinct design is
+   * introduced for one of them. See `docs/design-mode.md`.
+   */
+  designMode?: DesignMode;
   /** Leading glyph, rendered at 16px. */
   icon?: ReactNode;
   /** Trailing glyph, rendered at 16px. Ignored when `count` is set. */
@@ -36,12 +45,24 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
  * colour carries the meaning, and `filled`/`border`/`tabs` are 32px neutral
  * chips where the colour only tints an optional count. Severity is never
  * the sole cue — the label always says what it means (WCAG 1.4.1).
+ *
+ * Also renders a `wsu-Badge--{generic|client|admin}` modifier driven by
+ * `designMode` (or the ambient `ThemeProvider` `mode`) — see
+ * `docs/design-mode.md`. "generic" and "client" currently share one look;
+ * this is the hook a future admin-specific redesign would target.
  */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
-  { severity = "good", type = "soft", icon, trailingIcon, count, countLabel, children, className, ...rest },
+  { severity = "good", type = "soft", designMode, icon, trailingIcon, count, countLabel, children, className, ...rest },
   ref,
 ) {
-  const classes = ["wsu-Badge", `wsu-Badge--${type}`, `wsu-Badge--${severity}`, className ?? ""]
+  const resolvedMode = useDesignMode(designMode);
+  const classes = [
+    "wsu-Badge",
+    `wsu-Badge--${type}`,
+    `wsu-Badge--${severity}`,
+    `wsu-Badge--${resolvedMode}`,
+    className ?? "",
+  ]
     .filter(Boolean)
     .join(" ");
 

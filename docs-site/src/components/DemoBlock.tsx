@@ -39,7 +39,7 @@ export function DemoBlock({ slug, demo }: DemoBlockProps) {
   const headingId = `demo-${demo.id}`;
 
   return (
-    <section aria-labelledby={headingId}>
+    <section aria-labelledby={headingId} data-reveal>
       <h2 id={headingId}>
         <a className="docs-anchor" href={`#${headingId}`}>
           {demo.title}

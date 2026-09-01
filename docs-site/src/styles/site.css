@@ -38,6 +38,20 @@
   --docs-header-h: 3.5rem;
   --docs-sidebar-w: 16.5rem;
 
+  /* Bolder brand system: a second hue + gradient, glass surfaces, accent
+     glow, and a shared easing curve. Additive — nothing above is renamed. */
+  --docs-accent-2: #a855f7;
+  --docs-gradient-brand: linear-gradient(120deg, #7a5cff 0%, #563bdb 48%, #a855f7 100%);
+  --docs-gradient-brand-soft: linear-gradient(
+    120deg,
+    rgba(122, 92, 255, 0.14),
+    rgba(168, 85, 247, 0.1)
+  );
+  --docs-glass-bg: color-mix(in srgb, #ffffff 74%, transparent);
+  --docs-glass-border: rgba(16, 20, 25, 0.08);
+  --docs-glow: 0 8px 28px rgba(86, 59, 219, 0.28);
+  --docs-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
   --docs-shiki-theme: var(--docs-shiki-light);
 }
 
@@ -66,10 +80,22 @@
   --docs-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.35);
   --docs-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5),
     0 16px 48px rgba(0, 0, 0, 0.55);
+
+  --docs-accent-2: #c77dff;
+  --docs-gradient-brand: linear-gradient(120deg, #a78bff 0%, #8b6bff 48%, #c77dff 100%);
+  --docs-gradient-brand-soft: linear-gradient(
+    120deg,
+    rgba(140, 120, 255, 0.2),
+    rgba(190, 120, 255, 0.13)
+  );
+  --docs-glass-bg: color-mix(in srgb, #0c0e12 66%, transparent);
+  --docs-glass-border: rgba(255, 255, 255, 0.08);
+  --docs-glow: 0 8px 32px rgba(120, 90, 255, 0.4);
 }
 
 html {
   scroll-padding-top: calc(var(--docs-header-h) + 1.5rem);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -100,10 +126,23 @@ body {
   gap: 1rem;
   height: var(--docs-header-h);
   padding: 0 1.25rem;
-  background: color-mix(in srgb, var(--docs-bg) 82%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--docs-glass-bg);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
   border-bottom: 1px solid var(--docs-border);
+}
+
+/* Faint brand-gradient hairline under the header border. */
+.docs-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--docs-gradient-brand);
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 .docs-header__brand {
@@ -124,11 +163,11 @@ body {
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 0.5rem;
-  background: linear-gradient(135deg, #6a4df0, #563bdb 55%, #3f2aa8);
+  background: var(--docs-gradient-brand);
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
-  box-shadow: 0 2px 6px rgba(86, 59, 219, 0.35);
+  box-shadow: 0 2px 8px rgba(86, 59, 219, 0.4);
 }
 
 .docs-header__version {
@@ -152,17 +191,39 @@ body {
 }
 
 .docs-header__link {
+  position: relative;
   color: var(--docs-body);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
   padding: 0.35rem 0.65rem;
   border-radius: 0.5rem;
+  transition: color 140ms var(--docs-ease), background 140ms var(--docs-ease);
+}
+
+/* Animated underline that grows in on hover / active route. */
+.docs-header__link::after {
+  content: "";
+  position: absolute;
+  left: 0.65rem;
+  right: 0.65rem;
+  bottom: 0.1rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--docs-gradient-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 200ms var(--docs-ease);
 }
 
 .docs-header__link:hover {
   background: var(--docs-bg-hover);
   color: var(--docs-ink);
+}
+
+.docs-header__link:hover::after,
+.docs-header__link[aria-current="page"]::after {
+  transform: scaleX(1);
 }
 
 .docs-header__link[aria-current="page"] {
@@ -217,6 +278,7 @@ body {
   border: 1px solid transparent;
   border-radius: 0.55rem;
   cursor: pointer;
+  transition: color 140ms var(--docs-ease), background 140ms var(--docs-ease);
 }
 
 .docs-icon-btn:hover {
@@ -304,6 +366,7 @@ body {
   text-decoration: none;
   border-radius: 0.45rem;
   border-left: 2px solid transparent;
+  transition: background 140ms var(--docs-ease), color 140ms var(--docs-ease);
 }
 
 .docs-sidebar__link:hover {
@@ -355,6 +418,13 @@ body {
   max-width: 47rem;
 }
 
+/* Home lays out full-width bands; clip decorative hero overflow so the
+   drifting gradient blobs never create horizontal scroll. */
+.docs-home {
+  position: relative;
+  overflow-x: clip;
+}
+
 .docs-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -363,11 +433,13 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--docs-accent-ink);
-  background: var(--docs-accent-soft);
+  background: var(--docs-gradient-brand-soft);
   border: 1px solid var(--docs-accent-soft-border);
   border-radius: 999px;
-  padding: 0.15rem 0.6rem;
+  padding: 0.2rem 0.7rem;
   margin-bottom: 0.85rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 /* Team tag(s) next to the eyebrow on a component's detail page — only
@@ -485,6 +557,8 @@ body {
   color: var(--docs-subtle);
   text-decoration: none;
   border-left: 1px solid transparent;
+  transition: color 140ms var(--docs-ease),
+    border-left-color 140ms var(--docs-ease);
 }
 
 .docs-rail__list a:hover {
@@ -501,6 +575,13 @@ body {
   background: var(--docs-bg-raised);
   box-shadow: var(--docs-shadow);
   overflow: hidden;
+  transition: box-shadow 200ms var(--docs-ease),
+    border-color 200ms var(--docs-ease);
+}
+
+.docs-demo:hover {
+  border-color: var(--docs-border-strong);
+  box-shadow: var(--docs-shadow-lg);
 }
 
 .docs-demo__bar {
@@ -522,6 +603,7 @@ body {
   border-radius: 0.45rem;
   padding: 0.3rem 0.7rem;
   cursor: pointer;
+  transition: color 140ms var(--docs-ease), background 140ms var(--docs-ease);
 }
 
 .docs-demo__tab:hover {
@@ -557,6 +639,7 @@ body {
   border-radius: 0.45rem;
   padding: 0.3rem 0.7rem;
   cursor: pointer;
+  transition: color 140ms var(--docs-ease), background 140ms var(--docs-ease);
 }
 
 .docs-audience-tabs__tab:hover {
@@ -779,20 +862,42 @@ body {
 }
 
 .docs-card {
+  position: relative;
   display: block;
   padding: 1rem 1.1rem;
   border: 1px solid var(--docs-border);
   border-radius: 0.8rem;
   background: var(--docs-bg-raised);
   text-decoration: none;
-  transition: border-color 120ms ease, transform 120ms ease,
-    box-shadow 120ms ease;
+  transition: border-color 180ms var(--docs-ease),
+    transform 180ms var(--docs-ease), box-shadow 180ms var(--docs-ease);
+}
+
+/* Gradient border that fades in on hover (border-only via mask compositing). */
+.docs-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--docs-gradient-brand);
+  -webkit-mask: linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 180ms var(--docs-ease);
+  pointer-events: none;
 }
 
 .docs-card:hover {
-  border-color: var(--docs-accent-soft-border);
-  box-shadow: var(--docs-shadow);
-  transform: translateY(-1px);
+  border-color: transparent;
+  box-shadow: var(--docs-shadow-lg);
+  transform: translateY(-4px);
+}
+
+.docs-card:hover::before {
+  opacity: 1;
 }
 
 .docs-card__title {
@@ -907,41 +1012,142 @@ body {
 /* ── Hero (home page) ──────────────────────────────────────────────────── */
 
 .docs-hero {
-  padding: 3.5rem 0 2.5rem;
-  max-width: 44rem;
+  position: relative;
+  padding: 4rem 0 3rem;
+  max-width: 56rem;
+}
+
+.docs-hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Decorative animated backdrop: drifting gradient blobs + a faded grid.
+   Fully behind content, aria-hidden, and clipped to its own box. */
+.docs-hero__bg {
+  position: absolute;
+  inset: -5rem -6rem -2rem;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.docs-hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      var(--docs-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, var(--docs-border) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 62% at 42% 34%,
+    #000 28%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 62% at 42% 34%,
+    #000 28%,
+    transparent 74%
+  );
+  opacity: 0.6;
+}
+
+.docs-hero__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.docs-hero__blob--1 {
+  width: 26rem;
+  height: 26rem;
+  top: -8rem;
+  left: -3rem;
+  background: radial-gradient(
+    circle,
+    rgba(122, 92, 255, 0.7),
+    transparent 70%
+  );
+  animation: docs-blob-1 18s var(--docs-ease) infinite alternate;
+}
+
+.docs-hero__blob--2 {
+  width: 22rem;
+  height: 22rem;
+  top: -5rem;
+  right: 1rem;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.5),
+    transparent 70%
+  );
+  animation: docs-blob-2 22s var(--docs-ease) infinite alternate;
+}
+
+.docs-hero__blob--3 {
+  width: 20rem;
+  height: 20rem;
+  bottom: -6rem;
+  left: 34%;
+  background: radial-gradient(circle, rgba(86, 59, 219, 0.45), transparent 70%);
+  animation: docs-blob-3 26s var(--docs-ease) infinite alternate;
+}
+
+@keyframes docs-blob-1 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(3rem, 2rem) scale(1.1);
+  }
+}
+
+@keyframes docs-blob-2 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-2.5rem, 1.5rem) scale(1.08);
+  }
+}
+
+@keyframes docs-blob-3 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(2rem, -2rem) scale(1.12);
+  }
 }
 
 .docs-hero h1 {
   margin: 0.75rem 0 1rem;
-  font-size: clamp(2.2rem, 5vw, 3.1rem);
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
   font-weight: 700;
   letter-spacing: -0.035em;
-  line-height: 1.08;
+  line-height: 1.06;
   color: var(--docs-ink);
 }
 
 .docs-hero h1 em {
   font-style: normal;
-  background: linear-gradient(120deg, #7a5cff, #563bdb 60%, #8e5cf0);
+  background: var(--docs-gradient-brand);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-:root[data-theme="dark"] .docs-hero h1 em {
-  background: linear-gradient(120deg, #aa88ff, #9d8bff 60%, #c0a6ff);
-  /* The background shorthand resets background-clip — without re-clipping,
-     the transparent text disappears entirely in dark mode. */
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
 .docs-hero p {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1.65;
   color: var(--docs-subtle);
   margin: 0 0 1.75rem;
-  max-width: 36rem;
+  max-width: 38rem;
 }
 
 .docs-hero__actions {
@@ -959,27 +1165,23 @@ body {
   font-weight: 600;
   text-decoration: none;
   border-radius: 0.6rem;
-  padding: 0.55rem 1.1rem;
+  padding: 0.6rem 1.2rem;
   cursor: pointer;
   border: 1px solid transparent;
+  transition: transform 160ms var(--docs-ease),
+    box-shadow 160ms var(--docs-ease), background 160ms var(--docs-ease),
+    border-color 160ms var(--docs-ease);
 }
 
 .docs-btn--primary {
-  background: var(--docs-accent);
+  background: var(--docs-gradient-brand);
   color: #fff;
+  box-shadow: var(--docs-glow);
 }
 
 .docs-btn--primary:hover {
-  background: var(--docs-accent-hover);
-}
-
-:root[data-theme="dark"] .docs-btn--primary {
-  background: #6a4df0;
-  color: #fff;
-}
-
-:root[data-theme="dark"] .docs-btn--primary:hover {
-  background: #7a5eff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 34px rgba(86, 59, 219, 0.42);
 }
 
 .docs-btn--ghost {
@@ -990,6 +1192,235 @@ body {
 
 .docs-btn--ghost:hover {
   background: var(--docs-bg-hover);
+  border-color: var(--docs-accent-soft-border);
+  transform: translateY(-2px);
+}
+
+.docs-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Hero stat band (home) ─────────────────────────────────────────────── */
+
+.docs-hero__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 2.75rem 0 0;
+}
+
+.docs-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--docs-glass-border);
+  border-radius: 0.9rem;
+  background: var(--docs-glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--docs-shadow);
+}
+
+.docs-stat__num {
+  order: -1; /* DOM is dt→dd for valid markup; show the value on top */
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: var(--docs-gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.docs-stat__num--text {
+  font-size: 1.65rem;
+}
+
+.docs-stat__label {
+  font-size: 0.75rem;
+  font-weight: 550;
+  color: var(--docs-subtle);
+}
+
+/* ── Feature band (home) ───────────────────────────────────────────────── */
+
+.docs-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 3rem 0 1rem;
+}
+
+.docs-feature {
+  position: relative;
+  padding: 1.5rem 1.4rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 1rem;
+  background: var(--docs-bg-raised);
+  box-shadow: var(--docs-shadow);
+  overflow: hidden;
+}
+
+.docs-feature::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--docs-gradient-brand);
+}
+
+.docs-feature__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.9rem;
+  border-radius: 0.75rem;
+  color: var(--docs-accent-ink);
+  background: var(--docs-gradient-brand-soft);
+  border: 1px solid var(--docs-accent-soft-border);
+}
+
+/* Higher specificity than `.docs-article h2` so the compact heading wins. */
+.docs-features .docs-feature__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--docs-ink);
+}
+
+.docs-feature__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--docs-subtle);
+}
+
+/* ── Site footer ───────────────────────────────────────────────────────── */
+
+.docs-footer {
+  position: relative;
+  border-top: 1px solid var(--docs-border);
+  background: var(--docs-bg-subtle);
+}
+
+.docs-footer::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--docs-gradient-brand);
+  opacity: 0.65;
+}
+
+.docs-footer__inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 2.5rem;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 3rem 2.5rem 2rem;
+}
+
+.docs-footer__brandlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 650;
+  font-size: 1rem;
+  color: var(--docs-ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.docs-footer__tagline {
+  margin: 0.9rem 0 0;
+  max-width: 26rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--docs-subtle);
+}
+
+.docs-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.docs-footer__heading {
+  margin: 0 0 0.2rem;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--docs-subtle);
+}
+
+.docs-footer__col a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  font-size: 0.875rem;
+  color: var(--docs-body);
+  text-decoration: none;
+  transition: color 140ms var(--docs-ease);
+}
+
+.docs-footer__col a:hover {
+  color: var(--docs-accent-ink);
+}
+
+.docs-footer__bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 1.25rem 2.5rem;
+  border-top: 1px solid var(--docs-border);
+  font-size: 0.8125rem;
+  color: var(--docs-faint);
+}
+
+/* ── Motion: scroll reveal + page transitions ──────────────────────────── */
+
+/* Elements tagged `data-reveal` (see useReveal) start hidden and animate in
+   as they scroll into view; `--reveal-i` staggers siblings. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 620ms var(--docs-ease), transform 620ms var(--docs-ease);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Each route change replays a soft entrance on the content column. */
+.docs-page-in {
+  animation: docs-page-in 460ms var(--docs-ease) both;
+}
+
+@keyframes docs-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ── Misc / responsive ─────────────────────────────────────────────────── */
@@ -1028,6 +1459,7 @@ body {
   top: 0.75rem;
 }
 
+/* Tablet & below: collapse the sidebar into the drawer, hide header nav. */
 @media (max-width: 56.25rem) {
   .docs-sidebar {
     display: none;
@@ -1047,7 +1479,7 @@ body {
   }
 
   .docs-content {
-    padding: 1.5rem 1.25rem 4rem;
+    padding: 1.5rem 1.5rem 4rem;
   }
 
   .docs-article h1 {
@@ -1061,10 +1493,120 @@ body {
   .docs-header__nav {
     display: none;
   }
+
+  /* Comfortable touch targets once the layout is touch-first. */
+  .docs-icon-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .docs-hero {
+    padding: 2.75rem 0 2.25rem;
+  }
+
+  .docs-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .docs-footer__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem 2rem;
+  }
+
+  .docs-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Small tablet / large phone. */
+@media (max-width: 48rem) {
+  .docs-content {
+    padding: 1.25rem 1.25rem 3.5rem;
+  }
+
+  .docs-hero__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .docs-features {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-footer__inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2.25rem 1.5rem 1.5rem;
+  }
+
+  .docs-footer__bar {
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Phones. */
+@media (max-width: 30rem) {
+  .docs-content {
+    padding: 1rem 1rem 3rem;
+  }
+
+  .docs-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-stat__num {
+    font-size: 1.6rem;
+  }
+
+  .docs-hero p {
+    font-size: 1.05rem;
+  }
+
+  .docs-hero__actions .docs-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .docs-demo__canvas {
+    padding: 1.75rem 1rem;
+  }
+
+  .docs-code pre {
+    font-size: 0.75rem;
+    padding: 0.9rem 1rem;
+  }
 }
 
 *:focus-visible {
   outline-color: var(--docs-accent);
+}
+
+/* Neutralize all docs-chrome motion for users who ask for less of it. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .docs-page-in {
+    animation: none;
+  }
+
+  .docs-hero__blob {
+    animation: none;
+  }
+
+  .docs-btn--primary:hover,
+  .docs-btn--ghost:hover,
+  .docs-card:hover,
+  .docs-header__link::after {
+    transform: none;
+  }
 }
 
 /* ── Boot splash ────────────────────────────────────────────────────────── */

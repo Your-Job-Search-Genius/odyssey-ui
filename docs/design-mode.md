@@ -34,24 +34,21 @@ when omitted on a nested one; it resets to `"generic"`.
 ## Per-instance override
 
 Regardless of the ambient `mode`, an individual component instance can force its own
-mode via a `designMode` prop, once that component implements one:
+mode via a `designMode` prop, on any component that implements one — `Badge` is the
+first:
 
 ```tsx
 <Badge designMode="admin">…</Badge>
 ```
 
-This is illustrative — as of today, `Badge` does not implement a `designMode` prop (see
-[Current status](#current-status)).
-
 ## Opt-in pattern for component authors
 
 Once a component actually has more than one design to switch between, add mode support
 by following the same convention already used for `variant`/`severity`/`type` props
-(BEM-ish modifier class, driven by `--wsu-*` tokens). Worked through `Badge` as a
-hypothetical:
+(BEM-ish modifier class, driven by `--wsu-*` tokens). `Badge` (`src/components/Badge/Badge.tsx`)
+is the reference implementation:
 
 ```tsx
-// illustrative — not yet implemented
 import { useDesignMode } from "@your-job-search-genius/odyssey-ui";
 import type { DesignMode } from "@your-job-search-genius/odyssey-ui";
 
@@ -74,17 +71,24 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
 ```
 
 Then add CSS only for the modifier(s) that actually have distinct styling, e.g.
-`.wsu-Badge--admin { ... }` in `Badge.css`. No `.wsu-Badge--generic` block is needed —
-`"generic"` is today's existing, unscoped styling.
+`.wsu-Badge--admin { ... }` in `Badge.css`. No `.wsu-Badge--generic`/`.wsu-Badge--client`
+block exists yet for `Badge` — both currently fall through to the unscoped styling
+(today's one and only design), so the class is present on every render as a hook for a
+future admin redesign, with zero visual effect until CSS actually targets it.
 
 ## Current status
 
-**Alice** (`src/components/Alice/`) and **Badge** (`src/components/Badge/`) are the only
-components with a real, shipped design today, and it is the **Client** design — there is
-no alternate Admin or Generic design for either of them yet. Neither implements a
-`designMode` prop, and none should be added until a second design actually exists to
-switch to. Every other component in this library is Generic-only (i.e. team-agnostic —
-the same design serves every consumer).
+**Badge** (`src/components/Badge/Badge.tsx`) implements `designMode` — `"generic"` and
+`"client"` currently render identically (no distinct designs exist yet), and no
+`"admin"` design exists either.
+
+**Alice** (`src/components/Alice/`) is still Client-only with no `designMode` support —
+it hardcodes one-off colors rather than drawing from shared semantic tokens, so
+"generic" doesn't yet have a real design to fall back to there. Don't add a
+`designMode` prop to it until that changes.
+
+Every other component in this library is Generic-only (i.e. team-agnostic — the same
+design serves every consumer) and doesn't implement `designMode`.
 
 This status is reflected in the docs site's Generic/Client/Admin tabs, driven by the
 `audiences` field in `docs-site/src/registry/registry.ts` — it's a cataloging concern,

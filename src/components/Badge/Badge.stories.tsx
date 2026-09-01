@@ -19,6 +19,7 @@ const meta: Meta<typeof Badge> = {
   argTypes: {
     type: { control: "select", options: ["solid", "soft", "border"] },
     severity: { control: "select", options: SEVERITIES },
+    designMode: { control: "select", options: ["generic", "client", "admin"] },
   },
   args: { children: "Excellent", type: "soft", severity: "excellent" },
 };
@@ -27,6 +28,24 @@ export default meta;
 type Story = StoryObj<typeof Badge>;
 
 export const Playground: Story = {};
+
+/**
+ * `designMode` forces the generic/client/admin design for a single
+ * instance, overriding the ambient `ThemeProvider` `mode`. "generic" and
+ * "client" render identically today — this is the hook a future
+ * admin-specific redesign would target. See docs/design-mode.md.
+ */
+export const DesignModes: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+      {(["generic", "client", "admin"] as const).map((designMode) => (
+        <Badge key={designMode} {...args} designMode={designMode}>
+          {designMode}
+        </Badge>
+      ))}
+    </div>
+  ),
+};
 
 export const Severities: Story = {
   render: (args) => (
