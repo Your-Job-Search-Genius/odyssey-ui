@@ -4,10 +4,12 @@ import {
   ArrowLeft01RoundIcon,
   ArrowRight01RoundIcon,
 } from "@your-job-search-genius/icons";
+import { Badge } from "@your-job-search-genius/odyssey-ui";
 import { DemoBlock } from "../components/DemoBlock";
 import { ImportSnippet } from "../components/ImportSnippet";
 import { categoryLabel } from "../registry/categories";
 import { bySlug, registry } from "../registry/registry";
+import { audienceLabel, effectiveAudiences } from "../registry/audiences";
 import { demoFileKeys } from "../demos/loader";
 import { NotFound } from "./NotFound";
 
@@ -28,6 +30,20 @@ if (import.meta.env.DEV) {
       console.warn(`[registry] demo file not referenced by registry: ${key}`);
     }
   }
+  // Keep `audiences` tags meaningful: an empty array or a redundant explicit
+  // "generic" both mean the same thing as omitting the field entirely.
+  for (const c of registry) {
+    if (c.audiences?.length === 0) {
+      console.warn(
+        `[registry] ${c.slug}: "audiences" is an empty array — omit the field to mean generic.`,
+      );
+    }
+    if (c.audiences?.includes("generic")) {
+      console.warn(
+        `[registry] ${c.slug}: "generic" is redundant inside "audiences" — omit the field entirely instead.`,
+      );
+    }
+  }
 }
 
 export function ComponentPage() {
@@ -46,11 +62,21 @@ export function ComponentPage() {
   const index = registry.indexOf(entry);
   const prev = registry[index - 1];
   const next = registry[index + 1];
+  const audienceTags = effectiveAudiences(entry).filter((a) => a !== "generic");
 
   return (
     <>
       <article className="docs-article">
         <span className="docs-eyebrow">{categoryLabel(entry.category)}</span>
+        {audienceTags.length > 0 ? (
+          <span className="docs-component-audience">
+            {audienceTags.map((a) => (
+              <Badge key={a} type="filled">
+                {audienceLabel(a)}
+              </Badge>
+            ))}
+          </span>
+        ) : null}
         <h1>{entry.name}</h1>
         <p className="docs-lede">{entry.description}</p>
 

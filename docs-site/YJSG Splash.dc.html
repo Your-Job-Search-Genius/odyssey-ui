@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: #100829; }
+  a { color: #B7A6FF; text-decoration: none; }
+  a:hover { color: #ffffff; }
+
+  @keyframes yjsgCycleFade {
+    0%, 4% { opacity: 0; }
+    12%, 88% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @keyframes yjsgGlow {
+    0% { opacity: 0; transform: scale(.7); }
+    18% { opacity: .35; }
+    52% { opacity: .95; transform: scale(1.04); }
+    100% { opacity: .8; transform: scale(1); }
+  }
+  @keyframes yjsgSweepBar {
+    0%, 8% { transform: translateX(-900px); }
+    52%, 100% { transform: translateX(0); }
+  }
+  @keyframes yjsgShine {
+    0%, 8% { transform: translateX(-900px); opacity: 0; }
+    14% { opacity: 1; }
+    46% { opacity: 1; }
+    52% { transform: translateX(0); opacity: 0; }
+    100% { transform: translateX(0); opacity: 0; }
+  }
+  @keyframes yjsgSettle {
+    0%, 8% { transform: scale(1.08); }
+    62% { transform: scale(.995); }
+    100% { transform: scale(1); }
+  }
+  @keyframes yjsgDrawOn {
+    0%, 6% { stroke-dashoffset: 2600; opacity: 0; }
+    10% { opacity: 1; }
+    56% { stroke-dashoffset: 0; opacity: 1; }
+    74%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+  @keyframes yjsgFillOn {
+    0%, 52% { fill-opacity: 0; }
+    76%, 100% { fill-opacity: 1; }
+  }
+  @keyframes yjsgBlobA {
+    0%, 6% { transform: translate(-300px, -140px) scale(.5); }
+    58% { transform: translate(-30px, 0) scale(1.15); }
+    82%, 100% { transform: translate(0, 0) scale(.2); }
+  }
+  @keyframes yjsgBlobB {
+    0%, 6% { transform: translate(310px, 150px) scale(.55); }
+    58% { transform: translate(34px, 0) scale(1.2); }
+    82%, 100% { transform: translate(0, 0) scale(.2); }
+  }
+  @keyframes yjsgBlobC {
+    0%, 6% { transform: translate(0, 230px) scale(.4); }
+    60% { transform: translate(0, 10px) scale(1); }
+    84%, 100% { transform: translate(0, 0) scale(.18); }
+  }
+  @keyframes yjsgEmerge {
+    0%, 46% { opacity: 0; transform: scale(.88); }
+    68% { opacity: 1; transform: scale(1.015); }
+    82%, 100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes yjsgBlobFade {
+    0%, 62% { opacity: 1; }
+    82%, 100% { opacity: 0; }
+  }
+  @keyframes yjsgShardIn {
+    0%, 46% { opacity: 0; transform: translateY(18px) rotate(-8deg); }
+    66% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  }
+  @keyframes yjsgRise {
+    0%, 58% { opacity: 0; transform: translateY(14px); letter-spacing: .58em; }
+    82%, 100% { opacity: .78; transform: translateY(0); letter-spacing: .42em; }
+  }
+  @keyframes yjsgTrack {
+    0%, 62% { opacity: 0; }
+    78%, 100% { opacity: 1; }
+  }
+  @keyframes yjsgSlide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(300%); }
+  }
+  @keyframes yjsgVeil {
+    0%, 40% { opacity: .55; }
+    100% { opacity: 0; }
+  }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; flex-direction: column; font-family: Sora, system-ui, sans-serif; background: radial-gradient(120% 92% at 50% 38%, #3B2199 0%, #24136B 38%, #180D45 66%, #0E0723 100%); color: #fff; overflow: hidden;">
+
+  <div style="position: relative; flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px;">
+
+    <div style="position: absolute; inset: 0; opacity: .5; background: repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 84px), repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 84px); mask-image: radial-gradient(60% 55% at 50% 45%, #000 0%, transparent 100%); -webkit-mask-image: radial-gradient(60% 55% at 50% 45%, #000 0%, transparent 100%);"></div>
+
+    <div style="position: relative; width: 100%; max-width: 860px; animation-name: {{ cycleName }}; animation-duration: {{ cycleDur }}; animation-timing-function: linear; animation-iteration-count: infinite; animation-fill-mode: both;">
+
+      <div style="position: absolute; left: 50%; top: 46%; width: 760px; height: 760px; max-width: 120vw; transform: translate(-50%, -50%); pointer-events: none; background: radial-gradient(closest-side, rgba(114,87,246,.55) 0%, rgba(86,59,219,.22) 42%, transparent 72%); filter: blur(6px); animation: yjsgGlow {{ cycleDur }} cubic-bezier(.22,.9,.2,1) both {{ iter }};"></div>
+
+      <sc-if value="{{ isSweep }}" hint-placeholder-val="{{ true }}">
+        <div style="position: relative;">
+          <svg viewBox="0 0 820 300" style="display: block; width: 100%; height: auto; overflow: visible;">
+            <defs>
+              <linearGradient id="yjsgRevealG" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity="1"></stop>
+                <stop offset="0.78" stop-color="#fff" stop-opacity="1"></stop>
+                <stop offset="0.94" stop-color="#fff" stop-opacity="0.35"></stop>
+                <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+              </linearGradient>
+              <linearGradient id="yjsgInk" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"></stop>
+                <stop offset="0.62" stop-color="#EDE7FF"></stop>
+                <stop offset="1" stop-color="#B9A6FF"></stop>
+              </linearGradient>
+              <mask id="yjsgRevealM" maskUnits="userSpaceOnUse" x="-900" y="-60" width="1800" height="420">
+                <rect x="0" y="-60" width="900" height="420" fill="url(#yjsgRevealG)" style="animation: yjsgSweepBar {{ cycleDur }} cubic-bezier(.62,.02,.16,1) both {{ iter }};"></rect>
+              </mask>
+            </defs>
+            <g mask="url(#yjsgRevealM)" style="transform-box: fill-box; transform-origin: center; animation: yjsgSettle {{ cycleDur }} cubic-bezier(.2,.9,.18,1) both {{ iter }};">
+              <text x="410" y="212" text-anchor="middle" font-family="Sora, sans-serif" font-size="196" font-weight="800" letter-spacing="-6" fill="url(#yjsgInk)">YJSG</text>
+            </g>
+            <rect x="866" y="-40" width="22" height="380" fill="#EFE9FF" style="filter: blur(9px); animation: yjsgShine {{ cycleDur }} cubic-bezier(.62,.02,.16,1) both {{ iter }};"></rect>
+            <g style="transform-box: fill-box; transform-origin: 50% 100%; animation: yjsgShardIn {{ cycleDur }} cubic-bezier(.2,.9,.2,1) both {{ iter }};">
+              <path d="M700 232 L706 200 L712 216 Z" fill="#ffffff" opacity="0.9"></path>
+              <path d="M726.6 200.5 C726.9 199.2 727.7 198.3 728.7 198.3 H731.6 C732.8 198.3 733.6 199.4 733.4 200.6 L726.6 258 C726.5 259.2 725.7 259.9 724.6 259.8 L721.2 259.4 C720.2 259.3 719.5 258.4 719.6 257.4 Z" fill="#7257F6"></path>
+            </g>
+          </svg>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isDraw }}" hint-placeholder-val="{{ false }}">
+        <svg viewBox="0 0 820 300" style="display: block; width: 100%; height: auto; overflow: visible;">
+          <defs>
+            <linearGradient id="yjsgInk2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffffff"></stop>
+              <stop offset="0.62" stop-color="#EDE7FF"></stop>
+              <stop offset="1" stop-color="#B9A6FF"></stop>
+            </linearGradient>
+          </defs>
+          <g style="transform-box: fill-box; transform-origin: center; animation: yjsgSettle {{ cycleDur }} cubic-bezier(.2,.9,.18,1) both {{ iter }};">
+            <text x="410" y="212" text-anchor="middle" font-family="Sora, sans-serif" font-size="196" font-weight="800" letter-spacing="-6" fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linejoin="round" stroke-dasharray="2600" style="filter: drop-shadow(0 0 8px rgba(185,166,255,.75)); animation: yjsgDrawOn {{ cycleDur }} cubic-bezier(.45,.05,.2,1) both {{ iter }};">YJSG</text>
+            <text x="410" y="212" text-anchor="middle" font-family="Sora, sans-serif" font-size="196" font-weight="800" letter-spacing="-6" fill="url(#yjsgInk2)" style="animation: yjsgFillOn {{ cycleDur }} cubic-bezier(.3,.8,.2,1) both {{ iter }};">YJSG</text>
+          </g>
+          <g style="transform-box: fill-box; transform-origin: 50% 100%; animation: yjsgShardIn {{ cycleDur }} cubic-bezier(.2,.9,.2,1) both {{ iter }};">
+            <path d="M700 232 L706 200 L712 216 Z" fill="#ffffff" opacity="0.9"></path>
+            <path d="M726.6 200.5 C726.9 199.2 727.7 198.3 728.7 198.3 H731.6 C732.8 198.3 733.6 199.4 733.4 200.6 L726.6 258 C726.5 259.2 725.7 259.9 724.6 259.8 L721.2 259.4 C720.2 259.3 719.5 258.4 719.6 257.4 Z" fill="#7257F6"></path>
+          </g>
+        </svg>
+      </sc-if>
+
+      <sc-if value="{{ isLiquid }}" hint-placeholder-val="{{ false }}">
+        <svg viewBox="0 0 820 300" style="display: block; width: 100%; height: auto; overflow: visible;">
+          <defs>
+            <filter id="yjsgGoo" x="-40%" y="-60%" width="180%" height="220%" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="b"></feGaussianBlur>
+              <feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -11" result="g"></feColorMatrix>
+              <feBlend in="SourceGraphic" in2="g"></feBlend>
+            </filter>
+            <linearGradient id="yjsgInk3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffffff"></stop>
+              <stop offset="0.62" stop-color="#EFEAFF"></stop>
+              <stop offset="1" stop-color="#C0AEFF"></stop>
+            </linearGradient>
+          </defs>
+          <g filter="url(#yjsgGoo)" style="animation: yjsgBlobFade {{ cycleDur }} cubic-bezier(.4,.1,.2,1) both {{ iter }};">
+            <circle cx="410" cy="150" r="70" fill="#F2EEFF" style="transform-box: fill-box; transform-origin: center; animation: yjsgBlobA {{ cycleDur }} cubic-bezier(.5,.02,.2,1) both {{ iter }};"></circle>
+            <circle cx="410" cy="150" r="62" fill="#F2EEFF" style="transform-box: fill-box; transform-origin: center; animation: yjsgBlobB {{ cycleDur }} cubic-bezier(.5,.02,.2,1) both {{ iter }};"></circle>
+            <circle cx="410" cy="150" r="54" fill="#F2EEFF" style="transform-box: fill-box; transform-origin: center; animation: yjsgBlobC {{ cycleDur }} cubic-bezier(.5,.02,.2,1) both {{ iter }};"></circle>
+          </g>
+          <g style="transform-box: fill-box; transform-origin: center; animation: yjsgEmerge {{ cycleDur }} cubic-bezier(.2,.95,.2,1) both {{ iter }};">
+            <text x="410" y="212" text-anchor="middle" font-family="Sora, sans-serif" font-size="196" font-weight="800" letter-spacing="-6" fill="url(#yjsgInk3)">YJSG</text>
+          </g>
+          <g style="transform-box: fill-box; transform-origin: 50% 100%; animation: yjsgShardIn {{ cycleDur }} cubic-bezier(.2,.9,.2,1) both {{ iter }};">
+            <path d="M700 232 L706 200 L712 216 Z" fill="#ffffff" opacity="0.9"></path>
+            <path d="M726.6 200.5 C726.9 199.2 727.7 198.3 728.7 198.3 H731.6 C732.8 198.3 733.6 199.4 733.4 200.6 L726.6 258 C726.5 259.2 725.7 259.9 724.6 259.8 L721.2 259.4 C720.2 259.3 719.5 258.4 719.6 257.4 Z" fill="#7257F6"></path>
+            </g>
+        </svg>
+      </sc-if>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 26px; margin-top: 6px;">
+        <sc-if value="{{ isLoop }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 168px; height: 2px; border-radius: 2px; overflow: hidden; background: rgba(255,255,255,.14); animation: yjsgTrack {{ cycleDur }} linear both {{ iter }};">
+            <div style="width: 34%; height: 100%; border-radius: 2px; background: linear-gradient(90deg, transparent, #B9A6FF, transparent); animation: yjsgSlide 1.35s cubic-bezier(.6,0,.4,1) infinite;"></div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ showChrome }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; padding: 0 24px 34px;">
+      <div style="display: flex; gap: 6px; padding: 5px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(8px);">
+        <button type="button" onClick="{{ pickSweep }}" style="padding: 9px 16px; border: 0; border-radius: 999px; font-family: Sora, sans-serif; font-size: 12.5px; letter-spacing: .02em; cursor: pointer; color: {{ sweepFg }}; background: {{ sweepBg }};">Mask sweep</button>
+        <button type="button" onClick="{{ pickDraw }}" style="padding: 9px 16px; border: 0; border-radius: 999px; font-family: Sora, sans-serif; font-size: 12.5px; letter-spacing: .02em; cursor: pointer; color: {{ drawFg }}; background: {{ drawBg }};">Stroke draw</button>
+        <button type="button" onClick="{{ pickLiquid }}" style="padding: 9px 16px; border: 0; border-radius: 999px; font-family: Sora, sans-serif; font-size: 12.5px; letter-spacing: .02em; cursor: pointer; color: {{ liquidFg }}; background: {{ liquidBg }};">Liquid morph</button>
+      </div>
+      <div style="display: flex; gap: 6px; padding: 5px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);">
+        <button type="button" onClick="{{ toggleMode }}" style="padding: 9px 16px; border: 0; border-radius: 999px; font-family: Sora, sans-serif; font-size: 12.5px; cursor: pointer; color: #EDE7FF; background: rgba(114,87,246,.35);">{{ modeLabel }}</button>
+        <button type="button" onClick="{{ replay }}" style="padding: 9px 16px; border: 0; border-radius: 999px; font-family: Sora, sans-serif; font-size: 12.5px; cursor: pointer; color: #CFC4FF; background: transparent;">Replay</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;sweep&quot;,&quot;draw&quot;,&quot;liquid&quot;],&quot;default&quot;:&quot;draw&quot;,&quot;tsType&quot;:&quot;'sweep' | 'draw' | 'liquid'&quot;,&quot;section&quot;:&quot;Animation&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;loop&quot;,&quot;once&quot;],&quot;default&quot;:&quot;once&quot;,&quot;tsType&quot;:&quot;'loop' | 'once'&quot;,&quot;section&quot;:&quot;Animation&quot;},&quot;cycleSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:2,&quot;max&quot;:8,&quot;step&quot;:0.2,&quot;default&quot;:5,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Animation&quot;},&quot;showChrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Animation&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { variant: null, mode: null, hidden: false };
+  }
+  get variant() { return this.state.variant || this.props.variant || 'draw'; }
+  get mode() { return this.state.mode || this.props.mode || 'once'; }
+  set(v) { this.setState({ variant: v }); }
+  replay() {
+    this.setState({ hidden: true });
+    setTimeout(() => this.setState({ hidden: false }), 40);
+  }
+  renderVals() {
+    const v = this.state.hidden ? null : this.variant;
+    const loop = this.mode === 'loop';
+    const secs = this.props.cycleSeconds ?? 5;
+    const chip = (on) => ({
+      bg: on ? '#FFFFFF' : 'transparent',
+      fg: on ? '#241268' : '#CFC4FF'
+    });
+    const s = chip(this.variant === 'sweep');
+    const d = chip(this.variant === 'draw');
+    const l = chip(this.variant === 'liquid');
+    return {
+      isSweep: v === 'sweep',
+      isDraw: v === 'draw',
+      isLiquid: v === 'liquid',
+      isLoop: loop,
+      iter: loop ? 'infinite' : '1',
+      cycleDur: secs + 's',
+      cycleName: loop ? 'yjsgCycleFade' : 'none',
+      showChrome: this.props.showChrome ?? false,
+      modeLabel: loop ? 'Looping' : 'Play once',
+      sweepBg: s.bg, sweepFg: s.fg,
+      drawBg: d.bg, drawFg: d.fg,
+      liquidBg: l.bg, liquidFg: l.fg,
+      pickSweep: () => this.set('sweep'),
+      pickDraw: () => this.set('draw'),
+      pickLiquid: () => this.set('liquid'),
+      toggleMode: () => this.setState({ mode: loop ? 'once' : 'loop' }),
+      replay: () => this.replay()
+    };
+  }
+}
+</script>
+</body>
+</html>

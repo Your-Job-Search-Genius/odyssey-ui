@@ -21,8 +21,9 @@ from the ground up rather than bolted on.
 
 See [`docs/design-inventory.md`](./docs/design-inventory.md) for the full token/component
 inventory pulled from Figma (including every documented AA contrast fix and assumption),
-and [`docs/accessibility/wcag-2.2-aa-checklist.md`](./docs/accessibility/wcag-2.2-aa-checklist.md)
-for the accessibility checklist this library is built against.
+[`docs/accessibility/wcag-2.2-aa-checklist.md`](./docs/accessibility/wcag-2.2-aa-checklist.md)
+for the accessibility checklist this library is built against, and
+[`docs/design-mode.md`](./docs/design-mode.md) for the admin/client design-mode API.
 
 ## Installation
 
@@ -135,6 +136,24 @@ semantic layer in [`src/theme/semantic.ts`](./src/theme/semantic.ts)) is deliber
 split so a dark palette can be added later as an alternate semantic mapping over the
 same raw colors — the source Figma file has no dark mode today, so none is shipped, but
 nothing in the component layer assumes light-mode-only values.
+
+### Design mode (admin / client)
+
+Two teams consume this library — Admin and Client — who sometimes want different
+designs for the same component. `ThemeProvider` takes a `mode` prop for this, separate
+from `theme`:
+
+```tsx
+<ThemeProvider theme={clientTheme} mode="client">
+  <YourApp />
+</ThemeProvider>
+```
+
+`mode` defaults to `"generic"` (today's behavior, unchanged, for every component).
+Components that implement mode-specific designs also accept their own `designMode` prop
+to override the ambient mode for a single instance, e.g. `<Badge designMode="admin">`.
+See [`docs/design-mode.md`](./docs/design-mode.md) for the full API and the current
+status of which components actually have more than one design today.
 
 ## Fonts
 

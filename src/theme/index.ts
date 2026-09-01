@@ -19,11 +19,12 @@ export type { IconSizeToken } from "./iconSize";
 export { contrastRatio, checkContrast, warnOnContrastFailures } from "./contrast";
 export type { ContrastKind, ContrastCheck, ContrastResult } from "./contrast";
 export { createTheme, defaultTheme } from "./createTheme";
-export type { Theme, ThemeOverrides, ThemeColors } from "./types";
+export type { Theme, ThemeOverrides, ThemeColors, DesignMode } from "./types";
 export { themeToCssVariables } from "./cssVars";
 export { ThemeProvider } from "./ThemeProvider";
 export type { ThemeProviderProps } from "./ThemeProvider";
 export { useTheme, ThemeContext } from "./ThemeContext";
+export { useDesignMode, DesignModeContext } from "./DesignModeContext";
 
 import "./tokens.css";
 import "./reset.css";

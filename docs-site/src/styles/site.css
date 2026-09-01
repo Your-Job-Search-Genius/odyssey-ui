@@ -370,6 +370,15 @@ body {
   margin-bottom: 0.85rem;
 }
 
+/* Team tag(s) next to the eyebrow on a component's detail page — only
+   rendered when a component isn't purely generic (see registry `audiences`). */
+.docs-component-audience {
+  display: inline-flex;
+  gap: 0.35rem;
+  margin: 0 0 0.85rem 0.5rem;
+  vertical-align: middle;
+}
+
 .docs-article h1 {
   margin: 0 0 0.5rem;
   font-size: 2.1rem;
@@ -527,6 +536,37 @@ body {
 
 .docs-demo__bar-spacer {
   flex: 1;
+}
+
+/* Generic / Client / Admin filter — same tablist pattern as .docs-demo__bar,
+   used as site chrome in the sidebar and the components catalog page. */
+.docs-audience-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.docs-audience-tabs__tab {
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 550;
+  color: var(--docs-subtle);
+  background: transparent;
+  border: none;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}
+
+.docs-audience-tabs__tab:hover {
+  color: var(--docs-ink);
+  background: var(--docs-bg-hover);
+}
+
+.docs-audience-tabs__tab[aria-selected="true"] {
+  color: var(--docs-accent-ink);
+  background: var(--docs-accent-soft);
 }
 
 /* Preview canvas: always light, mirrors the Storybook decorator. */
@@ -704,6 +744,29 @@ body {
   top: 0.55rem;
   right: 0.55rem;
   z-index: 1;
+}
+
+/* Shown on /components when the active audience tab has no matches yet
+   (e.g. Admin, today) — a real empty state, never a silent fallback. */
+.docs-empty-state {
+  padding: 2rem 1.25rem;
+  border: 1px dashed var(--docs-border);
+  border-radius: 0.9rem;
+  text-align: center;
+  color: var(--docs-subtle);
+  margin: 1.25rem 0 2rem;
+}
+
+.docs-empty-state h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
+  color: var(--docs-ink);
+}
+
+.docs-empty-state p {
+  margin: 0 0 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 /* ── Cards (home / index pages) ────────────────────────────────────────── */
@@ -1002,4 +1065,200 @@ body {
 
 *:focus-visible {
   outline-color: var(--docs-accent);
+}
+
+/* ── Boot splash ────────────────────────────────────────────────────────── */
+/* Ported from YJSG Splash.dc.html — design: strokes draw, mode: once,
+   cycle: 5s, chrome: hidden. Always dark/brand-colored regardless of the
+   docs light/dark theme; it's a one-time boot moment, not themed chrome. */
+
+.docs-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(
+    120% 92% at 50% 38%,
+    #3b2199 0%,
+    #24136b 38%,
+    #180d45 66%,
+    #0e0723 100%
+  );
+  opacity: 1;
+  transition: opacity 400ms ease;
+}
+
+.docs-splash--leaving {
+  opacity: 0;
+}
+
+.docs-splash__glow {
+  position: absolute;
+  width: 46rem;
+  height: 46rem;
+  max-width: 120vw;
+  max-height: 120vw;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(114, 87, 246, 0.55) 0%,
+    rgba(86, 59, 219, 0.22) 42%,
+    transparent 72%
+  );
+  filter: blur(6px);
+  animation: docs-splash-glow 5s cubic-bezier(0.22, 0.9, 0.2, 1) both;
+}
+
+.docs-splash__mark {
+  display: block;
+  width: min(50rem, 84vw);
+  height: auto;
+  overflow: visible;
+}
+
+.docs-splash__settle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: docs-splash-settle 5s cubic-bezier(0.2, 0.9, 0.18, 1) both;
+}
+
+.docs-splash__stroke,
+.docs-splash__fill {
+  font-family: "Sora", var(--docs-font);
+  font-size: 196px;
+  font-weight: 800;
+  letter-spacing: -6px;
+}
+
+.docs-splash__stroke {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3.6;
+  stroke-linejoin: round;
+  stroke-dasharray: 2600;
+  filter: drop-shadow(0 0 8px rgba(185, 166, 255, 0.75));
+  animation: docs-splash-draw 5s cubic-bezier(0.45, 0.05, 0.2, 1) both;
+}
+
+.docs-splash__fill {
+  animation: docs-splash-fill 5s cubic-bezier(0.3, 0.8, 0.2, 1) both;
+}
+
+.docs-splash__shard {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: docs-splash-shard-in 5s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+@keyframes docs-splash-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  18% {
+    opacity: 0.35;
+  }
+  52% {
+    opacity: 0.95;
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+@keyframes docs-splash-settle {
+  0%,
+  8% {
+    transform: scale(1.08);
+  }
+  62% {
+    transform: scale(0.995);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes docs-splash-draw {
+  0%,
+  6% {
+    stroke-dashoffset: 2600;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  56% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  74%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes docs-splash-fill {
+  0%,
+  52% {
+    fill-opacity: 0;
+  }
+  76%,
+  100% {
+    fill-opacity: 1;
+  }
+}
+
+@keyframes docs-splash-shard-in {
+  0%,
+  46% {
+    opacity: 0;
+    transform: translateY(18px) rotate(-8deg);
+  }
+  66% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-splash {
+    transition-duration: 200ms;
+  }
+
+  .docs-splash__glow,
+  .docs-splash__settle,
+  .docs-splash__stroke,
+  .docs-splash__fill,
+  .docs-splash__shard {
+    animation: none;
+  }
+
+  .docs-splash__glow {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+
+  .docs-splash__stroke {
+    opacity: 0;
+  }
+
+  .docs-splash__fill {
+    fill-opacity: 1;
+  }
+
+  .docs-splash__shard {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
 }

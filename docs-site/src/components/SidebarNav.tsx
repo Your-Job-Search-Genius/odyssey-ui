@@ -2,20 +2,29 @@ import { useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { categories } from "../registry/categories";
 import { registry } from "../registry/registry";
+import { audienceLabel, matchesAudience } from "../registry/audiences";
+import { useAudienceFilter } from "../lib/audienceFilter";
+import { AudienceTabs } from "./AudienceTabs";
 
 export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   const [filter, setFilter] = useState("");
+  const [audience, setAudience] = useAudienceFilter();
   const query = filter.trim().toLowerCase();
 
+  const audienceScoped = useMemo(
+    () => registry.filter((c) => matchesAudience(c, audience)),
+    [audience],
+  );
+
   const filtered = useMemo(() => {
-    if (!query) return registry;
-    return registry.filter(
+    if (!query) return audienceScoped;
+    return audienceScoped.filter(
       (c) =>
         c.name.toLowerCase().includes(query) ||
         c.slug.includes(query) ||
         c.keywords?.some((k) => k.toLowerCase().includes(query)),
     );
-  }, [query]);
+  }, [audienceScoped, query]);
 
   const groups = categories
     .map((cat) => ({
@@ -26,6 +35,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <nav aria-label="Documentation">
+      <AudienceTabs />
       <input
         type="search"
         className="docs-sidebar__filter"
@@ -34,7 +44,14 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
-      {groups.length === 0 ? (
+      {audienceScoped.length === 0 ? (
+        <p className="docs-sidebar__empty">
+          No {audienceLabel(audience)} components yet.{" "}
+          <button type="button" onClick={() => setAudience("generic")}>
+            View Generic
+          </button>
+        </p>
+      ) : groups.length === 0 ? (
         <p className="docs-sidebar__empty">
           No components match “{filter.trim()}”.{" "}
           <button type="button" onClick={() => setFilter("")}>

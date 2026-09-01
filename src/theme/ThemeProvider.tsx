@@ -3,11 +3,22 @@ import { useMemo } from "react";
 import { defaultTheme } from "./createTheme";
 import { themeToCssVariables } from "./cssVars";
 import { ThemeContext } from "./ThemeContext";
-import type { Theme } from "./types";
+import { DesignModeContext } from "./DesignModeContext";
+import type { DesignMode, Theme } from "./types";
 
 export interface ThemeProviderProps {
   /** A theme built with `createTheme()`. Defaults to the Writesea Odyssey theme. */
   theme?: Theme;
+  /**
+   * Which team's design this subtree should render. Defaults to
+   * `"generic"` — today's default look for every component. Individual
+   * components may expose their own `designMode` prop (read via
+   * `useDesignMode()`) to override this for just that instance. Nest a
+   * second `ThemeProvider` with a different `mode` to scope a different
+   * team's design to a subtree, exactly as you would nest one with a
+   * different `theme`. See `docs/design-mode.md`.
+   */
+  mode?: DesignMode;
   children: ReactNode;
   /** Passed through to the wrapper element — use to add your own class alongside the theme scope. */
   className?: string;
@@ -24,19 +35,23 @@ export interface ThemeProviderProps {
  * byte-identical — no hydration flash.
  *
  * Nest a second `ThemeProvider` anywhere in the tree to scope a different
- * theme (e.g. a dark section) to just that subtree.
+ * theme (e.g. a dark section) to just that subtree. The same applies to
+ * `mode`: like `theme`, it does not inherit from an outer `ThemeProvider`
+ * when omitted on a nested one — it resets to `"generic"`.
  */
-export function ThemeProvider({ theme = defaultTheme, children, className, style }: ThemeProviderProps) {
+export function ThemeProvider({ theme = defaultTheme, mode = "generic", children, className, style }: ThemeProviderProps) {
   const cssVars = useMemo(() => themeToCssVariables(theme), [theme]);
 
   return (
     <ThemeContext.Provider value={theme}>
-      <div
-        className={className ? `wsu-theme-root ${className}` : "wsu-theme-root"}
-        style={{ display: "contents", ...cssVars, ...style }}
-      >
-        {children}
-      </div>
+      <DesignModeContext.Provider value={mode}>
+        <div
+          className={className ? `wsu-theme-root ${className}` : "wsu-theme-root"}
+          style={{ display: "contents", ...cssVars, ...style }}
+        >
+          {children}
+        </div>
+      </DesignModeContext.Provider>
     </ThemeContext.Provider>
   );
 }

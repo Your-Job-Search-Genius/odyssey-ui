@@ -16,6 +16,14 @@ export interface Category {
   label: string;
 }
 
+export type AudienceId = "generic" | "client" | "admin";
+
+export interface Audience {
+  id: AudienceId;
+  label: string;
+  description: string;
+}
+
 export interface DemoEntry {
   /** File name without extension: "variants" -> demos/<slug>/<id>.tsx */
   id: string;
@@ -53,4 +61,10 @@ export interface ComponentEntry {
   skipTreeShake?: boolean;
   keywords?: string[];
   demos: DemoEntry[];
+  /**
+   * Team(s) whose current design this component embodies. Omit for a
+   * generic, team-agnostic component — the default, true for almost
+   * everything today. Only tag once a real, non-generic design exists.
+   */
+  audiences?: AudienceId[];
 }

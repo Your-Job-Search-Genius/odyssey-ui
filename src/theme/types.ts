@@ -26,3 +26,11 @@ export interface ThemeOverrides {
   colors?: Partial<ThemeColors>;
   fontFamily?: string;
 }
+
+/**
+ * Which team's design a subtree (or a single component instance) should
+ * render. `"generic"` is the default — today's look for every component,
+ * used automatically when no `ThemeProvider` `mode` or per-component
+ * `designMode` override is present. See `useDesignMode()`.
+ */
+export type DesignMode = "generic" | "client" | "admin";

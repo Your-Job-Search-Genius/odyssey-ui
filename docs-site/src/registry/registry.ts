@@ -1597,6 +1597,7 @@ export const registry: ComponentEntry[] = [
     slug: "badge",
     name: "Badge",
     category: "data-display",
+    audiences: ["client"],
     description: "Compact status label with semantic color variants and optional icons.",
     importNames: ["Badge"],
     subpath: "Badge",
@@ -1940,6 +1941,7 @@ export const registry: ComponentEntry[] = [
     slug: "alice",
     name: "Alice",
     category: "ai",
+    audiences: ["client"],
     description:
       "AI assistant primitives: animated icon, chat bubbles, and suggestion/rewrite/question cards.",
     importNames: [
