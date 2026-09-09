@@ -1,54 +1,54 @@
-const untitledThemes = [
-    { name: "Brand", class: "untitled-brand", color: "#9e77ed" },
-    { name: "Error", class: "untitled-error", color: "#f04438" },
-    { name: "Warning", class: "untitled-warning", color: "#f79009" },
-    { name: "Success", class: "untitled-success", color: "#12b76a" },
-    { name: "Gray-blue", class: "untitled-gray-blue", color: "#4e5ba6" },
-    { name: "Gray-cool", class: "untitled-gray-cool", color: "#5d6b98" },
+const odysseyThemes = [
+    { name: "Brand", class: "odyssey-brand", color: "#9e77ed" },
+    { name: "Error", class: "odyssey-error", color: "#f04438" },
+    { name: "Warning", class: "odyssey-warning", color: "#f79009" },
+    { name: "Success", class: "odyssey-success", color: "#12b76a" },
+    { name: "Gray-blue", class: "odyssey-gray-blue", color: "#4e5ba6" },
+    { name: "Gray-cool", class: "odyssey-gray-cool", color: "#5d6b98" },
     {
         name: "Gray-modern",
-        class: "untitled-gray-modern",
+        class: "odyssey-gray-modern",
         color: "#697586",
     },
     {
         name: "Gray-neutral",
-        class: "untitled-gray-neutral",
+        class: "odyssey-gray-neutral",
         color: "#6c737f",
     },
-    { name: "Gray-iron", class: "untitled-gray-iron", color: "#70707b" },
-    { name: "Gray-true", class: "untitled-gray-true", color: "#737373" },
-    { name: "Gray-warm", class: "untitled-gray-warm", color: "#79716b" },
-    { name: "Gray-light-mode", class: "untitled-gray-light-mode", color: "#667085" },
-    { name: "Gray-dark-mode", class: "untitled-gray-dark-mode", color: "#667085" },
-    { name: "Moss", class: "untitled-moss", color: "#669f2a" },
+    { name: "Gray-iron", class: "odyssey-gray-iron", color: "#70707b" },
+    { name: "Gray-true", class: "odyssey-gray-true", color: "#737373" },
+    { name: "Gray-warm", class: "odyssey-gray-warm", color: "#79716b" },
+    { name: "Gray-light-mode", class: "odyssey-gray-light-mode", color: "#667085" },
+    { name: "Gray-dark-mode", class: "odyssey-gray-dark-mode", color: "#667085" },
+    { name: "Moss", class: "odyssey-moss", color: "#669f2a" },
     {
         name: "Green-light",
-        class: "untitled-green-light",
+        class: "odyssey-green-light",
         color: "#66c61c",
     },
-    { name: "Green", class: "untitled-green", color: "#16b364" },
-    { name: "Teal", class: "untitled-teal", color: "#15b79e" },
-    { name: "Cyan", class: "untitled-cyan", color: "#06aed4" },
+    { name: "Green", class: "odyssey-green", color: "#16b364" },
+    { name: "Teal", class: "odyssey-teal", color: "#15b79e" },
+    { name: "Cyan", class: "odyssey-cyan", color: "#06aed4" },
     {
         name: "Blue-light",
-        class: "untitled-blue-light",
+        class: "odyssey-blue-light",
         color: "#0ba5ec",
     },
-    { name: "Blue", class: "untitled-blue", color: "#2e90fa" },
-    { name: "Blue-dark", class: "untitled-blue-dark", color: "#2970ff" },
-    { name: "Indigo", class: "untitled-indigo", color: "#6172f3" },
-    { name: "Violet", class: "untitled-violet", color: "#875bf7" },
-    { name: "Purple", class: "untitled-purple", color: "#7a5af8" },
-    { name: "Fuchsia", class: "untitled-fuchsia", color: "#d444f1" },
-    { name: "Pink", class: "untitled-pink", color: "#ee46bc" },
-    { name: "Rose", class: "untitled-rose", color: "#f63d68" },
+    { name: "Blue", class: "odyssey-blue", color: "#2e90fa" },
+    { name: "Blue-dark", class: "odyssey-blue-dark", color: "#2970ff" },
+    { name: "Indigo", class: "odyssey-indigo", color: "#6172f3" },
+    { name: "Violet", class: "odyssey-violet", color: "#875bf7" },
+    { name: "Purple", class: "odyssey-purple", color: "#7a5af8" },
+    { name: "Fuchsia", class: "odyssey-fuchsia", color: "#d444f1" },
+    { name: "Pink", class: "odyssey-pink", color: "#ee46bc" },
+    { name: "Rose", class: "odyssey-rose", color: "#f63d68" },
     {
         name: "Orange-dark",
-        class: "untitled-orange-dark",
+        class: "odyssey-orange-dark",
         color: "#ff4405",
     },
-    { name: "Orange", class: "untitled-orange", color: "#ef6820" },
-    { name: "Yellow", class: "untitled-yellow", color: "#eaaa08" },
+    { name: "Orange", class: "odyssey-orange", color: "#ef6820" },
+    { name: "Yellow", class: "odyssey-yellow", color: "#eaaa08" },
 ];
 
 const tailwindThemes = [
@@ -189,6 +189,6 @@ const tailwindThemes = [
     },
 ];
 
-const themes = [...untitledThemes, ...tailwindThemes];
+const themes = [...odysseyThemes, ...tailwindThemes];
 
 export default themes;

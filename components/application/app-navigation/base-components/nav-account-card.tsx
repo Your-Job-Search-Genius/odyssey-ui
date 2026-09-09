@@ -3,13 +3,13 @@
 import type { FC, HTMLAttributes } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import type { Placement } from "@react-types/overlays";
-import { BookOpen01, ChevronSelectorVertical, LogOut01, Plus, Settings01, User01 } from "@untitledui/icons";
 import { useFocusManager } from "react-aria";
 import type { DialogProps as AriaDialogProps } from "react-aria-components";
 import { Button as AriaButton, Dialog as AriaDialog, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
 import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
 import { Button } from "@/components/base/buttons/button";
 import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
+import { BookOpen01, ChevronSelectorVertical, LogOut01, Plus, Settings01, User01 } from "@/components/foundations/icons";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cx } from "@/utils/cx";
 
@@ -30,14 +30,14 @@ const placeholderAccounts: NavAccountType[] = [
     {
         id: "caitlyn",
         name: "Caitlyn King",
-        email: "caitlyn@untitledui.com",
+        email: "caitlyn@example.com",
         avatar: "https://www.untitledui.com/images/avatars/caitlyn-king?fm=webp&q=80",
         status: "online",
     },
     {
         id: "sienna",
         name: "Sienna Hewitt",
-        email: "sienna@untitledui.com",
+        email: "sienna@example.com",
         avatar: "https://www.untitledui.com/images/avatars/transparent/sienna-hewitt?bg=%23E0E0E0",
         status: "online",
     },

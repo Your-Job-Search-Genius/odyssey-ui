@@ -2,12 +2,12 @@
 
 import type { Key, KeyboardEvent, ReactNode } from "react";
 import { useCallback, useRef, useState } from "react";
-import { HelpCircle, InfoCircle } from "@untitledui/icons";
 import { Group as AriaGroup, Input as AriaInput } from "react-aria-components";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { Tag, TagGroup, TagList } from "@/components/base/tags/tags";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
+import { HelpCircle, InfoCircle } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
 
 interface TagEntry {

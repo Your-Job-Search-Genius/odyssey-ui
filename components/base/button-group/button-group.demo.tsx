@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Archive, ArrowLeft, ArrowRight, Edit03, Placeholder, Plus, Trash01 } from "@untitledui/icons";
 import type { Key } from "react-aria";
 import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
 import { Dot } from "@/components/foundations/dot-icon";
+import { Archive, ArrowLeft, ArrowRight, Edit03, Placeholder, Plus, Trash01 } from "@/components/foundations/icons";
 
 export const Default = () => (
     <ButtonGroup selectedKeys={[]}>

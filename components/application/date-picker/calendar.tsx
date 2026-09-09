@@ -3,7 +3,6 @@
 import type { PropsWithChildren, ReactNode } from "react";
 import { Fragment, useState } from "react";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import { ChevronLeft, ChevronRight } from "@untitledui/icons";
 import type { CalendarProps as AriaCalendarProps, DateValue } from "react-aria-components";
 import {
     Calendar as AriaCalendar,
@@ -17,6 +16,7 @@ import {
 } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { InputDateBase } from "@/components/base/input/input-date";
+import { ChevronLeft, ChevronRight } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { CalendarCell } from "./cell";
 

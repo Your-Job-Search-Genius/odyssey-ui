@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { User01 } from "@untitledui/icons";
+import { User01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { type AvatarProps } from "./avatar";
 import { AvatarOnlineIndicator, VerifiedTick } from "./base-components";

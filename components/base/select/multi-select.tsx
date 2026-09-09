@@ -2,7 +2,6 @@
 
 import type { FC, ReactNode, RefAttributes } from "react";
 import { isValidElement, useCallback, useRef, useState } from "react";
-import { ChevronDown, SearchLg } from "@untitledui/icons";
 import { useFilter } from "react-aria";
 import type { Selection } from "react-aria-components";
 import {
@@ -19,6 +18,7 @@ import { Button } from "@/components/base/buttons/button";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
+import { ChevronDown, SearchLg } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 import { SelectItem } from "./select-item";

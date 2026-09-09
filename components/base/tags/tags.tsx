@@ -1,7 +1,6 @@
 "use client";
 
 import { type ImgHTMLAttributes, type PropsWithChildren, type RefAttributes, createContext, useContext, useState } from "react";
-import { User01 } from "@untitledui/icons";
 import {
     Tag as AriaTag,
     TagGroup as AriaTagGroup,
@@ -10,6 +9,7 @@ import {
     type TagProps as AriaTagProps,
 } from "react-aria-components";
 import { Dot } from "@/components/foundations/dot-icon";
+import { User01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { TagCheckbox } from "./base-components/tag-checkbox";
 import { TagCloseX } from "./base-components/tag-close-x";

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Container, HelpCircle, LayersTwo01, LogOut01, Moon01, Settings01, User01 } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { Button as AriaButton, SubmenuTrigger } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { Container, HelpCircle, LayersTwo01, LogOut01, Moon01, Settings01, User01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { AvatarLabelGroup } from "../avatar/avatar-label-group";
 
@@ -33,7 +33,7 @@ export const DropdownAvatar = () => {
                         src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                         status="online"
                         title="Olivia Rhye"
-                        subtitle="olivia@untitledui.com"
+                        subtitle="olivia@example.com"
                     />
                 </div>
                 <Dropdown.Menu>

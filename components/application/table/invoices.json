@@ -6,7 +6,7 @@
             "status": "paid",
             "customer": {
                 "name": "Olivia Rhye",
-                "email": "olivia@untitledui.com",
+                "email": "olivia@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"
@@ -17,7 +17,7 @@
             "status": "paid",
             "customer": {
                 "name": "Phoenix Baker",
-                "email": "phoenix@untitledui.com",
+                "email": "phoenix@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/phoenix-baker?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"
@@ -28,7 +28,7 @@
             "status": "paid",
             "customer": {
                 "name": "Lana Steiner",
-                "email": "lana@untitledui.com"
+                "email": "lana@example.com"
             },
             "purchase": "Monthly subscription"
         },
@@ -38,7 +38,7 @@
             "status": "paid",
             "customer": {
                 "name": "Demi Wilkinson",
-                "email": "demi@untitledui.com"
+                "email": "demi@example.com"
             },
             "purchase": "Monthly subscription"
         },
@@ -48,7 +48,7 @@
             "status": "refunded",
             "customer": {
                 "name": "Candice Wu",
-                "email": "candice@untitledui.com",
+                "email": "candice@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/candice-wu?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"
@@ -59,7 +59,7 @@
             "status": "refunded",
             "customer": {
                 "name": "Natali Craig",
-                "email": "natali@untitledui.com"
+                "email": "natali@example.com"
             },
             "purchase": "Monthly subscription"
         },
@@ -69,7 +69,7 @@
             "status": "cancelled",
             "customer": {
                 "name": "Drew Cano",
-                "email": "drew@untitledui.com",
+                "email": "drew@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/drew-cano?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"
@@ -80,7 +80,7 @@
             "status": "paid",
             "customer": {
                 "name": "Orlando Diggs",
-                "email": "orlando@untitledui.com",
+                "email": "orlando@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/orlando-diggs?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"
@@ -91,7 +91,7 @@
             "status": "paid",
             "customer": {
                 "name": "Andi Lane",
-                "email": "andi@untitledui.com",
+                "email": "andi@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/andi-lane?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"
@@ -102,7 +102,7 @@
             "status": "paid",
             "customer": {
                 "name": "Kate Morrison",
-                "email": "kate@untitledui.com",
+                "email": "kate@example.com",
                 "avatarUrl": "https://www.untitledui.com/images/avatars/kate-morrison?fm=webp&q=80&w=100"
             },
             "purchase": "Monthly subscription"

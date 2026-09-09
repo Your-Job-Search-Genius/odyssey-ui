@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import React from "react";
-import { AlertCircle, Calendar, Check, CheckCircle, Copy01, Lock03, Mail01 } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { Input, InputBase, TextField } from "@/components/base/input/input";
 import { InputFile } from "@/components/base/input/input-file";
@@ -11,6 +10,7 @@ import { PaymentInput } from "@/components/base/input/input-payment";
 import { InputTags } from "@/components/base/input/input-tags";
 import { InputTagsOuter } from "@/components/base/input/input-tags-outer";
 import { NativeSelect } from "@/components/base/select/select-native";
+import { AlertCircle, Calendar, Check, CheckCircle, Copy01, Lock03, Mail01 } from "@/components/foundations/icons";
 import { useClipboard } from "@/hooks/use-clipboard";
 import { cx } from "@/utils/cx";
 import { HintText } from "./hint-text";
@@ -19,66 +19,34 @@ import { InputNumber } from "./input-number";
 import { Label } from "./label";
 
 export const DefaultDemo = () => {
-    return <Input isRequired label="Email" hint="This is a hint text to help user." placeholder="olivia@untitledui.com" tooltip="This is a tooltip" />;
+    return <Input isRequired label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />;
 };
 
 export const DisabledDemo = () => {
-    return (
-        <Input isRequired isDisabled label="Email" hint="This is a hint text to help user." placeholder="olivia@untitledui.com" tooltip="This is a tooltip" />
-    );
+    return <Input isRequired isDisabled label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />;
 };
 
 export const InvalidDemo = () => {
-    return <Input isRequired isInvalid label="Email" hint="This is an error message." placeholder="olivia@untitledui.com" tooltip="This is a tooltip" />;
+    return <Input isRequired isInvalid label="Email" hint="This is an error message." tooltip="This is a tooltip" />;
 };
 
 export const SizesDemo = () => {
     return (
         <div className="flex flex-col gap-8">
             {/* Small */}
-            <Input
-                isRequired
-                size="sm"
-                label="Email"
-                hint="This is a hint text to help user."
-                placeholder="olivia@untitledui.com"
-                tooltip="This is a tooltip"
-            />
+            <Input isRequired size="sm" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
 
             {/* Medium */}
-            <Input
-                isRequired
-                size="md"
-                label="Email"
-                hint="This is a hint text to help user."
-                placeholder="olivia@untitledui.com"
-                tooltip="This is a tooltip"
-            />
+            <Input isRequired size="md" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
 
             {/* Large */}
-            <Input
-                isRequired
-                size="lg"
-                label="Email"
-                hint="This is a hint text to help user."
-                placeholder="olivia@untitledui.com"
-                tooltip="This is a tooltip"
-            />
+            <Input isRequired size="lg" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
         </div>
     );
 };
 
 export const LeadingIconDemo = () => {
-    return (
-        <Input
-            isRequired
-            icon={Mail01}
-            label="Email"
-            hint="This is a hint text to help user."
-            placeholder="olivia@untitledui.com"
-            tooltip="This is a tooltip"
-        />
-    );
+    return <Input isRequired icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />;
 };
 
 export const LeadingDropdownDemo = () => {
@@ -129,7 +97,7 @@ export const TrailingDropdownDemo = () => {
 export const LeadingTextDemo = () => {
     return (
         <InputGroup isRequired label="Website" hint="This is a hint text to help user." leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}>
-            <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+            <InputBase tooltip="This is a tooltip" />
         </InputGroup>
     );
 };
@@ -151,12 +119,12 @@ export const TrailingButtonDemo = () => {
             hint="This is a hint text to help user."
             onChange={setValue}
             trailingAddon={
-                <Button color="secondary" iconLeading={copied ? Check : Copy01} onClick={() => copy(value || "www.untitledui.com")}>
+                <Button color="secondary" iconLeading={copied ? Check : Copy01} onClick={() => copy(value || "www.example.com")}>
                     Copy
                 </Button>
             }
         >
-            <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+            <InputBase tooltip="This is a tooltip" />
         </InputGroup>
     );
 };
@@ -234,88 +202,19 @@ export const Default = () => {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-                <Input
-                    isRequired
-                    size="sm"
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isDisabled
-                    size="sm"
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isInvalid
-                    size="sm"
-                    label="Email"
-                    hint="This is an error message."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
+                <Input isRequired size="sm" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isDisabled size="sm" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isInvalid size="sm" label="Email" hint="This is an error message." tooltip="This is a tooltip" />
             </div>
             <div className="flex flex-col gap-4">
-                <Input
-                    isRequired
-                    size="md"
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    size="md"
-                    isDisabled
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    size="md"
-                    isInvalid
-                    label="Email"
-                    hint="This is an error message."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
+                <Input isRequired size="md" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired size="md" isDisabled label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired size="md" isInvalid label="Email" hint="This is an error message." tooltip="This is a tooltip" />
             </div>
             <div className="flex flex-col gap-4">
-                <Input
-                    isRequired
-                    size="lg"
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    size="lg"
-                    isDisabled
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    size="lg"
-                    isInvalid
-                    label="Email"
-                    hint="This is an error message."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
+                <Input isRequired size="lg" label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired size="lg" isDisabled label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired size="lg" isInvalid label="Email" hint="This is an error message." tooltip="This is a tooltip" />
             </div>
         </div>
     );
@@ -325,97 +224,19 @@ export const LeadingIcon = () => {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-                <Input
-                    isRequired
-                    size="sm"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isDisabled
-                    size="sm"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isInvalid
-                    size="sm"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is an error message."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
+                <Input isRequired size="sm" icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isDisabled size="sm" icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isInvalid size="sm" icon={Mail01} label="Email" hint="This is an error message." tooltip="This is a tooltip" />
             </div>
             <div className="flex flex-col gap-4">
-                <Input
-                    isRequired
-                    size="md"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isDisabled
-                    size="md"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isInvalid
-                    size="md"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is an error message."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
+                <Input isRequired size="md" icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isDisabled size="md" icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isInvalid size="md" icon={Mail01} label="Email" hint="This is an error message." tooltip="This is a tooltip" />
             </div>
             <div className="flex flex-col gap-4">
-                <Input
-                    isRequired
-                    size="lg"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isDisabled
-                    size="lg"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is a hint text to help user."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
-                <Input
-                    isRequired
-                    isInvalid
-                    size="lg"
-                    icon={Mail01}
-                    label="Email"
-                    hint="This is an error message."
-                    placeholder="olivia@untitledui.com"
-                    tooltip="This is a tooltip"
-                />
+                <Input isRequired size="lg" icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isDisabled size="lg" icon={Mail01} label="Email" hint="This is a hint text to help user." tooltip="This is a tooltip" />
+                <Input isRequired isInvalid size="lg" icon={Mail01} label="Email" hint="This is an error message." tooltip="This is a tooltip" />
             </div>
         </div>
     );
@@ -801,7 +622,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -811,7 +632,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -821,7 +642,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
             </div>
             <div className="flex flex-col gap-4">
@@ -832,7 +653,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -842,7 +663,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -852,7 +673,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
             </div>
             <div className="flex flex-col gap-4">
@@ -863,7 +684,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -873,7 +694,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -883,7 +704,7 @@ export const LeadingText = () => {
                     hint="This is a hint text to help user."
                     leadingAddon={<InputGroup.Prefix>https://</InputGroup.Prefix>}
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
             </div>
         </div>
@@ -1004,13 +825,13 @@ export const TrailingButton = () => {
                             size="sm"
                             color="secondary"
                             iconLeading={copied === "input-1" ? Check : Copy01}
-                            onClick={() => copy(inputValue1 || "www.untitledui.com", "input-1")}
+                            onClick={() => copy(inputValue1 || "www.example.com", "input-1")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
 
                 <InputGroup
@@ -1026,13 +847,13 @@ export const TrailingButton = () => {
                             size="sm"
                             color="secondary"
                             iconLeading={copied === "input-2" ? Check : Copy01}
-                            onClick={() => copy(inputValue2 || "www.untitledui.com", "input-2")}
+                            onClick={() => copy(inputValue2 || "www.example.com", "input-2")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -1046,13 +867,13 @@ export const TrailingButton = () => {
                             size="sm"
                             color="secondary"
                             iconLeading={copied === "input-3" ? Check : Copy01}
-                            onClick={() => copy(inputValue3 || "www.untitledui.com", "input-3")}
+                            onClick={() => copy(inputValue3 || "www.example.com", "input-3")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
             </div>
             <div className="flex flex-col gap-4">
@@ -1067,13 +888,13 @@ export const TrailingButton = () => {
                             color="secondary"
                             size="md"
                             iconLeading={copied === "input-4" ? Check : Copy01}
-                            onClick={() => copy(inputValue4 || "www.untitledui.com", "input-4")}
+                            onClick={() => copy(inputValue4 || "www.example.com", "input-4")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -1088,13 +909,13 @@ export const TrailingButton = () => {
                             color="secondary"
                             size="md"
                             iconLeading={copied === "input-5" ? Check : Copy01}
-                            onClick={() => copy(inputValue5 || "www.untitledui.com", "input-5")}
+                            onClick={() => copy(inputValue5 || "www.example.com", "input-5")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -1108,13 +929,13 @@ export const TrailingButton = () => {
                             color="secondary"
                             size="md"
                             iconLeading={copied === "input-6" ? Check : Copy01}
-                            onClick={() => copy(inputValue6 || "www.untitledui.com", "input-6")}
+                            onClick={() => copy(inputValue6 || "www.example.com", "input-6")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
             </div>
             <div className="flex flex-col gap-4">
@@ -1129,13 +950,13 @@ export const TrailingButton = () => {
                             color="secondary"
                             size="lg"
                             iconLeading={copied === "input-4" ? Check : Copy01}
-                            onClick={() => copy(inputValue4 || "www.untitledui.com", "input-4")}
+                            onClick={() => copy(inputValue4 || "www.example.com", "input-4")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -1150,13 +971,13 @@ export const TrailingButton = () => {
                             color="secondary"
                             size="lg"
                             iconLeading={copied === "input-5" ? Check : Copy01}
-                            onClick={() => copy(inputValue5 || "www.untitledui.com", "input-5")}
+                            onClick={() => copy(inputValue5 || "www.example.com", "input-5")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
                 <InputGroup
                     isRequired
@@ -1170,13 +991,13 @@ export const TrailingButton = () => {
                             color="secondary"
                             size="lg"
                             iconLeading={copied === "input-6" ? Check : Copy01}
-                            onClick={() => copy(inputValue6 || "www.untitledui.com", "input-6")}
+                            onClick={() => copy(inputValue6 || "www.example.com", "input-6")}
                         >
                             Copy
                         </Button>
                     }
                 >
-                    <InputBase placeholder="www.untitledui.com" tooltip="This is a tooltip" />
+                    <InputBase tooltip="This is a tooltip" />
                 </InputGroup>
             </div>
         </div>

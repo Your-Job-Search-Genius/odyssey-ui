@@ -1,11 +1,11 @@
 "use client";
 
-import { Bell01, SearchLg, Settings01, Zap } from "@untitledui/icons";
 import { NavButton } from "@/components/application/app-navigation/base-components/nav-button";
 import { HeaderNavigationBase } from "@/components/application/app-navigation/header-navigation";
 import { Button } from "@/components/base/buttons/button";
 import { DropdownAccountCardSM } from "@/components/base/dropdown/dropdown-account-card-sm";
 import { DropdownAvatar } from "@/components/base/dropdown/dropdown-avatar";
+import { Bell01, SearchLg, Settings01, Zap } from "@/components/foundations/icons";
 
 const subItems = [
     { label: "Overview", href: "/dashboard/overview" },

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, SearchLg } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { Autocomplete, SearchField, useFilter } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown, SearchLg } from "@/components/foundations/icons";
 import { InputBase } from "../input/input";
 
 export const DropdownSearchSimple = () => {

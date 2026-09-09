@@ -1,10 +1,10 @@
 "use client";
 
-import { User01 } from "@untitledui/icons";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
 import { AvatarProfilePhoto } from "@/components/base/avatar/avatar-profile-photo";
 import { AvatarAddButton, AvatarCompanyIcon } from "@/components/base/avatar/base-components";
+import { User01 } from "@/components/foundations/icons";
 import { AvatarCount } from "./base-components/avatar-count";
 
 export const DefaultDemo = () => {
@@ -14,7 +14,7 @@ export const DefaultDemo = () => {
             src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
             alt="Olivia Rhye"
             title="Olivia Rhye"
-            subtitle="olivia@untitledui.com"
+            subtitle="olivia@example.com"
         />
     );
 };
@@ -66,7 +66,7 @@ export const LabelGroupDemo = () => {
             src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
             alt="Olivia Rhye"
             title="Olivia Rhye"
-            subtitle="olivia@untitledui.com"
+            subtitle="olivia@example.com"
         />
     );
 };
@@ -798,21 +798,21 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
             />
             <AvatarLabelGroup
                 size="md"
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
             />
             <AvatarLabelGroup
                 size="lg"
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
             />
         </div>
 
@@ -822,7 +822,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 status="online"
             />
             <AvatarLabelGroup
@@ -830,7 +830,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 status="online"
             />
             <AvatarLabelGroup
@@ -838,7 +838,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 status="online"
             />
         </div>
@@ -849,7 +849,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 badge={<AvatarCompanyIcon src="https://www.untitledui.com/logos/images/Layers.jpg" alt="Layers Inc." size="sm" />}
             />
             <AvatarLabelGroup
@@ -857,7 +857,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 badge={<AvatarCompanyIcon src="https://www.untitledui.com/logos/images/Layers.jpg" alt="Layers Inc." size="md" />}
             />
             <AvatarLabelGroup
@@ -865,7 +865,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 badge={<AvatarCompanyIcon src="https://www.untitledui.com/logos/images/Layers.jpg" alt="Layers Inc." size="lg" />}
             />
         </div>
@@ -876,7 +876,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 verified
             />
             <AvatarLabelGroup
@@ -884,7 +884,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 verified
             />
             <AvatarLabelGroup
@@ -892,7 +892,7 @@ export const LabelGroup = () => (
                 src="https://www.untitledui.com/images/avatars/olivia-rhye?fm=webp&q=80"
                 alt="Olivia Rhye"
                 title="Olivia Rhye"
-                subtitle="olivia@untitledui.com"
+                subtitle="olivia@example.com"
                 verified
             />
         </div>

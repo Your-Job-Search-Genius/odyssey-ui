@@ -1,4 +1,4 @@
-# Contributing to Untitled UI Components
+# Contributing to Writesea Odyssey Design System
 
 Thank you for your interest in contributing! This guide will help you get started.
 
@@ -322,4 +322,4 @@ Button.defaultProps = {
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
-Thank you for contributing to Untitled UI! 🎉
+Thank you for contributing to Writesea Odyssey! 🎉

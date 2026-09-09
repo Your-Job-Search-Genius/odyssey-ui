@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle, LogOut01, Moon01, Plus, Settings01, User01 } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { SubmenuTrigger } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown, HelpCircle, LogOut01, Moon01, Plus, Settings01, User01 } from "@/components/foundations/icons";
 
 export const DropdownAccountButton = () => {
     const [selectedAccount, setSelectedAccount] = useState<Selection>(new Set(["olivia"]));

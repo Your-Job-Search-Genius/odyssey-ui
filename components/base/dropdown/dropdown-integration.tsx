@@ -1,8 +1,8 @@
 "use client";
 
-import { ChevronDown, Copy01, TerminalSquare } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown, Copy01, TerminalSquare } from "@/components/foundations/icons";
 import {
     BoltIcon,
     ChatGPTIcon,

@@ -1,10 +1,10 @@
 "use client";
 
 import { type FC, type ReactNode, useState } from "react";
-import { LayersTwo01, Lock01, Rows01, UserSquare, Users01 } from "@untitledui/icons";
 import type { Key } from "react-aria-components";
 import { Tabs } from "@/components/application/tabs/tabs";
 import { NativeSelect } from "@/components/base/select/select-native";
+import { LayersTwo01, Lock01, Rows01, UserSquare, Users01 } from "@/components/foundations/icons";
 
 const tabs = [
     { id: "details", label: "My details" },

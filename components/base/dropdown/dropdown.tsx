@@ -1,7 +1,6 @@
 "use client";
 
 import { type FC, type RefAttributes, useCallback } from "react";
-import { Check, ChevronRight, DotsVertical } from "@untitledui/icons";
 import type {
     ButtonProps as AriaButtonProps,
     MenuItemProps as AriaMenuItemProps,
@@ -20,6 +19,7 @@ import {
     Popover as AriaPopover,
     Separator as AriaSeparator,
 } from "react-aria-components";
+import { Check, ChevronRight, DotsVertical } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { Avatar } from "../avatar/avatar";
 import { CheckboxBase } from "../checkbox/checkbox";

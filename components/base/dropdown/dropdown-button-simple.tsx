@@ -1,9 +1,9 @@
 "use client";
 
-import { ChevronDown } from "@untitledui/icons";
 import { SubmenuTrigger } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown } from "@/components/foundations/icons";
 
 export const DropdownButtonSimple = () => (
     <Dropdown.Root>

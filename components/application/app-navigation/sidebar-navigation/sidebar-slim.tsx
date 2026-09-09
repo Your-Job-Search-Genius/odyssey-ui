@@ -2,13 +2,13 @@
 
 import type { FC } from "react";
 import { useState } from "react";
-import { DotsVertical, LifeBuoy01, Settings01 } from "@untitledui/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { Button as AriaButton, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
-import { UntitledLogo } from "@/components/foundations/logo/untitledui-logo";
-import { UntitledLogoMinimal } from "@/components/foundations/logo/untitledui-logo-minimal";
+import { DotsVertical, LifeBuoy01, Settings01 } from "@/components/foundations/icons";
+import { BrandLogo } from "@/components/foundations/logo/brand-logo";
+import { BrandLogoMinimal } from "@/components/foundations/logo/brand-logo-minimal";
 import { cx } from "@/utils/cx";
 import { MobileNavigationHeader } from "../base-components/mobile-header";
 import { NavAccountCard, NavAccountMenu } from "../base-components/nav-account-card";
@@ -57,7 +57,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                 )}
             >
                 <div className="flex justify-center px-3">
-                    <UntitledLogoMinimal className="size-6" />
+                    <BrandLogoMinimal className="size-6" />
                 </div>
 
                 <ul className="mt-5 flex flex-col gap-0.5 px-3.5">
@@ -153,7 +153,6 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                         <div className="sticky bottom-0 mt-auto flex justify-between bg-primary pb-5">
                             <div>
                                 <p className="text-sm font-semibold text-primary">Olivia Rhye</p>
-                                <p className="text-sm text-tertiary">olivia@untitledui.com</p>
                             </div>
                             <div className="absolute -top-1 right-0">
                                 <ButtonUtility size="xs" color="tertiary" tooltip="Log out" icon={DotsVertical} />
@@ -189,7 +188,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
             <MobileNavigationHeader>
                 <aside className="group flex h-full max-h-full w-full max-w-full flex-col justify-between overflow-y-auto bg-primary pt-4">
                     <div className="px-4">
-                        <UntitledLogo className="h-6" />
+                        <BrandLogo className="h-6" />
                     </div>
 
                     <NavList items={items} />

@@ -157,8 +157,8 @@ import XmlSolid from "./icons/solid/xml";
 import ZipSolid from "./icons/solid/zip";
 
 /**
- * All file-type icon keys supported by `FileIcon`. Mirrors the Untitled UI
- * "File icons" Figma component set (default / gray / solid variants, each
+ * All file-type icon keys supported by `FileIcon`. Mirrors the Writesea
+ * Odyssey "File icons" component set (default / gray / solid variants, each
  * with a light and dark theme).
  */
 export const SUPPORTED_FILE_TYPES = [

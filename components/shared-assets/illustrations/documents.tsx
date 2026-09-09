@@ -1,7 +1,7 @@
 "use client";
 
 import type { HTMLAttributes } from "react";
-import { UploadCloud02 } from "@untitledui/icons";
+import { UploadCloud02 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 interface IllustrationProps extends HTMLAttributes<HTMLDivElement> {

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronSelectorVertical } from "@untitledui/icons";
 import { Button as AriaButton, MenuItem as AriaMenuItem } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronSelectorVertical } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { RadioButtonBase } from "../radio-buttons/radio-buttons";
 
@@ -12,14 +12,14 @@ const accounts = [
     {
         id: "caitlyn",
         name: "Caitlyn King",
-        email: "caitlyn@untitledui.com",
+        email: "caitlyn@example.com",
         avatar: "https://www.untitledui.com/images/avatars/caitlyn-king?fm=webp&q=80",
         status: "online",
     },
     {
         id: "sienna",
         name: "Sienna Hewitt",
-        email: "sienna@untitledui.com",
+        email: "sienna@example.com",
         avatar: "https://www.untitledui.com/images/avatars/transparent/sienna-hewitt?bg=%23E0E0E0",
         status: "online",
     },

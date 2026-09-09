@@ -1,7 +1,7 @@
 "use client";
 
-import { X as CloseIcon } from "@untitledui/icons";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
+import { X as CloseIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 const sizes = {

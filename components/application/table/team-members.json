@@ -5,7 +5,7 @@
             "username": "@olivia",
             "status": "active",
             "role": "Product Designer",
-            "email": "olivia@untitledui.com",
+            "email": "olivia@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -22,7 +22,7 @@
             "username": "@phoenix",
             "status": "active",
             "role": "Product Manager",
-            "email": "phoenix@untitledui.com",
+            "email": "phoenix@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -39,7 +39,7 @@
             "username": "@lana",
             "status": "active",
             "role": "Frontend Developer",
-            "email": "lana@untitledui.com",
+            "email": "lana@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -54,7 +54,7 @@
             "username": "@demi",
             "status": "active",
             "role": "Backend Developer",
-            "email": "demi@untitledui.com",
+            "email": "demi@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -68,7 +68,7 @@
             "username": "@candice",
             "status": "active",
             "role": "Fullstack Developer",
-            "email": "candice@untitledui.com",
+            "email": "candice@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -83,7 +83,7 @@
             "username": "@natali",
             "status": "active",
             "role": "UX Designer",
-            "email": "natali@untitledui.com",
+            "email": "natali@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -98,7 +98,7 @@
             "username": "@drew",
             "status": "active",
             "role": "UX Copywriter",
-            "email": "drew@untitledui.com",
+            "email": "drew@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -115,7 +115,7 @@
             "username": "@orlando",
             "status": "active",
             "role": "UI Designer",
-            "email": "orlando@untitledui.com",
+            "email": "orlando@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -132,7 +132,7 @@
             "username": "@andi",
             "status": "active",
             "role": "Product Manager",
-            "email": "andi@untitledui.com",
+            "email": "andi@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },
@@ -149,7 +149,7 @@
             "username": "@kate",
             "status": "active",
             "role": "QA Engineer",
-            "email": "kate@untitledui.com",
+            "email": "kate@example.com",
             "teams": [
                 { "name": "Design", "color": "purple" },
                 { "name": "Product", "color": "sky" },

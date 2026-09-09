@@ -1,8 +1,8 @@
 "use client";
 
 import type { RefAttributes } from "react";
-import { XClose } from "@untitledui/icons";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
+import { XClose } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 interface TagCloseXProps extends AriaButtonProps, RefAttributes<HTMLButtonElement> {

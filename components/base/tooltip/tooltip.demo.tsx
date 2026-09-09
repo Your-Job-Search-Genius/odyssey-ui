@@ -1,8 +1,8 @@
 "use client";
 
 import type { Placement } from "@react-types/overlays";
-import { HelpCircle } from "@untitledui/icons";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
+import { HelpCircle } from "@/components/foundations/icons";
 
 const PLACEMENTS: { label: string; value: Placement }[] = [
     {

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle, LogOut01, Moon01, Plus, Settings01, User01 } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { Button as AriaButton, SubmenuTrigger } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown, HelpCircle, LogOut01, Moon01, Plus, Settings01, User01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 export const DropdownAccountCardSM = () => {
@@ -34,7 +34,6 @@ export const DropdownAccountCardSM = () => {
             <Dropdown.Popover className="w-60">
                 <div className="flex flex-col border-b border-secondary px-4 py-3">
                     <p className="text-sm font-semibold text-primary">PRO account</p>
-                    <p className="text-sm text-tertiary">olivia@untitledui.com</p>
                 </div>
                 <Dropdown.Menu>
                     <Dropdown.Item icon={User01} addon="⌘K->P">
@@ -92,7 +91,7 @@ export const DropdownAccountCardSM = () => {
                     </SubmenuTrigger>
                 </Dropdown.Menu>
                 <div className="flex justify-between border-t border-secondary px-4 py-3">
-                    <span className="truncate text-sm text-quaternary">&copy; Untitled UI</span>
+                    <span className="truncate text-sm text-quaternary">&copy; Writesea Odyssey</span>
                     <span className="text-sm text-quaternary">v12.6.8</span>
                 </div>
             </Dropdown.Popover>

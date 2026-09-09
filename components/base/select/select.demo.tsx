@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { User01 } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { useListData } from "react-stately";
 import { MultiSelect } from "@/components/base/select/multi-select";
@@ -9,6 +8,7 @@ import { Select, type SelectItemType } from "@/components/base/select/select";
 import { NativeSelect } from "@/components/base/select/select-native";
 import { TagSelect } from "@/components/base/select/tag-select";
 import { Dot } from "@/components/foundations/dot-icon";
+import { User01 } from "@/components/foundations/icons";
 
 const items: SelectItemType[] = [
     {

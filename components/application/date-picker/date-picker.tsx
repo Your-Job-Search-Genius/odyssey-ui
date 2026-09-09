@@ -2,11 +2,11 @@
 
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { useControlledState } from "@react-stately/utils";
-import { Calendar as CalendarIcon } from "@untitledui/icons";
 import { useDateFormatter } from "react-aria";
 import type { DatePickerProps as AriaDatePickerProps, DateValue } from "react-aria-components";
 import { DatePicker as AriaDatePicker, Dialog as AriaDialog, Group as AriaGroup, Popover as AriaPopover } from "react-aria-components";
 import { Button, type ButtonProps } from "@/components/base/buttons/button";
+import { Calendar as CalendarIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { Calendar } from "./calendar";
 

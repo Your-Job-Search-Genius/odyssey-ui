@@ -1,17 +1,14 @@
 blank_issues_enabled: false
 contact_links:
     - name: 💡 Feature Requests
-      url: https://github.com/untitleduico/react/discussions/new?category=ideas
+      url: https://github.com/Your-Job-Search-Genius/yjsg-ui/discussions/new?category=ideas
       about: Suggest ideas, request features and new components
     - name: 💬 General Questions & Discussions
-      url: https://github.com/untitleduico/react/discussions
+      url: https://github.com/Your-Job-Search-Genius/yjsg-ui/discussions
       about: Ask questions, share ideas, and discuss with the community
     - name: 📖 Documentation
-      url: https://www.untitledui.com/react/components
+      url: https://github.com/Your-Job-Search-Genius/yjsg-ui#readme
       about: View the full component documentation and examples
-    - name: 🎨 Design Files
-      url: https://www.untitledui.com/figma
-      about: Access Figma design files and component specifications
     - name: 🔒 Security Vulnerabilities
-      url: mailto:support@untitledui.com?subject=Security%20Vulnerability
+      url: https://github.com/Your-Job-Search-Genius/yjsg-ui/security/advisories/new
       about: Report security vulnerabilities privately

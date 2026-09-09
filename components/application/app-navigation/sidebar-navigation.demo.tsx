@@ -1,6 +1,15 @@
 "use client";
 
 import type { FC } from "react";
+import { FeaturedCardProgressBar, FeaturedCardProgressCircle } from "@/components/application/app-navigation/base-components/featured-cards.demo";
+import type { NavItemDividerType, NavItemType } from "@/components/application/app-navigation/config";
+import { SidebarNavigationDualTier } from "@/components/application/app-navigation/sidebar-navigation/sidebar-dual-tier";
+import { SidebarNavigationSectionDividers } from "@/components/application/app-navigation/sidebar-navigation/sidebar-section-dividers";
+import { SidebarNavigationSectionsSubheadings } from "@/components/application/app-navigation/sidebar-navigation/sidebar-sections-subheadings";
+import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
+import { SidebarNavigationSlim } from "@/components/application/app-navigation/sidebar-navigation/sidebar-slim";
+import { Avatar } from "@/components/base/avatar/avatar";
+import { Badge, BadgeWithDot } from "@/components/base/badges/badges";
 import {
     Archive,
     BarChartSquare02,
@@ -30,16 +39,7 @@ import {
     UserSquare,
     Users01,
     UsersPlus,
-} from "@untitledui/icons";
-import { FeaturedCardProgressBar, FeaturedCardProgressCircle } from "@/components/application/app-navigation/base-components/featured-cards.demo";
-import type { NavItemDividerType, NavItemType } from "@/components/application/app-navigation/config";
-import { SidebarNavigationDualTier } from "@/components/application/app-navigation/sidebar-navigation/sidebar-dual-tier";
-import { SidebarNavigationSectionDividers } from "@/components/application/app-navigation/sidebar-navigation/sidebar-section-dividers";
-import { SidebarNavigationSectionsSubheadings } from "@/components/application/app-navigation/sidebar-navigation/sidebar-sections-subheadings";
-import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
-import { SidebarNavigationSlim } from "@/components/application/app-navigation/sidebar-navigation/sidebar-slim";
-import { Avatar } from "@/components/base/avatar/avatar";
-import { Badge, BadgeWithDot } from "@/components/base/badges/badges";
+} from "@/components/foundations/icons";
 
 const navItemsSimple: NavItemType[] = [
     {
@@ -203,7 +203,7 @@ const navItemsWithDividers: (NavItemType | NavItemDividerType)[] = [
     },
     {
         label: "Open in browser",
-        href: "https://www.untitledui.com/",
+        href: "#",
         icon: LayoutAlt01,
     },
 ];
@@ -235,7 +235,7 @@ const navItemsWithSectionsSubheadings: Array<{ label: string; items: NavItemType
         ],
     },
     {
-        label: "Untitled UI",
+        label: "Writesea Odyssey",
         items: [
             {
                 label: "Reporting",
@@ -339,7 +339,7 @@ export const SidebarNavigationSimpleDemo = () => (
             },
             {
                 label: "Open in browser",
-                href: "https://www.untitledui.com/",
+                href: "#",
                 icon: LayoutAlt01,
             },
         ]}

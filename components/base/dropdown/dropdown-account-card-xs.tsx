@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, LogOut01, Moon01, Plus, Settings01 } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { Button as AriaButton, SubmenuTrigger } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown, LogOut01, Moon01, Plus, Settings01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 export const DropdownAccountCardXS = () => {

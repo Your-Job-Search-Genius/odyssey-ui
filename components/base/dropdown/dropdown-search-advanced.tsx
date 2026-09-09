@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Plus, SearchLg } from "@untitledui/icons";
 import type { Selection } from "react-aria-components";
 import { Autocomplete, SearchField, SubmenuTrigger, useFilter } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { ChevronDown, Plus, SearchLg } from "@/components/foundations/icons";
 import { InputBase } from "../input/input";
 
 export const DropdownSearchAdvanced = () => {
-    const [selectedUsers, setSelectedUsers] = useState<Selection>(new Set(["untitledui", "shutterframe"]));
+    const [selectedUsers, setSelectedUsers] = useState<Selection>(new Set(["writesea-odyssey", "shutterframe"]));
     let { contains } = useFilter({ sensitivity: "base" });
 
     return (
@@ -30,8 +30,8 @@ export const DropdownSearchAdvanced = () => {
                     </SearchField>
                     <Dropdown.Menu selectionMode="multiple" selectedKeys={selectedUsers} onSelectionChange={setSelectedUsers}>
                         <SubmenuTrigger>
-                            <Dropdown.Item id="untitledui" textValue="Olivia Rhye" selectionIndicator="checkbox">
-                                Untitled UI
+                            <Dropdown.Item id="writesea-odyssey" textValue="Olivia Rhye" selectionIndicator="checkbox">
+                                Writesea Odyssey
                             </Dropdown.Item>
                             <Dropdown.Popover placement="right top" offset={-6} className="w-50">
                                 <Dropdown.Menu selectionMode="multiple">

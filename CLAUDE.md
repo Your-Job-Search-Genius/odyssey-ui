@@ -1,6 +1,6 @@
 ## Project Overview
 
-This is an **Untitled UI React** component library project built with:
+This is a **Writesea Odyssey** component library project built with:
 
 - **React 19** with TypeScript
 - **Tailwind CSS v4.3** for styling
@@ -192,13 +192,13 @@ export const styles = sortCx({
 
 ### Available Libraries
 
-- `@untitledui/icons` - 1,100+ line-style icons (free)
+- `@/components/foundations/icons` - 1,100+ line-style icons, vendored locally in this repo
 
 ### Import & Usage
 
 ```typescript
 // Recommended: Named imports (tree-shakeable)
-import { Home01, Settings01, ChevronDown } from "@untitledui/icons";
+import { Home01, Settings01, ChevronDown } from "@/components/foundations/icons";
 
 // Component props - pass as reference
 <Button iconLeading={ChevronDown}>Options</Button>
@@ -224,16 +224,6 @@ import { Home01, Settings01, ChevronDown } from "@untitledui/icons";
 
 // Accessibility: decorative icons need aria-hidden
 <Home01 className="size-5" aria-hidden="true" />
-```
-
-### PRO Icon Styles
-
-```typescript
-import { Home01 } from "@untitledui-pro/icons";
-// Line
-import { Home01 } from "@untitledui-pro/icons/duocolor";
-import { Home01 } from "@untitledui-pro/icons/duotone";
-import { Home01 } from "@untitledui-pro/icons/solid";
 ```
 
 ## Form Handling
@@ -407,7 +397,7 @@ import { InputGroup } from "@/components/base/input/input-group";
 
 ```typescript
 // Basic input with label
-<Input label="Email" placeholder="olivia@untitledui.com" />
+<Input label="Email" placeholder="olivia@example.com" />
 
 // With icon and validation
 <Input
@@ -420,7 +410,7 @@ import { InputGroup } from "@/components/base/input/input-group";
 
 // Input group with button
 <InputGroup label="Website" trailingAddon={<Button>Copy</Button>}>
-  <InputBase placeholder="www.untitledui.com" />
+  <InputBase placeholder="www.example.com" />
 </InputGroup>
 ```
 
@@ -584,7 +574,7 @@ import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
 <AvatarLabelGroup
   src="/avatar.jpg"
   title="Olivia Rhye"
-  subtitle="olivia@untitledui.com"
+  subtitle="olivia@example.com"
   size="md"
 />
 ```

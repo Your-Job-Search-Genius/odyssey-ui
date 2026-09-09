@@ -1,8 +1,8 @@
 "use client";
 
 import type { MouseEventHandler, ReactNode } from "react";
-import { X as CloseX } from "@untitledui/icons";
 import { Dot } from "@/components/foundations/dot-icon";
+import { X as CloseX } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import type { BadgeColors, BadgeTypeToColorMap, BadgeTypes, FlagTypes, IconComponentType, Sizes } from "./badge-types";
 import { badgeTypes } from "./badge-types";

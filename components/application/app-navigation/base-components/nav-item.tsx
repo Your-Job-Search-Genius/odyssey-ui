@@ -1,9 +1,9 @@
 "use client";
 
 import type { FC, HTMLAttributes, MouseEventHandler, ReactNode } from "react";
-import { ChevronDown, Share04 } from "@untitledui/icons";
 import { Link as AriaLink } from "react-aria-components";
 import { Badge } from "@/components/base/badges/badges";
+import { ChevronDown, Share04 } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
 
 const styles = sortCx({

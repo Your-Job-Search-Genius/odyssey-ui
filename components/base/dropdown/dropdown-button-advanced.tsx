@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import type { Selection } from "react-aria-components";
+import { SubmenuTrigger } from "react-aria-components";
+import { Button } from "@/components/base/buttons/button";
+import { Dropdown } from "@/components/base/dropdown/dropdown";
 import {
     ArrowNarrowLeft,
     ArrowNarrowRight,
@@ -13,11 +17,7 @@ import {
     RefreshCcw02,
     Scissors01,
     Star01,
-} from "@untitledui/icons";
-import type { Selection } from "react-aria-components";
-import { SubmenuTrigger } from "react-aria-components";
-import { Button } from "@/components/base/buttons/button";
-import { Dropdown } from "@/components/base/dropdown/dropdown";
+} from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 const StatusDot = ({ status }: { status: "online" | "offline" }) => (

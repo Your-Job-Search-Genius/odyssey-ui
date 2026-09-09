@@ -1,7 +1,7 @@
 "use client";
 
-import { Clock } from "@untitledui/icons";
 import type { SelectItemType } from "@/components/base/select/select";
+import { Clock } from "@/components/foundations/icons";
 
 /**
  * List of timezones with their timezone value, code and name.

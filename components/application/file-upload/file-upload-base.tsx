@@ -2,7 +2,6 @@
 
 import type { ComponentProps, ComponentPropsWithRef } from "react";
 import { useId, useRef, useState } from "react";
-import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@untitledui/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
@@ -10,6 +9,7 @@ import { ProgressBar } from "@/components/base/progress-indicators/progress-indi
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import type { FileIcon } from "@/components/foundations/file-icons/file-icon";
 import { FileIcon as FileTypeIcon } from "@/components/foundations/file-icons/file-icon";
+import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
 /**
