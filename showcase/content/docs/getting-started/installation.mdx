@@ -1,0 +1,43 @@
+---
+title: Installation
+description: How components in this library are actually consumed.
+---
+
+## Current consumption model
+
+`@your-job-search-genius/odyssey-ui` is a **private, unpublished** package (no build output, no
+`dist/`, `publishConfig.registry` is a restricted GitHub Packages registry). It is not installed
+via `pnpm add` today. Instead, every consumer imports directly from source using the repo's
+`@/*` path aliases:
+
+```ts
+import { Card } from "@/components/application/cards/card";
+import { Button } from "@/components/base/buttons/button";
+import { AlertCircle } from "@/components/foundations/icons";
+```
+
+This is also exactly how this documentation site itself consumes the library: every live preview
+on this site renders the real component, imported the same way your own code would.
+
+## Path aliases
+
+| Alias            | Resolves to    |
+| ---------------- | -------------- |
+| `@/*`            | repo root      |
+| `@/components/*` | `components/*` |
+| `@/utils/*`      | `utils/*`      |
+| `@/hooks/*`      | `hooks/*`      |
+
+## Peer requirements
+
+- **React 19** and **React DOM 19**
+- **Tailwind CSS v4.3**, with the library's `styles/theme.css` design tokens imported into your
+  global stylesheet
+- **React Aria Components** and **React Aria** (already declared as dependencies of the package)
+
+## If you need a publishable build
+
+If a downstream project outside this repository needs to consume the library as an installed
+package, that requires adding a build step (bundling `components/`, `utils/`, and `hooks/` to
+`dist/` with type declarations) and publishing to the GitHub Packages registry configured in
+`publishConfig`. That is not set up today -- see the root `package.json` for the current state.

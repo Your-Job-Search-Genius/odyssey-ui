@@ -1,0 +1,25 @@
+{
+    "title": "Base Components",
+    "pages": [
+        "buttons",
+        "button-group",
+        "badges",
+        "tags",
+        "dropdown",
+        "select",
+        "combobox",
+        "input",
+        "textarea",
+        "checkbox",
+        "radio-buttons",
+        "toggle",
+        "slider",
+        "color-picker",
+        "avatar",
+        "progress-indicators",
+        "separator",
+        "tooltip",
+        "form",
+        "file-upload-trigger"
+    ]
+}

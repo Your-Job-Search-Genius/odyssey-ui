@@ -1,0 +1,33 @@
+---
+title: Icons
+description: The library's full icon set -- ~1,180 line-style icons, searchable and click-to-copy.
+---
+
+## Overview
+
+Every icon is its own component, all re-exported from a single barrel. Click any icon below to copy its
+import statement.
+
+<IconGallery set="icons" />
+
+## Installation
+
+```ts
+import { AlertCircle, ChevronDown } from "@/components/foundations/icons";
+```
+
+## Usage
+
+Pass an icon as a component reference to props like `icon` / `iconLeading` / `iconTrailing`, or render it
+standalone:
+
+```tsx
+<Button iconLeading={ChevronDown}>Options</Button>
+
+<ChevronDown className="size-5 text-tertiary" aria-hidden="true" />
+```
+
+Each icon accepts standard SVG props plus `size` (default `24`) and `color` (default `currentColor`) --
+prefer sizing with Tailwind's `size-*` utilities and coloring with semantic text-color classes
+(`text-tertiary`, `text-brand-secondary`, ...) over the `size`/`color` props directly, to stay consistent
+with the rest of the library.

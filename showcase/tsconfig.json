@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react-jsx",
+        "incremental": true,
+        "baseUrl": ".",
+        "paths": {
+            // "@/*" keeps the exact same meaning it already has in the root
+            // repo's tsconfig.json ("repo root") so every library file --
+            // including every *.demo.tsx -- compiles into the showcase app
+            // completely unmodified, with zero codemods.
+            "@/*": ["../*"],
+            "@/components/*": ["../components/*"],
+            "@/utils/*": ["../utils/*"],
+            "@/hooks/*": ["../hooks/*"],
+            // "~/*" is the showcase app's own first-party code, kept under
+            // a distinct alias so it's never ambiguous which tree an
+            // import resolves into.
+            "~/*": ["./*"]
+        },
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
+    "exclude": ["node_modules"]
+}

@@ -13,7 +13,13 @@
     "prettier": "prettier . --write",
     "prettier:check": "prettier . --check",
     "type-check": "tsc --noEmit",
-    "test": "pnpm run type-check && pnpm run lint:check && pnpm run prettier:check"
+    "type-check:showcase": "tsc --noEmit -p showcase/tsconfig.json",
+    "test": "pnpm run type-check && pnpm run lint:check && pnpm run prettier:check",
+    "showcase:sync": "tsx showcase/scripts/sync-content.ts",
+    "showcase:new-doc": "tsx showcase/scripts/new-doc.ts",
+    "showcase:dev": "pnpm run showcase:sync && cd showcase && next dev -p 3001",
+    "showcase:build": "pnpm run showcase:sync && cd showcase && next build",
+    "showcase:start": "cd showcase && next start -p 3001"
   },
   "keywords": [
     "react",
@@ -45,6 +51,9 @@
     "@react-types/shared": "^3.36.1",
     "@tailwindcss/typography": "^0.5.20",
     "embla-carousel-react": "^8.6.0",
+    "fumadocs-core": "^16.15.8",
+    "fumadocs-mdx": "^15.4.0",
+    "fumadocs-ui": "^16.15.8",
     "input-otp": "^1.4.2",
     "motion": "^12.42.2",
     "next": "^16.3.0",
@@ -73,6 +82,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/vite": "^4.3.3",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/mdx": "^2.0.13",
     "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -95,7 +105,9 @@
     "postcss": "^8.5.21",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "react-docgen-typescript": "^2.4.0",
     "storybook": "^10.5.3",
+    "tsx": "^4.20.0",
     "typescript": "^5.9.3",
     "vite": "^8.1.5"
   }

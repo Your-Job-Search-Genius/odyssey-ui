@@ -1,0 +1,29 @@
+---
+title: Theming
+description: How color, typography, and dark mode work across the library.
+---
+
+## Semantic color tokens
+
+The library never styles components with raw Tailwind color scales (`text-gray-900`,
+`bg-blue-700`, ...). Every component uses semantic utility classes -- `text-primary`,
+`bg-secondary`, `border-brand`, `fg-error-primary`, and so on -- defined once in
+`styles/theme.css` and automatically adapted for light and dark mode.
+
+## Dark mode
+
+The library's dark mode is driven by a `.dark-mode` class (not Tailwind's default `.dark`)
+applied to an ancestor element, matching the `@custom-variant dark (&:where(.dark-mode,
+.dark-mode *))` declaration in `styles/theme.css`. This is also how Storybook's theme switcher
+works (`.storybook/preview.ts`).
+
+On this site, use the theme toggle in the top navigation to switch between light and dark -- every
+live component preview reflects the change immediately, using the library's real dark-mode
+styling.
+
+## Changing the brand color
+
+To re-theme the entire library, edit the `--color-brand-*` scale (25 through 950) in
+`styles/theme.css`. Every component that uses brand-derived semantic tokens (`text-brand-primary`,
+`bg-brand-solid`, `fg-brand-primary`, ...) picks up the change automatically -- no per-component
+edits required.

@@ -1,0 +1,26 @@
+{
+    "title": "Application",
+    "pages": [
+        "cards",
+        "table",
+        "tabs",
+        "accordion",
+        "breadcrumbs",
+        "app-navigation",
+        "sidebar",
+        "pagination",
+        "modals",
+        "drawer",
+        "slideout-menus",
+        "bottom-sheet",
+        "alerts",
+        "empty-state",
+        "file-upload",
+        "date-picker",
+        "charts",
+        "loading-indicator",
+        "carousel",
+        "virtualized-list",
+        "ai-chatbox"
+    ]
+}
