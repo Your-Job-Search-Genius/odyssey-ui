@@ -6,8 +6,8 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally
-3. **Install dependencies**: `bun install`
-4. **Start development**: `bun run storybook`
+3. **Install dependencies**: `pnpm install`
+4. **Start development**: `pnpm run storybook`
 5. **Make your changes**
 6. **Test thoroughly**
 7. **Submit a pull request**
@@ -147,15 +147,15 @@ components/category/component-name/
 1. **Run tests**
 
     ```bash
-    bun run build      # TypeScript compilation
-    bun run lint       # ESLint checks
-    bun run prettier   # Code formatting
+    pnpm run build      # TypeScript compilation
+    pnpm run lint       # ESLint checks
+    pnpm run prettier   # Code formatting
     ```
 
 2. **Test in Storybook**
 
     ```bash
-    bun run storybook
+    pnpm run storybook
     # Navigate to your component and test all variants
     ```
 
