@@ -17,10 +17,21 @@ const paddings = sortCx({
     lg: "gap-5 p-6",
 });
 
+// The width must include the horizontal padding being bled over — with a plain `w-full`, the
+// negative margins only shift the media left and leave a padding-sized gap on the right.
+// `max-w-none` beats preflight's `img { max-width: 100% }`, which would cap the calc width.
 const mediaBleed = sortCx({
-    sm: "-mx-4 -mt-4",
-    md: "-mx-5 -mt-5",
-    lg: "-mx-6 -mt-6",
+    sm: "-mx-4 -mt-4 w-[calc(100%+2rem)] max-w-none",
+    md: "-mx-5 -mt-5 w-[calc(100%+2.5rem)] max-w-none",
+    lg: "-mx-6 -mt-6 w-[calc(100%+3rem)] max-w-none",
+});
+
+// Same compensation vertically: the top bleed shifts the media up, so filling a sized wrapper
+// exactly requires the wrapper's height plus the bled-over top padding.
+const mediaFillHeights = sortCx({
+    sm: "h-[calc(100%+1rem)]",
+    md: "h-[calc(100%+1.25rem)]",
+    lg: "h-[calc(100%+1.5rem)]",
 });
 
 const footerPadding = sortCx({
@@ -212,29 +223,33 @@ export interface CardMediaProps extends Omit<ComponentPropsWithRef<"img">, "alt"
      * `alt` has no default so this stays an intentional choice rather than an accidental omission.
      */
     alt: string;
-    /** @default "video" */
+    /**
+     * Constrains the media to a self-contained ratio (height derived from width). Omit this when
+     * you want the image to fill 100% of its parent container's own width *and* height instead —
+     * e.g. wrap `Card.Media` in a `div` with an explicit `h-48` and it will fill it completely.
+     */
     aspectRatio?: keyof typeof aspectRatios;
 }
 
 /**
- * Edge-to-edge media, typically the first child of `Card`. Falls back to a placeholder icon when
- * `src` is missing or fails to load, so a broken image never leaves an empty gap in the layout.
+ * Edge-to-edge media, typically the first child of `Card`. Fills the full width and height of its
+ * parent container by default (plus the card padding it bleeds over, with `object-cover`) — give
+ * it a sized wrapper, or pass
+ * `aspectRatio` for a self-contained ratio instead. Falls back to a placeholder icon when `src` is
+ * missing or fails to load, so a broken image never leaves an empty gap in the layout.
  */
-const CardMedia = ({ alt, aspectRatio = "video", className, onError, ...props }: CardMediaProps) => {
+const CardMedia = ({ alt, aspectRatio, className, onError, ...props }: CardMediaProps) => {
     const size = useContext(CardSizeContext);
     const [hasError, setHasError] = useState(false);
+
+    const sizeClassName = aspectRatio ? aspectRatios[aspectRatio] : mediaFillHeights[size];
 
     if (hasError || !props.src) {
         return (
             <div
                 role="img"
                 aria-label={alt || "Image unavailable"}
-                className={cx(
-                    "flex w-full items-center justify-center bg-secondary text-fg-quaternary",
-                    aspectRatios[aspectRatio],
-                    mediaBleed[size],
-                    className,
-                )}
+                className={cx("flex items-center justify-center bg-secondary text-fg-quaternary", sizeClassName, mediaBleed[size], className)}
             >
                 <Image01 aria-hidden="true" className="size-8" />
             </div>
@@ -249,7 +264,7 @@ const CardMedia = ({ alt, aspectRatio = "video", className, onError, ...props }:
                 setHasError(true);
                 onError?.(event);
             }}
-            className={cx("w-full object-cover", aspectRatios[aspectRatio], mediaBleed[size], className)}
+            className={cx("object-cover", sizeClassName, mediaBleed[size], className)}
         />
     );
 };

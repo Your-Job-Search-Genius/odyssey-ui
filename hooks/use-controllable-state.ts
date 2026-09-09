@@ -17,7 +17,6 @@ export function useControllableState<T>({ value, defaultValue, onChange }: UseCo
 
     const isControlledRef = useRef(isControlled);
     if (process.env.NODE_ENV !== "production" && isControlledRef.current !== isControlled) {
-        // eslint-disable-next-line no-console
         console.warn(
             "[@your-job-search-genius/odyssey-ui] A component switched between controlled and uncontrolled. Decide between `value`/`onChange` (controlled) or `defaultValue` (uncontrolled) and keep it consistent across renders.",
         );

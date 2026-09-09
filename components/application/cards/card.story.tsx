@@ -43,5 +43,8 @@ OverflowContent.storyName = "Long title/description overflow";
 export const BrokenImage = () => <CardDemos.BrokenImageDemo />;
 BrokenImage.storyName = "Broken image fallback";
 
+export const MediaFillsParent = () => <CardDemos.MediaFillsParentDemo />;
+MediaFillsParent.storyName = "Media fills its parent container";
+
 export const ProductGrid = () => <CardDemos.ProductGridDemo />;
 ProductGrid.storyName = "Composed example: product grid";

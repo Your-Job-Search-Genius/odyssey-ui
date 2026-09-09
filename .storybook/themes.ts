@@ -1,5 +1,5 @@
 const odysseyThemes = [
-    { name: "Brand", class: "odyssey-brand", color: "#9e77ed" },
+    { name: "Brand", class: "odyssey-brand", color: "#6e62ef" },
     { name: "Error", class: "odyssey-error", color: "#f04438" },
     { name: "Warning", class: "odyssey-warning", color: "#f79009" },
     { name: "Success", class: "odyssey-success", color: "#12b76a" },

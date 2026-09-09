@@ -24,7 +24,11 @@ export const BasicDemo = () => (
 
 export const WithMediaDemo = () => (
     <Card className="max-w-80">
-        <Card.Media src="https://www.untitledui.com/images/photos/mira-collins.jpg" alt="A team collaborating around a laptop in a bright office" />
+        <Card.Media
+            src="https://www.untitledui.com/images/photos/mira-collins.jpg"
+            alt="A team collaborating around a laptop in a bright office"
+            aspectRatio="video"
+        />
         <Card.Header
             title="Product roadmap Q3"
             description="A look at what we're shipping in the next quarter."
@@ -152,9 +156,29 @@ export const OverflowContentDemo = () => (
 
 export const BrokenImageDemo = () => (
     <Card className="max-w-80">
-        <Card.Media src="https://this-domain-does-not-exist.example/broken.jpg" alt="A photo that fails to load" />
+        <Card.Media src="https://this-domain-does-not-exist.example/broken.jpg" alt="A photo that fails to load" aspectRatio="video" />
         <Card.Header title="Broken image fallback" description="The media slot falls back to a placeholder icon instead of a broken image gap." />
     </Card>
+);
+
+export const MediaFillsParentDemo = () => (
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Card className="max-w-80">
+            {/* No `aspectRatio` — the media fills 100% of this `h-56` wrapper, whatever its ratio ends up being. */}
+            <div className="h-56 w-full">
+                <Card.Media src="https://www.untitledui.com/images/photos/interior-1.jpg" alt="A softly lit living room with a reading chair" />
+            </div>
+            <Card.Header title="Fixed-height wrapper" description="Card.Media stretches to fill the h-56 container above it exactly." />
+        </Card>
+
+        <Card className="h-80 max-w-80">
+            {/* Same idea, but the wrapper grows to fill whatever space is left over in a fixed-height card. */}
+            <div className="min-h-0 flex-1">
+                <Card.Media src="https://this-domain-does-not-exist.example/broken.jpg" alt="A photo that fails to load" />
+            </div>
+            <Card.Header title="Flexible-height wrapper" description="The broken-image placeholder fills the same wrapper just as completely." />
+        </Card>
+    </div>
 );
 
 export const ProductGridDemo = () => {

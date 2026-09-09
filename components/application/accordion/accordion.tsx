@@ -141,9 +141,12 @@ export interface AccordionPanelProps extends Omit<AriaDisclosurePanelProps, "cla
 }
 
 /**
- * The collapsible content. Animates open/closed via a `grid-template-rows` transition
- * (respecting `prefers-reduced-motion`) and expands naturally to fit however much content is
- * passed in — long content simply makes the panel taller rather than scrolling internally.
+ * The collapsible content. Animates open/closed by transitioning `height` through the
+ * `--disclosure-panel-height` variable that React Aria's `useDisclosure` maintains — it pins the
+ * height to pixel values around each toggle, forces a reflow so both directions animate, and only
+ * applies the `hidden` attribute after the transition finishes. Respects `prefers-reduced-motion`,
+ * and expands naturally to fit however much content is passed in — long content simply makes the
+ * panel taller rather than scrolling internally (the height settles back to `auto` after opening).
  */
 const AccordionPanel = ({ className, children, ...props }: AccordionPanelProps) => {
     const size = useContext(AccordionSizeContext);
@@ -152,11 +155,11 @@ const AccordionPanel = ({ className, children, ...props }: AccordionPanelProps) 
         <AriaDisclosurePanel
             {...props}
             className={cx(
-                "grid grid-rows-[0fr] overflow-hidden opacity-0 transition-[grid-template-rows,opacity] duration-300 ease-in-out group-data-expanded:grid-rows-[1fr] group-data-expanded:opacity-100 motion-reduce:transition-none",
+                "h-[var(--disclosure-panel-height)] overflow-hidden opacity-0 transition-[height,opacity] duration-300 ease-in-out group-data-expanded:opacity-100 motion-reduce:transition-none",
                 className,
             )}
         >
-            <div className={cx("min-h-0 min-w-0 text-tertiary", sizes[size].panel)}>{children}</div>
+            <div className={cx("text-tertiary", sizes[size].panel)}>{children}</div>
         </AriaDisclosurePanel>
     );
 };
