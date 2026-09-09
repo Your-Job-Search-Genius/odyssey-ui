@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { createContext, useContext, useId } from "react";
 import { Form as AriaForm } from "react-aria-components";
-import type { Control, FieldPath, FieldValues, UseControllerReturn, UseFormReturn } from "react-hook-form";
+import type { Control, FieldPath, FieldPathValue, FieldValues, RegisterOptions, UseControllerReturn, UseFormReturn } from "react-hook-form";
 import { FormProvider, useController, useFormContext } from "react-hook-form";
 
 interface FormProps<TFieldValues extends FieldValues = FieldValues> extends ComponentPropsWithoutRef<typeof AriaForm> {
@@ -12,6 +12,10 @@ interface FormProps<TFieldValues extends FieldValues = FieldValues> extends Comp
 interface FormFieldProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> {
     name: TName;
     control: Control<TFieldValues>;
+    /** Validation rules, forwarded to `useController`. Supports `required`, `pattern`, `minLength`, `validate`, etc. */
+    rules?: Omit<RegisterOptions<TFieldValues, TName>, "disabled" | "valueAsNumber" | "valueAsDate" | "setValueAs">;
+    /** Value to fall back to before the field has been touched. */
+    defaultValue?: FieldPathValue<TFieldValues, TName>;
     children: ReactNode | ((control: UseControllerReturn<TFieldValues, TName>) => ReactNode);
 }
 
@@ -35,10 +39,23 @@ export const useFormFieldContext = () => {
     return { ...context, ...fieldState };
 };
 
-export const HookForm = <TFieldValues extends FieldValues = FieldValues>({ form, ...props }: FormProps<TFieldValues>) => {
+export const HookForm = <TFieldValues extends FieldValues = FieldValues>({ form, onSubmit, ...props }: FormProps<TFieldValues>) => {
     return (
         <FormProvider {...form}>
-            <AriaForm {...props} />
+            <AriaForm
+                // Let react-hook-form (via `FormField`'s aria-driven fields) own validation end to end, so our
+                // own error hints/rings are what render — never the browser's native constraint-validation
+                // tooltip, which would also steal focus away from our styled invalid field.
+                validationBehavior="aria"
+                {...props}
+                onSubmit={(event) => {
+                    // This form's submit lifecycle is fully owned by react-hook-form. Stop the native
+                    // "submit" event here so it can't bubble past this form to ancestor listeners (e.g. a
+                    // dev harness) that would otherwise treat a validation-blocked attempt as a real submit.
+                    event.stopPropagation();
+                    onSubmit?.(event);
+                }}
+            />
         </FormProvider>
     );
 };
@@ -51,13 +68,6 @@ export const FormField = <TFieldValues extends FieldValues = FieldValues, TName 
 }: FormFieldProps<TFieldValues, TName>) => {
     const id = "form-item-" + useId();
     const control = useController(props);
-    const withValidationBehavior = {
-        ...control,
-        field: {
-            ...control.field,
-            validationBehavior: "aria",
-        },
-    };
 
     return (
         <FormFieldContext.Provider
@@ -67,7 +77,7 @@ export const FormField = <TFieldValues extends FieldValues = FieldValues, TName 
                 control: control as UseControllerReturn<FieldValues, TName>,
             }}
         >
-            {children && (typeof children === "function" ? children(withValidationBehavior) : children)}
+            {children && (typeof children === "function" ? children(control) : children)}
         </FormFieldContext.Provider>
     );
 };
