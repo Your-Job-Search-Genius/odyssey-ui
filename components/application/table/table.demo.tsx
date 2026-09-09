@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { FileIcon } from "@untitledui/file-icons";
 import {
     AlertCircle,
     Check,
@@ -35,6 +34,7 @@ import { ButtonUtility } from "@/components/base/buttons/button-utility";
 import { DropdownIconSimple } from "@/components/base/dropdown/dropdown-icon-simple";
 import { Input } from "@/components/base/input/input";
 import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
+import { FileIcon } from "@/components/foundations/file-icons/file-icon";
 import { DateRangePicker } from "../date-picker/date-range-picker";
 import { TabList, Tabs } from "../tabs/tabs";
 

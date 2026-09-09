@@ -1,8 +1,8 @@
 "use client";
 
 import { type ComponentProps, useEffect, useRef } from "react";
-import { FileIcon } from "@untitledui/file-icons";
 import { motion, useMotionValue, useSpring } from "motion/react";
+import { FileIcon } from "@/components/foundations/file-icons/file-icon";
 
 interface DraggableProps {
     name: string;

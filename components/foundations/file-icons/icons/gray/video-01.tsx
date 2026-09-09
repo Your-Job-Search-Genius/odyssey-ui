@@ -1,0 +1,40 @@
+import type { SVGProps } from "react";
+
+interface Props extends SVGProps<SVGSVGElement> {
+    size?: number;
+    theme?: "light" | "dark";
+}
+
+const Video01 = ({ size = 40, theme = "light", ...props }: Props) => {
+    return (
+        <svg width={size} height={size} fill="none" viewBox="0 0 40 40" aria-hidden="true" {...props}>
+            <mask id="video-01_svg__b" width={32} height={40} x={4} y={0} maskUnits="userSpaceOnUse" style={{ maskType: "alpha" }}>
+                <path fill="url(#video-01_svg__a)" d="M4 4a4 4 0 0 1 4-4h16l12 12v24a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" />
+            </mask>
+            <g mask="url(#video-01_svg__b)">
+                <path fill={theme === "light" ? "#F5F5F5" : "#22262F"} d="M4 4a4 4 0 0 1 4-4h16l12 12v24a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" />
+            </g>
+            <path fill={theme === "light" ? "#E9EAEB" : "#373A41"} d="m24 0 12 12h-8a4 4 0 0 1-4-4z" />
+            <g clipPath="url(#video-01_svg__c)">
+                <path
+                    stroke={theme === "light" ? "#414651" : "#CECFD2"}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M13.333 24h13.334m-13.334-3.333h3.334m6.666 0h3.334m-13.334 6.666h3.334m6.666 0h3.334m-10 3.334V17.333m6.666 13.334V17.333m-6.8 13.334h6.934c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874c.218-.428.218-.988.218-2.108v-6.934c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874c-.428-.218-.988-.218-2.108-.218h-6.934c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874c-.218.428-.218.988-.218 2.108v6.934c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.428.218.988.218 2.108.218"
+                />
+            </g>
+            <defs>
+                <linearGradient id="video-01_svg__a" x1={20} x2={20} y1={0} y2={40} gradientUnits="userSpaceOnUse">
+                    <stop stopOpacity={0.4} />
+                    <stop offset={1} />
+                </linearGradient>
+                <clipPath id="video-01_svg__c">
+                    <path fill="#fff" d="M12 16h16v16H12z" />
+                </clipPath>
+            </defs>
+        </svg>
+    );
+};
+
+export default Video01;

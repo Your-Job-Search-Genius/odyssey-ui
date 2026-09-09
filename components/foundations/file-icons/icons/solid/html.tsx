@@ -1,0 +1,21 @@
+import type { SVGProps } from "react";
+
+interface Props extends SVGProps<SVGSVGElement> {
+    size?: number;
+    theme?: "light" | "dark";
+}
+
+const Html = ({ size = 40, theme: _theme = "light", ...props }: Props) => {
+    return (
+        <svg width={size} height={size} fill="none" viewBox="0 0 40 40" aria-hidden="true" {...props}>
+            <path fill="#444CE7" d="M4 4a4 4 0 0 1 4-4h16l12 12v24a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" />
+            <path fill="#fff" d="m24 0 12 12h-8a4 4 0 0 1-4-4z" opacity={0.3} />
+            <path
+                fill="#fff"
+                d="M7.535 32v-6.546h1.384v2.701h2.809v-2.7h1.38V32h-1.38v-2.704h-2.81V32zM14 26.596v-1.142h5.376v1.142h-2.004V32h-1.368v-5.404zm6.261-1.142h1.707l1.802 4.398h.077l1.803-4.398h1.706V32h-1.342v-4.26h-.054l-1.694 4.228h-.914l-1.694-4.244h-.054V32H20.26zM28.497 32v-6.546h1.384v5.405h2.806V32z"
+            />
+        </svg>
+    );
+};
+
+export default Html;

@@ -1,0 +1,26 @@
+import type { SVGProps } from "react";
+
+interface Props extends SVGProps<SVGSVGElement> {
+    size?: number;
+    theme?: "light" | "dark";
+}
+
+const Tiff = ({ size = 40, theme = "light", ...props }: Props) => {
+    return (
+        <svg width={size} height={size} fill="none" viewBox="0 0 40 40" aria-hidden="true" {...props}>
+            <path
+                stroke={theme === "light" ? "#D5D7DA" : "#373A41"}
+                strokeWidth={1.5}
+                d="M7.75 4A3.25 3.25 0 0 1 11 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 35 39.25H11A3.25 3.25 0 0 1 7.75 36z"
+            />
+            <path stroke={theme === "light" ? "#D5D7DA" : "#373A41"} strokeWidth={1.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
+            <rect width={28} height={16} x={1} y={18} fill="#7F56D9" rx={2} />
+            <path
+                fill="#fff"
+                d="M4.764 23.995v-1.268h5.973v1.268H8.511V30H6.99v-6.005zm8.495-1.268V30H11.72v-7.273zM14.524 30v-7.273h4.815v1.268h-3.278v1.733h2.958v1.268h-2.958V30zm5.85 0v-7.273h4.815v1.268H21.91v1.733h2.958v1.268H21.91V30z"
+            />
+        </svg>
+    );
+};
+
+export default Tiff;

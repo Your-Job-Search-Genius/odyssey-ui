@@ -193,8 +193,6 @@ export const styles = sortCx({
 ### Available Libraries
 
 - `@untitledui/icons` - 1,100+ line-style icons (free)
-- `@untitledui/file-icons` - File type icons
-- `@untitledui-pro/icons` - 4,600+ icons in 4 styles (Requires PRO access)
 
 ### Import & Usage
 
