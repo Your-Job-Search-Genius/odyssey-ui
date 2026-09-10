@@ -1,12 +1,13 @@
 name: Publish packages
 
 # Publishes every workspace package except the docs app to GitHub
-# Packages (npm.pkg.github.com). Runs on version tags and manually.
-# Re-runs are safe: a package whose current version is already in the
-# registry is skipped instead of failing the whole job.
+# Packages (npm.pkg.github.com). Runs on every push to master and
+# manually; a package whose current version is already in the registry
+# is skipped, so only version bumps actually publish and re-runs are
+# safe.
 on:
     push:
-        tags: ["master"]
+        branches: [master]
     workflow_dispatch:
 
 permissions:
