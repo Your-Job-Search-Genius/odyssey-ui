@@ -1,0 +1,60 @@
+name: Publish packages
+
+# Publishes every workspace package except the docs app to GitHub
+# Packages (npm.pkg.github.com). Runs on version tags and manually.
+# Re-runs are safe: a package whose current version is already in the
+# registry is skipped instead of failing the whole job.
+on:
+    push:
+        tags: ["v*"]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 11.24.0
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+                  registry-url: https://npm.pkg.github.com
+                  scope: "@your-job-search-genius"
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            # Build in dependency order: registry (also regenerates
+            # dist/registry.json) -> ui-tree / ds-mcp / eslint-plugin-ds.
+            # packages/ui ships as source and has no build step.
+            - name: Build packages
+              run: |
+                  pnpm --filter @your-job-search-genius/ds-registry run build
+                  pnpm --filter @your-job-search-genius/ui-tree run build
+                  pnpm --filter @your-job-search-genius/ds-mcp run build
+                  pnpm --filter @your-job-search-genius/eslint-plugin-ds run build
+
+            - name: Publish to GitHub Packages
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  for dir in packages/registry packages/ui-tree packages/ds-mcp packages/eslint-plugin-ds packages/ui; do
+                      name=$(node -p "require('./$dir/package.json').name")
+                      version=$(node -p "require('./$dir/package.json').version")
+                      if npm view "$name@$version" version --registry=https://npm.pkg.github.com > /dev/null 2>&1; then
+                          echo "Skipping $name@$version -- already published."
+                      else
+                          echo "Publishing $name@$version"
+                          (cd "$dir" && pnpm publish --no-git-checks)
+                      fi
+                  done

@@ -59,31 +59,52 @@ This applies to all file types including:
 
 ## Development Commands
 
+This is a pnpm workspace. Run these from the repo root.
+
 ```bash
-# Development
-pnpm run dev               # Start Vite development server (http://localhost:5173)
-pnpm run build            # Build for production (TypeScript compilation + Vite build)
+# Component library (packages/ui)
+pnpm run storybook          # Start Storybook dev server (http://localhost:6006)
+pnpm run build-storybook    # Build static Storybook
+pnpm run type-check         # tsc --noEmit across every workspace package
+pnpm run lint                # ESLint --fix across every workspace package
+pnpm run lint:check          # ESLint (no fix) across every workspace package
+pnpm run prettier            # Prettier --write across the whole repo
+pnpm run prettier:check      # Prettier --check across the whole repo
+pnpm run test                 # type-check + lint:check + prettier:check
+
+# Docs site (apps/docs, Fumadocs)
+pnpm run docs:sync          # Regenerate props tables / demo registry from packages/ui
+pnpm run docs:dev           # Start the docs dev server (http://localhost:3001)
+pnpm run docs:build         # Build the docs site for production
+pnpm run docs:start         # Serve the built docs site
 ```
+
+There is no top-level `pnpm run build` (the component library ships as source, consumed directly via the `@/` path alias, not a compiled bundle) and no Vite dev server on :5173 -- that does not exist in this repo.
 
 ## Project Structure
 
-### Application Architecture
+### Workspace layout
 
 ```
-src/
-├── components/
-│   ├── base/              # Core UI components (Button, Input, Select, etc.)
-│   ├── application/       # Complex application components
-│   ├── foundations/       # Design tokens and foundational elements
-│   ├── marketing/         # Marketing-specific components
-│   └── shared-assets/     # Reusable assets and illustrations
-├── hooks/                 # Custom React hooks
-├── pages/                 # Route components
-├── providers/             # React context providers
-├── styles/               # Global styles and theme
-├── types/                # TypeScript type definitions
-└── utils/                # Utility functions
+packages/
+  ui/                       # @your-job-search-genius/odyssey-ui -- the component library
+    components/
+      base/                 # Core UI components (Button, Input, Select, etc.)
+      application/          # Complex application components
+      foundations/          # Icons, featured icons, and other foundational elements
+      shared-assets/        # Reusable illustrations and background patterns
+    hooks/                  # Custom React hooks
+    styles/                 # Global styles and theme (theme.css, typography.css)
+    utils/                  # Utility functions (cx, sortCx, etc.)
+    .storybook/             # Storybook config for the library
+  registry/                 # @your-job-search-genius/ds-registry -- component/token/icon registry for AI tooling
+  ds-mcp/                   # @your-job-search-genius/ds-mcp -- MCP server exposing the registry
+  ui-tree/                  # @your-job-search-genius/ui-tree -- UI tree schema/codegen for the playground
+apps/
+  docs/                     # @your-job-search-genius/docs -- Fumadocs site (Next.js), imports packages/ui as source
 ```
+
+Component files are imported by deep path (there is no single barrel export), e.g. `@/components/base/buttons/button`. The `@/*` alias resolves to `packages/ui/*` from every workspace package's own `tsconfig.json` (see `packages/ui/tsconfig.json` and `apps/docs/tsconfig.json`) -- this lets `apps/docs` compile library source, including every `*.demo.tsx`, completely unmodified.
 
 ### Component Patterns
 
@@ -143,7 +164,7 @@ interface ButtonProps extends CommonProps, HTMLButtonElement {
 
 To change the main brand color across the entire application:
 
-1. **Update Brand Color Variables**: Edit `src/styles/theme.css` and modify the `--color-brand-*` variables
+1. **Update Brand Color Variables**: Edit `packages/ui/styles/theme.css` and modify the `--color-brand-*` variables
 2. **Maintain Color Scale**: Ensure you provide a complete color scale from 25 to 950 with proper contrast ratios
 3. **Example Brand Color Scale**:
     ```css
@@ -302,22 +323,23 @@ Select.ComboBox = ComboBox;
 
 ### Global State
 
-- Theme context in `src/providers/theme.tsx`
-- Router context in `src/providers/router-provider.tsx`
+- The library itself has no theme/router provider of its own; dark mode is a plain CSS class (`.dark-mode`) toggled by whatever consumes the library.
+- In `apps/docs`, `next-themes` drives the toggle and `apps/docs/lib/preview-theme.tsx` bridges its default `.dark` class to the library's `.dark-mode` class.
+- In Storybook, `packages/ui/.storybook/preview.ts` toggles `.dark-mode` via the `withThemeByClassName` addon-themes decorator.
 
 ## Key Files and Utilities
 
 ### Core Utilities
 
-- `src/utils/cx.ts` - Class name utilities
-- `src/utils/is-react-component.ts` - Component type checking
-- `src/hooks/` - Custom React hooks
+- `packages/ui/utils/cx.ts` - Class name utilities
+- `packages/ui/utils/is-react-component.ts` - Component type checking
+- `packages/ui/hooks/` - Custom React hooks
 
 ### Style Configuration
 
-- `src/styles/globals.css` - Global styles
-- `src/styles/theme.css` - Theme definitions
-- `src/styles/typography.css` - Typography styles
+- `packages/ui/styles/globals.css` - Global styles
+- `packages/ui/styles/theme.css` - Theme definitions (design tokens, light/dark variables)
+- `packages/ui/styles/typography.css` - Typography styles
 
 ## Best Practices for AI Assistance
 

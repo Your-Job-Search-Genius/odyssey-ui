@@ -1,0 +1,110 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+/*
+ * Reuse the component library's real design tokens verbatim (never
+ * duplicated) so every live-rendered component in this showcase matches
+ * Storybook pixel-for-pixel, in both light and dark mode.
+ */
+@import "../../../packages/ui/styles/theme.css";
+@import "../../../packages/ui/styles/typography.css";
+
+@plugin "@tailwindcss/typography";
+@plugin "tailwindcss-react-aria-components";
+@plugin "tailwindcss-animate";
+
+/*
+ * The library's real dark-mode convention (confirmed in styles/theme.css
+ * and .storybook/preview.ts) is the custom `.light-mode` / `.dark-mode`
+ * classes, NOT Tailwind's default `.dark`. Fumadocs UI's own chrome
+ * (sidebar, TOC, search dialog) ships pre-built against `.dark` and its
+ * own `--color-fd-*` variables -- see lib/preview-theme.tsx for how the
+ * two systems are reconciled without fighting Fumadocs' internals.
+ */
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));
+@custom-variant label (& [data-label]);
+@custom-variant focus-input-within (&:has(input:focus));
+
+/*
+ * Tailwind only scans this app's own directory tree by default. The
+ * real component source lives one level up in the repo, so it must be
+ * opted in explicitly or classes used only inside library components
+ * (and never inside showcase/ itself) get purged from the build.
+ */
+@source "../../../packages/ui/components";
+@source "../../../packages/ui/utils";
+@source "../../../packages/ui/hooks";
+
+@utility scrollbar-hide {
+    /* For Webkit-based browsers (Chrome, Safari and Opera) */
+    &::-webkit-scrollbar {
+        display: none;
+        -webkit-appearance: none;
+    }
+
+    /* For IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+@utility transition-inherit-all {
+    transition-property: inherit;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+}
+
+html,
+body {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-variant-ligatures: contextual;
+    font-variant-ligatures: contextual;
+    -webkit-font-kerning: normal;
+    font-kerning: normal;
+}
+
+/* Hide the default expand arrow on Safari. */
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Hide default arrows from number inputs. */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Hide the default clear button (X) from search inputs. */
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+/* Hide the default outline on chart elements (recharts is used by chart demos). */
+.recharts-surface,
+.recharts-surface g,
+.recharts-surface path {
+    outline: none;
+}
+
+/*
+ * Make Fumadocs' own chrome (active nav item, links, search highlight)
+ * read as "Writesea Odyssey brand," using the library's real brand
+ * scale, while every live-rendered component preview continues to use
+ * the library's real semantic classes untouched.
+ */
+@theme {
+    --color-fd-primary: var(--color-brand-600);
+}
+.dark {
+    --color-fd-primary: var(--color-brand-400);
+}
+
+html {
+    scrollbar-gutter: stable;
+}

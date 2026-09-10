@@ -1,0 +1,46 @@
+{
+    "name": "@your-job-search-genius/ds-registry",
+    "version": "0.1.0",
+    "description": "Machine-readable registry of the Writesea Odyssey component library: components, design tokens, icons, and composition rules, extracted from packages/ui and used by @your-job-search-genius/ds-mcp and the docs playground.",
+    "private": false,
+    "type": "module",
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+        ".": "./lib/index.js",
+        "./schema": "./lib/schema.js"
+    },
+    "scripts": {
+        "build": "tsx src/build.ts && tsc -p tsconfig.json",
+        "registry:build": "tsx src/build.ts",
+        "type-check": "tsc --noEmit",
+        "test": "vitest run",
+        "test:watch": "vitest"
+    },
+    "dependencies": {
+        "postcss": "^8.5.21",
+        "react-docgen-typescript": "^2.4.0",
+        "typescript": "^5.9.3",
+        "zod": "^4.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "^26.1.1",
+        "tsx": "^4.20.0",
+        "vitest": "^3.2.4"
+    },
+    "license": "MIT",
+    "publishConfig": {
+        "access": "restricted",
+        "registry": "https://npm.pkg.github.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Your-Job-Search-Genius/odyssey-ui.git",
+        "directory": "packages/registry"
+    },
+    "files": [
+        "lib",
+        "dist",
+        "README.md"
+    ]
+}

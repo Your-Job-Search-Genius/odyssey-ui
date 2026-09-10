@@ -1,0 +1,255 @@
+[
+    {
+        "id": "basic-button",
+        "prompt": "Add a primary button that says Save.",
+        "category": "basic",
+        "expectedOutcome": "A single Button component, color primary, with the text \"Save\".",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Button" }, { "type": "firstAttemptAccepted" }, { "type": "discoveredBeforeProposing" }]
+    },
+    {
+        "id": "basic-input-email",
+        "prompt": "I need an email input field with a label.",
+        "category": "basic",
+        "expectedOutcome": "An Input component with label set to something about email.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Input" },
+            { "type": "componentHasProp", "component": "Input", "prop": "label" },
+            { "type": "firstAttemptAccepted" }
+        ]
+    },
+    {
+        "id": "basic-input-with-icon",
+        "prompt": "Add an email input with a mail icon on the left.",
+        "category": "basic",
+        "expectedOutcome": "An Input with its icon prop set to a mail-related icon.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Input" },
+            { "type": "componentHasProp", "component": "Input", "prop": "icon" },
+            { "type": "noHallucinatedComponentsOrIcons" }
+        ]
+    },
+    {
+        "id": "basic-checkbox",
+        "prompt": "Add a checkbox labeled \"Remember me\".",
+        "category": "basic",
+        "expectedOutcome": "A Checkbox component with label \"Remember me\".",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Checkbox" }, { "type": "firstAttemptAccepted" }]
+    },
+    {
+        "id": "basic-badge",
+        "prompt": "Add a green badge that says Active.",
+        "category": "basic",
+        "expectedOutcome": "A Badge component, color success/green, text Active.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Badge" }]
+    },
+    {
+        "id": "basic-avatar",
+        "prompt": "Add a user avatar with the initials OR.",
+        "category": "basic",
+        "expectedOutcome": "An Avatar component with initials set to OR.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Avatar" },
+            { "type": "componentHasProp", "component": "Avatar", "prop": "initials" }
+        ]
+    },
+    {
+        "id": "basic-heading-and-text",
+        "prompt": "Add a page title that says \"Settings\" and a paragraph below it explaining this page is for account preferences.",
+        "category": "basic",
+        "expectedOutcome": "An h1 (or h2) primitive with \"Settings\" and a p primitive with the explanatory text, no other primitives.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div", "h1", "h2", "p"] }, { "type": "firstAttemptAccepted" }]
+    },
+    {
+        "id": "basic-destructive-button",
+        "prompt": "Add a delete button that's clearly destructive.",
+        "category": "basic",
+        "expectedOutcome": "A Button with a destructive color variant.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Button" }]
+    },
+    {
+        "id": "basic-link-button",
+        "prompt": "Add a text link that says \"View dashboard\" linking to /dashboard.",
+        "category": "basic",
+        "expectedOutcome": "A Button with a link-* color variant and href, not a raw anchor.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Button" }, { "type": "noHallucinatedComponentsOrIcons" }]
+    },
+    {
+        "id": "basic-toggle",
+        "prompt": "Add a toggle switch for enabling notifications.",
+        "category": "basic",
+        "expectedOutcome": "A Toggle component.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Toggle" }]
+    },
+    {
+        "id": "compound-login-form",
+        "prompt": "Build a simple login form with email, password, and a submit button.",
+        "category": "compound",
+        "expectedOutcome": "Two Input components (or Input + a password-capable Input) and a Button, wrapped in a container.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Input", "minCount": 2 },
+            { "type": "treeContainsComponent", "name": "Button" },
+            { "type": "discoveredBeforeProposing" }
+        ]
+    },
+    {
+        "id": "compound-select-with-items",
+        "prompt": "Add a dropdown to select a team member, with options Olivia, Phoenix, and Lana.",
+        "category": "compound",
+        "expectedOutcome": "A Select with three Select.Item children.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Select" },
+            { "type": "treeContainsComponent", "name": "Select.Item", "minCount": 3 },
+            { "type": "noHallucinatedComponentsOrIcons" }
+        ]
+    },
+    {
+        "id": "compound-card-with-avatar-and-text",
+        "prompt": "Build a small profile card: an avatar, a name, and a short bio, all inside a bordered container.",
+        "category": "compound",
+        "expectedOutcome": "A div wrapper containing an Avatar and text primitives.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Avatar" }, { "type": "firstAttemptAccepted" }]
+    },
+    {
+        "id": "compound-button-group-actions",
+        "prompt": "Add a Cancel button and a Save button side by side, with Save as the primary action.",
+        "category": "compound",
+        "expectedOutcome": "Two Button components, one secondary (Cancel) and one primary (Save).",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Button", "minCount": 2 }]
+    },
+    {
+        "id": "compound-form-with-checkbox-and-hint",
+        "prompt": "Add a checkbox for agreeing to terms, with a hint explaining what the terms cover.",
+        "category": "compound",
+        "expectedOutcome": "A Checkbox with hint text set.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Checkbox" },
+            { "type": "componentHasProp", "component": "Checkbox", "prop": "hint" }
+        ]
+    },
+    {
+        "id": "compound-icon-only-button",
+        "prompt": "Add an icon-only button for closing a panel.",
+        "category": "compound",
+        "expectedOutcome": "A Button with an icon prop set and no visible text.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Button" }, { "type": "noHallucinatedComponentsOrIcons" }]
+    },
+    {
+        "id": "styling-container-with-spacing",
+        "prompt": "Wrap the current content in a container with generous padding and a light gray background.",
+        "category": "styling",
+        "expectedOutcome": "A div primitive with token-backed padding and background classes -- never an arbitrary hex value.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div"] }, { "type": "firstAttemptAccepted" }]
+    },
+    {
+        "id": "styling-centered-layout",
+        "prompt": "Center everything horizontally and add spacing between each item.",
+        "category": "styling",
+        "expectedOutcome": "A div using flex/items-center/gap-* token classes.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div"] }]
+    },
+    {
+        "id": "styling-rounded-card",
+        "prompt": "Give the container rounded corners and a subtle border.",
+        "category": "styling",
+        "expectedOutcome": "A div with rounded-* and border-* token classes.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div"] }]
+    },
+    {
+        "id": "styling-brand-color-request",
+        "prompt": "Make the heading use the brand color.",
+        "category": "styling",
+        "expectedOutcome": "An h1/h2 with a text-brand-* class, not a raw hex or palette color like text-purple-600.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div", "h1", "h2"] }]
+    },
+    {
+        "id": "styling-two-column-layout",
+        "prompt": "Arrange the content into two equal columns side by side.",
+        "category": "styling",
+        "expectedOutcome": "A div using grid or flex token classes for a two-column layout.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div"] }]
+    },
+    {
+        "id": "editing-change-button-color",
+        "prompt": "Add a button that says Continue, then change its color to secondary.",
+        "category": "editing",
+        "expectedOutcome": "A Button ending up with color secondary after two ops.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Button" }]
+    },
+    {
+        "id": "editing-add-icon-to-existing-button",
+        "prompt": "Add a Save button, then give it a checkmark icon on the left.",
+        "category": "editing",
+        "expectedOutcome": "A Button with iconLeading set to a check-shaped icon.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Button" },
+            { "type": "componentHasProp", "component": "Button", "prop": "iconLeading" },
+            { "type": "noHallucinatedComponentsOrIcons" }
+        ]
+    },
+    {
+        "id": "editing-wrap-in-sidebar",
+        "prompt": "Add an input for searching, then wrap it in a sidebar container with padding.",
+        "category": "editing",
+        "expectedOutcome": "The Input ends up nested inside a new div wrapper.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Input" }]
+    },
+    {
+        "id": "editing-remove-and-replace",
+        "prompt": "Add a checkbox for newsletter signup, then replace it with a toggle instead.",
+        "category": "editing",
+        "expectedOutcome": "A Toggle exists, no Checkbox.",
+        "assertions": [
+            { "type": "treeContainsComponent", "name": "Toggle" },
+            { "type": "treeExcludesComponent", "name": "Checkbox" }
+        ]
+    },
+    {
+        "id": "editing-add-multiple-select-items",
+        "prompt": "Add a select for choosing a country, then add three more country options to it.",
+        "category": "editing",
+        "expectedOutcome": "A Select with at least 3 Select.Item children after both ops.",
+        "assertions": [{ "type": "treeContainsComponent", "name": "Select.Item", "minCount": 3 }]
+    },
+    {
+        "id": "impossible-rich-text-editor",
+        "prompt": "Add a rich text editor with bold, italic, and bullet list buttons.",
+        "category": "impossible",
+        "expectedOutcome": "The library has no rich text editor component -- the agent should say so and suggest the closest alternative (e.g. a plain Textarea) rather than inventing one.",
+        "assertions": [{ "type": "noHallucinatedComponentsOrIcons" }]
+    },
+    {
+        "id": "impossible-video-player",
+        "prompt": "Add a video player with playback controls.",
+        "category": "impossible",
+        "expectedOutcome": "No video/media player component exists -- the agent should report this honestly.",
+        "assertions": [{ "type": "noHallucinatedComponentsOrIcons" }]
+    },
+    {
+        "id": "impossible-nonexistent-icon",
+        "prompt": "Add a button with a unicorn icon.",
+        "category": "impossible",
+        "expectedOutcome": "No unicorn icon exists in the icon set -- the agent should search, find nothing close, and say so rather than inventing an icon name.",
+        "assertions": [{ "type": "noHallucinatedComponentsOrIcons" }]
+    },
+    {
+        "id": "impossible-raw-html-table",
+        "prompt": "Add a raw HTML table with three columns for name, email, and role.",
+        "category": "impossible",
+        "expectedOutcome": "Raw <table> is forbidden -- the agent should use the library's Table component if one exists, or say a table isn't directly supported as requested.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div", "h1", "h2", "h3", "h4", "h5", "h6", "p", "span"] }]
+    },
+    {
+        "id": "impossible-arbitrary-color",
+        "prompt": "Add a container with the exact background color #ff00aa.",
+        "category": "impossible",
+        "expectedOutcome": "Arbitrary hex values are never allowed -- the agent should pick the closest token color and say it substituted one, not fabricate an arbitrary-value class.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div"] }]
+    },
+    {
+        "id": "impossible-inline-style",
+        "prompt": "Add a div and give it inline style position absolute with a specific pixel offset.",
+        "category": "impossible",
+        "expectedOutcome": "Inline style props are never allowed -- the agent should use token-backed position utilities instead or say it can't match the exact pixel offset.",
+        "assertions": [{ "type": "onlyPrimitivesUsed", "allowed": ["div"] }]
+    }
+]

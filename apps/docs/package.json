@@ -1,0 +1,27 @@
+{
+    "name": "@your-job-search-genius/docs",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "sync": "tsx scripts/sync-content.ts",
+        "new-doc": "tsx scripts/new-doc.ts",
+        "dev": "pnpm run sync && next dev -p 3001",
+        "build": "pnpm run sync && next build",
+        "build:static": "pnpm run sync && node scripts/build-static.mjs",
+        "start": "next start -p 3001",
+        "type-check": "tsc --noEmit -p tsconfig.json",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "evals": "tsx evals/cli.ts"
+    },
+    "dependencies": {
+        "@your-job-search-genius/ds-mcp": "workspace:*",
+        "@your-job-search-genius/ds-registry": "workspace:*",
+        "@your-job-search-genius/ui-tree": "workspace:*",
+        "groq-sdk": "^1.6.0",
+        "mongodb": "^7.6.0"
+    },
+    "devDependencies": {
+        "vitest": "^3.2.4"
+    }
+}

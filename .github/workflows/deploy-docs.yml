@@ -1,0 +1,72 @@
+name: Deploy docs to GitHub Pages
+
+# Builds apps/docs as a fully static export (see next.config.mjs's
+# DOCS_STATIC_EXPORT branch) and deploys it to GitHub Pages. The
+# playground and the MCP/POST API routes are server-only and cannot
+# exist in a static export, so they are removed before the build --
+# the playground is additionally disabled at runtime everywhere via
+# the PLAYGROUND_ENABLED flag, and the MCP server remains available
+# through the published @your-job-search-genius/ds-mcp package (stdio)
+# or any Node deployment of this app (Streamable HTTP at /api/mcp).
+on:
+    push:
+        branches: [master]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+concurrency:
+    group: github-pages
+    cancel-in-progress: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        env:
+            DOCS_STATIC_EXPORT: "1"
+            DOCS_BASE_PATH: /${{ github.event.repository.name }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 11.24.0
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Remove server-only routes (unsupported in static export)
+              run: rm -rf apps/docs/app/api/mcp apps/docs/app/api/playground apps/docs/app/playground
+
+            # docs:build:static wraps `next build` in
+            # apps/docs/scripts/build-static.mjs, which terminates the
+            # build process once the export is complete -- on Next 16.3
+            # the Turbopack loader worker pools otherwise keep the
+            # process alive forever and would hang this job.
+            - name: Build static docs site
+              run: pnpm run docs:build:static
+
+            - name: Disable Jekyll processing
+              run: touch apps/docs/out/.nojekyll
+
+            - uses: actions/upload-pages-artifact@v3
+              with:
+                  path: apps/docs/out
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - id: deployment
+              uses: actions/deploy-pages@v4

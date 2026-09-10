@@ -1,0 +1,45 @@
+{
+    "name": "@your-job-search-genius/eslint-plugin-ds",
+    "version": "0.1.0",
+    "description": "ESLint plugin wrapping @your-job-search-genius/ds-mcp's validate_jsx -- catches design-system violations in CI even when an agent ignored the MCP server entirely.",
+    "private": false,
+    "type": "module",
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+        ".": "./lib/index.js"
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "type-check": "tsc --noEmit",
+        "test": "vitest run",
+        "test:watch": "vitest"
+    },
+    "dependencies": {
+        "@your-job-search-genius/ds-mcp": "workspace:*",
+        "@your-job-search-genius/ds-registry": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/node": "^26.1.1",
+        "eslint": "^10.7.0",
+        "typescript": "^5.9.3",
+        "vitest": "^3.2.4"
+    },
+    "peerDependencies": {
+        "eslint": ">=9"
+    },
+    "license": "MIT",
+    "publishConfig": {
+        "access": "restricted",
+        "registry": "https://npm.pkg.github.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Your-Job-Search-Genius/odyssey-ui.git",
+        "directory": "packages/eslint-plugin-ds"
+    },
+    "files": [
+        "lib",
+        "README.md"
+    ]
+}

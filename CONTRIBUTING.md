@@ -124,7 +124,7 @@ import { cx } from "@/utils/cx";
 ### Component structure
 
 ```
-components/category/component-name/
+packages/ui/components/category/component-name/
 ├── component-name.tsx        # Main component
 ├── component-name.story.tsx  # Storybook stories
 ├── component-name.demo.tsx   # Usage demos
@@ -147,7 +147,7 @@ components/category/component-name/
 1. **Run tests**
 
     ```bash
-    pnpm run build      # TypeScript compilation
+    pnpm run type-check # TypeScript compilation check
     pnpm run lint       # ESLint checks
     pnpm run prettier   # Code formatting
     ```
