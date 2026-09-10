@@ -1,6 +1,6 @@
 {
     "name": "@your-job-search-genius/odyssey-ui",
-    "version": "0.2.1",
+    "version": "1.0.0",
     "description": "Writesea Odyssey design system \u2014 React component library from the Writesea Odyssey Figma system, WCAG 2.2 AA",
     "private": false,
     "publishConfig": {
