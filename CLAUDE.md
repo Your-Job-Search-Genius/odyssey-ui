@@ -6,6 +6,10 @@ This is a **Writesea Odyssey** component library project built with:
 - **Tailwind CSS v4.3** for styling
 - **React Aria Components** as the foundation for accessibility and behavior
 
+### Scope vs. the MCP agent rules
+
+The `get_rules` output served by the ds-mcp server (also rendered at the docs site's `/agent-rules` page) targets **apps consuming the published `@your-job-search-genius/odyssey-ui` package**. Its restrictions -- forbidden native elements, "never import from `@/`", "only components from the published package" -- do **not** apply when working inside this monorepo. Here, this CLAUDE.md governs: library source necessarily renders native elements (via React Aria), imports through the `@/` alias, and uses internal dependencies like `motion`. The two rulebooks are intentionally different; when they appear to conflict, pick by context, not by editing one to match the other. The rules text itself is hand-authored in `packages/registry/src/extract/rules.ts` and rendered by `packages/ds-mcp/src/tools.ts` (`rulesToMarkdown`).
+
 ## Key Architecture Principles
 
 ### Component Foundation

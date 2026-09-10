@@ -45,6 +45,8 @@ export function rulesToMarkdown(registry: Registry): string {
     return [
         `# Agent rules (v${rules.version})`,
         "",
+        'These rules govern UI generated in apps that consume the published package. They do not apply to development inside the odyssey-ui monorepo itself, where the repo\'s CLAUDE.md governs (library source necessarily uses native elements, the "@/" alias, and internal dependencies).',
+        "",
         "Call this tool first in any UI-building task. Call validate_jsx last, before presenting generated code as final.",
         "",
         "## Allowed primitives",

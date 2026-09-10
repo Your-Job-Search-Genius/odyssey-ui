@@ -26,6 +26,10 @@ export default function AgentRulesPage() {
                 generating UI from this library. They are enforced by the <code className="text-brand-secondary">validate_jsx</code> tool, not just stated here
                 -- this page and the MCP server&apos;s <code className="text-brand-secondary">get_rules</code> tool render the exact same data.
             </p>
+            <p className="mt-4 text-lg text-tertiary">
+                They apply to apps consuming the published package, not to development inside the odyssey-ui monorepo itself -- library source necessarily uses
+                native elements, the <code className="text-brand-secondary">@/</code> alias, and internal dependencies.
+            </p>
 
             <section className="mt-12">
                 <h2 className="text-lg font-semibold text-primary">Allowed HTML primitives</h2>
