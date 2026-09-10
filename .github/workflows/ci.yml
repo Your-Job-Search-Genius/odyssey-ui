@@ -24,12 +24,17 @@ jobs:
               run: pnpm install --frozen-lockfile
 
             # packages/registry's src/index.ts statically imports
-            # dist/registry.json (see that file's top comment) -- it
-            # must exist before tsc/vitest touch the package, so build
-            # it once up front rather than relying on gitignored local
-            # state that a fresh CI checkout won't have.
+            # dist/registry.json (see that file's top comment), and
+            # packages/ds-mcp imports @your-job-search-genius/ds-registry
+            # as a workspace package that resolves to compiled ./lib
+            # output (see registry's package.json main/types/exports) --
+            # both dist/registry.json and lib/ must exist before
+            # tsc/vitest touch either package, so run registry's full
+            # build (tsx src/build.ts && tsc) up front rather than
+            # relying on gitignored local state a fresh CI checkout
+            # won't have.
             - name: Build registry
-              run: pnpm run registry:build
+              run: pnpm --filter @your-job-search-genius/ds-registry run build
 
             - name: Type-check
               run: pnpm run type-check
