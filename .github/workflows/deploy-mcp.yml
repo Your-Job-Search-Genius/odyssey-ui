@@ -1,25 +1,41 @@
 name: Deploy MCP server to Rancher with Helm
 
-# Builds the MCP server image FROM SOURCE (Dockerfile.ds-mcp -- no
-# dependency on the package being published), pushes it to Docker Hub,
-# and helm-upgrades the release on the Rancher-managed cluster --
-# mirroring yjsg-client-app's deploy.yaml conventions (image tagged
-# <run_id>-<run_attempt>, kubeconfig from a secret, fire-and-forget
-# helm upgrade).
+# Staged CI/CD for the MCP server, mirroring yjsg-client-app's
+# branch-per-environment convention:
 #
-# Required GitHub secrets:
-# - DOCKER_ID, DOCKER_PW               Docker Hub credentials
-# - MCP_DOCKER_REGISTRY                Docker Hub repository name (e.g. prod-ds-mcp)
-# - MCP_KUBE_CONFIG                    kubeconfig for the target cluster
-# - MCP_NAMESPACE                      Kubernetes namespace (e.g. prod-mcp)
-# - MCP_DO_CERTIFICATE_NAME            DigitalOcean SSL certificate name for the LB
+#   development -> dev
+#   staging     -> staging
+#   master      -> production
 #
-# After the first deploy, point a DNS record (e.g. mcp.yourjobsearchgenius.ai)
-# at the LoadBalancer IP printed in the last step; the MCP connector URL is
-# then https://<that-domain>/mcp .
+# Stages: test (build + ds-mcp test suite, gates everything) ->
+# plan (branch -> environment mapping) -> build_and_deploy (Docker Hub
+# push tagged <run_id>-<run_attempt>, helm upgrade, fire-and-forget).
+# The deploy job runs in a GitHub environment named after the target
+# (dev/staging/production), so required-reviewer approval for
+# production can be switched on under Settings > Environments.
+#
+# Required GitHub secrets per environment (production keeps the
+# original unprefixed MCP_* names so an existing setup keeps working):
+#
+#   shared:      DOCKER_ID, DOCKER_PW              Docker Hub credentials (Read & Write PAT)
+#   production:  MCP_DOCKER_REGISTRY               Docker Hub repo (e.g. prod-ds-mcp)
+#                MCP_NAMESPACE                     k8s namespace (e.g. prod-ds-mcp)
+#                MCP_KUBE_CONFIG                   kubeconfig for the prod cluster
+#                MCP_DO_CERTIFICATE_NAME           DO certificate name for the LB
+#   staging:     MCP_STAG_DOCKER_REGISTRY, MCP_STAG_NAMESPACE,
+#                MCP_STAG_KUBE_CONFIG, MCP_STAG_DO_CERTIFICATE_NAME
+#   dev:         MCP_DEV_DOCKER_REGISTRY, MCP_DEV_NAMESPACE,
+#                MCP_DEV_DO_CERTIFICATE_NAME
+#                (dev deploys with the prod cluster's MCP_KUBE_CONFIG,
+#                same as yjsg-client-app's dev/prod arrangement)
+#
+# After a first deploy to a new environment: point the environment's
+# DNS record at the LoadBalancer IP printed in the last step, and copy
+# the pipeline-docker-registry pull secret into the new namespace if
+# the Docker Hub repo is private.
 on:
     push:
-        branches: [master]
+        branches: [development, staging, master]
         paths:
             - "packages/ds-mcp/**"
             - "packages/registry/**"
@@ -29,36 +45,129 @@ on:
     workflow_dispatch:
 
 jobs:
-    build_and_deploy:
+    test:
+        name: Test gate
         runs-on: ubuntu-latest
         permissions:
             contents: read
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 11.24.0
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Registry data must be committed and drift-free
+              run: pnpm run registry:check-drift
+
+            - name: Build in dependency order
+              run: |
+                  pnpm --filter @your-job-search-genius/ds-registry run build
+                  pnpm --filter @your-job-search-genius/ds-mcp run build
+
+            - name: MCP server test suite
+              run: pnpm --filter @your-job-search-genius/ds-mcp run test
+
+    plan:
+        name: Map branch to environment
+        runs-on: ubuntu-latest
+        outputs:
+            environment: ${{ steps.map.outputs.environment }}
+            app_label: ${{ steps.map.outputs.app_label }}
+            values_file: ${{ steps.map.outputs.values_file }}
+            registry_secret: ${{ steps.map.outputs.registry_secret }}
+            namespace_secret: ${{ steps.map.outputs.namespace_secret }}
+            kubeconfig_secret: ${{ steps.map.outputs.kubeconfig_secret }}
+            certificate_secret: ${{ steps.map.outputs.certificate_secret }}
+        steps:
+            - name: Map branch to environment
+              id: map
+              run: |
+                  BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+                  case "$BRANCH_NAME" in
+                      development)
+                          echo "environment=dev" >> "$GITHUB_OUTPUT"
+                          echo "app_label=dev-ds-mcp" >> "$GITHUB_OUTPUT"
+                          echo "values_file=./helm-charts/ds-mcp/values-dev.yaml" >> "$GITHUB_OUTPUT"
+                          echo "registry_secret=MCP_DEV_DOCKER_REGISTRY" >> "$GITHUB_OUTPUT"
+                          echo "namespace_secret=MCP_DEV_NAMESPACE" >> "$GITHUB_OUTPUT"
+                          echo "kubeconfig_secret=MCP_KUBE_CONFIG" >> "$GITHUB_OUTPUT"
+                          echo "certificate_secret=MCP_DEV_DO_CERTIFICATE_NAME" >> "$GITHUB_OUTPUT"
+                          ;;
+                      staging)
+                          echo "environment=staging" >> "$GITHUB_OUTPUT"
+                          echo "app_label=stag-ds-mcp" >> "$GITHUB_OUTPUT"
+                          echo "values_file=./helm-charts/ds-mcp/values-staging.yaml" >> "$GITHUB_OUTPUT"
+                          echo "registry_secret=MCP_STAG_DOCKER_REGISTRY" >> "$GITHUB_OUTPUT"
+                          echo "namespace_secret=MCP_STAG_NAMESPACE" >> "$GITHUB_OUTPUT"
+                          echo "kubeconfig_secret=MCP_STAG_KUBE_CONFIG" >> "$GITHUB_OUTPUT"
+                          echo "certificate_secret=MCP_STAG_DO_CERTIFICATE_NAME" >> "$GITHUB_OUTPUT"
+                          ;;
+                      master)
+                          echo "environment=production" >> "$GITHUB_OUTPUT"
+                          echo "app_label=prod-ds-mcp" >> "$GITHUB_OUTPUT"
+                          echo "values_file=./helm-charts/ds-mcp/values-prod.yaml" >> "$GITHUB_OUTPUT"
+                          echo "registry_secret=MCP_DOCKER_REGISTRY" >> "$GITHUB_OUTPUT"
+                          echo "namespace_secret=MCP_NAMESPACE" >> "$GITHUB_OUTPUT"
+                          echo "kubeconfig_secret=MCP_KUBE_CONFIG" >> "$GITHUB_OUTPUT"
+                          echo "certificate_secret=MCP_DO_CERTIFICATE_NAME" >> "$GITHUB_OUTPUT"
+                          ;;
+                      *)
+                          echo "::error::Branch '$BRANCH_NAME' is not mapped to a deploy environment (development/staging/master)."
+                          exit 1
+                          ;;
+                  esac
+
+    build_and_deploy:
+        name: Build and deploy (${{ needs.plan.outputs.environment }})
+        needs: [test, plan]
+        runs-on: ubuntu-latest
+        # Enables per-environment protection rules (e.g. required
+        # reviewers for production) under Settings > Environments.
+        environment: ${{ needs.plan.outputs.environment }}
+        permissions:
+            contents: read
+        env:
+            DOCKER_REGISTRY: ${{ secrets[needs.plan.outputs.registry_secret] }}
+            NAMESPACE: ${{ secrets[needs.plan.outputs.namespace_secret] }}
+            SSL_CERTIFICATE_NAME: ${{ secrets[needs.plan.outputs.certificate_secret] }}
+            APP_LABEL: ${{ needs.plan.outputs.app_label }}
+            HELM_VALUES_FILE: ${{ needs.plan.outputs.values_file }}
+            IMAGE_TAG: ${{ github.run_id }}-${{ github.run_attempt }}
 
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
 
             # Fail fast with a readable message when a required secret is
-            # missing -- an empty MCP_DOCKER_REGISTRY otherwise surfaces as
-            # buildx's cryptic `invalid tag "***/:123-1"` much later.
+            # missing -- an empty registry otherwise surfaces as buildx's
+            # cryptic `invalid tag "***/:123-1"` much later.
             - name: Validate required secrets
               env:
                   DOCKER_ID: ${{ secrets.DOCKER_ID }}
                   DOCKER_PW: ${{ secrets.DOCKER_PW }}
-                  MCP_DOCKER_REGISTRY: ${{ secrets.MCP_DOCKER_REGISTRY }}
-                  MCP_KUBE_CONFIG: ${{ secrets.MCP_KUBE_CONFIG }}
-                  MCP_NAMESPACE: ${{ secrets.MCP_NAMESPACE }}
-                  MCP_DO_CERTIFICATE_NAME: ${{ secrets.MCP_DO_CERTIFICATE_NAME }}
+                  KUBE_CONFIG: ${{ secrets[needs.plan.outputs.kubeconfig_secret] }}
               run: |
                   missing=()
-                  for name in DOCKER_ID DOCKER_PW MCP_DOCKER_REGISTRY MCP_KUBE_CONFIG MCP_NAMESPACE MCP_DO_CERTIFICATE_NAME; do
-                      [ -n "${!name}" ] || missing+=("$name")
-                  done
+                  [ -n "$DOCKER_ID" ] || missing+=("DOCKER_ID")
+                  [ -n "$DOCKER_PW" ] || missing+=("DOCKER_PW")
+                  [ -n "$DOCKER_REGISTRY" ] || missing+=("${{ needs.plan.outputs.registry_secret }}")
+                  [ -n "$NAMESPACE" ] || missing+=("${{ needs.plan.outputs.namespace_secret }}")
+                  [ -n "$KUBE_CONFIG" ] || missing+=("${{ needs.plan.outputs.kubeconfig_secret }}")
+                  [ -n "$SSL_CERTIFICATE_NAME" ] || missing+=("${{ needs.plan.outputs.certificate_secret }}")
                   if [ ${#missing[@]} -gt 0 ]; then
-                      echo "::error::Missing required GitHub secrets: ${missing[*]}. See the header of .github/workflows/deploy-mcp.yml for what each one is."
+                      echo "::error::Missing required GitHub secrets for the '${{ needs.plan.outputs.environment }}' environment: ${missing[*]}. See the header of .github/workflows/deploy-mcp.yml."
                       exit 1
                   fi
-                  echo "All required secrets are set."
+                  echo "All required secrets for '${{ needs.plan.outputs.environment }}' are set."
 
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
@@ -75,7 +184,7 @@ jobs:
                   context: .
                   file: Dockerfile.ds-mcp
                   push: true
-                  tags: ${{ secrets.DOCKER_ID }}/${{ secrets.MCP_DOCKER_REGISTRY }}:${{ github.run_id }}-${{ github.run_attempt }}
+                  tags: ${{ secrets.DOCKER_ID }}/${{ env.DOCKER_REGISTRY }}:${{ env.IMAGE_TAG }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
 
@@ -88,40 +197,52 @@ jobs:
               uses: azure/k8s-set-context@v4
               with:
                   method: kubeconfig
-                  kubeconfig: ${{ secrets.MCP_KUBE_CONFIG }}
+                  kubeconfig: ${{ secrets[needs.plan.outputs.kubeconfig_secret] }}
 
             - name: Trigger deploy to Rancher (do not wait)
               run: |
                   set -euo pipefail
-                  RELEASE="${{ secrets.MCP_NAMESPACE }}-app"
+                  RELEASE="${NAMESPACE}-app"
 
                   # Fire-and-forget, same as yjsg-client-app: success for this
                   # step means Helm applied the release, not that pods are Ready.
                   helm upgrade --install "$RELEASE" ./helm-charts/ds-mcp \
-                    --namespace "${{ secrets.MCP_NAMESPACE }}" \
+                    --namespace "$NAMESPACE" \
                     --create-namespace \
-                    --values ./helm-charts/ds-mcp/values-prod.yaml \
-                    --set image.repository="${{ secrets.DOCKER_ID }}/${{ secrets.MCP_DOCKER_REGISTRY }}" \
-                    --set image.tag="${{ github.run_id }}-${{ github.run_attempt }}" \
-                    --set service.sslCertificateName="${{ secrets.MCP_DO_CERTIFICATE_NAME }}" \
+                    --values "$HELM_VALUES_FILE" \
+                    --set image.repository="${{ secrets.DOCKER_ID }}/${DOCKER_REGISTRY}" \
+                    --set image.tag="$IMAGE_TAG" \
+                    --set service.sslCertificateName="$SSL_CERTIFICATE_NAME" \
                     --wait=false \
                     --timeout 60s
 
                   echo "Deploy triggered. Release: $RELEASE"
-                  helm status "$RELEASE" --namespace "${{ secrets.MCP_NAMESPACE }}" || true
+                  helm status "$RELEASE" --namespace "$NAMESPACE" || true
+
+            # Best-effort visibility into the rollout without turning the
+            # pipeline into a blocking one: surfaces ImagePullBackOff /
+            # crash loops right here in the log, but never fails the run.
+            - name: Post-deploy rollout check (best effort)
+              continue-on-error: true
+              run: |
+                  kubectl rollout status "deployment/$APP_LABEL" -n "$NAMESPACE" --timeout=180s || true
+                  echo "---- pods:"
+                  kubectl get pods -n "$NAMESPACE" -l app="$APP_LABEL" -o wide || true
+                  echo "---- recent events:"
+                  kubectl get events -n "$NAMESPACE" --sort-by=.lastTimestamp | tail -15 || true
 
             - name: Display LoadBalancer information
               run: |
-                  SERVICE="prod-ds-mcp-service"
+                  SERVICE="$APP_LABEL-service"
                   echo "=========================================="
-                  echo "MCP endpoint DNS setup"
+                  echo "MCP endpoint DNS setup (${{ needs.plan.outputs.environment }})"
                   echo "=========================================="
-                  kubectl get svc "$SERVICE" -n "${{ secrets.MCP_NAMESPACE }}" || echo "Service not found yet"
-                  LB_IP=$(kubectl get svc "$SERVICE" -n "${{ secrets.MCP_NAMESPACE }}" -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "")
+                  kubectl get svc "$SERVICE" -n "$NAMESPACE" || echo "Service not found yet"
+                  LB_IP=$(kubectl get svc "$SERVICE" -n "$NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "")
                   if [ -n "$LB_IP" ]; then
                     echo "LoadBalancer IP: $LB_IP"
-                    echo "Point your MCP domain's A record at this IP."
-                    echo "Connector URL: https://<your-mcp-domain>/mcp"
+                    echo "Point this environment's MCP domain at this IP (proxied through Cloudflare)."
+                    echo "Connector URL: https://<env-mcp-domain>/mcp"
                   else
                     echo "LoadBalancer IP not yet provisioned -- re-run this step or check Rancher."
                   fi
