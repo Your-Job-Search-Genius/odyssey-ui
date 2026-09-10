@@ -43,6 +43,18 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
+            # apps/docs depends on ui-tree and ds-mcp as workspace
+            # packages that resolve to compiled ./lib output (see their
+            # package.json `main`/`types`/`exports`), not source -- they
+            # must be built before docs:build:static's tsc step can
+            # resolve them. Build in dependency order: registry (also
+            # regenerates dist/registry.json) -> ui-tree / ds-mcp.
+            - name: Build workspace package dependencies
+              run: |
+                  pnpm --filter @your-job-search-genius/ds-registry run build
+                  pnpm --filter @your-job-search-genius/ui-tree run build
+                  pnpm --filter @your-job-search-genius/ds-mcp run build
+
             - name: Remove server-only routes (unsupported in static export)
               run: rm -rf apps/docs/app/api/mcp apps/docs/app/api/playground apps/docs/app/playground
 
