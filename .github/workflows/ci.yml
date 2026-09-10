@@ -23,6 +23,14 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
+            # packages/registry's src/index.ts statically imports
+            # dist/registry.json (see that file's top comment) -- it
+            # must exist before tsc/vitest touch the package, so build
+            # it once up front rather than relying on gitignored local
+            # state that a fresh CI checkout won't have.
+            - name: Build registry
+              run: pnpm run registry:build
+
             - name: Type-check
               run: pnpm run type-check
 
