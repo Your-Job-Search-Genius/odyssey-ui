@@ -62,8 +62,9 @@ function buildClaudeMdBlock(rulesMarkdown: string): string {
         "This repo has the Writesea Odyssey MCP server configured (see .mcp.json). When building UI:",
         "",
         "1. Call the `get_rules` tool first.",
-        "2. Discover real components with `list_components` / `search_components` before assuming a name exists.",
-        "3. Call `validate_jsx` before presenting generated code as final. If it returns errors, fix them and call it again.",
+        "2. Components come from the installed `@your-job-search-genius/odyssey-ui` package -- import them from `@your-job-search-genius/odyssey-ui/components/...` (each component's exact specifier is `get_component`'s importPath). Never copy component source into this repo, never import via a repo-local `@/` alias, and if the package is not installed yet, install it per the setup rules below.",
+        "3. Discover real components with `list_components` / `search_components` before assuming a name exists.",
+        "4. Call `validate_jsx` before presenting generated code as final. If it returns errors, fix them and call it again.",
         "",
         rulesMarkdown,
     ].join("\n");

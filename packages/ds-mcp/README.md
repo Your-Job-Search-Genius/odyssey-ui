@@ -11,6 +11,16 @@ that makes the constraints real rather than just prompted.
 npx @your-job-search-genius/ds-mcp init
 ```
 
+The consuming app gets components from the published
+`@your-job-search-genius/odyssey-ui` package (GitHub Packages), imported
+by deep path (e.g.
+`@your-job-search-genius/odyssey-ui/components/base/buttons/button`) --
+never by copying component source into the app and never via the
+library monorepo's internal `@/` alias, which `validate_jsx` rejects.
+The full setup (install, styles, alias mapping for the package's own
+internals) is in `get_rules`' "Project setup" section and the docs
+site's Installation page.
+
 This writes/updates, all idempotently:
 
 - `.mcp.json` (Claude Code) and `.cursor/mcp.json` (Cursor) -- adds a

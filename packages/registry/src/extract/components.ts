@@ -18,7 +18,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import * as docgen from "react-docgen-typescript";
 import type { ComponentCategory, ComponentEntry, ComponentMetaOverride, PropEntry } from "../schema.js";
-import { ComponentMetaOverrideSchema } from "../schema.js";
+import { ComponentMetaOverrideSchema, UI_COMPONENTS_IMPORT_ROOT } from "../schema.js";
 
 const ICON_HEAVY_GROUPS = new Set(["icons", "payment-icons", "integration-icons", "social-icons"]);
 const EXCLUDED_CATEGORIES = new Set(["internal"]);
@@ -225,7 +225,7 @@ export async function extractComponents({ componentsRoot, uiTsconfigPath, docsUr
             id: candidate.id,
             name,
             importName: name,
-            importPath: `@/components/${candidate.id}`,
+            importPath: `${UI_COMPONENTS_IMPORT_ROOT}/${candidate.id}`,
             category: candidate.category,
             description: primary?.description || "",
             props,

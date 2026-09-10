@@ -342,7 +342,11 @@ function writeComponentMap(dsRegistry: ReturnType<typeof loadRegistry>) {
     for (const c of dsRegistry.components) {
         const rootName = c.importName.split(".")[0];
         if (rootName && rootName === c.importName && !roots.has(rootName)) {
-            roots.set(rootName, c.importPath);
+            // The registry publishes consumer-facing package specifiers
+            // ("@your-job-search-genius/odyssey-ui/components/..."); this
+            // file compiles inside the monorepo, where the same modules are
+            // reached through the "@/" alias.
+            roots.set(rootName, c.importPath.replace(/^@your-job-search-genius\/odyssey-ui\//, "@/"));
         }
     }
 

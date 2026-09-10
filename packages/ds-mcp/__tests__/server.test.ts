@@ -111,7 +111,9 @@ describe("MCP server: tools", () => {
     it("validate_jsx round-trips through the real tool call", async () => {
         const result = await client.callTool({
             name: "validate_jsx",
-            arguments: { code: 'import { Button } from "@/components/base/buttons/button";\nconst X = () => <Button>Save</Button>;' },
+            arguments: {
+                code: 'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";\nconst X = () => <Button>Save</Button>;',
+            },
         });
         expect(JSON.parse(textOf(result)).ok).toBe(true);
     });

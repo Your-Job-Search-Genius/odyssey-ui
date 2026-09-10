@@ -2,6 +2,14 @@
 @import "./theme.css";
 @import "./typography.css";
 
+/* The library ships as TypeScript source, so Tailwind must scan it to emit
+   the component utilities. Paths resolve relative to this file, which makes
+   them work both in-repo and when imported from node_modules (explicit
+   @source paths override Tailwind's default node_modules exclusion). */
+@source "../components";
+@source "../hooks";
+@source "../utils";
+
 @plugin "@tailwindcss/typography";
 @plugin "tailwindcss-react-aria-components";
 @plugin "tailwindcss-animate";

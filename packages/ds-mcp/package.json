@@ -1,6 +1,6 @@
 {
     "name": "@your-job-search-genius/ds-mcp",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "MCP server exposing the Writesea Odyssey component library (components, tokens, icons, rules) plus a validate_jsx tool, so agents in Claude Code / Cursor build UI only from approved components.",
     "private": false,
     "type": "module",

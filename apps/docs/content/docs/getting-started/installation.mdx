@@ -1,43 +1,155 @@
 ---
 title: Installation
-description: How components in this library are actually consumed.
+description: Install the published package, wire up styles, and import components.
 ---
 
-## Current consumption model
+## 1. Authenticate with GitHub Packages
 
-`@your-job-search-genius/odyssey-ui` is a **private, unpublished** package (no build output, no
-`dist/`, `publishConfig.registry` is a restricted GitHub Packages registry). It is not installed
-via `pnpm add` today. Instead, every consumer imports directly from source using the repo's
-`@/*` path aliases:
+`@your-job-search-genius/odyssey-ui` is published to **GitHub Packages** as TypeScript source
+(no compiled bundle). One-time registry auth in the consuming app's `.npmrc`:
 
-```ts
-import { Card } from "@/components/application/cards/card";
-import { Button } from "@/components/base/buttons/button";
-import { AlertCircle } from "@/components/foundations/icons";
+```ini title=".npmrc"
+@your-job-search-genius:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=<a GitHub token with read:packages>
 ```
 
-This is also exactly how this documentation site itself consumes the library: every live preview
-on this site renders the real component, imported the same way your own code would.
+## 2. Install the package
 
-## Path aliases
+Peer requirements: **React 19**, **React DOM 19**, **Tailwind CSS v4**.
 
-| Alias            | Resolves to    |
-| ---------------- | -------------- |
-| `@/*`            | repo root      |
-| `@/components/*` | `components/*` |
-| `@/utils/*`      | `utils/*`      |
-| `@/hooks/*`      | `hooks/*`      |
+<Tabs items={["pnpm", "npm", "yarn", "bun"]}>
 
-## Peer requirements
+<Tab value="pnpm">
 
-- **React 19** and **React DOM 19**
-- **Tailwind CSS v4.3**, with the library's `styles/theme.css` design tokens imported into your
-  global stylesheet
-- **React Aria Components** and **React Aria** (already declared as dependencies of the package)
+```bash
+pnpm add @your-job-search-genius/odyssey-ui
+```
 
-## If you need a publishable build
+</Tab>
 
-If a downstream project outside this repository needs to consume the library as an installed
-package, that requires adding a build step (bundling `components/`, `utils/`, and `hooks/` to
-`dist/` with type declarations) and publishing to the GitHub Packages registry configured in
-`publishConfig`. That is not set up today -- see the root `package.json` for the current state.
+<Tab value="npm">
+
+```bash
+npm install @your-job-search-genius/odyssey-ui
+```
+
+</Tab>
+
+<Tab value="yarn">
+
+```bash
+yarn add @your-job-search-genius/odyssey-ui
+```
+
+</Tab>
+
+<Tab value="bun">
+
+```bash
+bun add @your-job-search-genius/odyssey-ui
+```
+
+</Tab>
+
+</Tabs>
+
+If your app does not use Tailwind CSS v4 yet, set it up first -- for example with the PostCSS
+plugin:
+
+```bash
+pnpm add tailwindcss @tailwindcss/postcss
+```
+
+```js title="postcss.config.mjs"
+export default {
+    plugins: {
+        "@tailwindcss/postcss": {},
+    },
+};
+```
+
+## 3. Wire up styles
+
+In your app's global stylesheet, a single import pulls in Tailwind v4, the design tokens,
+typography, and the Tailwind plugins the library needs:
+
+```css title="app/globals.css"
+@import "@your-job-search-genius/odyssey-ui/styles/globals.css";
+```
+
+Since **v1.0.1** the package declares its own `@source` directives, so Tailwind automatically
+scans the library source inside `node_modules` and emits every component utility -- no manual
+configuration needed.
+
+<Callout title="Using v1.0.0 or an unusual setup?">
+
+If you are pinned to `1.0.0`, or your bundler resolves the package somewhere Tailwind's
+scanner cannot follow (e.g. a non-standard `node_modules` layout), add explicit `@source`
+directives after the import, with paths **relative to your CSS file**:
+
+```css
+@import "@your-job-search-genius/odyssey-ui/styles/globals.css";
+@source "../node_modules/@your-job-search-genius/odyssey-ui/components";
+@source "../node_modules/@your-job-search-genius/odyssey-ui/hooks";
+@source "../node_modules/@your-job-search-genius/odyssey-ui/utils";
+```
+
+</Callout>
+
+### Dark mode
+
+The library ships no theme provider. Dark mode is a plain CSS class: put `dark-mode` on a root
+element (usually `<html>`) and every design token flips. With `next-themes`, map its class
+values so it applies the library's class directly:
+
+```tsx
+<ThemeProvider attribute="class" value={{ light: "light-mode", dark: "dark-mode" }}>
+    {children}
+</ThemeProvider>
+```
+
+## 4. Resolve the library's internal alias
+
+The package ships as source, and that source resolves its own internals (`@/utils/cx`,
+`@/hooks/...`) through the `@/` alias. Map that alias to the installed package in your app:
+
+```jsonc title="tsconfig.json"
+{
+    "compilerOptions": {
+        "paths": {
+            "@/*": ["./node_modules/@your-job-search-genius/odyssey-ui/*"],
+        },
+    },
+}
+```
+
+In Next.js, also transpile the package:
+
+```js title="next.config.mjs"
+const nextConfig = {
+    transpilePackages: ["@your-job-search-genius/odyssey-ui"],
+};
+```
+
+Keep your app's own source on a different alias (e.g. `~/` or `@app/`) so the two never
+collide.
+
+## 5. Import components
+
+Every component is imported by deep path off the package name -- there is no barrel export:
+
+```ts
+import { Card } from "@your-job-search-genius/odyssey-ui/components/application/cards/card";
+import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";
+import { AlertCircle } from "@your-job-search-genius/odyssey-ui/components/foundations/icons";
+```
+
+Do **not** copy component source into your app, and do not import via a repo-local `@/` alias --
+that alias only exists inside the library's own monorepo. The MCP server's `validate_jsx` tool
+rejects `@/` imports for exactly this reason.
+
+## Inside this monorepo
+
+This documentation site and Storybook consume the library directly as workspace source through
+the same `@/` alias (`@/*` resolves to `packages/ui/*`). That is a development convenience of
+the monorepo only -- external apps always go through the published package as described above.

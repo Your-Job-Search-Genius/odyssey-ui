@@ -33,14 +33,14 @@ describe("treeToTsx: round-trips through validate_jsx with zero errors", () => {
     it("the icon-accepting Button fixture", async () => {
         const { code, result } = await roundTrip(buttonWithIconTree());
         expect(result.errors, code).toEqual([]);
-        expect(code).toContain('import { Check } from "@/components/foundations/icons"');
+        expect(code).toContain('import { Check } from "@your-job-search-genius/odyssey-ui/components/foundations/icons"');
         expect(code).toContain("iconLeading={Check}"); // bare reference, not a rendered element
     });
 
     it("the compound Select fixture", async () => {
         const { code, result } = await roundTrip(selectTree());
         expect(result.errors, code).toEqual([]);
-        expect(code).toContain('import { Select } from "@/components/base/select/select"'); // Select.Item imports via Select's root name
+        expect(code).toContain('import { Select } from "@your-job-search-genius/odyssey-ui/components/base/select/select"'); // Select.Item imports via Select's root name
         expect(code).not.toContain("SelectItem"); // only the curated compound access form should appear
     });
 

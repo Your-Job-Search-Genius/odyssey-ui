@@ -1,6 +1,6 @@
 {
     "name": "@your-job-search-genius/eslint-plugin-ds",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "ESLint plugin wrapping @your-job-search-genius/ds-mcp's validate_jsx -- catches design-system violations in CI even when an agent ignored the MCP server entirely.",
     "private": false,
     "type": "module",

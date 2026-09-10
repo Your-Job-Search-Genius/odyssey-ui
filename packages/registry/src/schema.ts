@@ -6,6 +6,17 @@
  */
 import { z } from "zod";
 
+/**
+ * Canonical import specifiers for CONSUMER apps. The library is published
+ * to GitHub Packages as source; consumers install it and import by deep
+ * path off the package name. The repo-internal "@/" alias is a
+ * development convenience of this monorepo only and must never appear in
+ * registry output, MCP guidance, or generated code handed to a consumer.
+ */
+export const UI_PACKAGE_NAME = "@your-job-search-genius/odyssey-ui";
+export const UI_COMPONENTS_IMPORT_ROOT = "@your-job-search-genius/odyssey-ui/components";
+export const ICONS_IMPORT_PATH = "@your-job-search-genius/odyssey-ui/components/foundations/icons";
+
 export const PropEntrySchema = z.object({
     name: z.string(),
     /** Serialized TypeScript type, as reported by react-docgen-typescript. */
@@ -45,7 +56,7 @@ export const ComponentEntrySchema = z.object({
     name: z.string(),
     /** What to import; differs from `name` for compound sub-components, e.g. "Select.Item". */
     importName: z.string(),
-    /** Real module specifier to import from, e.g. "@/components/base/buttons/button". */
+    /** Real module specifier to import from, e.g. "@your-job-search-genius/odyssey-ui/components/base/buttons/button". */
     importPath: z.string(),
     category: ComponentCategorySchema,
     description: z.string(),
@@ -144,7 +155,7 @@ export type TokenSet = z.infer<typeof TokenSetSchema>;
 export const IconEntrySchema = z.object({
     /** Exported name, e.g. "Activity". */
     name: z.string(),
-    importPath: z.literal("@/components/foundations/icons"),
+    importPath: z.literal(ICONS_IMPORT_PATH),
     tags: z.array(z.string()),
 });
 export type IconEntry = z.infer<typeof IconEntrySchema>;
@@ -152,6 +163,8 @@ export type IconEntry = z.infer<typeof IconEntrySchema>;
 export const RuleSetSchema = z.object({
     allowedPrimitives: z.array(z.string()),
     forbiddenElements: z.array(z.string()),
+    /** Consumer-project setup: install the published package, wire Tailwind/styles, import from the package specifier. */
+    setupRules: z.array(z.string()),
     styleRules: z.array(z.string()),
     compositionRules: z.array(z.string()),
     version: z.string(),
@@ -162,8 +175,8 @@ export const RegistrySchema = z.object({
     version: z.string(),
     generatedAt: z.string(),
     library: z.object({
-        packageName: z.literal("@your-job-search-genius/odyssey-ui"),
-        importPath: z.literal("@/components"),
+        packageName: z.literal(UI_PACKAGE_NAME),
+        importPath: z.literal(UI_COMPONENTS_IMPORT_ROOT),
         tailwindPrefix: z.string().optional(),
     }),
     components: z.array(ComponentEntrySchema),

@@ -17,7 +17,7 @@ import { defaultIconsIndexPath, extractIcons } from "./extract/icons.js";
 import { buildRuleSet } from "./extract/rules.js";
 import { defaultThemeCssPath, extractTokens } from "./extract/tokens.js";
 import type { Registry } from "./schema.js";
-import { RegistrySchema } from "./schema.js";
+import { RegistrySchema, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "./schema.js";
 
 const SCRIPT_DIR = import.meta.dirname;
 const PACKAGES_ROOT = path.join(SCRIPT_DIR, "..", "..");
@@ -62,8 +62,8 @@ async function main() {
         version: libraryVersion,
         generatedAt: deterministicGeneratedAt(libraryVersion, components.length, tokens.colors.length, icons.length),
         library: {
-            packageName: "@your-job-search-genius/odyssey-ui",
-            importPath: "@/components",
+            packageName: UI_PACKAGE_NAME,
+            importPath: UI_COMPONENTS_IMPORT_ROOT,
         },
         components,
         tokens,

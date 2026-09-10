@@ -14,28 +14,31 @@ function run(code: string, strict?: boolean) {
 
 describe("validate_jsx: allowed code", () => {
     it("passes a simple valid Button", () => {
-        const result = run('import { Button } from "@/components/base/buttons/button";\nconst X = () => <Button size="md" color="primary">Save</Button>;');
+        const result = run(
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";\nconst X = () => <Button size="md" color="primary">Save</Button>;',
+        );
         expect(result.ok).toBe(true);
         expect(result.errors).toEqual([]);
     });
 
     it("passes a Button with an icon imported from the icon set", () => {
         const code = [
-            'import { Button } from "@/components/base/buttons/button";',
-            'import { Check } from "@/components/foundations/icons";',
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";',
+            'import { Check } from "@your-job-search-genius/odyssey-ui/components/foundations/icons";',
             'const X = () => <Button iconLeading={Check} color="primary">Save</Button>;',
         ].join("\n");
         expect(run(code).ok).toBe(true);
     });
 
     it("passes a link-styled Button with href", () => {
-        const code = 'import { Button } from "@/components/base/buttons/button";\nconst X = () => <Button href="/dashboard" color="link-color">View</Button>;';
+        const code =
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";\nconst X = () => <Button href="/dashboard" color="link-color">View</Button>;';
         expect(run(code).ok).toBe(true);
     });
 
     it("passes a Select with a nested Select.Item", () => {
         const code = [
-            'import { Select } from "@/components/base/select/select";',
+            'import { Select } from "@your-job-search-genius/odyssey-ui/components/base/select/select";',
             "const X = () => (",
             '  <Select label="Team" placeholder="Pick">',
             '    <Select.Item id="1">Olivia</Select.Item>',
@@ -137,8 +140,25 @@ describe("validate_jsx: unknown / misimported components", () => {
         expect(result.errors.some((e) => e.message.includes("not the component library"))).toBe(true);
     });
 
+    it("rejects the repo-internal @/ alias with a package-specifier migration message, exactly once per import", () => {
+        const code = [
+            'import { Button } from "@/components/base/buttons/button";',
+            'import { Check } from "@/components/foundations/icons";',
+            "const X = () => <Button iconLeading={Check}>Save</Button>;",
+        ].join("\n");
+        const result = run(code);
+        expect(result.ok).toBe(false);
+        const aliasErrors = result.errors.filter((e) => e.message.includes('repo-internal "@/" alias'));
+        expect(aliasErrors).toHaveLength(2);
+        expect(aliasErrors[0]?.message).toContain('import from "@your-job-search-genius/odyssey-ui/components/base/buttons/button"');
+        // The alias error is the ONLY error -- bindings are still recorded, so
+        // usage does not cascade into "used but not imported" / wrong-module noise.
+        expect(result.errors).toHaveLength(2);
+    });
+
     it("rejects an icon name that does not exist", () => {
-        const code = 'import { TotallyFakeIcon } from "@/components/foundations/icons";\nconst X = () => <div>{TotallyFakeIcon}</div>;';
+        const code =
+            'import { TotallyFakeIcon } from "@your-job-search-genius/odyssey-ui/components/foundations/icons";\nconst X = () => <div>{TotallyFakeIcon}</div>;';
         const result = run(code);
         expect(result.ok).toBe(false);
         expect(result.errors.some((e) => e.message.includes("Unknown icon"))).toBe(true);
@@ -147,7 +167,8 @@ describe("validate_jsx: unknown / misimported components", () => {
 
 describe("validate_jsx: props", () => {
     it("rejects an invalid enum value", () => {
-        const code = 'import { Button } from "@/components/base/buttons/button";\nconst X = () => <Button color="not-a-real-color">Save</Button>;';
+        const code =
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";\nconst X = () => <Button color="not-a-real-color">Save</Button>;';
         const result = run(code);
         expect(result.ok).toBe(false);
         expect(result.errors[0]?.message).toContain("expected one of");
@@ -155,7 +176,7 @@ describe("validate_jsx: props", () => {
 
     it("rejects a required prop that's missing (Select.Item's id)", () => {
         const code = [
-            'import { Select } from "@/components/base/select/select";',
+            'import { Select } from "@your-job-search-genius/odyssey-ui/components/base/select/select";',
             "const X = () => (",
             "  <Select>",
             "    <Select.Item>Olivia</Select.Item>",
@@ -169,14 +190,14 @@ describe("validate_jsx: props", () => {
 
     it("does not false-flag a required prop when the element uses a spread attribute", () => {
         const code =
-            'import { Select } from "@/components/base/select/select";\nconst X = (props) => (\n  <Select>\n    <Select.Item {...props}>Olivia</Select.Item>\n  </Select>\n);';
+            'import { Select } from "@your-job-search-genius/odyssey-ui/components/base/select/select";\nconst X = (props) => (\n  <Select>\n    <Select.Item {...props}>Olivia</Select.Item>\n  </Select>\n);';
         const result = run(code);
         expect(result.errors.some((e) => e.message.includes('missing required prop "id"'))).toBe(false);
     });
 
     it("rejects an icon-accepting prop given a non-icon identifier", () => {
         const code = [
-            'import { Button } from "@/components/base/buttons/button";',
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";',
             "const NotAnIcon = 42;",
             'const X = () => <Button iconLeading={NotAnIcon} color="primary">Save</Button>;',
         ].join("\n");
@@ -188,7 +209,8 @@ describe("validate_jsx: props", () => {
 
 describe("validate_jsx: compound nesting", () => {
     it("rejects Select.Item used outside a Select / Select.ComboBox", () => {
-        const code = 'import { Select } from "@/components/base/select/select";\nconst X = () => <div><Select.Item id="1">Olivia</Select.Item></div>;';
+        const code =
+            'import { Select } from "@your-job-search-genius/odyssey-ui/components/base/select/select";\nconst X = () => <div><Select.Item id="1">Olivia</Select.Item></div>;';
         const result = run(code);
         expect(result.ok).toBe(false);
         expect(result.errors.some((e) => e.message.includes("may only appear inside"))).toBe(true);
@@ -196,8 +218,8 @@ describe("validate_jsx: compound nesting", () => {
 
     it("rejects a non-Select.Item child inside Select", () => {
         const code = [
-            'import { Select } from "@/components/base/select/select";',
-            'import { Button } from "@/components/base/buttons/button";',
+            'import { Select } from "@your-job-search-genius/odyssey-ui/components/base/select/select";',
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";',
             "const X = () => (",
             "  <Select>",
             "    <Button>Not allowed here</Button>",
@@ -213,8 +235,8 @@ describe("validate_jsx: compound nesting", () => {
 describe("validate_jsx: warnings (non-blocking)", () => {
     it("warns on an icon-only Button with no aria-label", () => {
         const code = [
-            'import { Button } from "@/components/base/buttons/button";',
-            'import { Check } from "@/components/foundations/icons";',
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";',
+            'import { Check } from "@your-job-search-genius/odyssey-ui/components/foundations/icons";',
             "const X = () => <Button iconLeading={Check} />;",
         ].join("\n");
         const result = run(code);
@@ -224,8 +246,8 @@ describe("validate_jsx: warnings (non-blocking)", () => {
 
     it("does not warn when an icon-only Button has an aria-label", () => {
         const code = [
-            'import { Button } from "@/components/base/buttons/button";',
-            'import { Check } from "@/components/foundations/icons";',
+            'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";',
+            'import { Check } from "@your-job-search-genius/odyssey-ui/components/foundations/icons";',
             'const X = () => <Button iconLeading={Check} aria-label="Save" />;',
         ].join("\n");
         expect(run(code).warnings).toEqual([]);

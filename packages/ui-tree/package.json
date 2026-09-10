@@ -1,6 +1,6 @@
 {
     "name": "@your-job-search-genius/ui-tree",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "UI tree schema, patch ops, renderer, and codegen shared by the docs playground and ds-mcp -- the model never writes raw JSX, only this JSON tree, which is validated, rendered, and turned into TSX by this package.",
     "private": false,
     "type": "module",

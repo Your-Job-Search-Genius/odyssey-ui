@@ -23,7 +23,7 @@ const ruleTester = new RuleTester({
 ruleTester.run("validate-jsx", validateJsxRule, {
     valid: [
         {
-            code: 'import { Button } from "@/components/base/buttons/button";\nconst X = () => <Button size="md" color="primary">Save</Button>;',
+            code: 'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";\nconst X = () => <Button size="md" color="primary">Save</Button>;',
         },
         {
             code: '<div className="flex items-center gap-2 rounded-lg bg-primary p-4 text-primary">Hello</div>',
@@ -32,7 +32,7 @@ ruleTester.run("validate-jsx", validateJsxRule, {
             // strict:false's narrow auto-fix (forbidden-primitive rename) is
             // never surfaced by this rule -- see the README's "no autofix"
             // gap -- but the option itself must still be accepted.
-            code: 'import { Button } from "@/components/base/buttons/button";\nconst X = () => <Button>Save</Button>;',
+            code: 'import { Button } from "@your-job-search-genius/odyssey-ui/components/base/buttons/button";\nconst X = () => <Button>Save</Button>;',
             options: [{ strict: false }],
         },
     ],

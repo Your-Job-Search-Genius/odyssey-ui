@@ -52,6 +52,18 @@ export default function AgentRulesPage() {
             </section>
 
             <section className="mt-10">
+                <h2 className="text-lg font-semibold text-primary">Project setup</h2>
+                <p className="mt-1 text-sm text-tertiary">
+                    How a consuming app gets the library: install the published package and import from it -- never copy source or use a repo-local alias.
+                </p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-tertiary">
+                    {rules.setupRules.map((rule) => (
+                        <li key={rule}>{rule}</li>
+                    ))}
+                </ul>
+            </section>
+
+            <section className="mt-10">
                 <h2 className="text-lg font-semibold text-primary">Style rules</h2>
                 <ul className="mt-3 list-disc space-y-2 pl-5 text-tertiary">
                     {rules.styleRules.map((rule) => (

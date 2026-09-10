@@ -11,8 +11,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { IconEntry } from "../schema.js";
-
-const ICONS_IMPORT_PATH = "@/components/foundations/icons" as const;
+import { ICONS_IMPORT_PATH } from "../schema.js";
 
 /**
  * icons/index.ts is a flat barrel: `export { default as Activity } from "./activity";`

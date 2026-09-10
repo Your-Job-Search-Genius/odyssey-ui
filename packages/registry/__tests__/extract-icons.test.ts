@@ -14,7 +14,7 @@ describe("extractIcons", () => {
     it("extracts a known icon with the correct import path", () => {
         const activity = icons.find((i) => i.name === "Activity");
         expect(activity).toBeDefined();
-        expect(activity?.importPath).toBe("@/components/foundations/icons");
+        expect(activity?.importPath).toBe("@your-job-search-genius/odyssey-ui/components/foundations/icons");
     });
 
     it("derives searchable tags from PascalCase names", () => {

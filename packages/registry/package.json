@@ -1,6 +1,6 @@
 {
     "name": "@your-job-search-genius/ds-registry",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Machine-readable registry of the Writesea Odyssey component library: components, design tokens, icons, and composition rules, extracted from packages/ui and used by @your-job-search-genius/ds-mcp and the docs playground.",
     "private": false,
     "type": "module",

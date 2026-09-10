@@ -17,6 +17,7 @@
  * same way.
  */
 import type { ComponentEntry, Registry } from "@your-job-search-genius/ds-registry";
+import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "@your-job-search-genius/ds-registry";
 import ts from "typescript";
 
 export interface ValidationIssue {
@@ -61,7 +62,7 @@ const FORBIDDEN_TAG_SUGGESTIONS: Record<string, string | undefined> = {
 interface ImportBinding {
     /** Local identifier this import binds, e.g. "Button" or "ChevronDown". */
     localName: string;
-    /** Module specifier text, e.g. "@/components/base/buttons/button". */
+    /** Module specifier text, e.g. "@your-job-search-genius/odyssey-ui/components/base/buttons/button". */
     modulePath: string;
     /** True when imported from the icons barrel. */
     isIconImport: boolean;
@@ -119,8 +120,24 @@ function collectImports(ctx: Ctx) {
             continue;
         }
 
-        const isIconImport = modulePath === "@/components/foundations/icons";
-        const isComponentPath = modulePath.startsWith("@/components/");
+        // The repo-internal "@/" alias only resolves inside the library's own
+        // monorepo -- consumer apps must install the published package and
+        // import from the package specifier (see get_rules' setup section).
+        const isLegacyAliasPath = modulePath.startsWith("@/");
+        if (isLegacyAliasPath) {
+            const packagePath = modulePath.replace(/^@\//, `${UI_PACKAGE_NAME}/`);
+            addError(
+                ctx,
+                stmt,
+                `"${modulePath}" uses the library's repo-internal "@/" alias, which does not exist in a consuming app. Install ${UI_PACKAGE_NAME} and import from "${packagePath}" instead.`,
+            );
+        }
+
+        // Bindings from a legacy "@/" import are still recorded (with their
+        // would-be package meaning) so the one error above stays the only
+        // report, instead of cascading into "used but not imported" noise.
+        const isIconImport = modulePath === ICONS_IMPORT_PATH || modulePath === "@/components/foundations/icons";
+        const isComponentPath = modulePath.startsWith(`${UI_COMPONENTS_IMPORT_ROOT}/`) || modulePath.startsWith("@/components/");
         const namedBindings = stmt.importClause?.namedBindings;
         if (!namedBindings || !ts.isNamedImports(namedBindings)) continue;
 
@@ -140,7 +157,7 @@ function collectImports(ctx: Ctx) {
                 addError(
                     ctx,
                     stmt,
-                    `"${localName}" is imported from "${modulePath}", not the component library. Only @your-job-search-genius/odyssey-ui components (via @/components/...) and @/components/foundations/icons may be imported.`,
+                    `"${localName}" is imported from "${modulePath}", not the component library. Only ${UI_PACKAGE_NAME} components (via ${UI_COMPONENTS_IMPORT_ROOT}/...) and ${ICONS_IMPORT_PATH} may be imported.`,
                 );
             }
         }
@@ -317,9 +334,13 @@ function visitOpeningElement(ctx: Ctx, node: ts.JsxOpeningLikeElement, tag: stri
     }
 
     const binding = ctx.imports.get(tag.split(".")[0] ?? tag);
+    // A legacy "@/components/..." path is compared by its package-specifier
+    // meaning here -- collectImports already reported the alias itself, and
+    // a second "wrong module" error per usage would just repeat it.
+    const effectiveModulePath = binding?.modulePath.replace(/^@\//, `${UI_PACKAGE_NAME}/`);
     if (!binding) {
         addError(ctx, node, `<${tag}> is used but not imported.`);
-    } else if (binding.modulePath !== entry.importPath && !tag.includes(".")) {
+    } else if (effectiveModulePath !== entry.importPath && !tag.includes(".")) {
         addError(ctx, node, `<${tag}> must be imported from "${entry.importPath}", not "${binding.modulePath}".`);
     }
 
@@ -393,7 +414,7 @@ function attemptAutoFix(code: string, errors: ValidationIssue[]): string | undef
         if (fixed !== before) changed = true;
     }
     return changed
-        ? `${fixed}\n// TODO(validate_jsx auto-fix): verify imports for renamed tags above -- add "import { X } from \\"@/components/...\\"" as needed.\n`
+        ? `${fixed}\n// TODO(validate_jsx auto-fix): verify imports for renamed tags above -- add "import { X } from \\"${UI_COMPONENTS_IMPORT_ROOT}/...\\"" as needed.\n`
         : undefined;
 }
 

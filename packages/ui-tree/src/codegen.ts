@@ -14,6 +14,7 @@
  * that generated code is correct by construction.
  */
 import type { ComponentEntry, Registry } from "@your-job-search-genius/ds-registry";
+import { ICONS_IMPORT_PATH } from "@your-job-search-genius/ds-registry";
 import prettier from "prettier";
 import type { PropValue, UINode, UITree } from "./schema.js";
 
@@ -36,7 +37,7 @@ function findComponent(registry: Registry, name: string): ComponentEntry | undef
  * A compound child's importName (e.g. "Select.Item") is accessed off the
  * root identifier ("Select") at runtime, imported from the ROOT
  * component's own file -- not the child's. select-item.tsx has its own
- * importPath ("@/components/base/select/select-item"), which is where
+ * importPath (".../components/base/select/select-item"), which is where
  * SelectItem's *source* lives, not where the "Select" identifier comes
  * from. Importing "Select" from select-item's path would be wrong (and
  * is exactly the bug this function exists to avoid -- caught by
@@ -78,7 +79,7 @@ function collectImportsAndTextConsts(ctx: CodegenCtx, id: string) {
     }
 
     if (node.kind === "icon") {
-        addImport(ctx, "@/components/foundations/icons", node.name);
+        addImport(ctx, ICONS_IMPORT_PATH, node.name);
         return;
     }
 
@@ -89,7 +90,7 @@ function collectImportsAndTextConsts(ctx: CodegenCtx, id: string) {
             addImport(ctx, importPath, rootName);
         }
         for (const value of Object.values(node.props)) {
-            if (value.t === "icon") addImport(ctx, "@/components/foundations/icons", value.v);
+            if (value.t === "icon") addImport(ctx, ICONS_IMPORT_PATH, value.v);
             if (value.t === "node") collectImportsAndTextConsts(ctx, value.v);
         }
     }
