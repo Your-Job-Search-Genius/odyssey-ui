@@ -5,8 +5,14 @@ description: Run the MCP server's HTTP endpoint yourself -- Node, Docker, Kubern
 
 ## When you need this
 
+Usually you don't: the production deployment is already live at
+**`https://mcp.aijobexpert.com/mcp`** (health check:
+[`/healthz`](https://mcp.aijobexpert.com/healthz)) -- the connect guides all point at it.
+This page is for running your **own** endpoint: a staging copy, local development, or a
+separate hosting environment.
+
 Local stdio clients (Claude Code, Claude Desktop, Cursor, Codex) need **no hosting** --
-they spawn the server themselves. You need a hosted HTTPS endpoint only for **web**
+they spawn the server themselves. A hosted HTTPS endpoint only matters for **web**
 clients: claude.ai custom connectors and ChatGPT developer-mode connectors.
 
 One thing that does **not** work: the GitHub Pages deployment of this docs site. Pages is
@@ -69,7 +75,8 @@ After the first deploy to an environment: take the LoadBalancer IP the workflow 
 add a **proxied** DNS record for the MCP domain in Cloudflare (the LB certificate is a
 Cloudflare origin cert, so traffic must flow through Cloudflare's proxy), and if the
 Docker Hub repo is private, copy the `pipeline-docker-registry` pull secret into the
-namespace. The connector URL is then `https://<mcp-domain>/mcp`.
+namespace. This is exactly how the production endpoint at
+`https://mcp.aijobexpert.com/mcp` is deployed.
 
 ## Option 4 -- local machine + tunnel (demos only)
 
@@ -92,10 +99,10 @@ copy if a fetch fails.
 ## Verifying a deployment
 
 ```bash
-curl https://<your-mcp-host>/healthz
+curl https://mcp.aijobexpert.com/healthz
 # {"ok":true,"name":"writesea-ds-mcp","registryVersion":"0.2.1"}
 
-curl -X POST https://<your-mcp-host>/mcp \
+curl -X POST https://mcp.aijobexpert.com/mcp \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"1.0"}}}'

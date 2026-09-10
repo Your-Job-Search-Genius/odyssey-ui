@@ -57,9 +57,12 @@ claude mcp add writesea-ds -- npx -y @your-job-search-genius/ds-mcp
 **Claude web (claude.ai) and ChatGPT**: both only connect to _remote_
 MCP servers over HTTPS (claude.ai: Settings > Connectors > Add custom
 connector; ChatGPT: Settings > Apps & Connectors > Developer mode >
-Create), so they need a deployed URL, not a local stdio process -- see
-"Deploying the HTTP server" below. Note the GitHub Pages deployment of
-the docs site is a static export and **cannot** serve `/api/mcp`.
+Create), so they need a deployed URL, not a local stdio process. The
+production deployment is live at **`https://mcp.aijobexpert.com/mcp`**
+(health: `/healthz`) -- paste that URL, authentication "None". To run
+your own endpoint instead, see "Deploying the HTTP server" below. Note
+the GitHub Pages deployment of the docs site is a static export and
+**cannot** serve `/api/mcp`.
 
 ## Deploying the HTTP server
 
