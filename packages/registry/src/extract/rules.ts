@@ -7,13 +7,17 @@
  */
 import type { RuleSet } from "../schema.js";
 import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "../schema.js";
+import { buildUxPreamble, buildUxSections } from "./ux-rules.js";
 
-export const RULE_SET_VERSION = "2.0.0";
+export const RULE_SET_VERSION = "3.0.0";
 
 export function buildRuleSet(): RuleSet {
     return {
         version: RULE_SET_VERSION,
-        allowedPrimitives: ["div", "span", "p", "h1", "h2", "h3", "h4", "h5", "h6"],
+        // Structural landmarks (main..aside) are allowed so generated UI can
+        // satisfy the landmark/semantic rules (ARIA-07, CODE-02, KEY-10)
+        // without validate_jsx rejecting the markup those rules require.
+        allowedPrimitives: ["div", "span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "main", "header", "footer", "nav", "section", "article", "aside"],
         forbiddenElements: ["input", "button", "select", "textarea", "a", "img", "form", "table", "label", "ul", "ol", "li", "iframe", "svg"],
         setupRules: [
             `UI is consumed as the published npm package ${UI_PACKAGE_NAME} (GitHub Packages). Install it in the consuming app -- never copy component source files into the app, never scaffold your own versions of these components, and never import from a repo-local "@/" path alias.`,
@@ -38,5 +42,7 @@ export function buildRuleSet(): RuleSet {
             "Icons must come from search_icons / get_tokens results only.",
             "Call validate_jsx before presenting generated code as final.",
         ],
+        uxPreamble: buildUxPreamble(),
+        uxSections: buildUxSections(),
     };
 }

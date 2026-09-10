@@ -160,6 +160,21 @@ export const IconEntrySchema = z.object({
 });
 export type IconEntry = z.infer<typeof IconEntrySchema>;
 
+/**
+ * One thematic section of the UI/UX & accessibility standing rules
+ * (e.g. LAY = layout/spacing/grid). Each rule string starts with its
+ * stable rule ID ("LAY-01: ...") so agents can cite it when deviating.
+ */
+export const UxRuleSectionSchema = z.object({
+    /** Rule-ID prefix, e.g. "LAY", "RES", "ARIA", "CHK". */
+    id: z.string(),
+    title: z.string(),
+    /** Framing/context lines rendered before the rules of the section. */
+    intro: z.array(z.string()).optional(),
+    rules: z.array(z.string()),
+});
+export type UxRuleSection = z.infer<typeof UxRuleSectionSchema>;
+
 export const RuleSetSchema = z.object({
     allowedPrimitives: z.array(z.string()),
     forbiddenElements: z.array(z.string()),
@@ -167,6 +182,10 @@ export const RuleSetSchema = z.object({
     setupRules: z.array(z.string()),
     styleRules: z.array(z.string()),
     compositionRules: z.array(z.string()),
+    /** Preamble (purpose, scope, precedence order) for the UI/UX & accessibility standing rules. */
+    uxPreamble: z.array(z.string()),
+    /** The UI/UX & accessibility standing rules: how approved components are assembled into screens. */
+    uxSections: z.array(UxRuleSectionSchema),
     version: z.string(),
 });
 export type RuleSet = z.infer<typeof RuleSetSchema>;

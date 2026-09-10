@@ -85,6 +85,34 @@ export default function AgentRulesPage() {
                 </ul>
             </section>
 
+            <section className="mt-12">
+                <h2 className="text-display-xs font-semibold text-primary">UI/UX &amp; accessibility standing rules</h2>
+                <div className="mt-4 space-y-4">
+                    {rules.uxPreamble.map((line) => (
+                        <p key={line} className="text-tertiary">
+                            {line}
+                        </p>
+                    ))}
+                </div>
+                {rules.uxSections.map((uxSection) => (
+                    <section key={uxSection.id} className="mt-10">
+                        <h3 className="text-lg font-semibold text-primary">
+                            <span className="text-brand-secondary">{uxSection.id}</span> — {uxSection.title}
+                        </h3>
+                        {uxSection.intro?.map((line) => (
+                            <p key={line} className="mt-2 text-sm text-tertiary">
+                                {line}
+                            </p>
+                        ))}
+                        <ul className="mt-3 list-disc space-y-2 pl-5 text-tertiary">
+                            {uxSection.rules.map((rule) => (
+                                <li key={rule}>{rule}</li>
+                            ))}
+                        </ul>
+                    </section>
+                ))}
+            </section>
+
             <p className="mt-12 text-sm text-quaternary">
                 Registry built from library version {registry.version} -- {registry.components.length} components, {registry.tokens.colors.length} color tokens,{" "}
                 {registry.icons.length} icons.

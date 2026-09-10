@@ -6,6 +6,13 @@ export function baseOptions(): BaseLayoutProps {
         nav: {
             title: appName,
         },
+        links: [
+            {
+                text: "Agent rules",
+                url: "/agent-rules",
+                active: "url",
+            },
+        ],
         githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
     };
 }

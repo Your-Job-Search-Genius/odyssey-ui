@@ -63,6 +63,17 @@ export function rulesToMarkdown(registry: Registry): string {
         "",
         "## Composition rules",
         ...rules.compositionRules.map((r) => `- ${r}`),
+        "",
+        "## UI/UX & accessibility standing rules",
+        "",
+        ...rules.uxPreamble.map((line) => `${line}\n`),
+        ...rules.uxSections.flatMap((section) => [
+            `### ${section.id}. ${section.title}`,
+            "",
+            ...(section.intro ?? []).map((line) => `${line}\n`),
+            ...section.rules.map((r) => `- ${r}`),
+            "",
+        ]),
     ].join("\n");
 }
 
@@ -197,7 +208,7 @@ export function registerTools(server: McpServer, registryHolder: RegistryHolder)
         {
             title: "Get agent rules",
             description:
-                "Returns the hard constraints for building UI from this library (allowed primitives, forbidden elements, style and composition rules). Call this first in any UI-building task.",
+                "Returns the hard constraints for building UI from this library (allowed primitives, forbidden elements, style and composition rules) plus the UI/UX & accessibility standing rules (layout, spacing, responsiveness, zoom, keyboard, ARIA, colour, forms, states, flow, and a pre-delivery checklist). Call this first in any UI-building task.",
             inputSchema: {},
         },
         async () => text(rulesToMarkdown(registryHolder.get())),
