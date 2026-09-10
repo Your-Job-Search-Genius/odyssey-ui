@@ -1,0 +1,68 @@
+---
+title: MCP Server
+description: Connect AI assistants to the Writesea Odyssey design system through the Model Context Protocol.
+---
+
+## Overview
+
+**`@your-job-search-genius/ds-mcp`** is an [MCP](https://modelcontextprotocol.io) server that
+exposes this entire design system -- every approved component, prop, design token, and icon,
+plus a JSX validator -- to AI assistants. An assistant connected to it can answer "which
+component do I use for X?", generate UI that only uses approved components and token-backed
+Tailwind classes, and validate the result, instead of hallucinating components that don't
+exist.
+
+## Two ways to connect
+
+| Transport | Command / URL | Used by |
+| --- | --- | --- |
+| **stdio** (local process) | `npx -y @your-job-search-genius/ds-mcp` | Claude Code, Claude Desktop, Cursor, Codex CLI -- anything that spawns a local server |
+| **Streamable HTTP** (remote) | `https://<your-mcp-host>/mcp` | claude.ai web connectors, ChatGPT web connectors, or any client that prefers a URL |
+
+The HTTP flavor also serves `GET /healthz` (liveness probe / quick smoke test) and accepts
+MCP traffic on `/` as well as `/mcp`, so a bare host URL pasted into a connector UI works.
+
+Pick your guide:
+
+- **[Connect Claude](/docs/mcp/connect-claude)** -- claude.ai on the web, Claude Desktop, and the Claude Code CLI.
+- **[Connect ChatGPT](/docs/mcp/connect-chatgpt)** -- ChatGPT web connectors and the Codex CLI.
+- **[Editors & other clients](/docs/mcp/connect-editors)** -- Cursor and any other MCP-capable tool.
+- **[Self-hosting the server](/docs/mcp/self-hosting)** -- run the HTTP endpoint yourself (Node, Docker, Kubernetes/Rancher).
+
+## Prerequisite for local (stdio) usage
+
+The package is published to **GitHub Packages**, which requires authentication even for
+installs. Any machine that runs the server via `npx` needs this once in `~/.npmrc`:
+
+```ini
+@your-job-search-genius:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=<GitHub token with the read:packages scope>
+```
+
+Create the token at github.com → Settings → Developer settings → Personal access tokens →
+classic token with only `read:packages`. Remote (HTTP) connections need no auth setup at
+all -- the deployed server is public.
+
+## What the server exposes
+
+| Tool | Purpose |
+| --- | --- |
+| `get_rules` | The hard constraints for building UI from this library. |
+| `list_components` | Every approved component, optionally filtered. |
+| `get_component` | Full detail for one component: props, variants, examples, do-nots, a11y. |
+| `search_components` | Natural-language intent → ranked component matches. |
+| `get_tokens` | Design tokens: colors, allowed Tailwind patterns, shadows, breakpoints. |
+| `search_icons` | Icon lookup across the 1,100+ icon set. Never invents an icon. |
+| `validate_jsx` | Validates TSX against the registry -- the enforcement mechanism. |
+| `suggest_composition` | Recipe of which components to combine for an intent. |
+| `get_example` | Curated example code for one component. |
+
+It also serves MCP **resources** (`ds://registry`, `ds://rules`, `ds://tokens`,
+`ds://component/<name>`) and a `build-ui` **prompt** that walks an agent through the
+intended tool sequence.
+
+## Security note
+
+The server is deliberately unauthenticated: it exposes only read-only design-system
+metadata. Don't host it on infrastructure where an open HTTP endpoint is a problem, and
+don't add secrets to it without putting real auth in front.

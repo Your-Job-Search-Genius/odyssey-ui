@@ -1,0 +1,100 @@
+---
+title: Connect Claude
+description: Use the design-system MCP server from claude.ai on the web, Claude Desktop, and the Claude Code CLI.
+---
+
+## claude.ai (web)
+
+Claude on the web connects to **remote** MCP servers over HTTPS -- it cannot spawn a local
+process, so you need the deployed HTTP endpoint (see
+[Self-hosting](/docs/mcp/self-hosting) if one isn't running yet).
+
+1. Open [claude.ai](https://claude.ai) → **Settings** → **Connectors**.
+2. Click **Add custom connector**.
+3. Name it (e.g. `Writesea DS`) and paste the server URL:
+   `https://<your-mcp-host>/mcp`
+4. Save. The server requires no OAuth, so the connection completes immediately.
+5. In a new chat, open the tools menu (the sliders icon in the composer) and confirm the
+   connector's tools are enabled.
+
+Notes:
+
+- Custom connectors require a paid plan (Pro/Max/Team/Enterprise).
+- On Team/Enterprise, an admin can add the connector org-wide under admin settings instead
+  of per-user.
+- Ask Claude something like *"Using the Writesea DS tools, which component should I use for
+  a dropdown with search?"* to confirm it calls the server.
+
+## Claude Desktop
+
+Claude Desktop runs local MCP servers over stdio. First complete the
+[GitHub Packages `.npmrc` setup](/docs/mcp#prerequisite-for-local-stdio-usage), then edit
+the config file:
+
+| OS | Location |
+| --- | --- |
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
+
+(Or open it from **Settings → Developer → Edit Config** inside the app.)
+
+```json title="claude_desktop_config.json"
+{
+    "mcpServers": {
+        "writesea-ds": {
+            "command": "npx",
+            "args": ["-y", "@your-job-search-genius/ds-mcp"]
+        }
+    }
+}
+```
+
+Restart Claude Desktop completely (quit, not just close the window). The tools appear
+under the composer's tools menu. Claude Desktop can also use the remote server via a
+custom connector (same steps as claude.ai above) if you'd rather not run a local process.
+
+## Claude Code (CLI)
+
+Three equivalent ways -- pick one.
+
+**1. One command, current project:**
+
+```bash
+claude mcp add writesea-ds -- npx -y @your-job-search-genius/ds-mcp
+```
+
+Add `--scope user` to make it available in every project instead of just this one.
+
+**2. Remote HTTP instead of a local process** (no `.npmrc` setup needed):
+
+```bash
+claude mcp add --transport http writesea-ds https://<your-mcp-host>/mcp
+```
+
+**3. Checked-in project config** so every teammate gets it automatically -- create
+`.mcp.json` at the repo root:
+
+```json title=".mcp.json"
+{
+    "mcpServers": {
+        "writesea-ds": {
+            "command": "npx",
+            "args": ["-y", "@your-job-search-genius/ds-mcp"]
+        }
+    }
+}
+```
+
+**Shortcut:** running `npx @your-job-search-genius/ds-mcp init` in a consuming repo writes
+`.mcp.json`, Cursor config, and a rules block in `CLAUDE.md` for you, idempotently.
+
+Verify with `claude mcp list` (the server should be listed and connected), or in a session
+run `/mcp` to see status, then ask Claude to call `get_rules`.
+
+## Registry freshness (optional, all Claude variants)
+
+A long-lived local server can hot-reload the design-system registry without restarting:
+set `DS_REGISTRY_URL` to a URL serving a newer `registry.json`, and optionally
+`DS_REGISTRY_REFRESH_MS` (default 5 minutes) -- add them under `"env"` in any of the JSON
+configs above.

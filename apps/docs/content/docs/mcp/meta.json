@@ -1,0 +1,5 @@
+{
+    "title": "MCP",
+    "root": true,
+    "pages": ["index", "connect-claude", "connect-chatgpt", "connect-editors", "self-hosting"]
+}

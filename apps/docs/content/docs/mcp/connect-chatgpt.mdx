@@ -1,0 +1,60 @@
+---
+title: Connect ChatGPT
+description: Use the design-system MCP server from ChatGPT on the web and from the Codex CLI.
+---
+
+## ChatGPT (web)
+
+ChatGPT connects to **remote** MCP servers only -- there is no way to point the web app at
+a local process, so you need the deployed HTTPS endpoint (see
+[Self-hosting](/docs/mcp/self-hosting)).
+
+Full-tool MCP connectors are a **developer mode** feature:
+
+1. Open ChatGPT → **Settings** → **Apps & Connectors** (naming varies slightly by plan/UI
+   version -- it's the connectors/apps section).
+2. Scroll to **Advanced settings** and enable **Developer mode**. This requires a paid
+   plan (Plus/Pro/Team; for workspaces an admin may need to allow it).
+3. Back in Apps & Connectors, click **Create** (custom connector).
+4. Fill in:
+    - **Name**: `Writesea DS`
+    - **MCP server URL**: `https://<your-mcp-host>/mcp`
+    - **Authentication**: `None`
+5. Confirm the "I trust this application" checkbox and create it.
+6. In a chat, open the **+** / tools menu in the composer, choose **Developer mode**
+   (or the connector directly), and enable `Writesea DS` for that conversation.
+
+Why developer mode? Without it, ChatGPT only accepts connectors that implement its
+`search`/`fetch` deep-research interface. This server implements the full MCP tool set
+(nine design-system tools) rather than that two-tool interface, so it must be added as a
+developer-mode connector.
+
+Once connected, try: *"Use the Writesea DS tools to find the right component for a
+searchable dropdown, then show me valid usage code."* You should see tool calls to
+`search_components` / `get_component` in the response.
+
+## Codex CLI
+
+OpenAI's Codex CLI supports stdio MCP servers. First complete the
+[GitHub Packages `.npmrc` setup](/docs/mcp#prerequisite-for-local-stdio-usage), then either
+run:
+
+```bash
+codex mcp add writesea-ds -- npx -y @your-job-search-genius/ds-mcp
+```
+
+or add it to `~/.codex/config.toml` by hand:
+
+```toml title="~/.codex/config.toml"
+[mcp_servers.writesea-ds]
+command = "npx"
+args = ["-y", "@your-job-search-genius/ds-mcp"]
+```
+
+Restart Codex and check with `codex mcp list`.
+
+## Custom GPTs -- not supported
+
+"GPTs" (the custom GPT builder) use OpenAI **Actions** (OpenAPI schemas), not MCP -- an
+MCP server can't be attached to a custom GPT today. Use a developer-mode connector in
+regular ChatGPT conversations instead; it reaches the same tools.

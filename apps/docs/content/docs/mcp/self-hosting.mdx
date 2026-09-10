@@ -1,0 +1,105 @@
+---
+title: Self-Hosting
+description: Run the MCP server's HTTP endpoint yourself -- Node, Docker, Kubernetes/Rancher, or a tunnel.
+---
+
+## When you need this
+
+Local stdio clients (Claude Code, Claude Desktop, Cursor, Codex) need **no hosting** --
+they spawn the server themselves. You need a hosted HTTPS endpoint only for **web**
+clients: claude.ai custom connectors and ChatGPT developer-mode connectors.
+
+One thing that does **not** work: the GitHub Pages deployment of this docs site. Pages is
+a static file host -- it can't run the server, and `POST` requests are rejected outright.
+The MCP endpoint must run on something that executes Node.
+
+## Option 1 -- `ds-mcp serve` on any Node host
+
+The package ships an HTTP mode:
+
+```bash
+npx -y @your-job-search-genius/ds-mcp serve
+```
+
+- `PORT` (default `3002`) and `HOST` (default `0.0.0.0`) env vars
+- MCP endpoint at `/mcp` (and `/`), liveness probe at `GET /healthz`
+- graceful shutdown on SIGTERM, so rolling deploys don't cut streams mid-response
+
+Works as the start command on any PaaS (Railway, Render, Fly, a VPS behind a reverse
+proxy). The platform must provide HTTPS, and its build step needs the [GitHub Packages
+auth](/docs/mcp#prerequisite-for-local-stdio-usage) available at install time.
+
+## Option 2 -- Docker
+
+Two Dockerfiles exist in the repo, for different situations:
+
+| File | Builds from | Needs GH Packages auth? |
+| --- | --- | --- |
+| `Dockerfile.ds-mcp` (repo root) | the repo source | No |
+| `packages/ds-mcp/Dockerfile` | the published npm package | Yes (BuildKit secret) |
+
+From a repo checkout:
+
+```bash
+docker build -f Dockerfile.ds-mcp -t writesea-ds-mcp .
+docker run -p 3002:3002 writesea-ds-mcp
+curl http://localhost:3002/healthz
+```
+
+From the published package (pass your `~/.npmrc` as a BuildKit secret so the token never
+lands in an image layer):
+
+```bash
+docker build --secret id=npmrc,src=$HOME/.npmrc -t writesea-ds-mcp packages/ds-mcp
+```
+
+## Option 3 -- Kubernetes / Rancher (the production path)
+
+The repo ships a staged pipeline that deploys the server to the YJSG Rancher cluster,
+mirroring the client-app's conventions:
+
+- **`Dockerfile.ds-mcp`** -- source-built image (no registry auth needed).
+- **`helm-charts/ds-mcp`** -- Deployment with liveness/readiness probes on `/healthz`,
+  plus a DigitalOcean LoadBalancer service with a named SSL certificate.
+- **`.github/workflows/deploy-mcp.yml`** -- test gate → branch-to-environment mapping
+  (`development`→dev, `staging`→staging, `master`→production) → build, push to Docker
+  Hub, `helm upgrade`. Required GitHub secrets are documented in the workflow header.
+
+After the first deploy to an environment: take the LoadBalancer IP the workflow prints,
+add a **proxied** DNS record for the MCP domain in Cloudflare (the LB certificate is a
+Cloudflare origin cert, so traffic must flow through Cloudflare's proxy), and if the
+Docker Hub repo is private, copy the `pipeline-docker-registry` pull secret into the
+namespace. The connector URL is then `https://<mcp-domain>/mcp`.
+
+## Option 4 -- local machine + tunnel (demos only)
+
+```bash
+npx -y @your-job-search-genius/ds-mcp serve
+ngrok http 3002        # or: cloudflared tunnel --url http://localhost:3002
+```
+
+Paste `https://<tunnel-host>/mcp` into the connector UI. Free tunnel URLs change on every
+restart, so saved connectors break -- fine for a demo, wrong for daily use.
+
+## Keeping the registry fresh
+
+The image bundles the design-system registry that existed at build time. Redeploying after
+a registry change picks up the new data. Alternatively, set `DS_REGISTRY_URL` (and
+optionally `DS_REGISTRY_REFRESH_MS`, default 5 minutes) on the running server and it will
+poll that URL and hot-swap a newer registry without a restart, keeping the last-known-good
+copy if a fetch fails.
+
+## Verifying a deployment
+
+```bash
+curl https://<your-mcp-host>/healthz
+# {"ok":true,"name":"writesea-ds-mcp","registryVersion":"0.2.1"}
+
+curl -X POST https://<your-mcp-host>/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"1.0"}}}'
+# → serverInfo.name "writesea-ds-mcp"
+```
+
+If both answer, the endpoint is ready to paste into Claude and ChatGPT.

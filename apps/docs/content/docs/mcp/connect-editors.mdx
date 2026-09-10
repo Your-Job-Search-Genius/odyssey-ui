@@ -1,0 +1,76 @@
+---
+title: Editors & Other Clients
+description: Connect Cursor, VS Code, and any other MCP-capable client to the design-system server.
+---
+
+## Cursor
+
+The fastest path -- from the repo where you're building UI, run:
+
+```bash
+npx @your-job-search-genius/ds-mcp init
+```
+
+This idempotently writes `.cursor/mcp.json` (plus `.mcp.json` for Claude Code and a rules
+file in `.cursor/rules/`), preserving any other servers you already have configured. Or add
+it by hand:
+
+```json title=".cursor/mcp.json"
+{
+    "mcpServers": {
+        "writesea-ds": {
+            "command": "npx",
+            "args": ["-y", "@your-job-search-genius/ds-mcp"]
+        }
+    }
+}
+```
+
+Reload Cursor (or toggle the server under Settings → MCP) and the tools appear for the
+agent. Requires the [GitHub Packages `.npmrc`
+setup](/docs/mcp#prerequisite-for-local-stdio-usage).
+
+## VS Code (GitHub Copilot agent mode)
+
+VS Code's Copilot agent mode supports MCP via `.vscode/mcp.json` in the workspace:
+
+```json title=".vscode/mcp.json"
+{
+    "servers": {
+        "writesea-ds": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@your-job-search-genius/ds-mcp"]
+        }
+    }
+}
+```
+
+Then in the Chat view, switch to agent mode and enable the server's tools from the tools
+picker.
+
+## Anything else
+
+The server is standard MCP, so any client works with one of these two shapes:
+
+**stdio** -- the client spawns the process:
+
+```bash
+npx -y @your-job-search-genius/ds-mcp
+```
+
+**Streamable HTTP** -- the client connects to a URL:
+
+```text
+https://<your-mcp-host>/mcp
+```
+
+Quick compatibility check for the HTTP endpoint from any terminal:
+
+```bash
+curl https://<your-mcp-host>/healthz
+# → {"ok":true,"name":"writesea-ds-mcp","registryVersion":"..."}
+```
+
+If a client asks about protocol details: Streamable HTTP transport, stateless (no session
+ids), no authentication, and both `POST /mcp` and `POST /` are accepted.

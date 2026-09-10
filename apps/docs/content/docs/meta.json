@@ -1,4 +1,4 @@
 {
     "title": "Documentation",
-    "pages": ["getting-started", "base-components", "application", "foundations", "shared-assets"]
+    "pages": ["getting-started", "base-components", "application", "foundations", "shared-assets", "mcp"]
 }
