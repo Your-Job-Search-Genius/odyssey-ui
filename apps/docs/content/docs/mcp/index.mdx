@@ -17,7 +17,7 @@ exist.
 | Transport | Command / URL | Used by |
 | --- | --- | --- |
 | **stdio** (local process) | `npx -y @your-job-search-genius/ds-mcp` | Claude Code, Claude Desktop, Cursor, Codex CLI -- anything that spawns a local server |
-| **Streamable HTTP** (remote) | `https://<your-mcp-host>/mcp` | claude.ai web connectors, ChatGPT web connectors, or any client that prefers a URL |
+| **Streamable HTTP** (remote) | `https://mcp.aijobexpert.com/mcp` | claude.ai web connectors, ChatGPT web connectors, or any client that prefers a URL |
 
 The HTTP flavor also serves `GET /healthz` (liveness probe / quick smoke test) and accepts
 MCP traffic on `/` as well as `/mcp`, so a bare host URL pasted into a connector UI works.

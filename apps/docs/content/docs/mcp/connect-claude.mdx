@@ -12,7 +12,7 @@ process, so you need the deployed HTTP endpoint (see
 1. Open [claude.ai](https://claude.ai) → **Settings** → **Connectors**.
 2. Click **Add custom connector**.
 3. Name it (e.g. `Writesea DS`) and paste the server URL:
-   `https://<your-mcp-host>/mcp`
+   `https://mcp.aijobexpert.com/mcp`
 4. Save. The server requires no OAuth, so the connection completes immediately.
 5. In a new chat, open the tools menu (the sliders icon in the composer) and confirm the
    connector's tools are enabled.
@@ -69,7 +69,7 @@ Add `--scope user` to make it available in every project instead of just this on
 **2. Remote HTTP instead of a local process** (no `.npmrc` setup needed):
 
 ```bash
-claude mcp add --transport http writesea-ds https://<your-mcp-host>/mcp
+claude mcp add --transport http writesea-ds https://mcp.aijobexpert.com/mcp
 ```
 
 **3. Checked-in project config** so every teammate gets it automatically -- create
