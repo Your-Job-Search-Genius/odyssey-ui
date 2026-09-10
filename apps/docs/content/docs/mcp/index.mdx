@@ -14,10 +14,10 @@ exist.
 
 ## Two ways to connect
 
-| Transport | Command / URL | Used by |
-| --- | --- | --- |
-| **stdio** (local process) | `npx -y @your-job-search-genius/ds-mcp` | Claude Code, Claude Desktop, Cursor, Codex CLI -- anything that spawns a local server |
-| **Streamable HTTP** (remote) | `https://mcp.aijobexpert.com/mcp` | claude.ai web connectors, ChatGPT web connectors, or any client that prefers a URL |
+| Transport                    | Command / URL                           | Used by                                                                               |
+| ---------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------- |
+| **stdio** (local process)    | `npx -y @your-job-search-genius/ds-mcp` | Claude Code, Claude Desktop, Cursor, Codex CLI -- anything that spawns a local server |
+| **Streamable HTTP** (remote) | `https://mcp.aijobexpert.com/mcp`       | claude.ai web connectors, ChatGPT web connectors, or any client that prefers a URL    |
 
 The HTTP flavor also serves `GET /healthz` (liveness probe / quick smoke test) and accepts
 MCP traffic on `/` as well as `/mcp`, so a bare host URL pasted into a connector UI works.
@@ -45,17 +45,17 @@ all -- the deployed server is public.
 
 ## What the server exposes
 
-| Tool | Purpose |
-| --- | --- |
-| `get_rules` | The hard constraints for building UI from this library. |
-| `list_components` | Every approved component, optionally filtered. |
-| `get_component` | Full detail for one component: props, variants, examples, do-nots, a11y. |
-| `search_components` | Natural-language intent → ranked component matches. |
-| `get_tokens` | Design tokens: colors, allowed Tailwind patterns, shadows, breakpoints. |
-| `search_icons` | Icon lookup across the 1,100+ icon set. Never invents an icon. |
-| `validate_jsx` | Validates TSX against the registry -- the enforcement mechanism. |
-| `suggest_composition` | Recipe of which components to combine for an intent. |
-| `get_example` | Curated example code for one component. |
+| Tool                  | Purpose                                                                  |
+| --------------------- | ------------------------------------------------------------------------ |
+| `get_rules`           | The hard constraints for building UI from this library.                  |
+| `list_components`     | Every approved component, optionally filtered.                           |
+| `get_component`       | Full detail for one component: props, variants, examples, do-nots, a11y. |
+| `search_components`   | Natural-language intent → ranked component matches.                      |
+| `get_tokens`          | Design tokens: colors, allowed Tailwind patterns, shadows, breakpoints.  |
+| `search_icons`        | Icon lookup across the 1,100+ icon set. Never invents an icon.           |
+| `validate_jsx`        | Validates TSX against the registry -- the enforcement mechanism.         |
+| `suggest_composition` | Recipe of which components to combine for an intent.                     |
+| `get_example`         | Curated example code for one component.                                  |
 
 It also serves MCP **resources** (`ds://registry`, `ds://rules`, `ds://tokens`,
 `ds://component/<name>`) and a `build-ui` **prompt** that walks an agent through the

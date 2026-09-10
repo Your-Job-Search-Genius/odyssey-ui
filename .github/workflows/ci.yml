@@ -39,6 +39,17 @@ jobs:
             - name: Build ds-mcp
               run: pnpm --filter @your-job-search-genius/ds-mcp run build
 
+            # apps/docs also imports @your-job-search-genius/ui-tree
+            # through its compiled ./lib output, plus two gitignored
+            # generated files (lib/playground-registry.ts and
+            # lib/playground/component-map.generated.ts) written by the
+            # docs sync script -- both must exist before type-check.
+            - name: Build ui-tree
+              run: pnpm --filter @your-job-search-genius/ui-tree run build
+
+            - name: Generate docs content (props tables, demo/playground registries)
+              run: pnpm --filter @your-job-search-genius/docs run sync
+
             - name: Type-check
               run: pnpm run type-check
 
