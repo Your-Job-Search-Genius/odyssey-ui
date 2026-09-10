@@ -38,6 +38,28 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v4
 
+            # Fail fast with a readable message when a required secret is
+            # missing -- an empty MCP_DOCKER_REGISTRY otherwise surfaces as
+            # buildx's cryptic `invalid tag "***/:123-1"` much later.
+            - name: Validate required secrets
+              env:
+                  DOCKER_ID: ${{ secrets.DOCKER_ID }}
+                  DOCKER_PW: ${{ secrets.DOCKER_PW }}
+                  MCP_DOCKER_REGISTRY: ${{ secrets.MCP_DOCKER_REGISTRY }}
+                  MCP_KUBE_CONFIG: ${{ secrets.MCP_KUBE_CONFIG }}
+                  MCP_NAMESPACE: ${{ secrets.MCP_NAMESPACE }}
+                  MCP_DO_CERTIFICATE_NAME: ${{ secrets.MCP_DO_CERTIFICATE_NAME }}
+              run: |
+                  missing=()
+                  for name in DOCKER_ID DOCKER_PW MCP_DOCKER_REGISTRY MCP_KUBE_CONFIG MCP_NAMESPACE MCP_DO_CERTIFICATE_NAME; do
+                      [ -n "${!name}" ] || missing+=("$name")
+                  done
+                  if [ ${#missing[@]} -gt 0 ]; then
+                      echo "::error::Missing required GitHub secrets: ${missing[*]}. See the header of .github/workflows/deploy-mcp.yml for what each one is."
+                      exit 1
+                  fi
+                  echo "All required secrets are set."
+
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
@@ -63,8 +85,9 @@ jobs:
                   helm version --short
 
             - name: Set up kubeconfig
-              uses: azure/k8s-set-context@v1
+              uses: azure/k8s-set-context@v4
               with:
+                  method: kubeconfig
                   kubeconfig: ${{ secrets.MCP_KUBE_CONFIG }}
 
             - name: Trigger deploy to Rancher (do not wait)
