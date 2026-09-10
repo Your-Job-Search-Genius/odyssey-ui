@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}-service
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-type: "REGIONAL"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-name: "{{ .Values.service.sslCertificateName }}"
+    service.beta.kubernetes.io/do-loadbalancer-http-ports: "80"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.containerPorts.http | default 3002 }}
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: {{ .Values.containerPorts.http | default 3002 }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.appName }}
+    tier: {{ .Values.appName }}

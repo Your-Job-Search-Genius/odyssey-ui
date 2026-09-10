@@ -1,0 +1,9153 @@
+[
+  {
+    "name": "Activity",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "activity"
+    ]
+  },
+  {
+    "name": "ActivityHeart",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "activity",
+      "heart"
+    ]
+  },
+  {
+    "name": "Airplay",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "airplay"
+    ]
+  },
+  {
+    "name": "Airpods",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "airpods"
+    ]
+  },
+  {
+    "name": "AlarmClock",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alarm",
+      "clock"
+    ]
+  },
+  {
+    "name": "AlarmClockCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alarm",
+      "clock",
+      "check"
+    ]
+  },
+  {
+    "name": "AlarmClockMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alarm",
+      "clock",
+      "minus"
+    ]
+  },
+  {
+    "name": "AlarmClockOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alarm",
+      "clock",
+      "off"
+    ]
+  },
+  {
+    "name": "AlarmClockPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alarm",
+      "clock",
+      "plus"
+    ]
+  },
+  {
+    "name": "AlertCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alert",
+      "circle"
+    ]
+  },
+  {
+    "name": "AlertHexagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alert",
+      "hexagon"
+    ]
+  },
+  {
+    "name": "AlertOctagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alert",
+      "octagon"
+    ]
+  },
+  {
+    "name": "AlertSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alert",
+      "square"
+    ]
+  },
+  {
+    "name": "AlertTriangle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "alert",
+      "triangle"
+    ]
+  },
+  {
+    "name": "AlignBottom01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "bottom01"
+    ]
+  },
+  {
+    "name": "AlignBottom02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "bottom02"
+    ]
+  },
+  {
+    "name": "AlignCenter",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "center"
+    ]
+  },
+  {
+    "name": "AlignHorizontalCentre01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "horizontal",
+      "centre01"
+    ]
+  },
+  {
+    "name": "AlignHorizontalCentre02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "horizontal",
+      "centre02"
+    ]
+  },
+  {
+    "name": "AlignJustify",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "justify"
+    ]
+  },
+  {
+    "name": "AlignLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "left"
+    ]
+  },
+  {
+    "name": "AlignLeft01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "left01"
+    ]
+  },
+  {
+    "name": "AlignLeft02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "left02"
+    ]
+  },
+  {
+    "name": "AlignRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "right"
+    ]
+  },
+  {
+    "name": "AlignRight01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "right01"
+    ]
+  },
+  {
+    "name": "AlignRight02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "right02"
+    ]
+  },
+  {
+    "name": "AlignTopArrow01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "top",
+      "arrow01"
+    ]
+  },
+  {
+    "name": "AlignTopArrow02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "top",
+      "arrow02"
+    ]
+  },
+  {
+    "name": "AlignVerticalCenter01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "vertical",
+      "center01"
+    ]
+  },
+  {
+    "name": "AlignVerticalCenter02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "align",
+      "vertical",
+      "center02"
+    ]
+  },
+  {
+    "name": "Anchor",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "anchor"
+    ]
+  },
+  {
+    "name": "Annotation",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation"
+    ]
+  },
+  {
+    "name": "AnnotationAlert",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "alert"
+    ]
+  },
+  {
+    "name": "AnnotationCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "check"
+    ]
+  },
+  {
+    "name": "AnnotationDots",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "dots"
+    ]
+  },
+  {
+    "name": "AnnotationHeart",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "heart"
+    ]
+  },
+  {
+    "name": "AnnotationInfo",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "info"
+    ]
+  },
+  {
+    "name": "AnnotationPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "plus"
+    ]
+  },
+  {
+    "name": "AnnotationQuestion",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "question"
+    ]
+  },
+  {
+    "name": "AnnotationX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "annotation",
+      "x"
+    ]
+  },
+  {
+    "name": "Announcement01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "announcement01"
+    ]
+  },
+  {
+    "name": "Announcement02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "announcement02"
+    ]
+  },
+  {
+    "name": "Announcement03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "announcement03"
+    ]
+  },
+  {
+    "name": "Archive",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "archive"
+    ]
+  },
+  {
+    "name": "ArrowBlockDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "block",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowBlockLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "block",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowBlockRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "block",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowBlockUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "block",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenDownLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "down",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenDownRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "down",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenUpLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "up",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowCircleBrokenUpRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "broken",
+      "up",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowCircleDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowCircleDownLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "down",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowCircleDownRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "down",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowCircleLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowCircleRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowCircleUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowCircleUpLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "up",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowCircleUpRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "circle",
+      "up",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowDownLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "down",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowDownRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "down",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowNarrowDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowNarrowDownLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "down",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowNarrowDownRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "down",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowNarrowLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowNarrowRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowNarrowUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowNarrowUpLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "up",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowNarrowUpRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "narrow",
+      "up",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowNext",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "next"
+    ]
+  },
+  {
+    "name": "ArrowPrevious",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "previous"
+    ]
+  },
+  {
+    "name": "ArrowRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowsDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrows",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowsLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrows",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowSquareDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "down"
+    ]
+  },
+  {
+    "name": "ArrowSquareDownLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "down",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowSquareDownRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "down",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowSquareLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowSquareRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowSquareUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowSquareUpLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "up",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowSquareUpRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "square",
+      "up",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowsRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrows",
+      "right"
+    ]
+  },
+  {
+    "name": "ArrowsTriangle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrows",
+      "triangle"
+    ]
+  },
+  {
+    "name": "ArrowsUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrows",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "up"
+    ]
+  },
+  {
+    "name": "ArrowUpLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "up",
+      "left"
+    ]
+  },
+  {
+    "name": "ArrowUpRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "arrow",
+      "up",
+      "right"
+    ]
+  },
+  {
+    "name": "Asterisk01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "asterisk01"
+    ]
+  },
+  {
+    "name": "Asterisk02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "asterisk02"
+    ]
+  },
+  {
+    "name": "Atom01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "atom01"
+    ]
+  },
+  {
+    "name": "Atom02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "atom02"
+    ]
+  },
+  {
+    "name": "AtSign",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "at",
+      "sign"
+    ]
+  },
+  {
+    "name": "Attachment01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "attachment01"
+    ]
+  },
+  {
+    "name": "Attachment02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "attachment02"
+    ]
+  },
+  {
+    "name": "Award01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "award01"
+    ]
+  },
+  {
+    "name": "Award02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "award02"
+    ]
+  },
+  {
+    "name": "Award03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "award03"
+    ]
+  },
+  {
+    "name": "Award04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "award04"
+    ]
+  },
+  {
+    "name": "Award05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "award05"
+    ]
+  },
+  {
+    "name": "Backpack",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "backpack"
+    ]
+  },
+  {
+    "name": "Bank",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bank"
+    ]
+  },
+  {
+    "name": "BankNote01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bank",
+      "note01"
+    ]
+  },
+  {
+    "name": "BankNote02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bank",
+      "note02"
+    ]
+  },
+  {
+    "name": "BankNote03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bank",
+      "note03"
+    ]
+  },
+  {
+    "name": "BarChart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart01"
+    ]
+  },
+  {
+    "name": "BarChart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart02"
+    ]
+  },
+  {
+    "name": "BarChart03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart03"
+    ]
+  },
+  {
+    "name": "BarChart04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart04"
+    ]
+  },
+  {
+    "name": "BarChart05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart05"
+    ]
+  },
+  {
+    "name": "BarChart06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart06"
+    ]
+  },
+  {
+    "name": "BarChart07",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart07"
+    ]
+  },
+  {
+    "name": "BarChart08",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart08"
+    ]
+  },
+  {
+    "name": "BarChart09",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart09"
+    ]
+  },
+  {
+    "name": "BarChart10",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart10"
+    ]
+  },
+  {
+    "name": "BarChart11",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart11"
+    ]
+  },
+  {
+    "name": "BarChart12",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart12"
+    ]
+  },
+  {
+    "name": "BarChartCircle01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "circle01"
+    ]
+  },
+  {
+    "name": "BarChartCircle02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "circle02"
+    ]
+  },
+  {
+    "name": "BarChartCircle03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "circle03"
+    ]
+  },
+  {
+    "name": "BarChartSquare01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square01"
+    ]
+  },
+  {
+    "name": "BarChartSquare02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square02"
+    ]
+  },
+  {
+    "name": "BarChartSquare03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square03"
+    ]
+  },
+  {
+    "name": "BarChartSquareDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square",
+      "down"
+    ]
+  },
+  {
+    "name": "BarChartSquareMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square",
+      "minus"
+    ]
+  },
+  {
+    "name": "BarChartSquarePlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square",
+      "plus"
+    ]
+  },
+  {
+    "name": "BarChartSquareUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "chart",
+      "square",
+      "up"
+    ]
+  },
+  {
+    "name": "BarLineChart",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bar",
+      "line",
+      "chart"
+    ]
+  },
+  {
+    "name": "BatteryCharging01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "battery",
+      "charging01"
+    ]
+  },
+  {
+    "name": "BatteryCharging02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "battery",
+      "charging02"
+    ]
+  },
+  {
+    "name": "BatteryEmpty",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "battery",
+      "empty"
+    ]
+  },
+  {
+    "name": "BatteryFull",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "battery",
+      "full"
+    ]
+  },
+  {
+    "name": "BatteryLow",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "battery",
+      "low"
+    ]
+  },
+  {
+    "name": "BatteryMid",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "battery",
+      "mid"
+    ]
+  },
+  {
+    "name": "Beaker01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "beaker01"
+    ]
+  },
+  {
+    "name": "Beaker02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "beaker02"
+    ]
+  },
+  {
+    "name": "Bell01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell01"
+    ]
+  },
+  {
+    "name": "Bell02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell02"
+    ]
+  },
+  {
+    "name": "Bell03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell03"
+    ]
+  },
+  {
+    "name": "Bell04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell04"
+    ]
+  },
+  {
+    "name": "BellMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "minus"
+    ]
+  },
+  {
+    "name": "BellOff01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "off01"
+    ]
+  },
+  {
+    "name": "BellOff02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "off02"
+    ]
+  },
+  {
+    "name": "BellOff03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "off03"
+    ]
+  },
+  {
+    "name": "BellPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "plus"
+    ]
+  },
+  {
+    "name": "BellRinging01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "ringing01"
+    ]
+  },
+  {
+    "name": "BellRinging02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "ringing02"
+    ]
+  },
+  {
+    "name": "BellRinging03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "ringing03"
+    ]
+  },
+  {
+    "name": "BellRinging04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bell",
+      "ringing04"
+    ]
+  },
+  {
+    "name": "BezierCurve01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bezier",
+      "curve01"
+    ]
+  },
+  {
+    "name": "BezierCurve02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bezier",
+      "curve02"
+    ]
+  },
+  {
+    "name": "BezierCurve03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bezier",
+      "curve03"
+    ]
+  },
+  {
+    "name": "BluetoothConnect",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bluetooth",
+      "connect"
+    ]
+  },
+  {
+    "name": "BluetoothOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bluetooth",
+      "off"
+    ]
+  },
+  {
+    "name": "BluetoothOn",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bluetooth",
+      "on"
+    ]
+  },
+  {
+    "name": "BluetoothSignal",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bluetooth",
+      "signal"
+    ]
+  },
+  {
+    "name": "Bold01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bold01"
+    ]
+  },
+  {
+    "name": "Bold02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bold02"
+    ]
+  },
+  {
+    "name": "BoldSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bold",
+      "square"
+    ]
+  },
+  {
+    "name": "BookClosed",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "book",
+      "closed"
+    ]
+  },
+  {
+    "name": "Bookmark",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bookmark"
+    ]
+  },
+  {
+    "name": "BookmarkAdd",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bookmark",
+      "add"
+    ]
+  },
+  {
+    "name": "BookmarkCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bookmark",
+      "check"
+    ]
+  },
+  {
+    "name": "BookmarkMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bookmark",
+      "minus"
+    ]
+  },
+  {
+    "name": "BookmarkX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bookmark",
+      "x"
+    ]
+  },
+  {
+    "name": "BookOpen01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "book",
+      "open01"
+    ]
+  },
+  {
+    "name": "BookOpen02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "book",
+      "open02"
+    ]
+  },
+  {
+    "name": "Box",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "box"
+    ]
+  },
+  {
+    "name": "Brackets",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets"
+    ]
+  },
+  {
+    "name": "BracketsCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets",
+      "check"
+    ]
+  },
+  {
+    "name": "BracketsEllipses",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets",
+      "ellipses"
+    ]
+  },
+  {
+    "name": "BracketsMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets",
+      "minus"
+    ]
+  },
+  {
+    "name": "BracketsPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets",
+      "plus"
+    ]
+  },
+  {
+    "name": "BracketsSlash",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets",
+      "slash"
+    ]
+  },
+  {
+    "name": "BracketsX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brackets",
+      "x"
+    ]
+  },
+  {
+    "name": "Briefcase01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "briefcase01"
+    ]
+  },
+  {
+    "name": "Briefcase02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "briefcase02"
+    ]
+  },
+  {
+    "name": "Browser",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "browser"
+    ]
+  },
+  {
+    "name": "Brush01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brush01"
+    ]
+  },
+  {
+    "name": "Brush02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brush02"
+    ]
+  },
+  {
+    "name": "Brush03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "brush03"
+    ]
+  },
+  {
+    "name": "Building01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building01"
+    ]
+  },
+  {
+    "name": "Building02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building02"
+    ]
+  },
+  {
+    "name": "Building03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building03"
+    ]
+  },
+  {
+    "name": "Building04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building04"
+    ]
+  },
+  {
+    "name": "Building05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building05"
+    ]
+  },
+  {
+    "name": "Building06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building06"
+    ]
+  },
+  {
+    "name": "Building07",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building07"
+    ]
+  },
+  {
+    "name": "Building08",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "building08"
+    ]
+  },
+  {
+    "name": "Bus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "bus"
+    ]
+  },
+  {
+    "name": "Calculator",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calculator"
+    ]
+  },
+  {
+    "name": "Calendar",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar"
+    ]
+  },
+  {
+    "name": "CalendarCheck01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "check01"
+    ]
+  },
+  {
+    "name": "CalendarCheck02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "check02"
+    ]
+  },
+  {
+    "name": "CalendarDate",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "date"
+    ]
+  },
+  {
+    "name": "CalendarHeart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "heart01"
+    ]
+  },
+  {
+    "name": "CalendarHeart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "heart02"
+    ]
+  },
+  {
+    "name": "CalendarMinus01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "minus01"
+    ]
+  },
+  {
+    "name": "CalendarMinus02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "minus02"
+    ]
+  },
+  {
+    "name": "CalendarPlus01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "plus01"
+    ]
+  },
+  {
+    "name": "CalendarPlus02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "calendar",
+      "plus02"
+    ]
+  },
+  {
+    "name": "Camera01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "camera01"
+    ]
+  },
+  {
+    "name": "Camera02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "camera02"
+    ]
+  },
+  {
+    "name": "Camera03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "camera03"
+    ]
+  },
+  {
+    "name": "CameraLens",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "camera",
+      "lens"
+    ]
+  },
+  {
+    "name": "CameraOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "camera",
+      "off"
+    ]
+  },
+  {
+    "name": "CameraPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "camera",
+      "plus"
+    ]
+  },
+  {
+    "name": "Car01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "car01"
+    ]
+  },
+  {
+    "name": "Car02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "car02"
+    ]
+  },
+  {
+    "name": "Certificate01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "certificate01"
+    ]
+  },
+  {
+    "name": "Certificate02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "certificate02"
+    ]
+  },
+  {
+    "name": "ChartBreakoutCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chart",
+      "breakout",
+      "circle"
+    ]
+  },
+  {
+    "name": "ChartBreakoutSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chart",
+      "breakout",
+      "square"
+    ]
+  },
+  {
+    "name": "Check",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check"
+    ]
+  },
+  {
+    "name": "CheckCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "circle"
+    ]
+  },
+  {
+    "name": "CheckCircleBroken",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "circle",
+      "broken"
+    ]
+  },
+  {
+    "name": "CheckDone01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "done01"
+    ]
+  },
+  {
+    "name": "CheckDone02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "done02"
+    ]
+  },
+  {
+    "name": "CheckHeart",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "heart"
+    ]
+  },
+  {
+    "name": "CheckSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "square"
+    ]
+  },
+  {
+    "name": "CheckSquareBroken",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "square",
+      "broken"
+    ]
+  },
+  {
+    "name": "CheckVerified01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "verified01"
+    ]
+  },
+  {
+    "name": "CheckVerified02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "verified02"
+    ]
+  },
+  {
+    "name": "CheckVerified03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "check",
+      "verified03"
+    ]
+  },
+  {
+    "name": "ChevronDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "down"
+    ]
+  },
+  {
+    "name": "ChevronDownDouble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "down",
+      "double"
+    ]
+  },
+  {
+    "name": "ChevronLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "left"
+    ]
+  },
+  {
+    "name": "ChevronLeftDouble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "left",
+      "double"
+    ]
+  },
+  {
+    "name": "ChevronNext",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "next"
+    ]
+  },
+  {
+    "name": "ChevronNextDouble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "next",
+      "double"
+    ]
+  },
+  {
+    "name": "ChevronPrevious",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "previous"
+    ]
+  },
+  {
+    "name": "ChevronPreviousDouble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "previous",
+      "double"
+    ]
+  },
+  {
+    "name": "ChevronRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "right"
+    ]
+  },
+  {
+    "name": "ChevronRightDouble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "right",
+      "double"
+    ]
+  },
+  {
+    "name": "ChevronSelectorHorizontal",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "selector",
+      "horizontal"
+    ]
+  },
+  {
+    "name": "ChevronSelectorVertical",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "selector",
+      "vertical"
+    ]
+  },
+  {
+    "name": "ChevronUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "up"
+    ]
+  },
+  {
+    "name": "ChevronUpDouble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chevron",
+      "up",
+      "double"
+    ]
+  },
+  {
+    "name": "ChromeCast",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "chrome",
+      "cast"
+    ]
+  },
+  {
+    "name": "Circle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "circle"
+    ]
+  },
+  {
+    "name": "CircleCut",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "circle",
+      "cut"
+    ]
+  },
+  {
+    "name": "Clapperboard",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clapperboard"
+    ]
+  },
+  {
+    "name": "Clipboard",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard"
+    ]
+  },
+  {
+    "name": "ClipboardAttachment",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard",
+      "attachment"
+    ]
+  },
+  {
+    "name": "ClipboardCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard",
+      "check"
+    ]
+  },
+  {
+    "name": "ClipboardDownload",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard",
+      "download"
+    ]
+  },
+  {
+    "name": "ClipboardMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard",
+      "minus"
+    ]
+  },
+  {
+    "name": "ClipboardPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard",
+      "plus"
+    ]
+  },
+  {
+    "name": "ClipboardX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clipboard",
+      "x"
+    ]
+  },
+  {
+    "name": "Clock",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock"
+    ]
+  },
+  {
+    "name": "ClockCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "check"
+    ]
+  },
+  {
+    "name": "ClockFastForward",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "fast",
+      "forward"
+    ]
+  },
+  {
+    "name": "ClockPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "plus"
+    ]
+  },
+  {
+    "name": "ClockRefresh",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "refresh"
+    ]
+  },
+  {
+    "name": "ClockRewind",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "rewind"
+    ]
+  },
+  {
+    "name": "ClockSnooze",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "snooze"
+    ]
+  },
+  {
+    "name": "ClockStopwatch",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "clock",
+      "stopwatch"
+    ]
+  },
+  {
+    "name": "Cloud01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud01"
+    ]
+  },
+  {
+    "name": "Cloud02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud02"
+    ]
+  },
+  {
+    "name": "Cloud03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud03"
+    ]
+  },
+  {
+    "name": "CloudBlank01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "blank01"
+    ]
+  },
+  {
+    "name": "CloudBlank02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "blank02"
+    ]
+  },
+  {
+    "name": "CloudLightning",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "lightning"
+    ]
+  },
+  {
+    "name": "CloudMoon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "moon"
+    ]
+  },
+  {
+    "name": "CloudOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "off"
+    ]
+  },
+  {
+    "name": "CloudRaining01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "raining01"
+    ]
+  },
+  {
+    "name": "CloudRaining02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "raining02"
+    ]
+  },
+  {
+    "name": "CloudRaining03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "raining03"
+    ]
+  },
+  {
+    "name": "CloudRaining04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "raining04"
+    ]
+  },
+  {
+    "name": "CloudRaining05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "raining05"
+    ]
+  },
+  {
+    "name": "CloudRaining06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "raining06"
+    ]
+  },
+  {
+    "name": "CloudSnowing01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "snowing01"
+    ]
+  },
+  {
+    "name": "CloudSnowing02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "snowing02"
+    ]
+  },
+  {
+    "name": "CloudSun01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "sun01"
+    ]
+  },
+  {
+    "name": "CloudSun02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "sun02"
+    ]
+  },
+  {
+    "name": "CloudSun03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cloud",
+      "sun03"
+    ]
+  },
+  {
+    "name": "Code01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code01"
+    ]
+  },
+  {
+    "name": "Code02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code02"
+    ]
+  },
+  {
+    "name": "CodeBrowser",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "browser"
+    ]
+  },
+  {
+    "name": "CodeCircle01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "circle01"
+    ]
+  },
+  {
+    "name": "CodeCircle02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "circle02"
+    ]
+  },
+  {
+    "name": "CodeCircle03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "circle03"
+    ]
+  },
+  {
+    "name": "Codepen",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "codepen"
+    ]
+  },
+  {
+    "name": "CodeSnippet01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "snippet01"
+    ]
+  },
+  {
+    "name": "CodeSnippet02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "snippet02"
+    ]
+  },
+  {
+    "name": "CodeSquare01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "square01"
+    ]
+  },
+  {
+    "name": "CodeSquare02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "code",
+      "square02"
+    ]
+  },
+  {
+    "name": "Coins01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins01"
+    ]
+  },
+  {
+    "name": "Coins02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins02"
+    ]
+  },
+  {
+    "name": "Coins03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins03"
+    ]
+  },
+  {
+    "name": "Coins04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins04"
+    ]
+  },
+  {
+    "name": "CoinsHand",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "hand"
+    ]
+  },
+  {
+    "name": "CoinsStacked01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "stacked01"
+    ]
+  },
+  {
+    "name": "CoinsStacked02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "stacked02"
+    ]
+  },
+  {
+    "name": "CoinsStacked03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "stacked03"
+    ]
+  },
+  {
+    "name": "CoinsStacked04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "stacked04"
+    ]
+  },
+  {
+    "name": "CoinsSwap01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "swap01"
+    ]
+  },
+  {
+    "name": "CoinsSwap02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "coins",
+      "swap02"
+    ]
+  },
+  {
+    "name": "Colors",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "colors"
+    ]
+  },
+  {
+    "name": "Colors1",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "colors1"
+    ]
+  },
+  {
+    "name": "Columns01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "columns01"
+    ]
+  },
+  {
+    "name": "Columns02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "columns02"
+    ]
+  },
+  {
+    "name": "Columns03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "columns03"
+    ]
+  },
+  {
+    "name": "Command",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "command"
+    ]
+  },
+  {
+    "name": "Compass",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "compass"
+    ]
+  },
+  {
+    "name": "Compass01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "compass01"
+    ]
+  },
+  {
+    "name": "Compass02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "compass02"
+    ]
+  },
+  {
+    "name": "Compass03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "compass03"
+    ]
+  },
+  {
+    "name": "Container",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "container"
+    ]
+  },
+  {
+    "name": "Contrast01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "contrast01"
+    ]
+  },
+  {
+    "name": "Contrast02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "contrast02"
+    ]
+  },
+  {
+    "name": "Contrast03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "contrast03"
+    ]
+  },
+  {
+    "name": "Copy01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy01"
+    ]
+  },
+  {
+    "name": "Copy02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy02"
+    ]
+  },
+  {
+    "name": "Copy03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy03"
+    ]
+  },
+  {
+    "name": "Copy04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy04"
+    ]
+  },
+  {
+    "name": "Copy05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy05"
+    ]
+  },
+  {
+    "name": "Copy06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy06"
+    ]
+  },
+  {
+    "name": "Copy07",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "copy07"
+    ]
+  },
+  {
+    "name": "CornerDownLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "down",
+      "left"
+    ]
+  },
+  {
+    "name": "CornerDownRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "down",
+      "right"
+    ]
+  },
+  {
+    "name": "CornerLeftDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "left",
+      "down"
+    ]
+  },
+  {
+    "name": "CornerLeftUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "left",
+      "up"
+    ]
+  },
+  {
+    "name": "CornerRightDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "right",
+      "down"
+    ]
+  },
+  {
+    "name": "CornerRightUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "right",
+      "up"
+    ]
+  },
+  {
+    "name": "CornerUpLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "up",
+      "left"
+    ]
+  },
+  {
+    "name": "CornerUpRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "corner",
+      "up",
+      "right"
+    ]
+  },
+  {
+    "name": "CpuChip01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cpu",
+      "chip01"
+    ]
+  },
+  {
+    "name": "CpuChip02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cpu",
+      "chip02"
+    ]
+  },
+  {
+    "name": "CreditCard01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card01"
+    ]
+  },
+  {
+    "name": "CreditCard02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card02"
+    ]
+  },
+  {
+    "name": "CreditCardCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "check"
+    ]
+  },
+  {
+    "name": "CreditCardDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "down"
+    ]
+  },
+  {
+    "name": "CreditCardDownload",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "download"
+    ]
+  },
+  {
+    "name": "CreditCardEdit",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "edit"
+    ]
+  },
+  {
+    "name": "CreditCardLock",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "lock"
+    ]
+  },
+  {
+    "name": "CreditCardMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "minus"
+    ]
+  },
+  {
+    "name": "CreditCardPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "plus"
+    ]
+  },
+  {
+    "name": "CreditCardRefresh",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "refresh"
+    ]
+  },
+  {
+    "name": "CreditCardSearch",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "search"
+    ]
+  },
+  {
+    "name": "CreditCardShield",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "shield"
+    ]
+  },
+  {
+    "name": "CreditCardUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "up"
+    ]
+  },
+  {
+    "name": "CreditCardUpload",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "upload"
+    ]
+  },
+  {
+    "name": "CreditCardX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "credit",
+      "card",
+      "x"
+    ]
+  },
+  {
+    "name": "Crop01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "crop01"
+    ]
+  },
+  {
+    "name": "Crop02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "crop02"
+    ]
+  },
+  {
+    "name": "Cryptocurrency01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cryptocurrency01"
+    ]
+  },
+  {
+    "name": "Cryptocurrency02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cryptocurrency02"
+    ]
+  },
+  {
+    "name": "Cryptocurrency03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cryptocurrency03"
+    ]
+  },
+  {
+    "name": "Cryptocurrency04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cryptocurrency04"
+    ]
+  },
+  {
+    "name": "Cube01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cube01"
+    ]
+  },
+  {
+    "name": "Cube02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cube02"
+    ]
+  },
+  {
+    "name": "Cube03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cube03"
+    ]
+  },
+  {
+    "name": "Cube04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cube04"
+    ]
+  },
+  {
+    "name": "CubeOutline",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cube",
+      "outline"
+    ]
+  },
+  {
+    "name": "CurrencyBitcoin",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "bitcoin"
+    ]
+  },
+  {
+    "name": "CurrencyBitcoinCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "bitcoin",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyDollar",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "dollar"
+    ]
+  },
+  {
+    "name": "CurrencyDollarCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "dollar",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyEthereum",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "ethereum"
+    ]
+  },
+  {
+    "name": "CurrencyEthereumCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "ethereum",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyEuro",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "euro"
+    ]
+  },
+  {
+    "name": "CurrencyEuroCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "euro",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyPound",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "pound"
+    ]
+  },
+  {
+    "name": "CurrencyPoundCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "pound",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyRuble",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "ruble"
+    ]
+  },
+  {
+    "name": "CurrencyRubleCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "ruble",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyRupee",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "rupee"
+    ]
+  },
+  {
+    "name": "CurrencyRupeeCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "rupee",
+      "circle"
+    ]
+  },
+  {
+    "name": "CurrencyYen",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "yen"
+    ]
+  },
+  {
+    "name": "CurrencyYenCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "currency",
+      "yen",
+      "circle"
+    ]
+  },
+  {
+    "name": "Cursor01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor01"
+    ]
+  },
+  {
+    "name": "Cursor02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor02"
+    ]
+  },
+  {
+    "name": "Cursor03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor03"
+    ]
+  },
+  {
+    "name": "Cursor04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor04"
+    ]
+  },
+  {
+    "name": "CursorBox",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor",
+      "box"
+    ]
+  },
+  {
+    "name": "CursorClick01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor",
+      "click01"
+    ]
+  },
+  {
+    "name": "CursorClick02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "cursor",
+      "click02"
+    ]
+  },
+  {
+    "name": "Data",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "data"
+    ]
+  },
+  {
+    "name": "Database01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "database01"
+    ]
+  },
+  {
+    "name": "Database02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "database02"
+    ]
+  },
+  {
+    "name": "Database03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "database03"
+    ]
+  },
+  {
+    "name": "Dataflow01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dataflow01"
+    ]
+  },
+  {
+    "name": "Dataflow02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dataflow02"
+    ]
+  },
+  {
+    "name": "Dataflow03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dataflow03"
+    ]
+  },
+  {
+    "name": "Dataflow04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dataflow04"
+    ]
+  },
+  {
+    "name": "Delete",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "delete"
+    ]
+  },
+  {
+    "name": "Diamond01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "diamond01"
+    ]
+  },
+  {
+    "name": "Diamond02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "diamond02"
+    ]
+  },
+  {
+    "name": "Dice1",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dice1"
+    ]
+  },
+  {
+    "name": "Dice2",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dice2"
+    ]
+  },
+  {
+    "name": "Dice3",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dice3"
+    ]
+  },
+  {
+    "name": "Dice4",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dice4"
+    ]
+  },
+  {
+    "name": "Dice5",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dice5"
+    ]
+  },
+  {
+    "name": "Dice6",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dice6"
+    ]
+  },
+  {
+    "name": "Disc01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "disc01"
+    ]
+  },
+  {
+    "name": "Disc02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "disc02"
+    ]
+  },
+  {
+    "name": "DistributeSpacingHorizontal",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "distribute",
+      "spacing",
+      "horizontal"
+    ]
+  },
+  {
+    "name": "DistributeSpacingVertical",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "distribute",
+      "spacing",
+      "vertical"
+    ]
+  },
+  {
+    "name": "Divide01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "divide01"
+    ]
+  },
+  {
+    "name": "Divide02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "divide02"
+    ]
+  },
+  {
+    "name": "Divide03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "divide03"
+    ]
+  },
+  {
+    "name": "Divider",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "divider"
+    ]
+  },
+  {
+    "name": "Dotpoints01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dotpoints01"
+    ]
+  },
+  {
+    "name": "Dotpoints02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dotpoints02"
+    ]
+  },
+  {
+    "name": "DotsGrid",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dots",
+      "grid"
+    ]
+  },
+  {
+    "name": "DotsHorizontal",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dots",
+      "horizontal"
+    ]
+  },
+  {
+    "name": "DotsVertical",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dots",
+      "vertical"
+    ]
+  },
+  {
+    "name": "Download01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "download01"
+    ]
+  },
+  {
+    "name": "Download02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "download02"
+    ]
+  },
+  {
+    "name": "Download03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "download03"
+    ]
+  },
+  {
+    "name": "Download04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "download04"
+    ]
+  },
+  {
+    "name": "DownloadCloud01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "download",
+      "cloud01"
+    ]
+  },
+  {
+    "name": "DownloadCloud02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "download",
+      "cloud02"
+    ]
+  },
+  {
+    "name": "Drop",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "drop"
+    ]
+  },
+  {
+    "name": "Droplets01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "droplets01"
+    ]
+  },
+  {
+    "name": "Droplets02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "droplets02"
+    ]
+  },
+  {
+    "name": "Droplets03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "droplets03"
+    ]
+  },
+  {
+    "name": "Dropper",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "dropper"
+    ]
+  },
+  {
+    "name": "Edit01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "edit01"
+    ]
+  },
+  {
+    "name": "Edit02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "edit02"
+    ]
+  },
+  {
+    "name": "Edit03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "edit03"
+    ]
+  },
+  {
+    "name": "Edit04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "edit04"
+    ]
+  },
+  {
+    "name": "Edit05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "edit05"
+    ]
+  },
+  {
+    "name": "Equal",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "equal"
+    ]
+  },
+  {
+    "name": "EqualNot",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "equal",
+      "not"
+    ]
+  },
+  {
+    "name": "Eraser",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "eraser"
+    ]
+  },
+  {
+    "name": "Expand01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "expand01"
+    ]
+  },
+  {
+    "name": "Expand02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "expand02"
+    ]
+  },
+  {
+    "name": "Expand03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "expand03"
+    ]
+  },
+  {
+    "name": "Expand04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "expand04"
+    ]
+  },
+  {
+    "name": "Expand05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "expand05"
+    ]
+  },
+  {
+    "name": "Expand06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "expand06"
+    ]
+  },
+  {
+    "name": "Eye",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "eye"
+    ]
+  },
+  {
+    "name": "EyeOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "eye",
+      "off"
+    ]
+  },
+  {
+    "name": "FaceContent",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "content"
+    ]
+  },
+  {
+    "name": "FaceFrown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "frown"
+    ]
+  },
+  {
+    "name": "FaceHappy",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "happy"
+    ]
+  },
+  {
+    "name": "FaceId",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "id"
+    ]
+  },
+  {
+    "name": "FaceIdSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "id",
+      "square"
+    ]
+  },
+  {
+    "name": "FaceNeutral",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "neutral"
+    ]
+  },
+  {
+    "name": "FaceSad",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "sad"
+    ]
+  },
+  {
+    "name": "FaceSmile",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "smile"
+    ]
+  },
+  {
+    "name": "FaceWink",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "face",
+      "wink"
+    ]
+  },
+  {
+    "name": "FastBackward",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "fast",
+      "backward"
+    ]
+  },
+  {
+    "name": "FastForward",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "fast",
+      "forward"
+    ]
+  },
+  {
+    "name": "Feather",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "feather"
+    ]
+  },
+  {
+    "name": "Figma",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "figma"
+    ]
+  },
+  {
+    "name": "File01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file01"
+    ]
+  },
+  {
+    "name": "File02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file02"
+    ]
+  },
+  {
+    "name": "File03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file03"
+    ]
+  },
+  {
+    "name": "File04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file04"
+    ]
+  },
+  {
+    "name": "File05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file05"
+    ]
+  },
+  {
+    "name": "File06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file06"
+    ]
+  },
+  {
+    "name": "File07",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file07"
+    ]
+  },
+  {
+    "name": "FileAttachment01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "attachment01"
+    ]
+  },
+  {
+    "name": "FileAttachment02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "attachment02"
+    ]
+  },
+  {
+    "name": "FileAttachment03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "attachment03"
+    ]
+  },
+  {
+    "name": "FileAttachment04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "attachment04"
+    ]
+  },
+  {
+    "name": "FileAttachment05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "attachment05"
+    ]
+  },
+  {
+    "name": "FileCheck01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "check01"
+    ]
+  },
+  {
+    "name": "FileCheck02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "check02"
+    ]
+  },
+  {
+    "name": "FileCheck03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "check03"
+    ]
+  },
+  {
+    "name": "FileCode01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "code01"
+    ]
+  },
+  {
+    "name": "FileCode02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "code02"
+    ]
+  },
+  {
+    "name": "FileDownload01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "download01"
+    ]
+  },
+  {
+    "name": "FileDownload02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "download02"
+    ]
+  },
+  {
+    "name": "FileDownload03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "download03"
+    ]
+  },
+  {
+    "name": "FileHeart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "heart01"
+    ]
+  },
+  {
+    "name": "FileHeart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "heart02"
+    ]
+  },
+  {
+    "name": "FileHeart03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "heart03"
+    ]
+  },
+  {
+    "name": "FileLock01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "lock01"
+    ]
+  },
+  {
+    "name": "FileLock02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "lock02"
+    ]
+  },
+  {
+    "name": "FileLock03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "lock03"
+    ]
+  },
+  {
+    "name": "FileMinus01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "minus01"
+    ]
+  },
+  {
+    "name": "FileMinus02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "minus02"
+    ]
+  },
+  {
+    "name": "FileMinus03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "minus03"
+    ]
+  },
+  {
+    "name": "FilePlus01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "plus01"
+    ]
+  },
+  {
+    "name": "FilePlus02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "plus02"
+    ]
+  },
+  {
+    "name": "FilePlus03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "plus03"
+    ]
+  },
+  {
+    "name": "FileQuestion01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "question01"
+    ]
+  },
+  {
+    "name": "FileQuestion02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "question02"
+    ]
+  },
+  {
+    "name": "FileQuestion03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "question03"
+    ]
+  },
+  {
+    "name": "FileSearch01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "search01"
+    ]
+  },
+  {
+    "name": "FileSearch02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "search02"
+    ]
+  },
+  {
+    "name": "FileSearch03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "search03"
+    ]
+  },
+  {
+    "name": "FileShield01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "shield01"
+    ]
+  },
+  {
+    "name": "FileShield02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "shield02"
+    ]
+  },
+  {
+    "name": "FileShield03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "shield03"
+    ]
+  },
+  {
+    "name": "FileX01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "x01"
+    ]
+  },
+  {
+    "name": "FileX02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "x02"
+    ]
+  },
+  {
+    "name": "FileX03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "file",
+      "x03"
+    ]
+  },
+  {
+    "name": "Film01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "film01"
+    ]
+  },
+  {
+    "name": "Film02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "film02"
+    ]
+  },
+  {
+    "name": "Film03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "film03"
+    ]
+  },
+  {
+    "name": "FilterFunnel01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "filter",
+      "funnel01"
+    ]
+  },
+  {
+    "name": "FilterFunnel02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "filter",
+      "funnel02"
+    ]
+  },
+  {
+    "name": "FilterLines",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "filter",
+      "lines"
+    ]
+  },
+  {
+    "name": "Fingerprint01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "fingerprint01"
+    ]
+  },
+  {
+    "name": "Fingerprint02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "fingerprint02"
+    ]
+  },
+  {
+    "name": "Fingerprint03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "fingerprint03"
+    ]
+  },
+  {
+    "name": "Fingerprint04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "fingerprint04"
+    ]
+  },
+  {
+    "name": "Flag01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flag01"
+    ]
+  },
+  {
+    "name": "Flag02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flag02"
+    ]
+  },
+  {
+    "name": "Flag03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flag03"
+    ]
+  },
+  {
+    "name": "Flag04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flag04"
+    ]
+  },
+  {
+    "name": "Flag05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flag05"
+    ]
+  },
+  {
+    "name": "Flag06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flag06"
+    ]
+  },
+  {
+    "name": "Flash",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flash"
+    ]
+  },
+  {
+    "name": "FlashOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flash",
+      "off"
+    ]
+  },
+  {
+    "name": "FlexAlignBottom",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flex",
+      "align",
+      "bottom"
+    ]
+  },
+  {
+    "name": "FlexAlignLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flex",
+      "align",
+      "left"
+    ]
+  },
+  {
+    "name": "FlexAlignRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flex",
+      "align",
+      "right"
+    ]
+  },
+  {
+    "name": "FlexAlignTop",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flex",
+      "align",
+      "top"
+    ]
+  },
+  {
+    "name": "FlipBackward",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flip",
+      "backward"
+    ]
+  },
+  {
+    "name": "FlipForward",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "flip",
+      "forward"
+    ]
+  },
+  {
+    "name": "Folder",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder"
+    ]
+  },
+  {
+    "name": "FolderCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "check"
+    ]
+  },
+  {
+    "name": "FolderClosed",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "closed"
+    ]
+  },
+  {
+    "name": "FolderCode",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "code"
+    ]
+  },
+  {
+    "name": "FolderDownload",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "download"
+    ]
+  },
+  {
+    "name": "FolderLock",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "lock"
+    ]
+  },
+  {
+    "name": "FolderMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "minus"
+    ]
+  },
+  {
+    "name": "FolderPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "plus"
+    ]
+  },
+  {
+    "name": "FolderQuestion",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "question"
+    ]
+  },
+  {
+    "name": "FolderSearch",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "search"
+    ]
+  },
+  {
+    "name": "FolderShield",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "shield"
+    ]
+  },
+  {
+    "name": "FolderX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "folder",
+      "x"
+    ]
+  },
+  {
+    "name": "Framer",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "framer"
+    ]
+  },
+  {
+    "name": "GamingPad01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "gaming",
+      "pad01"
+    ]
+  },
+  {
+    "name": "GamingPad02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "gaming",
+      "pad02"
+    ]
+  },
+  {
+    "name": "Gift01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "gift01"
+    ]
+  },
+  {
+    "name": "Gift02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "gift02"
+    ]
+  },
+  {
+    "name": "GitBranch01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "git",
+      "branch01"
+    ]
+  },
+  {
+    "name": "GitBranch02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "git",
+      "branch02"
+    ]
+  },
+  {
+    "name": "GitCommit",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "git",
+      "commit"
+    ]
+  },
+  {
+    "name": "GitMerge",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "git",
+      "merge"
+    ]
+  },
+  {
+    "name": "GitPullRequest",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "git",
+      "pull",
+      "request"
+    ]
+  },
+  {
+    "name": "Glasses01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "glasses01"
+    ]
+  },
+  {
+    "name": "Glasses02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "glasses02"
+    ]
+  },
+  {
+    "name": "Globe01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe01"
+    ]
+  },
+  {
+    "name": "Globe02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe02"
+    ]
+  },
+  {
+    "name": "Globe03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe03"
+    ]
+  },
+  {
+    "name": "Globe04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe04"
+    ]
+  },
+  {
+    "name": "Globe05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe05"
+    ]
+  },
+  {
+    "name": "Globe06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe06"
+    ]
+  },
+  {
+    "name": "GlobeSlated01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe",
+      "slated01"
+    ]
+  },
+  {
+    "name": "GlobeSlated02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "globe",
+      "slated02"
+    ]
+  },
+  {
+    "name": "GoogleChrome",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "google",
+      "chrome"
+    ]
+  },
+  {
+    "name": "GraduationHat01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "graduation",
+      "hat01"
+    ]
+  },
+  {
+    "name": "GraduationHat02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "graduation",
+      "hat02"
+    ]
+  },
+  {
+    "name": "Grid01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid01"
+    ]
+  },
+  {
+    "name": "Grid02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid02"
+    ]
+  },
+  {
+    "name": "Grid03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid03"
+    ]
+  },
+  {
+    "name": "GridDotsBlank",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "blank"
+    ]
+  },
+  {
+    "name": "GridDotsBottom",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "bottom"
+    ]
+  },
+  {
+    "name": "GridDotsHorizontalCenter",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "horizontal",
+      "center"
+    ]
+  },
+  {
+    "name": "GridDotsLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "left"
+    ]
+  },
+  {
+    "name": "GridDotsOuter",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "outer"
+    ]
+  },
+  {
+    "name": "GridDotsRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "right"
+    ]
+  },
+  {
+    "name": "GridDotsTop",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "top"
+    ]
+  },
+  {
+    "name": "GridDotsVerticalCenter",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "grid",
+      "dots",
+      "vertical",
+      "center"
+    ]
+  },
+  {
+    "name": "Hand",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hand"
+    ]
+  },
+  {
+    "name": "HardDrive",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hard",
+      "drive"
+    ]
+  },
+  {
+    "name": "Hash01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hash01"
+    ]
+  },
+  {
+    "name": "Hash02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hash02"
+    ]
+  },
+  {
+    "name": "Heading01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heading01"
+    ]
+  },
+  {
+    "name": "Heading02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heading02"
+    ]
+  },
+  {
+    "name": "HeadingSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heading",
+      "square"
+    ]
+  },
+  {
+    "name": "Headphones01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "headphones01"
+    ]
+  },
+  {
+    "name": "Headphones02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "headphones02"
+    ]
+  },
+  {
+    "name": "Heart",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart"
+    ]
+  },
+  {
+    "name": "HeartCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart",
+      "circle"
+    ]
+  },
+  {
+    "name": "HeartHand",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart",
+      "hand"
+    ]
+  },
+  {
+    "name": "HeartHexagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart",
+      "hexagon"
+    ]
+  },
+  {
+    "name": "HeartOctagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart",
+      "octagon"
+    ]
+  },
+  {
+    "name": "HeartRounded",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart",
+      "rounded"
+    ]
+  },
+  {
+    "name": "Hearts",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hearts"
+    ]
+  },
+  {
+    "name": "HeartSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "heart",
+      "square"
+    ]
+  },
+  {
+    "name": "HelpCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "help",
+      "circle"
+    ]
+  },
+  {
+    "name": "HelpOctagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "help",
+      "octagon"
+    ]
+  },
+  {
+    "name": "HelpOctagon1",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "help",
+      "octagon1"
+    ]
+  },
+  {
+    "name": "HelpSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "help",
+      "square"
+    ]
+  },
+  {
+    "name": "Hexagon01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hexagon01"
+    ]
+  },
+  {
+    "name": "Hexagon02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hexagon02"
+    ]
+  },
+  {
+    "name": "Home01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home01"
+    ]
+  },
+  {
+    "name": "Home02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home02"
+    ]
+  },
+  {
+    "name": "Home03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home03"
+    ]
+  },
+  {
+    "name": "Home04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home04"
+    ]
+  },
+  {
+    "name": "Home05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home05"
+    ]
+  },
+  {
+    "name": "HomeLine",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home",
+      "line"
+    ]
+  },
+  {
+    "name": "HomeSmile",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "home",
+      "smile"
+    ]
+  },
+  {
+    "name": "HorizontalBarChart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "horizontal",
+      "bar",
+      "chart01"
+    ]
+  },
+  {
+    "name": "HorizontalBarChart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "horizontal",
+      "bar",
+      "chart02"
+    ]
+  },
+  {
+    "name": "HorizontalBarChart03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "horizontal",
+      "bar",
+      "chart03"
+    ]
+  },
+  {
+    "name": "Hourglass01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hourglass01"
+    ]
+  },
+  {
+    "name": "Hourglass02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hourglass02"
+    ]
+  },
+  {
+    "name": "Hourglass03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hourglass03"
+    ]
+  },
+  {
+    "name": "Hurricane01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hurricane01"
+    ]
+  },
+  {
+    "name": "Hurricane02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hurricane02"
+    ]
+  },
+  {
+    "name": "Hurricane03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "hurricane03"
+    ]
+  },
+  {
+    "name": "Image01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image01"
+    ]
+  },
+  {
+    "name": "Image02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image02"
+    ]
+  },
+  {
+    "name": "Image03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image03"
+    ]
+  },
+  {
+    "name": "Image04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image04"
+    ]
+  },
+  {
+    "name": "Image05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image05"
+    ]
+  },
+  {
+    "name": "ImageCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "check"
+    ]
+  },
+  {
+    "name": "ImageDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "down"
+    ]
+  },
+  {
+    "name": "ImageIndentLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "indent",
+      "left"
+    ]
+  },
+  {
+    "name": "ImageIndentRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "indent",
+      "right"
+    ]
+  },
+  {
+    "name": "ImageLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "left"
+    ]
+  },
+  {
+    "name": "ImagePlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "plus"
+    ]
+  },
+  {
+    "name": "ImageRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "right"
+    ]
+  },
+  {
+    "name": "ImageUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "up"
+    ]
+  },
+  {
+    "name": "ImageUser",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user"
+    ]
+  },
+  {
+    "name": "ImageUserCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "check"
+    ]
+  },
+  {
+    "name": "ImageUserDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "down"
+    ]
+  },
+  {
+    "name": "ImageUserLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "left"
+    ]
+  },
+  {
+    "name": "ImageUserPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "plus"
+    ]
+  },
+  {
+    "name": "ImageUserRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "right"
+    ]
+  },
+  {
+    "name": "ImageUserUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "up"
+    ]
+  },
+  {
+    "name": "ImageUserX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "user",
+      "x"
+    ]
+  },
+  {
+    "name": "ImageX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "image",
+      "x"
+    ]
+  },
+  {
+    "name": "Inbox01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "inbox01"
+    ]
+  },
+  {
+    "name": "Inbox02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "inbox02"
+    ]
+  },
+  {
+    "name": "Infinity",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "infinity"
+    ]
+  },
+  {
+    "name": "InfoCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "info",
+      "circle"
+    ]
+  },
+  {
+    "name": "InfoHexagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "info",
+      "hexagon"
+    ]
+  },
+  {
+    "name": "InfoOctagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "info",
+      "octagon"
+    ]
+  },
+  {
+    "name": "InfoSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "info",
+      "square"
+    ]
+  },
+  {
+    "name": "IntersectCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "intersect",
+      "circle"
+    ]
+  },
+  {
+    "name": "IntersectSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "intersect",
+      "square"
+    ]
+  },
+  {
+    "name": "Italic01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "italic01"
+    ]
+  },
+  {
+    "name": "Italic02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "italic02"
+    ]
+  },
+  {
+    "name": "ItalicSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "italic",
+      "square"
+    ]
+  },
+  {
+    "name": "Key01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "key01"
+    ]
+  },
+  {
+    "name": "Key02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "key02"
+    ]
+  },
+  {
+    "name": "Keyboard01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "keyboard01"
+    ]
+  },
+  {
+    "name": "Keyboard02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "keyboard02"
+    ]
+  },
+  {
+    "name": "Laptop01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "laptop01"
+    ]
+  },
+  {
+    "name": "Laptop02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "laptop02"
+    ]
+  },
+  {
+    "name": "LayerSingle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layer",
+      "single"
+    ]
+  },
+  {
+    "name": "LayersThree01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layers",
+      "three01"
+    ]
+  },
+  {
+    "name": "LayersThree02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layers",
+      "three02"
+    ]
+  },
+  {
+    "name": "LayersTwo01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layers",
+      "two01"
+    ]
+  },
+  {
+    "name": "LayersTwo02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layers",
+      "two02"
+    ]
+  },
+  {
+    "name": "LayoutAlt01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "alt01"
+    ]
+  },
+  {
+    "name": "LayoutAlt02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "alt02"
+    ]
+  },
+  {
+    "name": "LayoutAlt03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "alt03"
+    ]
+  },
+  {
+    "name": "LayoutAlt04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "alt04"
+    ]
+  },
+  {
+    "name": "LayoutBottom",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "bottom"
+    ]
+  },
+  {
+    "name": "LayoutGrid01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "grid01"
+    ]
+  },
+  {
+    "name": "LayoutGrid02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "grid02"
+    ]
+  },
+  {
+    "name": "LayoutLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "left"
+    ]
+  },
+  {
+    "name": "LayoutRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "right"
+    ]
+  },
+  {
+    "name": "LayoutTop",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "layout",
+      "top"
+    ]
+  },
+  {
+    "name": "LeftIndent01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "left",
+      "indent01"
+    ]
+  },
+  {
+    "name": "LeftIndent02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "left",
+      "indent02"
+    ]
+  },
+  {
+    "name": "LetterSpacing01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "letter",
+      "spacing01"
+    ]
+  },
+  {
+    "name": "LetterSpacing02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "letter",
+      "spacing02"
+    ]
+  },
+  {
+    "name": "LifeBuoy01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "life",
+      "buoy01"
+    ]
+  },
+  {
+    "name": "LifeBuoy02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "life",
+      "buoy02"
+    ]
+  },
+  {
+    "name": "Lightbulb01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightbulb01"
+    ]
+  },
+  {
+    "name": "Lightbulb02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightbulb02"
+    ]
+  },
+  {
+    "name": "Lightbulb03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightbulb03"
+    ]
+  },
+  {
+    "name": "Lightbulb04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightbulb04"
+    ]
+  },
+  {
+    "name": "Lightbulb05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightbulb05"
+    ]
+  },
+  {
+    "name": "Lightning01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightning01"
+    ]
+  },
+  {
+    "name": "Lightning02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lightning02"
+    ]
+  },
+  {
+    "name": "LineChartDown01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "down01"
+    ]
+  },
+  {
+    "name": "LineChartDown02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "down02"
+    ]
+  },
+  {
+    "name": "LineChartDown03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "down03"
+    ]
+  },
+  {
+    "name": "LineChartDown04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "down04"
+    ]
+  },
+  {
+    "name": "LineChartDown05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "down05"
+    ]
+  },
+  {
+    "name": "LineChartUp01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "up01"
+    ]
+  },
+  {
+    "name": "LineChartUp02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "up02"
+    ]
+  },
+  {
+    "name": "LineChartUp03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "up03"
+    ]
+  },
+  {
+    "name": "LineChartUp04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "up04"
+    ]
+  },
+  {
+    "name": "LineChartUp05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "chart",
+      "up05"
+    ]
+  },
+  {
+    "name": "LineHeight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "line",
+      "height"
+    ]
+  },
+  {
+    "name": "Link01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link01"
+    ]
+  },
+  {
+    "name": "Link02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link02"
+    ]
+  },
+  {
+    "name": "Link03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link03"
+    ]
+  },
+  {
+    "name": "Link04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link04"
+    ]
+  },
+  {
+    "name": "Link05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link05"
+    ]
+  },
+  {
+    "name": "LinkBroken01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link",
+      "broken01"
+    ]
+  },
+  {
+    "name": "LinkBroken02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link",
+      "broken02"
+    ]
+  },
+  {
+    "name": "LinkExternal01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link",
+      "external01"
+    ]
+  },
+  {
+    "name": "LinkExternal02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "link",
+      "external02"
+    ]
+  },
+  {
+    "name": "List",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "list"
+    ]
+  },
+  {
+    "name": "Loading01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "loading01"
+    ]
+  },
+  {
+    "name": "Loading02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "loading02"
+    ]
+  },
+  {
+    "name": "Loading03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "loading03"
+    ]
+  },
+  {
+    "name": "Lock01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock01"
+    ]
+  },
+  {
+    "name": "Lock02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock02"
+    ]
+  },
+  {
+    "name": "Lock03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock03"
+    ]
+  },
+  {
+    "name": "Lock04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock04"
+    ]
+  },
+  {
+    "name": "LockKeyholeCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock",
+      "keyhole",
+      "circle"
+    ]
+  },
+  {
+    "name": "LockKeyholeSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock",
+      "keyhole",
+      "square"
+    ]
+  },
+  {
+    "name": "LockUnlocked01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock",
+      "unlocked01"
+    ]
+  },
+  {
+    "name": "LockUnlocked02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock",
+      "unlocked02"
+    ]
+  },
+  {
+    "name": "LockUnlocked03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock",
+      "unlocked03"
+    ]
+  },
+  {
+    "name": "LockUnlocked04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "lock",
+      "unlocked04"
+    ]
+  },
+  {
+    "name": "LogIn01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "in01"
+    ]
+  },
+  {
+    "name": "LogIn02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "in02"
+    ]
+  },
+  {
+    "name": "LogIn03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "in03"
+    ]
+  },
+  {
+    "name": "LogIn04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "in04"
+    ]
+  },
+  {
+    "name": "LogOut01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "out01"
+    ]
+  },
+  {
+    "name": "LogOut02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "out02"
+    ]
+  },
+  {
+    "name": "LogOut03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "out03"
+    ]
+  },
+  {
+    "name": "LogOut04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "log",
+      "out04"
+    ]
+  },
+  {
+    "name": "Luggage01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "luggage01"
+    ]
+  },
+  {
+    "name": "Luggage02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "luggage02"
+    ]
+  },
+  {
+    "name": "Luggage03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "luggage03"
+    ]
+  },
+  {
+    "name": "MagicWand01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "magic",
+      "wand01"
+    ]
+  },
+  {
+    "name": "MagicWand02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "magic",
+      "wand02"
+    ]
+  },
+  {
+    "name": "Mail01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mail01"
+    ]
+  },
+  {
+    "name": "Mail02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mail02"
+    ]
+  },
+  {
+    "name": "Mail03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mail03"
+    ]
+  },
+  {
+    "name": "Mail04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mail04"
+    ]
+  },
+  {
+    "name": "Mail05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mail05"
+    ]
+  },
+  {
+    "name": "Map01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "map01"
+    ]
+  },
+  {
+    "name": "Map02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "map02"
+    ]
+  },
+  {
+    "name": "Mark",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mark"
+    ]
+  },
+  {
+    "name": "MarkerPin01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "marker",
+      "pin01"
+    ]
+  },
+  {
+    "name": "MarkerPin02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "marker",
+      "pin02"
+    ]
+  },
+  {
+    "name": "MarkerPin03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "marker",
+      "pin03"
+    ]
+  },
+  {
+    "name": "MarkerPin04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "marker",
+      "pin04"
+    ]
+  },
+  {
+    "name": "MarkerPin05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "marker",
+      "pin05"
+    ]
+  },
+  {
+    "name": "MarkerPin06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "marker",
+      "pin06"
+    ]
+  },
+  {
+    "name": "Maximize01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "maximize01"
+    ]
+  },
+  {
+    "name": "Maximize02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "maximize02"
+    ]
+  },
+  {
+    "name": "MedicalCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "medical",
+      "circle"
+    ]
+  },
+  {
+    "name": "MedicalCross",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "medical",
+      "cross"
+    ]
+  },
+  {
+    "name": "MedicalSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "medical",
+      "square"
+    ]
+  },
+  {
+    "name": "Menu01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "menu01"
+    ]
+  },
+  {
+    "name": "Menu02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "menu02"
+    ]
+  },
+  {
+    "name": "Menu03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "menu03"
+    ]
+  },
+  {
+    "name": "Menu04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "menu04"
+    ]
+  },
+  {
+    "name": "Menu05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "menu05"
+    ]
+  },
+  {
+    "name": "MessageAlertCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "alert",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageAlertSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "alert",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageChatCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "chat",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageChatSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "chat",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageCheckCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "check",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageCheckSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "check",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageCircle01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "circle01"
+    ]
+  },
+  {
+    "name": "MessageCircle02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "circle02"
+    ]
+  },
+  {
+    "name": "MessageDotsCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "dots",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageDotsSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "dots",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageHeartCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "heart",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageHeartSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "heart",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageNotificationCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "notification",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageNotificationSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "notification",
+      "square"
+    ]
+  },
+  {
+    "name": "MessagePlusCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "plus",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessagePlusSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "plus",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageQuestionCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "question",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageQuestionSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "question",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageSmileCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "smile",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageSmileSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "smile",
+      "square"
+    ]
+  },
+  {
+    "name": "MessageSquare01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "square01"
+    ]
+  },
+  {
+    "name": "MessageSquare02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "square02"
+    ]
+  },
+  {
+    "name": "MessageTextCircle01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "text",
+      "circle01"
+    ]
+  },
+  {
+    "name": "MessageTextCircle02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "text",
+      "circle02"
+    ]
+  },
+  {
+    "name": "MessageTextSquare01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "text",
+      "square01"
+    ]
+  },
+  {
+    "name": "MessageTextSquare02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "text",
+      "square02"
+    ]
+  },
+  {
+    "name": "MessageXCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "x",
+      "circle"
+    ]
+  },
+  {
+    "name": "MessageXSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "message",
+      "x",
+      "square"
+    ]
+  },
+  {
+    "name": "Microphone01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "microphone01"
+    ]
+  },
+  {
+    "name": "Microphone02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "microphone02"
+    ]
+  },
+  {
+    "name": "MicrophoneOff01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "microphone",
+      "off01"
+    ]
+  },
+  {
+    "name": "MicrophoneOff02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "microphone",
+      "off02"
+    ]
+  },
+  {
+    "name": "Microscope",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "microscope"
+    ]
+  },
+  {
+    "name": "Minimize01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "minimize01"
+    ]
+  },
+  {
+    "name": "Minimize02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "minimize02"
+    ]
+  },
+  {
+    "name": "Minus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "minus"
+    ]
+  },
+  {
+    "name": "MinusCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "minus",
+      "circle"
+    ]
+  },
+  {
+    "name": "MinusSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "minus",
+      "square"
+    ]
+  },
+  {
+    "name": "Modem01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "modem01"
+    ]
+  },
+  {
+    "name": "Modem02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "modem02"
+    ]
+  },
+  {
+    "name": "Monitor01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "monitor01"
+    ]
+  },
+  {
+    "name": "Monitor02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "monitor02"
+    ]
+  },
+  {
+    "name": "Monitor03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "monitor03"
+    ]
+  },
+  {
+    "name": "Monitor04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "monitor04"
+    ]
+  },
+  {
+    "name": "Monitor05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "monitor05"
+    ]
+  },
+  {
+    "name": "Moon01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "moon01"
+    ]
+  },
+  {
+    "name": "Moon02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "moon02"
+    ]
+  },
+  {
+    "name": "MoonEclipse",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "moon",
+      "eclipse"
+    ]
+  },
+  {
+    "name": "MoonStar",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "moon",
+      "star"
+    ]
+  },
+  {
+    "name": "Mouse",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "mouse"
+    ]
+  },
+  {
+    "name": "Move",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "move"
+    ]
+  },
+  {
+    "name": "MusicNote01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "music",
+      "note01"
+    ]
+  },
+  {
+    "name": "MusicNote02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "music",
+      "note02"
+    ]
+  },
+  {
+    "name": "MusicNotePlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "music",
+      "note",
+      "plus"
+    ]
+  },
+  {
+    "name": "NavigationPointer01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "navigation",
+      "pointer01"
+    ]
+  },
+  {
+    "name": "NavigationPointer02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "navigation",
+      "pointer02"
+    ]
+  },
+  {
+    "name": "NavigationPointerOff01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "navigation",
+      "pointer",
+      "off01"
+    ]
+  },
+  {
+    "name": "NavigationPointerOff02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "navigation",
+      "pointer",
+      "off02"
+    ]
+  },
+  {
+    "name": "NotificationBox",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "notification",
+      "box"
+    ]
+  },
+  {
+    "name": "NotificationMessage",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "notification",
+      "message"
+    ]
+  },
+  {
+    "name": "NotificationText",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "notification",
+      "text"
+    ]
+  },
+  {
+    "name": "Octagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "octagon"
+    ]
+  },
+  {
+    "name": "Package",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "package"
+    ]
+  },
+  {
+    "name": "PackageCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "package",
+      "check"
+    ]
+  },
+  {
+    "name": "PackageMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "package",
+      "minus"
+    ]
+  },
+  {
+    "name": "PackagePlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "package",
+      "plus"
+    ]
+  },
+  {
+    "name": "PackageSearch",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "package",
+      "search"
+    ]
+  },
+  {
+    "name": "PackageX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "package",
+      "x"
+    ]
+  },
+  {
+    "name": "Paint",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "paint"
+    ]
+  },
+  {
+    "name": "PaintPour",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "paint",
+      "pour"
+    ]
+  },
+  {
+    "name": "Palette",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "palette"
+    ]
+  },
+  {
+    "name": "Paperclip",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "paperclip"
+    ]
+  },
+  {
+    "name": "ParagraphSpacing",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "paragraph",
+      "spacing"
+    ]
+  },
+  {
+    "name": "ParagraphWrap",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "paragraph",
+      "wrap"
+    ]
+  },
+  {
+    "name": "Passcode",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "passcode"
+    ]
+  },
+  {
+    "name": "PasscodeLock",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "passcode",
+      "lock"
+    ]
+  },
+  {
+    "name": "Passport",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "passport"
+    ]
+  },
+  {
+    "name": "PauseCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pause",
+      "circle"
+    ]
+  },
+  {
+    "name": "PauseSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pause",
+      "square"
+    ]
+  },
+  {
+    "name": "Pencil01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pencil01"
+    ]
+  },
+  {
+    "name": "Pencil02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pencil02"
+    ]
+  },
+  {
+    "name": "PencilLine",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pencil",
+      "line"
+    ]
+  },
+  {
+    "name": "Pentagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pentagon"
+    ]
+  },
+  {
+    "name": "PenTool01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pen",
+      "tool01"
+    ]
+  },
+  {
+    "name": "PenTool02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pen",
+      "tool02"
+    ]
+  },
+  {
+    "name": "PenToolMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pen",
+      "tool",
+      "minus"
+    ]
+  },
+  {
+    "name": "PenToolPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pen",
+      "tool",
+      "plus"
+    ]
+  },
+  {
+    "name": "Percent01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "percent01"
+    ]
+  },
+  {
+    "name": "Percent02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "percent02"
+    ]
+  },
+  {
+    "name": "Percent03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "percent03"
+    ]
+  },
+  {
+    "name": "Perspective01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "perspective01"
+    ]
+  },
+  {
+    "name": "Perspective02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "perspective02"
+    ]
+  },
+  {
+    "name": "Phone",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone"
+    ]
+  },
+  {
+    "name": "Phone01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone01"
+    ]
+  },
+  {
+    "name": "Phone02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone02"
+    ]
+  },
+  {
+    "name": "PhoneCall01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "call01"
+    ]
+  },
+  {
+    "name": "PhoneCall02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "call02"
+    ]
+  },
+  {
+    "name": "PhoneHangUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "hang",
+      "up"
+    ]
+  },
+  {
+    "name": "PhoneIncoming01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "incoming01"
+    ]
+  },
+  {
+    "name": "PhoneIncoming02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "incoming02"
+    ]
+  },
+  {
+    "name": "PhoneOutgoing01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "outgoing01"
+    ]
+  },
+  {
+    "name": "PhoneOutgoing02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "outgoing02"
+    ]
+  },
+  {
+    "name": "PhonePause",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "pause"
+    ]
+  },
+  {
+    "name": "PhonePlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "plus"
+    ]
+  },
+  {
+    "name": "PhoneX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "phone",
+      "x"
+    ]
+  },
+  {
+    "name": "PieChart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pie",
+      "chart01"
+    ]
+  },
+  {
+    "name": "PieChart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pie",
+      "chart02"
+    ]
+  },
+  {
+    "name": "PieChart03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pie",
+      "chart03"
+    ]
+  },
+  {
+    "name": "PieChart04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pie",
+      "chart04"
+    ]
+  },
+  {
+    "name": "PiggyBank01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "piggy",
+      "bank01"
+    ]
+  },
+  {
+    "name": "PiggyBank02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "piggy",
+      "bank02"
+    ]
+  },
+  {
+    "name": "Pilcrow01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pilcrow01"
+    ]
+  },
+  {
+    "name": "Pilcrow02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pilcrow02"
+    ]
+  },
+  {
+    "name": "PilcrowSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pilcrow",
+      "square"
+    ]
+  },
+  {
+    "name": "Pin01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pin01"
+    ]
+  },
+  {
+    "name": "Pin02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "pin02"
+    ]
+  },
+  {
+    "name": "Placeholder",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "placeholder"
+    ]
+  },
+  {
+    "name": "Plane",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "plane"
+    ]
+  },
+  {
+    "name": "Play",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "play"
+    ]
+  },
+  {
+    "name": "PlayCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "play",
+      "circle"
+    ]
+  },
+  {
+    "name": "PlaySquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "play",
+      "square"
+    ]
+  },
+  {
+    "name": "Plus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "plus"
+    ]
+  },
+  {
+    "name": "PlusCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "plus",
+      "circle"
+    ]
+  },
+  {
+    "name": "PlusSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "plus",
+      "square"
+    ]
+  },
+  {
+    "name": "Podcast",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "podcast"
+    ]
+  },
+  {
+    "name": "Power01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "power01"
+    ]
+  },
+  {
+    "name": "Power02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "power02"
+    ]
+  },
+  {
+    "name": "Power03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "power03"
+    ]
+  },
+  {
+    "name": "PresentationChart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "presentation",
+      "chart01"
+    ]
+  },
+  {
+    "name": "PresentationChart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "presentation",
+      "chart02"
+    ]
+  },
+  {
+    "name": "PresentationChart03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "presentation",
+      "chart03"
+    ]
+  },
+  {
+    "name": "Printer",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "printer"
+    ]
+  },
+  {
+    "name": "PuzzlePiece01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "puzzle",
+      "piece01"
+    ]
+  },
+  {
+    "name": "PuzzlePiece02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "puzzle",
+      "piece02"
+    ]
+  },
+  {
+    "name": "QrCode01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "qr",
+      "code01"
+    ]
+  },
+  {
+    "name": "QrCode02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "qr",
+      "code02"
+    ]
+  },
+  {
+    "name": "Receipt",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "receipt"
+    ]
+  },
+  {
+    "name": "ReceiptCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "receipt",
+      "check"
+    ]
+  },
+  {
+    "name": "Recording01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "recording01"
+    ]
+  },
+  {
+    "name": "Recording02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "recording02"
+    ]
+  },
+  {
+    "name": "Recording03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "recording03"
+    ]
+  },
+  {
+    "name": "Reflect01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "reflect01"
+    ]
+  },
+  {
+    "name": "Reflect02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "reflect02"
+    ]
+  },
+  {
+    "name": "RefreshCcw01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "ccw01"
+    ]
+  },
+  {
+    "name": "RefreshCcw02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "ccw02"
+    ]
+  },
+  {
+    "name": "RefreshCcw03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "ccw03"
+    ]
+  },
+  {
+    "name": "RefreshCcw04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "ccw04"
+    ]
+  },
+  {
+    "name": "RefreshCcw05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "ccw05"
+    ]
+  },
+  {
+    "name": "RefreshCw01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "cw01"
+    ]
+  },
+  {
+    "name": "RefreshCw02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "cw02"
+    ]
+  },
+  {
+    "name": "RefreshCw03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "cw03"
+    ]
+  },
+  {
+    "name": "RefreshCw04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "cw04"
+    ]
+  },
+  {
+    "name": "RefreshCw05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "refresh",
+      "cw05"
+    ]
+  },
+  {
+    "name": "Repeat01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "repeat01"
+    ]
+  },
+  {
+    "name": "Repeat02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "repeat02"
+    ]
+  },
+  {
+    "name": "Repeat03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "repeat03"
+    ]
+  },
+  {
+    "name": "Repeat04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "repeat04"
+    ]
+  },
+  {
+    "name": "ReverseLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "reverse",
+      "left"
+    ]
+  },
+  {
+    "name": "ReverseRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "reverse",
+      "right"
+    ]
+  },
+  {
+    "name": "RightIndent01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "right",
+      "indent01"
+    ]
+  },
+  {
+    "name": "RightIndent02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "right",
+      "indent02"
+    ]
+  },
+  {
+    "name": "Rocket01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rocket01"
+    ]
+  },
+  {
+    "name": "Rocket02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rocket02"
+    ]
+  },
+  {
+    "name": "RollerBrush",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "roller",
+      "brush"
+    ]
+  },
+  {
+    "name": "Route",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "route"
+    ]
+  },
+  {
+    "name": "Rows01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rows01"
+    ]
+  },
+  {
+    "name": "Rows02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rows02"
+    ]
+  },
+  {
+    "name": "Rows03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rows03"
+    ]
+  },
+  {
+    "name": "Rss01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rss01"
+    ]
+  },
+  {
+    "name": "Rss02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "rss02"
+    ]
+  },
+  {
+    "name": "Ruler",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "ruler"
+    ]
+  },
+  {
+    "name": "Safe",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "safe"
+    ]
+  },
+  {
+    "name": "Sale01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sale01"
+    ]
+  },
+  {
+    "name": "Sale02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sale02"
+    ]
+  },
+  {
+    "name": "Sale03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sale03"
+    ]
+  },
+  {
+    "name": "Sale04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sale04"
+    ]
+  },
+  {
+    "name": "Save01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "save01"
+    ]
+  },
+  {
+    "name": "Save02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "save02"
+    ]
+  },
+  {
+    "name": "Save03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "save03"
+    ]
+  },
+  {
+    "name": "Scale01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scale01"
+    ]
+  },
+  {
+    "name": "Scale02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scale02"
+    ]
+  },
+  {
+    "name": "Scale03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scale03"
+    ]
+  },
+  {
+    "name": "Scales01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scales01"
+    ]
+  },
+  {
+    "name": "Scales02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scales02"
+    ]
+  },
+  {
+    "name": "Scan",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scan"
+    ]
+  },
+  {
+    "name": "Scissors01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scissors01"
+    ]
+  },
+  {
+    "name": "Scissors02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scissors02"
+    ]
+  },
+  {
+    "name": "ScissorsCut01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scissors",
+      "cut01"
+    ]
+  },
+  {
+    "name": "ScissorsCut02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "scissors",
+      "cut02"
+    ]
+  },
+  {
+    "name": "SearchLg",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "search",
+      "lg"
+    ]
+  },
+  {
+    "name": "SearchMd",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "search",
+      "md"
+    ]
+  },
+  {
+    "name": "SearchRefraction",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "search",
+      "refraction"
+    ]
+  },
+  {
+    "name": "SearchSm",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "search",
+      "sm"
+    ]
+  },
+  {
+    "name": "Send01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "send01"
+    ]
+  },
+  {
+    "name": "Send02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "send02"
+    ]
+  },
+  {
+    "name": "Send03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "send03"
+    ]
+  },
+  {
+    "name": "Server01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "server01"
+    ]
+  },
+  {
+    "name": "Server02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "server02"
+    ]
+  },
+  {
+    "name": "Server03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "server03"
+    ]
+  },
+  {
+    "name": "Server04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "server04"
+    ]
+  },
+  {
+    "name": "Server05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "server05"
+    ]
+  },
+  {
+    "name": "Server06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "server06"
+    ]
+  },
+  {
+    "name": "Settings01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "settings01"
+    ]
+  },
+  {
+    "name": "Settings02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "settings02"
+    ]
+  },
+  {
+    "name": "Settings03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "settings03"
+    ]
+  },
+  {
+    "name": "Settings04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "settings04"
+    ]
+  },
+  {
+    "name": "Share01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share01"
+    ]
+  },
+  {
+    "name": "Share02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share02"
+    ]
+  },
+  {
+    "name": "Share03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share03"
+    ]
+  },
+  {
+    "name": "Share04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share04"
+    ]
+  },
+  {
+    "name": "Share05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share05"
+    ]
+  },
+  {
+    "name": "Share06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share06"
+    ]
+  },
+  {
+    "name": "Share07",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "share07"
+    ]
+  },
+  {
+    "name": "Shield01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield01"
+    ]
+  },
+  {
+    "name": "Shield02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield02"
+    ]
+  },
+  {
+    "name": "Shield03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield03"
+    ]
+  },
+  {
+    "name": "ShieldDollar",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield",
+      "dollar"
+    ]
+  },
+  {
+    "name": "ShieldOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield",
+      "off"
+    ]
+  },
+  {
+    "name": "ShieldPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield",
+      "plus"
+    ]
+  },
+  {
+    "name": "ShieldTick",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield",
+      "tick"
+    ]
+  },
+  {
+    "name": "ShieldZap",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shield",
+      "zap"
+    ]
+  },
+  {
+    "name": "ShoppingBag01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shopping",
+      "bag01"
+    ]
+  },
+  {
+    "name": "ShoppingBag02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shopping",
+      "bag02"
+    ]
+  },
+  {
+    "name": "ShoppingBag03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shopping",
+      "bag03"
+    ]
+  },
+  {
+    "name": "ShoppingCart01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shopping",
+      "cart01"
+    ]
+  },
+  {
+    "name": "ShoppingCart02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shopping",
+      "cart02"
+    ]
+  },
+  {
+    "name": "ShoppingCart03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shopping",
+      "cart03"
+    ]
+  },
+  {
+    "name": "Shuffle01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shuffle01"
+    ]
+  },
+  {
+    "name": "Shuffle02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "shuffle02"
+    ]
+  },
+  {
+    "name": "Signal01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "signal01"
+    ]
+  },
+  {
+    "name": "Signal02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "signal02"
+    ]
+  },
+  {
+    "name": "Signal03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "signal03"
+    ]
+  },
+  {
+    "name": "Simcard",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "simcard"
+    ]
+  },
+  {
+    "name": "Skew",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "skew"
+    ]
+  },
+  {
+    "name": "SkipBack",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "skip",
+      "back"
+    ]
+  },
+  {
+    "name": "SkipForward",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "skip",
+      "forward"
+    ]
+  },
+  {
+    "name": "SlashCircle01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "slash",
+      "circle01"
+    ]
+  },
+  {
+    "name": "SlashCircle02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "slash",
+      "circle02"
+    ]
+  },
+  {
+    "name": "SlashDivider",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "slash",
+      "divider"
+    ]
+  },
+  {
+    "name": "SlashOctagon",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "slash",
+      "octagon"
+    ]
+  },
+  {
+    "name": "Sliders01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sliders01"
+    ]
+  },
+  {
+    "name": "Sliders02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sliders02"
+    ]
+  },
+  {
+    "name": "Sliders03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sliders03"
+    ]
+  },
+  {
+    "name": "Sliders04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sliders04"
+    ]
+  },
+  {
+    "name": "Snowflake01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "snowflake01"
+    ]
+  },
+  {
+    "name": "Snowflake02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "snowflake02"
+    ]
+  },
+  {
+    "name": "SpacingHeight01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "spacing",
+      "height01"
+    ]
+  },
+  {
+    "name": "SpacingHeight02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "spacing",
+      "height02"
+    ]
+  },
+  {
+    "name": "SpacingWidth01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "spacing",
+      "width01"
+    ]
+  },
+  {
+    "name": "SpacingWidth02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "spacing",
+      "width02"
+    ]
+  },
+  {
+    "name": "Speaker01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speaker01"
+    ]
+  },
+  {
+    "name": "Speaker02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speaker02"
+    ]
+  },
+  {
+    "name": "Speaker03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speaker03"
+    ]
+  },
+  {
+    "name": "Speedometer01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speedometer01"
+    ]
+  },
+  {
+    "name": "Speedometer02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speedometer02"
+    ]
+  },
+  {
+    "name": "Speedometer03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speedometer03"
+    ]
+  },
+  {
+    "name": "Speedometer04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "speedometer04"
+    ]
+  },
+  {
+    "name": "Square",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "square"
+    ]
+  },
+  {
+    "name": "Stand",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stand"
+    ]
+  },
+  {
+    "name": "Star01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star01"
+    ]
+  },
+  {
+    "name": "Star02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star02"
+    ]
+  },
+  {
+    "name": "Star03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star03"
+    ]
+  },
+  {
+    "name": "Star04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star04"
+    ]
+  },
+  {
+    "name": "Star05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star05"
+    ]
+  },
+  {
+    "name": "Star06",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star06"
+    ]
+  },
+  {
+    "name": "Star07",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "star07"
+    ]
+  },
+  {
+    "name": "Stars01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stars01"
+    ]
+  },
+  {
+    "name": "Stars02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stars02"
+    ]
+  },
+  {
+    "name": "Stars03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stars03"
+    ]
+  },
+  {
+    "name": "StickerCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sticker",
+      "circle"
+    ]
+  },
+  {
+    "name": "StickerSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sticker",
+      "square"
+    ]
+  },
+  {
+    "name": "Stop",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stop"
+    ]
+  },
+  {
+    "name": "StopCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stop",
+      "circle"
+    ]
+  },
+  {
+    "name": "StopSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "stop",
+      "square"
+    ]
+  },
+  {
+    "name": "Strikethrough01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "strikethrough01"
+    ]
+  },
+  {
+    "name": "Strikethrough02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "strikethrough02"
+    ]
+  },
+  {
+    "name": "StrikethroughSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "strikethrough",
+      "square"
+    ]
+  },
+  {
+    "name": "Subscript",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "subscript"
+    ]
+  },
+  {
+    "name": "Sun",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sun"
+    ]
+  },
+  {
+    "name": "Sunrise",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sunrise"
+    ]
+  },
+  {
+    "name": "Sunset",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sunset"
+    ]
+  },
+  {
+    "name": "SunSetting01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sun",
+      "setting01"
+    ]
+  },
+  {
+    "name": "SunSetting02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sun",
+      "setting02"
+    ]
+  },
+  {
+    "name": "SunSetting03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "sun",
+      "setting03"
+    ]
+  },
+  {
+    "name": "SwitchHorizontal01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "switch",
+      "horizontal01"
+    ]
+  },
+  {
+    "name": "SwitchHorizontal02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "switch",
+      "horizontal02"
+    ]
+  },
+  {
+    "name": "SwitchVertical01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "switch",
+      "vertical01"
+    ]
+  },
+  {
+    "name": "SwitchVertical02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "switch",
+      "vertical02"
+    ]
+  },
+  {
+    "name": "Table",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "table"
+    ]
+  },
+  {
+    "name": "Tablet01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tablet01"
+    ]
+  },
+  {
+    "name": "Tablet02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tablet02"
+    ]
+  },
+  {
+    "name": "Tag01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tag01"
+    ]
+  },
+  {
+    "name": "Tag02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tag02"
+    ]
+  },
+  {
+    "name": "Tag03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tag03"
+    ]
+  },
+  {
+    "name": "Target01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "target01"
+    ]
+  },
+  {
+    "name": "Target02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "target02"
+    ]
+  },
+  {
+    "name": "Target03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "target03"
+    ]
+  },
+  {
+    "name": "Target04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "target04"
+    ]
+  },
+  {
+    "name": "Target05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "target05"
+    ]
+  },
+  {
+    "name": "Telescope",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "telescope"
+    ]
+  },
+  {
+    "name": "Terminal",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "terminal"
+    ]
+  },
+  {
+    "name": "TerminalBrowser",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "terminal",
+      "browser"
+    ]
+  },
+  {
+    "name": "TerminalCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "terminal",
+      "circle"
+    ]
+  },
+  {
+    "name": "TerminalSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "terminal",
+      "square"
+    ]
+  },
+  {
+    "name": "TextInput",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "text",
+      "input"
+    ]
+  },
+  {
+    "name": "Thermometer01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thermometer01"
+    ]
+  },
+  {
+    "name": "Thermometer02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thermometer02"
+    ]
+  },
+  {
+    "name": "Thermometer03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thermometer03"
+    ]
+  },
+  {
+    "name": "ThermometerCold",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thermometer",
+      "cold"
+    ]
+  },
+  {
+    "name": "ThermometerWarm",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thermometer",
+      "warm"
+    ]
+  },
+  {
+    "name": "ThumbsDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thumbs",
+      "down"
+    ]
+  },
+  {
+    "name": "ThumbsUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "thumbs",
+      "up"
+    ]
+  },
+  {
+    "name": "Ticket01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "ticket01"
+    ]
+  },
+  {
+    "name": "Ticket02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "ticket02"
+    ]
+  },
+  {
+    "name": "Toggle01Left",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "toggle01",
+      "left"
+    ]
+  },
+  {
+    "name": "Toggle01Right",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "toggle01",
+      "right"
+    ]
+  },
+  {
+    "name": "Toggle02Left",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "toggle02",
+      "left"
+    ]
+  },
+  {
+    "name": "Toggle02Right",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "toggle02",
+      "right"
+    ]
+  },
+  {
+    "name": "Toggle03Left",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "toggle03",
+      "left"
+    ]
+  },
+  {
+    "name": "Toggle03Right",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "toggle03",
+      "right"
+    ]
+  },
+  {
+    "name": "Tool01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tool01"
+    ]
+  },
+  {
+    "name": "Tool02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tool02"
+    ]
+  },
+  {
+    "name": "Train",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "train"
+    ]
+  },
+  {
+    "name": "Tram",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tram"
+    ]
+  },
+  {
+    "name": "Transform",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "transform"
+    ]
+  },
+  {
+    "name": "Translate01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "translate01"
+    ]
+  },
+  {
+    "name": "Translate02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "translate02"
+    ]
+  },
+  {
+    "name": "Trash01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trash01"
+    ]
+  },
+  {
+    "name": "Trash02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trash02"
+    ]
+  },
+  {
+    "name": "Trash03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trash03"
+    ]
+  },
+  {
+    "name": "Trash04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trash04"
+    ]
+  },
+  {
+    "name": "TrendDown01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trend",
+      "down01"
+    ]
+  },
+  {
+    "name": "TrendDown02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trend",
+      "down02"
+    ]
+  },
+  {
+    "name": "TrendUp01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trend",
+      "up01"
+    ]
+  },
+  {
+    "name": "TrendUp02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trend",
+      "up02"
+    ]
+  },
+  {
+    "name": "Triangle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "triangle"
+    ]
+  },
+  {
+    "name": "Trophy01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trophy01"
+    ]
+  },
+  {
+    "name": "Trophy02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "trophy02"
+    ]
+  },
+  {
+    "name": "Truck01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "truck01"
+    ]
+  },
+  {
+    "name": "Truck02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "truck02"
+    ]
+  },
+  {
+    "name": "Tv01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tv01"
+    ]
+  },
+  {
+    "name": "Tv02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tv02"
+    ]
+  },
+  {
+    "name": "Tv03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "tv03"
+    ]
+  },
+  {
+    "name": "Type01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "type01"
+    ]
+  },
+  {
+    "name": "Type02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "type02"
+    ]
+  },
+  {
+    "name": "TypeSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "type",
+      "square"
+    ]
+  },
+  {
+    "name": "TypeStrikethrough01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "type",
+      "strikethrough01"
+    ]
+  },
+  {
+    "name": "TypeStrikethrough02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "type",
+      "strikethrough02"
+    ]
+  },
+  {
+    "name": "Umbrella01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "umbrella01"
+    ]
+  },
+  {
+    "name": "Umbrella02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "umbrella02"
+    ]
+  },
+  {
+    "name": "Umbrella03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "umbrella03"
+    ]
+  },
+  {
+    "name": "Underline01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "underline01"
+    ]
+  },
+  {
+    "name": "Underline02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "underline02"
+    ]
+  },
+  {
+    "name": "UnderlineSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "underline",
+      "square"
+    ]
+  },
+  {
+    "name": "Upload01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "upload01"
+    ]
+  },
+  {
+    "name": "Upload02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "upload02"
+    ]
+  },
+  {
+    "name": "Upload03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "upload03"
+    ]
+  },
+  {
+    "name": "Upload04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "upload04"
+    ]
+  },
+  {
+    "name": "UploadCloud01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "upload",
+      "cloud01"
+    ]
+  },
+  {
+    "name": "UploadCloud02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "upload",
+      "cloud02"
+    ]
+  },
+  {
+    "name": "UsbFlashDrive",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "usb",
+      "flash",
+      "drive"
+    ]
+  },
+  {
+    "name": "User01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user01"
+    ]
+  },
+  {
+    "name": "User02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user02"
+    ]
+  },
+  {
+    "name": "User03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user03"
+    ]
+  },
+  {
+    "name": "UserCheck01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "check01"
+    ]
+  },
+  {
+    "name": "UserCheck02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "check02"
+    ]
+  },
+  {
+    "name": "UserCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "circle"
+    ]
+  },
+  {
+    "name": "UserDown01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "down01"
+    ]
+  },
+  {
+    "name": "UserDown02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "down02"
+    ]
+  },
+  {
+    "name": "UserEdit",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "edit"
+    ]
+  },
+  {
+    "name": "UserLeft01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "left01"
+    ]
+  },
+  {
+    "name": "UserLeft02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "left02"
+    ]
+  },
+  {
+    "name": "UserMinus01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "minus01"
+    ]
+  },
+  {
+    "name": "UserMinus02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "minus02"
+    ]
+  },
+  {
+    "name": "UserPlus01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "plus01"
+    ]
+  },
+  {
+    "name": "UserPlus02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "plus02"
+    ]
+  },
+  {
+    "name": "UserRight01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "right01"
+    ]
+  },
+  {
+    "name": "UserRight02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "right02"
+    ]
+  },
+  {
+    "name": "Users01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users01"
+    ]
+  },
+  {
+    "name": "Users02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users02"
+    ]
+  },
+  {
+    "name": "Users03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users03"
+    ]
+  },
+  {
+    "name": "UsersCheck",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "check"
+    ]
+  },
+  {
+    "name": "UsersDown",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "down"
+    ]
+  },
+  {
+    "name": "UsersEdit",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "edit"
+    ]
+  },
+  {
+    "name": "UsersLeft",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "left"
+    ]
+  },
+  {
+    "name": "UsersMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "minus"
+    ]
+  },
+  {
+    "name": "UsersPlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "plus"
+    ]
+  },
+  {
+    "name": "UserSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "square"
+    ]
+  },
+  {
+    "name": "UsersRight",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "right"
+    ]
+  },
+  {
+    "name": "UsersUp",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "up"
+    ]
+  },
+  {
+    "name": "UsersX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "users",
+      "x"
+    ]
+  },
+  {
+    "name": "UserUp01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "up01"
+    ]
+  },
+  {
+    "name": "UserUp02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "up02"
+    ]
+  },
+  {
+    "name": "UserX01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "x01"
+    ]
+  },
+  {
+    "name": "UserX02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "user",
+      "x02"
+    ]
+  },
+  {
+    "name": "Variable",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "variable"
+    ]
+  },
+  {
+    "name": "VideoRecorder",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "video",
+      "recorder"
+    ]
+  },
+  {
+    "name": "VideoRecorderOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "video",
+      "recorder",
+      "off"
+    ]
+  },
+  {
+    "name": "Virus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "virus"
+    ]
+  },
+  {
+    "name": "Voicemail",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "voicemail"
+    ]
+  },
+  {
+    "name": "VolumeMax",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "volume",
+      "max"
+    ]
+  },
+  {
+    "name": "VolumeMin",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "volume",
+      "min"
+    ]
+  },
+  {
+    "name": "VolumeMinus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "volume",
+      "minus"
+    ]
+  },
+  {
+    "name": "VolumePlus",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "volume",
+      "plus"
+    ]
+  },
+  {
+    "name": "VolumeX",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "volume",
+      "x"
+    ]
+  },
+  {
+    "name": "Wallet01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wallet01"
+    ]
+  },
+  {
+    "name": "Wallet02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wallet02"
+    ]
+  },
+  {
+    "name": "Wallet03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wallet03"
+    ]
+  },
+  {
+    "name": "Wallet04",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wallet04"
+    ]
+  },
+  {
+    "name": "Wallet05",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wallet05"
+    ]
+  },
+  {
+    "name": "WatchCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "watch",
+      "circle"
+    ]
+  },
+  {
+    "name": "WatchSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "watch",
+      "square"
+    ]
+  },
+  {
+    "name": "Waves",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "waves"
+    ]
+  },
+  {
+    "name": "Webcam01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "webcam01"
+    ]
+  },
+  {
+    "name": "Webcam02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "webcam02"
+    ]
+  },
+  {
+    "name": "Wifi",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wifi"
+    ]
+  },
+  {
+    "name": "WifiOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wifi",
+      "off"
+    ]
+  },
+  {
+    "name": "Wind01",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wind01"
+    ]
+  },
+  {
+    "name": "Wind02",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wind02"
+    ]
+  },
+  {
+    "name": "Wind03",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "wind03"
+    ]
+  },
+  {
+    "name": "X",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "x"
+    ]
+  },
+  {
+    "name": "XCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "x",
+      "circle"
+    ]
+  },
+  {
+    "name": "XClose",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "x",
+      "close"
+    ]
+  },
+  {
+    "name": "XSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "x",
+      "square"
+    ]
+  },
+  {
+    "name": "Youtube",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "youtube"
+    ]
+  },
+  {
+    "name": "Zap",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zap"
+    ]
+  },
+  {
+    "name": "ZapCircle",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zap",
+      "circle"
+    ]
+  },
+  {
+    "name": "ZapFast",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zap",
+      "fast"
+    ]
+  },
+  {
+    "name": "ZapOff",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zap",
+      "off"
+    ]
+  },
+  {
+    "name": "ZapSquare",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zap",
+      "square"
+    ]
+  },
+  {
+    "name": "ZoomIn",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zoom",
+      "in"
+    ]
+  },
+  {
+    "name": "ZoomOut",
+    "importPath": "@/components/foundations/icons",
+    "tags": [
+      "zoom",
+      "out"
+    ]
+  }
+]

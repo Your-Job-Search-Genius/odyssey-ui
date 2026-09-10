@@ -1,3 +1,7 @@
 package.json
 pnpm-lock.yaml
 pnpm-workspace.yaml
+# Helm templates are Go templates, not parseable YAML
+helm-charts/**/templates/**
+# Generated registry data -- written by registry:build, drift-checked byte-for-byte
+packages/registry/dist/

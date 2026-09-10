@@ -6,6 +6,13 @@ node_modules/
 # Production builds
 build/
 dist/
+# ... except the registry's generated data (registry.json/tokens.json/
+# icons.json): it is deliberately COMMITTED so CI can diff a fresh
+# rebuild against it (registry:check-drift) and so source-built Docker
+# images (Dockerfile.ds-mcp) don't need the full ui/docgen toolchain.
+# Without this negation the blanket dist/ rule above silently ignored it
+# and made the drift check vacuous.
+!packages/registry/dist/
 .next/
 # Static-export build output (deploy-docs.yml / DOCS_STATIC_EXPORT=1)
 apps/docs/out/

@@ -1,0 +1,105 @@
+name: Deploy MCP server to Rancher with Helm
+
+# Builds the MCP server image FROM SOURCE (Dockerfile.ds-mcp -- no
+# dependency on the package being published), pushes it to Docker Hub,
+# and helm-upgrades the release on the Rancher-managed cluster --
+# mirroring yjsg-client-app's deploy.yaml conventions (image tagged
+# <run_id>-<run_attempt>, kubeconfig from a secret, fire-and-forget
+# helm upgrade).
+#
+# Required GitHub secrets:
+# - DOCKER_ID, DOCKER_PW               Docker Hub credentials
+# - MCP_DOCKER_REGISTRY                Docker Hub repository name (e.g. prod-ds-mcp)
+# - MCP_KUBE_CONFIG                    kubeconfig for the target cluster
+# - MCP_NAMESPACE                      Kubernetes namespace (e.g. prod-mcp)
+# - MCP_DO_CERTIFICATE_NAME            DigitalOcean SSL certificate name for the LB
+#
+# After the first deploy, point a DNS record (e.g. mcp.yourjobsearchgenius.ai)
+# at the LoadBalancer IP printed in the last step; the MCP connector URL is
+# then https://<that-domain>/mcp .
+on:
+    push:
+        branches: [master]
+        paths:
+            - "packages/ds-mcp/**"
+            - "packages/registry/**"
+            - "helm-charts/ds-mcp/**"
+            - "Dockerfile.ds-mcp"
+            - ".github/workflows/deploy-mcp.yml"
+    workflow_dispatch:
+
+jobs:
+    build_and_deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKER_ID }}
+                  password: ${{ secrets.DOCKER_PW }}
+
+            - name: Build and push Docker image
+              uses: docker/build-push-action@v6
+              with:
+                  context: .
+                  file: Dockerfile.ds-mcp
+                  push: true
+                  tags: ${{ secrets.DOCKER_ID }}/${{ secrets.MCP_DOCKER_REGISTRY }}:${{ github.run_id }}-${{ github.run_attempt }}
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+
+            - name: Install Helm
+              run: |
+                  curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+                  helm version --short
+
+            - name: Set up kubeconfig
+              uses: azure/k8s-set-context@v1
+              with:
+                  kubeconfig: ${{ secrets.MCP_KUBE_CONFIG }}
+
+            - name: Trigger deploy to Rancher (do not wait)
+              run: |
+                  set -euo pipefail
+                  RELEASE="${{ secrets.MCP_NAMESPACE }}-app"
+
+                  # Fire-and-forget, same as yjsg-client-app: success for this
+                  # step means Helm applied the release, not that pods are Ready.
+                  helm upgrade --install "$RELEASE" ./helm-charts/ds-mcp \
+                    --namespace "${{ secrets.MCP_NAMESPACE }}" \
+                    --create-namespace \
+                    --values ./helm-charts/ds-mcp/values-prod.yaml \
+                    --set image.repository="${{ secrets.DOCKER_ID }}/${{ secrets.MCP_DOCKER_REGISTRY }}" \
+                    --set image.tag="${{ github.run_id }}-${{ github.run_attempt }}" \
+                    --set service.sslCertificateName="${{ secrets.MCP_DO_CERTIFICATE_NAME }}" \
+                    --wait=false \
+                    --timeout 60s
+
+                  echo "Deploy triggered. Release: $RELEASE"
+                  helm status "$RELEASE" --namespace "${{ secrets.MCP_NAMESPACE }}" || true
+
+            - name: Display LoadBalancer information
+              run: |
+                  SERVICE="prod-ds-mcp-service"
+                  echo "=========================================="
+                  echo "MCP endpoint DNS setup"
+                  echo "=========================================="
+                  kubectl get svc "$SERVICE" -n "${{ secrets.MCP_NAMESPACE }}" || echo "Service not found yet"
+                  LB_IP=$(kubectl get svc "$SERVICE" -n "${{ secrets.MCP_NAMESPACE }}" -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || echo "")
+                  if [ -n "$LB_IP" ]; then
+                    echo "LoadBalancer IP: $LB_IP"
+                    echo "Point your MCP domain's A record at this IP."
+                    echo "Connector URL: https://<your-mcp-domain>/mcp"
+                  else
+                    echo "LoadBalancer IP not yet provisioned -- re-run this step or check Rancher."
+                  fi
+                  echo "=========================================="

@@ -1,0 +1,66 @@
+# syntax=docker/dockerfile:1
+# Builds the Writesea Odyssey MCP server (Streamable HTTP, `ds-mcp serve`)
+# FROM THIS REPO'S SOURCE -- used by .github/workflows/deploy-mcp.yml to
+# deploy to Rancher. Unlike packages/ds-mcp/Dockerfile (which installs the
+# already-published package from GitHub Packages), this needs no registry
+# auth at all: every dependency is public npm, and the workspace packages
+# are built right here.
+#
+#   docker build -f Dockerfile.ds-mcp -t writesea-ds-mcp .
+#   docker run -p 3002:3002 writesea-ds-mcp
+
+# Build stage: filtered workspace install (ds-mcp + its workspace deps
+# only -- skips the docs app's much larger tree), build in dependency
+# order, then `pnpm deploy` a self-contained production bundle.
+FROM node:22-alpine AS build
+
+WORKDIR /repo
+
+# Activate pnpm via corepack (version pinned by "packageManager" in package.json)
+RUN corepack enable
+
+# Manifests first so the install layer caches across source-only changes.
+# pnpm needs every workspace member's manifest to resolve the workspace,
+# including ones excluded from this filtered install.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/registry/package.json packages/registry/
+COPY packages/ds-mcp/package.json packages/ds-mcp/
+COPY packages/ui/package.json packages/ui/
+COPY packages/ui-tree/package.json packages/ui-tree/
+COPY packages/eslint-plugin-ds/package.json packages/eslint-plugin-ds/
+COPY apps/docs/package.json apps/docs/
+
+RUN pnpm install --frozen-lockfile --filter @your-job-search-genius/ds-mcp...
+
+COPY packages/registry packages/registry
+COPY packages/ds-mcp packages/ds-mcp
+
+# packages/registry/dist/registry.json is COMMITTED (drift-checked in CI),
+# so only the TypeScript needs compiling here -- the full `registry:build`
+# extraction would additionally need packages/ui and its docgen toolchain.
+RUN test -f packages/registry/dist/registry.json \
+    || (echo "packages/registry/dist/registry.json missing -- it must be committed (run pnpm run registry:build)" && exit 1)
+
+RUN pnpm --filter @your-job-search-genius/ds-registry exec tsc -p tsconfig.json \
+    && pnpm --filter @your-job-search-genius/ds-mcp run build \
+    # --legacy: this workspace doesn't use inject-workspace-packages; the
+    # legacy copy-based deploy is exactly what we want for an image.
+    && pnpm --filter @your-job-search-genius/ds-mcp deploy --prod --legacy /out
+
+# Runtime stage: only node + the deployed bundle, running as the
+# unprivileged node user.
+FROM node:22-alpine
+
+ENV NODE_ENV=production \
+    PORT=3002
+WORKDIR /app
+
+COPY --from=build /out ./
+
+USER node
+EXPOSE 3002
+
+# MCP endpoint: /mcp (also served at /); liveness probe: /healthz.
+# Optional runtime env: DS_REGISTRY_URL (+ DS_REGISTRY_REFRESH_MS) to
+# hot-reload a fresher registry than the one built into this image.
+CMD ["node", "lib/cli/bin.js", "serve"]

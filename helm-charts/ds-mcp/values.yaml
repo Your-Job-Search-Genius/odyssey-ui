@@ -1,0 +1,46 @@
+# Default values for all environments. Mirrors the conventions of
+# yjsg-client-app's chart (image/tag set by the deploy workflow,
+# DigitalOcean LoadBalancer service with a named SSL certificate,
+# secrets projected from the <namespace>-secrets Kubernetes secret).
+appName: ds-mcp
+
+replicaCount: 2
+
+image:
+    repository: ""
+    tag: latest
+    pullPolicy: IfNotPresent
+
+containerPorts:
+    http: 3002 # `ds-mcp serve` (PORT env below must match)
+
+resources:
+    requests:
+        cpu: 50m
+        memory: 128Mi
+    limits:
+        memory: 256Mi
+
+topologySpreadConstraints:
+    enabled: true
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+
+# LoadBalancer service configuration (SSL terminated at the DO LB,
+# certificate referenced by name -- set from the workflow).
+service:
+    sslCertificateName: ""
+
+# Plain (non-secret) environment variables, e.g.
+#   DS_REGISTRY_URL: https://example.com/registry.json
+#   DS_REGISTRY_REFRESH_MS: "300000"
+env:
+    PORT: "3002"
+
+# Secret-backed environment variables, projected from the
+# <namespace>-secrets Kubernetes secret exactly like yjsg-client-app:
+#   SOME_KEY:
+#     optional: true
+# The MCP server needs none today -- it serves read-only registry data.
+secrets: {}

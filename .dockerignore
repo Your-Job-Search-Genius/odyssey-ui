@@ -1,0 +1,17 @@
+# Keep the Docker build context for Dockerfile.ds-mcp small. COPY steps
+# are explicit about what they take, but node_modules alone would make
+# every `docker build` ship gigabytes of context to the daemon.
+node_modules
+**/node_modules
+.git
+.next
+**/.next
+apps/docs/out
+storybook-static
+# Compiled package output -- rebuilt inside the image. (The registry's
+# committed dist/ data is NOT excluded; the image relies on it.)
+packages/*/lib
+coverage
+*.log
+.env
+.env.*

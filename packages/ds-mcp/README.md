@@ -54,16 +54,53 @@ claude mcp add writesea-ds -- npx -y @your-job-search-genius/ds-mcp
 }
 ```
 
-**ChatGPT**: ChatGPT connects to _remote_ MCP servers (Settings >
-Connectors, developer mode), so it needs an HTTPS URL, not a local
-stdio process. Use the Streamable HTTP endpoint this repo already
-ships: deploy `apps/docs` to any Node host (e.g. `pnpm run docs:build
-&& pnpm run docs:start` behind HTTPS) and point ChatGPT at
-`https://<your-host>/api/mcp`. Note the GitHub Pages deployment of the
-docs site is a static export and **cannot** serve `/api/mcp` -- a Node
-deployment (or a local server exposed through a tunnel such as `ngrok`)
-is required for ChatGPT. The same URL also works for Claude's remote
-custom connectors if you prefer HTTP over stdio there too.
+**Claude web (claude.ai) and ChatGPT**: both only connect to _remote_
+MCP servers over HTTPS (claude.ai: Settings > Connectors > Add custom
+connector; ChatGPT: Settings > Apps & Connectors > Developer mode >
+Create), so they need a deployed URL, not a local stdio process -- see
+"Deploying the HTTP server" below. Note the GitHub Pages deployment of
+the docs site is a static export and **cannot** serve `/api/mcp`.
+
+## Deploying the HTTP server
+
+`ds-mcp serve` runs the same server over Streamable HTTP on a plain
+Node HTTP listener -- `PORT` (default 3002) and `HOST` (default
+0.0.0.0) env vars, MCP endpoint at `/mcp` (and `/`), liveness probe at
+`/healthz`, graceful SIGTERM shutdown. Three ways to get it on a public
+HTTPS URL:
+
+1. **Any Node host / PaaS** (Railway, Render, Fly, a VPS): start
+   command `npx -y @your-job-search-genius/ds-mcp serve`. The platform
+   needs the GitHub Packages `.npmrc` auth (above) available at install
+   time -- on most PaaS that's an `NPM_CONFIG_//npm.pkg.github.com/:_authToken`-style
+   env var or a checked-in `.npmrc` that references `${NODE_AUTH_TOKEN}`.
+2. **Docker**: `packages/ds-mcp/Dockerfile` builds a self-contained
+   image (BuildKit secret keeps the registry token out of layers):
+
+    ```bash
+    docker build --secret id=npmrc,src=$HOME/.npmrc -t writesea-ds-mcp packages/ds-mcp
+    docker run -p 3002:3002 writesea-ds-mcp
+    ```
+
+3. **Rancher / Kubernetes** (the YJSG production path): the repo ships
+   `Dockerfile.ds-mcp` (source-built image, no registry auth needed),
+   `helm-charts/ds-mcp` (probes on `/healthz`, DigitalOcean
+   LoadBalancer with a named SSL certificate), and
+   `.github/workflows/deploy-mcp.yml`, which builds, pushes to Docker
+   Hub, and helm-upgrades the release -- same conventions as
+   yjsg-client-app's deploy pipeline. Required GitHub secrets are
+   listed at the top of that workflow.
+
+4. **Local + tunnel** (quick demos only): `ds-mcp serve` plus
+   `ngrok http 3002` / `cloudflared tunnel --url http://localhost:3002`;
+   the tunnel URL changes on every restart.
+
+Alternatively, deploying `apps/docs` to a Node host serves the same
+thing at `/api/mcp` alongside the docs site.
+
+The server is unauthenticated by design -- it exposes only read-only
+registry data (components, tokens, icons, validation). Put a reverse
+proxy with auth in front if that ever changes.
 
 ## Tools
 
