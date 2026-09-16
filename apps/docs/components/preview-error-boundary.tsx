@@ -16,7 +16,7 @@ interface PreviewErrorBoundaryState {
  * The showcase mechanically renders hundreds of exports straight out of
  * the library's real *.demo.tsx files (see ComponentPreview). A handful
  * of those exports are internal helpers -- render-prop functions passed
- * to a parent (e.g. a custom recharts tick/tooltip renderer), or
+ * to a parent (e.g. a custom tick/tooltip renderer for a chart library), or
  * sub-components that only work inside a specific parent context (e.g.
  * `useCarousel` requiring a `<Carousel>` ancestor) -- not standalone
  * components. Rather than one such export taking down an entire doc

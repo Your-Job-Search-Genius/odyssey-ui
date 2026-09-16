@@ -31,7 +31,7 @@ const PLAYGROUND_LIB_DIR = path.join(LIB_DIR, "playground");
 /**
  * "<demo id>#<export name>" pairs that are NOT standalone renderable
  * components -- render-prop callbacks handed to a third-party library
- * (e.g. a recharts custom tick/tooltip renderer) or sub-components that
+ * (e.g. a custom tick/tooltip renderer handed to a third-party library) or sub-components that
  * only work inside a specific parent context (e.g. a `useXState` hook
  * that requires a particular ancestor provider). Discovered by
  * rendering every extracted export and finding the ones that throw;
@@ -39,7 +39,7 @@ const PLAYGROUND_LIB_DIR = path.join(LIB_DIR, "playground");
  * than left to fail at request time -- add to this list if
  * `docs:build` or manual testing turns up another one.
  */
-const EXCLUDED_EXPORTS = new Set(["application/carousel/carousel#CarouselIndicator", "application/charts/radar-charts#CustomRadarChartTick"]);
+const EXCLUDED_EXPORTS = new Set(["application/carousel/carousel#CarouselIndicator"]);
 
 interface RegistryEntry {
     /** e.g. "base/buttons/buttons" */

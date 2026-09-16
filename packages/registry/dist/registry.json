@@ -1,6 +1,6 @@
 {
   "version": "1.0.2",
-  "generatedAt": "library@1.0.2+components:111+tokens:246+icons:1179",
+  "generatedAt": "library@1.0.2+components:125+tokens:268+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -555,19 +555,2273 @@
       "isExtracted": true
     },
     {
-      "id": "application/charts/charts-base",
-      "name": "selectEvenlySpacedItems",
-      "importName": "ChartTooltipContent",
-      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/charts-base",
+      "id": "application/charts/bar-chart",
+      "name": "BarChart",
+      "importName": "BarChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/bar-chart",
       "category": "application",
-      "description": "Selects evenly spaced items from an array. Used for rendering\ncertain number of x-axis labels.",
-      "props": [],
+      "description": "Grouped, stacked, horizontal and diverging bar chart for comparing magnitudes across categories. Built on d3; every bar is keyboard-focusable, the tooltip lists every series, and the full dataset is mirrored in an accessible table. Pass memoised data: a new array identity replays the transition.",
+      "props": [
+        {
+          "name": "data",
+          "type": "T[]",
+          "required": true,
+          "description": "One datum per category, in display order. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": true,
+          "description": "The property that labels each category."
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries<T>[]",
+          "required": true,
+          "description": "The series to plot, at most 8. Colors are assigned in slot order unless a series sets its own."
+        },
+        {
+          "name": "orientation",
+          "type": "enum",
+          "enumValues": [
+            "horizontal",
+            "vertical"
+          ],
+          "required": false,
+          "default": "vertical",
+          "description": "`vertical` grows bars up from a baseline; `horizontal` grows them right from the category label."
+        },
+        {
+          "name": "mode",
+          "type": "enum",
+          "enumValues": [
+            "grouped",
+            "stacked",
+            "diverging"
+          ],
+          "required": false,
+          "default": "grouped",
+          "description": "`grouped` places series side by side; `stacked` stacks them with a 2px surface gap;\n`diverging` plots one signed series around a centred zero line (negatives take the orange pole)."
+        },
+        {
+          "name": "showValues",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Direct-labels each bar at its tip (stacked bars label only the total). Labels always sit outside the bar so they never clip."
+        },
+        {
+          "name": "maxBarThickness",
+          "type": "number | undefined",
+          "required": false,
+          "default": "24",
+          "description": "Bars never grow thicker than this, in px. They stay centred in their band."
+        },
+        {
+          "name": "barRadius",
+          "type": "number | undefined",
+          "required": false,
+          "default": "4",
+          "description": "Corner radius at the data end of each bar. The baseline end is always square."
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Hides the legend. It is shown by default whenever there is more than one series."
+        },
+        {
+          "name": "xFormatter",
+          "type": "((value: T[Extract<keyof T, string>], index: number) => string) | undefined",
+          "required": false,
+          "description": "Formats category labels for the axis, tooltip and table."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for tooltips, labels and the table."
+        },
+        {
+          "name": "tickFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    if (Math.abs(value) < 1000) return formatNumber(value);\n    return compact(value).replace(\"k\", \"K\").replace(\"G\", \"B\");\n}",
+          "description": "Formats value-axis ticks. Defaults to compact notation (1.2K)."
+        },
+        {
+          "name": "yDomain",
+          "type": "[number, number] | undefined",
+          "required": false,
+          "description": "Fixes the value domain instead of deriving it from the data."
+        },
+        {
+          "name": "yTicks",
+          "type": "number | undefined",
+          "required": false,
+          "default": "4",
+          "description": "Approximate number of value ticks."
+        },
+        {
+          "name": "onBarSelect",
+          "type": "((info: { datum: T; seriesKey: string; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a bar is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "orientation": [
+          "vertical",
+          "horizontal"
+        ],
+        "mode": [
+          "grouped",
+          "stacked",
+          "diverging"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Single series",
+          "code": "<BarChart label=\"Applications per month\" data={months} xKey=\"month\" series={[{ key: \"applications\", name: \"Applications\" }]} />"
+        },
+        {
+          "title": "Stacked",
+          "code": "<BarChart label=\"Pipeline by week\" data={weeks} xKey=\"week\" mode=\"stacked\" series={[{ key: \"applied\", name: \"Applied\" }, { key: \"interview\", name: \"Interview\" }]} />"
+        },
+        {
+          "title": "Horizontal ranking with values",
+          "code": "<BarChart label=\"Skills in demand\" data={skills} xKey=\"skill\" orientation=\"horizontal\" showValues series={[{ key: \"posts\", name: \"Job posts\" }]} />"
+        },
+        {
+          "title": "Diverging",
+          "code": "<BarChart label=\"Score vs benchmark\" data={deltas} xKey=\"skill\" orientation=\"horizontal\" mode=\"diverging\" showValues series={[{ key: \"delta\", name: \"vs benchmark\" }]} />"
+        }
+      ],
+      "a11y": "Renders a figure named by `label` with a generated description. The chart is one tab stop; arrow keys move between bars (Left/Right across categories, Up/Down across series), Home/End jump to the ends, Escape closes the tooltip, Enter/Space call onBarSelect. Every value is also in a visually hidden table (set showTable to display it). Animations respect prefers-reduced-motion.",
+      "doNot": [
+        "Do not color nominal categories by their value (a value ramp) -- one series takes one color; use mode=\"diverging\" only for signed values around a baseline.",
+        "Do not pass more than 8 series; fold the tail into an 'Other' series instead of generating extra colors.",
+        "Do not use a bar chart for a single value -- use StatTile.",
+        "Do not omit `label`; it is the chart's accessible name."
+      ],
+      "docsUrl": "/docs/application/charts/bar-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/chart",
+      "name": "Chart",
+      "importName": "Chart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/chart",
+      "category": "application",
+      "description": "The shared frame every Odyssey chart renders into: measures its container, owns the tooltip, legend, live region and accessible data-table twin, and exposes size and helpers through useChartContext. Use it only to build a custom chart type; for everyday charts use LineChart, BarChart, PieChart, etc.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "240",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "legend",
+          "type": "ChartLegendItem[] | undefined",
+          "required": false,
+          "description": "Legend entries. Omit for single-series charts (the title names the series)."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "default": "top",
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "hiddenKeys",
+          "type": "ReadonlySet<string> | undefined",
+          "required": false,
+          "description": "Series keys currently hidden through the legend."
+        },
+        {
+          "name": "onLegendToggle",
+          "type": "((key: string) => void) | undefined",
+          "required": false,
+          "description": "Makes legend entries toggle buttons."
+        },
+        {
+          "name": "table",
+          "type": "ChartTable | undefined",
+          "required": false,
+          "description": "The accessible table twin. Rendered visually hidden unless `showTable` is set."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "isEmpty",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Renders the empty state instead of the plot."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "default": "No data to display",
+          "description": "Text shown in the empty state."
+        },
+        {
+          "name": "children",
+          "type": "(size: { width: number; height: number; }) => ReactNode",
+          "required": true,
+          "description": "Render prop receiving the measured plot size. Return SVG content."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Custom chart skeleton",
+          "code": "<Chart label=\"Custom\" height={200} table={{ columns: [\"Name\", \"Value\"], rows }}>{({ width, height }) => <g>{/* SVG marks */}</g>}</Chart>"
+        }
+      ],
+      "a11y": "Renders a <figure> with `label` as its accessible name and `description` as its figcaption. Marks inside must use useChartFocus so they become a single tab stop with arrow-key navigation. The `table` prop is rendered visually hidden (or visibly with `showTable`) so every value is reachable without a pointer.",
+      "doNot": [
+        "Do not use Chart directly for standard chart types -- use the dedicated chart components, which already wire focus, tooltips and tables.",
+        "Do not render HTML inside the render prop; it returns SVG content only."
+      ],
+      "docsUrl": "/docs/application/charts/chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/chart-primitives",
+      "name": "ChartGrid",
+      "importName": "ChartGrid",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/chart-primitives",
+      "category": "application",
+      "description": "Recessive hairline gridlines, one step off the surface. Never dashed.",
+      "props": [
+        {
+          "name": "horizontal",
+          "type": "number[] | undefined",
+          "required": false,
+          "default": "[]",
+          "description": "Y pixel positions of horizontal gridlines."
+        },
+        {
+          "name": "vertical",
+          "type": "number[] | undefined",
+          "required": false,
+          "default": "[]",
+          "description": "X pixel positions of vertical gridlines."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "required": false,
+          "default": "0",
+          "description": "Plot width in px (horizontal lines span it)."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": true,
+          "description": "Plot height in px (vertical lines span it)."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
       "examples": [],
       "doNot": [],
-      "docsUrl": "/docs/application/charts/charts-base",
+      "docsUrl": "/docs/application/charts/chart-primitives",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/funnel-chart",
+      "name": "FunnelChart",
+      "importName": "FunnelChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/funnel-chart",
+      "category": "application",
+      "description": "Funnel chart for ordered stages such as a hiring pipeline (Applied -> Screened -> Interviewed -> Offers). Stages wear the ordinal brand ramp so their order reads in the color, conversion between stages is labelled directly, every stage is keyboard focusable, and the values are mirrored in an accessible table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "ChartNamedValue[]",
+          "required": true,
+          "description": "Ordered stages, first stage first. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "orientation",
+          "type": "enum",
+          "enumValues": [
+            "horizontal",
+            "vertical"
+          ],
+          "required": false,
+          "default": "horizontal",
+          "description": "`horizontal` lays stages side by side as centred columns; `vertical` stacks centred bars top to bottom."
+        },
+        {
+          "name": "showConversion",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Shows the conversion from the previous stage between stages."
+        },
+        {
+          "name": "showValues",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Shows each stage's value inside its mark."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for labels, tooltips and the table."
+        },
+        {
+          "name": "onStageSelect",
+          "type": "((info: { stage: ChartNamedValue; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a stage is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "200",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Hiring pipeline",
+          "code": "<FunnelChart label=\"Hiring pipeline conversion\" title=\"Pipeline conversion\" data={[{ name: \"Applied\", value: 286 }, { name: \"Screened\", value: 112 }, { name: \"Interviewed\", value: 41 }, { name: \"Offers\", value: 5 }]} />"
+        },
+        {
+          "title": "Vertical with visible table",
+          "code": "<FunnelChart label=\"Pipeline\" data={stages} orientation=\"vertical\" showTable />"
+        }
+      ],
+      "a11y": "Renders as a labelled figure (pass `label`). Each stage is a focusable mark announced as 'Stage, value, % of previous stage'; arrow keys move between stages, Escape closes the tooltip. A screen-reader table twin is always rendered; pass showTable to show it visibly. Respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not use a funnel for categories without a natural order; use BarChart instead.",
+        "Do not pass more than about 7 stages; the ordinal ramp stops reading past that.",
+        "Do not omit `label`; it is the chart's accessible name."
+      ],
+      "docsUrl": "/docs/application/charts/funnel-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/heatmap-chart",
+      "name": "HeatmapChart",
+      "importName": "HeatmapChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/heatmap-chart",
+      "category": "application",
+      "description": "Heatmap / calendar heatmap for density across two categorical axes (e.g. activity per weekday over weeks, or a skill-by-role matrix). Sequential brand ramp for magnitude, or a diverging orange/brand scale for change around zero. Every cell is keyboard focusable and the full matrix is mirrored in a screen-reader table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "HeatmapCell[]",
+          "required": true,
+          "description": "Cells in any order. Missing x/y combinations render as empty cells. Memoise it: a new identity replays the transition."
+        },
+        {
+          "name": "xDomain",
+          "type": "string[] | undefined",
+          "required": false,
+          "description": "Column order. Defaults to first-seen order in `data`."
+        },
+        {
+          "name": "yDomain",
+          "type": "string[] | undefined",
+          "required": false,
+          "description": "Row order. Defaults to first-seen order in `data`."
+        },
+        {
+          "name": "colorScale",
+          "type": "enum",
+          "enumValues": [
+            "diverging",
+            "sequential"
+          ],
+          "required": false,
+          "default": "sequential",
+          "description": "`sequential` maps value / max onto the brand ramp (magnitude).\n`diverging` colours negative values orange and positive values brand, with opacity by magnitude (polarity)."
+        },
+        {
+          "name": "cellRadius",
+          "type": "number | undefined",
+          "required": false,
+          "default": "3",
+          "description": "Corner radius of each cell in px."
+        },
+        {
+          "name": "cellGap",
+          "type": "number | undefined",
+          "required": false,
+          "default": "3",
+          "description": "Gap between cells in px."
+        },
+        {
+          "name": "showValues",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Renders the value inside each cell when it fits. Values that do not fit stay in the tooltip and table."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Plot height in px. Defaults to a height that gives every row a 21px band\nplus the axis and legend bands, so the chart grows with `yDomain`."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}"
+        },
+        {
+          "name": "xFormatter",
+          "type": "((x: string) => string) | undefined",
+          "required": false,
+          "default": "(x) => x"
+        },
+        {
+          "name": "yFormatter",
+          "type": "((y: string) => string) | undefined",
+          "required": false,
+          "default": "(y) => y"
+        },
+        {
+          "name": "xTickEvery",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Show every nth column label. Defaults to the smallest step at which labels do not overlap."
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Renders the \"less → more\" colour key under the grid."
+        },
+        {
+          "name": "onCellSelect",
+          "type": "((cell: HeatmapCell) => void) | undefined",
+          "required": false,
+          "description": "Called when a cell is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "colorScale": [
+          "sequential",
+          "diverging"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Calendar heatmap",
+          "code": "<HeatmapChart label=\"Activity per day\" data={cells} xDomain={weeks} yDomain={[\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\",\"Sat\",\"Sun\"]} xTickEvery={4} />"
+        },
+        {
+          "title": "Matrix with values",
+          "code": "<HeatmapChart label=\"Skill demand by role\" data={cells} showValues valueFormatter={(v) => `${v}%`} />"
+        },
+        {
+          "title": "Diverging change",
+          "code": "<HeatmapChart label=\"Change vs previous week\" data={cells} colorScale=\"diverging\" showValues />"
+        }
+      ],
+      "a11y": "Pass a meaningful `label`. Cells form a focus grid: Tab enters the chart, arrow keys move between cells, Escape closes the tooltip. Cells with no data are announced as such. Values that do not fit inside a cell remain reachable through the tooltip and the hidden data table; pass `showTable` to render that table visibly.",
+      "doNot": [
+        "Do not use a rainbow or multi-hue scale for magnitude; keep `colorScale=\"sequential\"` for how-much questions and `\"diverging\"` only for values around a meaningful zero.",
+        "Do not pass more than ~40 columns without `xTickEvery`; labels are thinned automatically but the cells become too small to read.",
+        "Do not encode categories that have no order on the sequential ramp; use a BarChart for nominal comparisons."
+      ],
+      "docsUrl": "/docs/application/charts/heatmap-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/line-chart",
+      "name": "LineChart",
+      "importName": "LineChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/line-chart",
+      "category": "application",
+      "description": "Line, area and stacked-area chart for change over time, built on d3-scale/d3-shape. Every point is keyboard-focusable (roving tabindex, arrow keys), the tooltip lists every series at the focused x, and an accessible data table mirrors the plot. Series colors come from the fixed chart-1..chart-8 token order.",
+      "props": [
+        {
+          "name": "data",
+          "type": "T[]",
+          "required": true,
+          "description": "One datum per x position, in display order. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": true,
+          "description": "The property that labels each x position (a string, number or Date)."
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries<T>[]",
+          "required": true,
+          "description": "The series to plot, at most 8. Colors are assigned in slot order unless a series sets its own."
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "area",
+            "line",
+            "stacked-area"
+          ],
+          "required": false,
+          "default": "line",
+          "description": "`line` draws strokes only; `area` adds a wash under each line; `stacked-area` stacks the series."
+        },
+        {
+          "name": "curve",
+          "type": "enum",
+          "enumValues": [
+            "step",
+            "monotone",
+            "linear"
+          ],
+          "required": false,
+          "default": "monotone",
+          "description": "Curve interpolation."
+        },
+        {
+          "name": "showDots",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Renders a marker on every point. Markers always exist for keyboard focus; this only makes them visible at rest."
+        },
+        {
+          "name": "showEndLabels",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Labels each series at its last point instead of relying on the legend alone."
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Hides the legend. It is shown by default whenever there is more than one series."
+        },
+        {
+          "name": "xFormatter",
+          "type": "((value: T[Extract<keyof T, string>], index: number) => string) | undefined",
+          "required": false,
+          "description": "Formats x labels for the axis, tooltip and table."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for tooltips, labels and the table."
+        },
+        {
+          "name": "tickFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    if (Math.abs(value) < 1000) return formatNumber(value);\n    return compact(value).replace(\"k\", \"K\").replace(\"G\", \"B\");\n}",
+          "description": "Formats y-axis ticks. Defaults to compact notation (1.2K)."
+        },
+        {
+          "name": "yDomain",
+          "type": "[number, number] | undefined",
+          "required": false,
+          "description": "Fixes the y domain instead of deriving it from the data."
+        },
+        {
+          "name": "yTicks",
+          "type": "number | undefined",
+          "required": false,
+          "default": "4",
+          "description": "Approximate number of y ticks."
+        },
+        {
+          "name": "onPointSelect",
+          "type": "((info: { datum: T; seriesKey: string; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a point is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "variant": [
+          "line",
+          "area",
+          "stacked-area"
+        ],
+        "curve": [
+          "monotone",
+          "linear",
+          "step"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Multi-series line",
+          "code": "<LineChart label=\"Applications by week\" data={rows} xKey=\"week\" series={[{ key: \"applications\", name: \"Applications\" }, { key: \"responses\", name: \"Responses\" }]} />"
+        },
+        {
+          "title": "Single-series area with dots",
+          "code": "<LineChart label=\"Applications sent\" data={rows} xKey=\"week\" series={[{ key: \"applications\" }]} variant=\"area\" showDots />"
+        },
+        {
+          "title": "Stacked area with bottom legend",
+          "code": "<LineChart label=\"Applications by source\" data={rows} xKey=\"week\" series={sources} variant=\"stacked-area\" legendPosition=\"bottom\" />"
+        }
+      ],
+      "a11y": "Pass a meaningful `label` (the figure's accessible name). The chart is one tab stop; Left/Right move between points, Up/Down between series, Home/End jump to the ends, Escape closes the tooltip. Every value is also in a visually hidden table (set `showTable` to render it visibly). Motion is disabled automatically under prefers-reduced-motion.",
+      "doNot": [
+        "Do not plot more than 8 series; fold the tail into an 'Other' series instead of cycling colors.",
+        "Do not use two y-axes; index the series to a common base or split into two charts.",
+        "Do not pass a new `data` array on every render (memoise it) -- a new identity replays the transition.",
+        "Do not color the labels or legend text with the series color; text always wears text tokens."
+      ],
+      "docsUrl": "/docs/application/charts/line-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/pie-chart",
+      "name": "PieChart",
+      "importName": "PieChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/pie-chart",
+      "category": "application",
+      "description": "Pie or donut chart for part-to-whole at a glance, built on d3-shape. Slices beyond maxSlices fold into a single Other slice, every slice is keyboard focusable with a tooltip, and the values are mirrored in an accessible data table. Pass a memoised data array of { name, value }.",
+      "props": [
+        {
+          "name": "data",
+          "type": "ChartNamedValue[]",
+          "required": true,
+          "description": "Slices in display order. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "innerRadius",
+          "type": "number | undefined",
+          "required": false,
+          "default": "0.66",
+          "description": "Hole size as a ratio of the outer radius (0 = pie, 0.66 = donut). Clamped to 0–0.9."
+        },
+        {
+          "name": "padAngle",
+          "type": "number | undefined",
+          "required": false,
+          "default": "0.02",
+          "description": "Angular gap between slices, in radians."
+        },
+        {
+          "name": "cornerRadius",
+          "type": "number | undefined",
+          "required": false,
+          "default": "3",
+          "description": "Corner rounding of each slice, in px."
+        },
+        {
+          "name": "centerLabel",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Small text under the centre value. Only rendered for donuts (`innerRadius` > 0.4)."
+        },
+        {
+          "name": "centerValue",
+          "type": "string | number | undefined",
+          "required": false,
+          "description": "Centre value. Defaults to the total; numbers count up during the entry animation."
+        },
+        {
+          "name": "maxSlices",
+          "type": "number | undefined",
+          "required": false,
+          "default": "6",
+          "description": "Slices beyond this count fold into a single \"Other\" slice so colors are never cycled."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "right"
+          ],
+          "required": false,
+          "default": "right",
+          "description": "`right` draws an SVG legend beside the chart; `bottom` uses the frame's legend. Falls back to `bottom` under 420px."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for the legend, tooltip, centre and table."
+        },
+        {
+          "name": "showShare",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Adds each slice's share of the total to legend and tooltip."
+        },
+        {
+          "name": "onSliceSelect",
+          "type": "((info: { datum: ChartNamedValue; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a slice is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "220",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "legendPosition": [
+          "right",
+          "bottom"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Donut",
+          "code": "<PieChart label=\"Applications by source\" title=\"Applications by source\" data={sources} />"
+        },
+        {
+          "title": "Pie",
+          "code": "<PieChart label=\"Applications by source\" data={sources} innerRadius={0} />"
+        },
+        {
+          "title": "Custom centre",
+          "code": "<PieChart label=\"Applications by source\" data={sources} centerValue={286} centerLabel=\"applications\" />"
+        }
+      ],
+      "a11y": "Renders a labelled figure (use `label`) with a generated description, a visually hidden data table twin (visible with showTable) and one tab stop: arrow keys move between slices, Home/End jump to the first/last slice, Enter/Space activates (onSliceSelect), Escape closes the tooltip. Respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not use a pie or donut to compare close values; use a BarChart so lengths can be read.",
+        "Do not show more than six slices; leave maxSlices at its default so the tail folds into Other.",
+        "Do not use a two-slice pie for a single figure; use a StatTile or RadialChart instead.",
+        "Do not set slice colors to status tokens unless the slice genuinely means good/bad."
+      ],
+      "docsUrl": "/docs/application/charts/pie-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/radar-chart",
+      "name": "RadarChart",
+      "importName": "RadarChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/radar-chart",
+      "category": "application",
+      "description": "Radar (spider) chart comparing a profile across several dimensions, e.g. a candidate's skills against a role requirement. Built on d3-scale; every vertex is keyboard focusable and the values are mirrored in an accessible table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "T[]",
+          "required": true,
+          "description": "One datum per axis, in clockwise order starting at the top. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "axisKey",
+          "type": "string",
+          "required": true,
+          "description": "The property that names each axis."
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries<T>[]",
+          "required": true,
+          "description": "The series to plot. Two read best; the palette supports up to 8."
+        },
+        {
+          "name": "max",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Outer ring value. Defaults to a nice ceiling of the largest value."
+        },
+        {
+          "name": "levels",
+          "type": "number | undefined",
+          "required": false,
+          "default": "4",
+          "description": "Number of concentric grid levels."
+        },
+        {
+          "name": "showDots",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Renders a marker at every vertex. Markers always exist for keyboard focus; this only makes them visible at rest."
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Hides the legend. It is shown by default whenever there is more than one series."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for tooltips and the table."
+        },
+        {
+          "name": "onPointSelect",
+          "type": "((info: { datum: T; seriesKey: string; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a vertex is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "280",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "You vs role requirement",
+          "code": "<RadarChart label=\"Skills match\" data={skills} axisKey=\"axis\" series={[{ key: \"role\", name: \"Role requirement\" }, { key: \"you\", name: \"You\" }]} max={100} />"
+        }
+      ],
+      "a11y": "Pass a `label` (required) naming the chart. The chart is one tab stop; Left/Right move between axes, Up/Down between series, Home/End jump to the first/last axis, Escape closes the tooltip. Reduced motion renders the final frame immediately.",
+      "doNot": [
+        "Do not plot more than two or three series: overlapping polygons stop being readable.",
+        "Do not use a radar chart to compare precise values; use a BarChart for that.",
+        "Do not pass a new `data` array identity on every render; memoise it or the entry animation replays."
+      ],
+      "docsUrl": "/docs/application/charts/radar-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/radial-chart",
+      "name": "RadialChart",
+      "importName": "RadialChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/radial-chart",
+      "category": "application",
+      "description": "Radial progress built on d3-shape: concentric activity rings (one per item), a 240-degree gauge, or a single progress circle in four sizes. Each item is { name, value, max? } with max defaulting to 100. The track is the same hue at low opacity, arcs sweep in and centre figures count up. Every arc is keyboard focusable and the values are mirrored in an accessible data table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "RadialChartDatum[]",
+          "required": true,
+          "description": "One item per ring (`rings`), or a single item (`gauge`, `progress`). Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "progress",
+            "rings",
+            "gauge"
+          ],
+          "required": false,
+          "default": "rings",
+          "description": "`rings`: concentric activity rings. `gauge`: a 240° dial. `progress`: a full progress circle."
+        },
+        {
+          "name": "thickness",
+          "type": "number | undefined",
+          "required": false,
+          "default": "14",
+          "description": "Ring thickness in px (`rings` and `gauge`)."
+        },
+        {
+          "name": "gap",
+          "type": "number | undefined",
+          "required": false,
+          "default": "8",
+          "description": "Gap between rings in px (`rings`)."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg",
+            "xs"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "Diameter preset for the `progress` variant."
+        },
+        {
+          "name": "color",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Overrides the arc color for `gauge` and `progress`, e.g. a status token."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Plot height in px. Defaults per variant (rings 220, gauge 200, progress by `size`)."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for the legend, tooltip, centre and table."
+        },
+        {
+          "name": "onItemSelect",
+          "type": "((info: { datum: RadialChartDatum; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a ring or arc is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "variant": [
+          "rings",
+          "gauge",
+          "progress"
+        ],
+        "size": [
+          "xs",
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Activity rings",
+          "code": "<RadialChart label=\"Readiness scores\" data={[{ name: \"Resume score\", value: 82 }, { name: \"Job match\", value: 67 }]} />"
+        },
+        {
+          "title": "Gauge",
+          "code": "<RadialChart label=\"Resume score\" data={[{ name: \"Resume score\", value: 82, max: 100 }]} variant=\"gauge\" />"
+        },
+        {
+          "title": "Progress circle",
+          "code": "<RadialChart label=\"Profile completeness\" data={[{ name: \"Profile\", value: 91 }]} variant=\"progress\" size=\"sm\" />"
+        }
+      ],
+      "a11y": "Renders a labelled figure (use `label`) with a generated description, a visually hidden data table twin (visible with showTable) and one tab stop: arrow keys move between rings, Enter/Space activates (onItemSelect), Escape closes the tooltip. Respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not put more than four rings in the rings variant; past that the inner rings become unreadable.",
+        "Do not use the gauge or progress variants for more than one value; only the first item is drawn.",
+        "Do not pass a status token as `color` unless the value genuinely means good/bad."
+      ],
+      "docsUrl": "/docs/application/charts/radial-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/sankey-chart",
+      "name": "SankeyChart",
+      "importName": "SankeyChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/sankey-chart",
+      "category": "application",
+      "description": "Sankey diagram for flows between stages, e.g. application source -> pipeline stage -> outcome. Ribbons inherit the color of the chain they started in, draw on in column order, and every ribbon is a keyboard-focusable mark with a tooltip. Values are mirrored in an accessible From/To/Value table.",
+      "props": [
+        {
+          "name": "nodes",
+          "type": "SankeyNodeInput[]",
+          "required": true
+        },
+        {
+          "name": "links",
+          "type": "SankeyLinkInput[]",
+          "required": true,
+          "description": "Flows between nodes. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "nodeWidth",
+          "type": "number | undefined",
+          "required": false,
+          "default": "10",
+          "description": "Node rectangle width in px."
+        },
+        {
+          "name": "nodePadding",
+          "type": "number | undefined",
+          "required": false,
+          "default": "14",
+          "description": "Vertical gap between nodes in the same column, in px."
+        },
+        {
+          "name": "mutedNodes",
+          "type": "string[] | undefined",
+          "required": false,
+          "description": "Ids of terminal nodes whose incoming flows should recede (e.g. \"No reply\", \"Rejected\")."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats values for labels, tooltips and the table."
+        },
+        {
+          "name": "onLinkSelect",
+          "type": "((info: { link: SankeyLinkInput; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a flow is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "260",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Source to outcome",
+          "code": "<SankeyChart label=\"Application flow\" nodes={[{ id: \"li\", name: \"LinkedIn\" }, { id: \"s\", name: \"Screened\" }, { id: \"n\", name: \"No reply\" }]} links={[{ source: \"li\", target: \"s\", value: 46 }, { source: \"li\", target: \"n\", value: 86 }]} mutedNodes={[\"n\"]} />"
+        }
+      ],
+      "a11y": "Renders as a labelled figure (pass `label`). Each flow is focusable and announced as 'Source to Target, value'; arrow keys step through flows top to bottom, Escape closes the tooltip. The table twin is always present for assistive technology. Respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not create cycles (a node flowing back into an earlier column); d3-sankey requires a directed acyclic graph.",
+        "Do not use it for fewer than two columns of nodes; a bar chart is clearer.",
+        "Do not omit `label`; it is the chart's accessible name."
+      ],
+      "docsUrl": "/docs/application/charts/sankey-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/scatter-chart",
+      "name": "ScatterChart",
+      "importName": "ScatterChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/scatter-chart",
+      "category": "application",
+      "description": "Scatter and bubble chart for correlation between two numeric measures, optionally sized by a third and colored by a category. Every mark has a 24px hit target, is keyboard focusable in x order, and is mirrored in an accessible table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "T[]",
+          "required": true,
+          "description": "One datum per point. Memoise it: a new array identity replays the transition."
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": true,
+          "description": "The numeric property plotted on the x axis."
+        },
+        {
+          "name": "yKey",
+          "type": "string",
+          "required": true,
+          "description": "The numeric property plotted on the y axis."
+        },
+        {
+          "name": "sizeKey",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Optional numeric property that sizes each mark (bubble chart)."
+        },
+        {
+          "name": "sizeRange",
+          "type": "[number, number] | undefined",
+          "required": false,
+          "default": "[3, 14]",
+          "description": "Mark radius range in px used with `sizeKey`."
+        },
+        {
+          "name": "categoryKey",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Optional property that colors marks by category. At most three categories keep distinct hues; the rest fold into \"Other\"."
+        },
+        {
+          "name": "labelKey",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Optional property used as each point's tooltip title and table label."
+        },
+        {
+          "name": "xFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    if (Math.abs(value) < 1000) return formatNumber(value);\n    return compact(value).replace(\"k\", \"K\").replace(\"G\", \"B\");\n}",
+          "description": "Formats x values for ticks, tooltips and the table."
+        },
+        {
+          "name": "yFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    if (Math.abs(value) < 1000) return formatNumber(value);\n    return compact(value).replace(\"k\", \"K\").replace(\"G\", \"B\");\n}",
+          "description": "Formats y values for ticks, tooltips and the table."
+        },
+        {
+          "name": "sizeFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}",
+          "description": "Formats size values for tooltips and the table."
+        },
+        {
+          "name": "xDomain",
+          "type": "[number, number] | undefined",
+          "required": false,
+          "description": "Fixes the x domain instead of deriving it from the data."
+        },
+        {
+          "name": "yDomain",
+          "type": "[number, number] | undefined",
+          "required": false,
+          "description": "Fixes the y domain instead of deriving it from the data."
+        },
+        {
+          "name": "xTicks",
+          "type": "number | undefined",
+          "required": false,
+          "default": "5",
+          "description": "Approximate number of x ticks."
+        },
+        {
+          "name": "yTicks",
+          "type": "number | undefined",
+          "required": false,
+          "default": "4",
+          "description": "Approximate number of y ticks."
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Hides the legend. It is shown by default whenever `categoryKey` is set."
+        },
+        {
+          "name": "onPointSelect",
+          "type": "((info: { datum: T; index: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a point is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Bubble by category",
+          "code": "<ScatterChart label=\"Salary vs match score\" data={jobs} xKey=\"match\" yKey=\"salary\" sizeKey=\"openings\" categoryKey=\"type\" labelKey=\"title\" />"
+        }
+      ],
+      "a11y": "Pass a `label` (required) naming the chart. The chart is one tab stop; any arrow key steps through points from left to right, Home/End jump to the ends, Escape closes the tooltip. Reduced motion renders the final frame immediately.",
+      "doNot": [
+        "Do not color by more than three categories: the palette is only validated for three simultaneous hues in a scatter, so extra categories fold into \"Other\".",
+        "Do not use a scatter for time series; use a LineChart.",
+        "Do not pass a new `data` array identity on every render; memoise it or the entry animation replays."
+      ],
+      "docsUrl": "/docs/application/charts/scatter-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/sparkline",
+      "name": "Sparkline",
+      "importName": "Sparkline",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/sparkline",
+      "category": "application",
+      "description": "A small inline trend (line, area or bar) that fills its container's width, meant to sit under a StatTile value. It is a single decorative image to assistive technology: pass a `label` that states the trend in words. Not per-point focusable; use LineChart when readers need to inspect individual values.",
+      "props": [
+        {
+          "name": "data",
+          "type": "number[]",
+          "required": true,
+          "description": "The values to plot, oldest first."
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "bar",
+            "area",
+            "line"
+          ],
+          "required": false,
+          "default": "area",
+          "description": "`line` is a bare stroke, `area` adds a 10% wash, `bar` draws 4px rounded columns."
+        },
+        {
+          "name": "color",
+          "type": "string | undefined",
+          "required": false,
+          "default": "var(--color-chart-1)",
+          "description": "Any CSS color. Defaults to the first categorical slot."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "36",
+          "description": "Height in px. Width always fills the container."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name, e.g. \"Profile views trend over 12 weeks, rising\". Required: the sparkline is a single image to assistive tech."
+        },
+        {
+          "name": "showEndDot",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Marks the latest value with a dot."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "variant": [
+          "line",
+          "area",
+          "bar"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Area sparkline",
+          "code": "<Sparkline data={[30, 34, 31, 40, 44, 51]} label=\"Profile views trend over 6 weeks, rising\" />"
+        }
+      ],
+      "a11y": "Rendered as role=img with the required `label` as its accessible name, e.g. 'Profile views trend over 12 weeks, rising'. Use describeTrend(data) to derive the direction word. Respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not use a Sparkline as the only place a value is shown; pair it with a StatTile value or a table.",
+        "Do not omit `label`."
+      ],
+      "docsUrl": "/docs/application/charts/sparkline",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/stat-tile",
+      "name": "StatTile",
+      "importName": "StatTile",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/stat-tile",
+      "category": "application",
+      "description": "The form to use when the story is one number: a label, a hero value that counts up on entry, an optional signed delta colored by whether the change is good, and an optional sparkline trend. Wrap several in StatTileGroup (same module) for a KPI row.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Sentence-case metric name, no trailing colon."
+        },
+        {
+          "name": "value",
+          "type": "string | number",
+          "required": true,
+          "description": "Numbers count up on entry and are formatted with `valueFormatter`; strings render as-is."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}"
+        },
+        {
+          "name": "delta",
+          "type": "StatTileDelta | undefined",
+          "required": false,
+          "description": "Signed change versus a named period."
+        },
+        {
+          "name": "trend",
+          "type": "number[] | undefined",
+          "required": false,
+          "description": "Recent values, oldest first, drawn as a sparkline under the delta."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "Controls the value's display size."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<StatTile label=\"Profile views\" value={1284} delta={{ value: \"+12.4%\", direction: \"up\", caption: \"vs last month\" }} />"
+        },
+        {
+          "title": "With trend",
+          "code": "<StatTile label=\"Applications sent\" value={286} delta={{ value: \"+8.1%\", direction: \"up\" }} trend={[18, 22, 20, 26, 24, 31]} />"
+        },
+        {
+          "title": "KPI row",
+          "code": "<StatTileGroup><StatTile label=\"Views\" value={1284} /><StatTile label=\"Applications\" value={286} /><StatTile label=\"Response rate\" value=\"31%\" /></StatTileGroup>"
+        }
+      ],
+      "a11y": "Renders as a labelled group; the final value and delta are readable as text (the counting animation is aria-hidden). Delta direction is conveyed by an icon and sign, never color alone. Respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not use tabular-nums on the hero value; it uses proportional figures by design.",
+        "Do not use a one-bar bar chart or a two-slice pie for a single number; use StatTile.",
+        "Do not set delta.isPositive by direction alone for metrics where down is good (e.g. time to hire); pass isPositive explicitly."
+      ],
+      "docsUrl": "/docs/application/charts/stat-tile",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/sunburst-chart",
+      "name": "SunburstChart",
+      "importName": "SunburstChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/sunburst-chart",
+      "category": "application",
+      "description": "Sunburst for nested share: the inner ring is the top-level breakdown, outer rings are the children of each segment, and the centre carries the total. Hue identifies the top-level branch. Every arc is keyboard focusable and listed in a screen-reader table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "ChartTreeNode",
+          "required": true,
+          "description": "The root node. Its top-level children each take a categorical hue. Memoise it: a new identity replays the transition."
+        },
+        {
+          "name": "centerLabel",
+          "type": "ReactNode",
+          "required": false,
+          "default": "total",
+          "description": "Text under the centre value. Defaults to \"total\"."
+        },
+        {
+          "name": "centerValue",
+          "type": "string | number | undefined",
+          "required": false,
+          "description": "The centre figure. Defaults to the root total; numbers count up during the entry animation."
+        },
+        {
+          "name": "maxDepth",
+          "type": "number | undefined",
+          "required": false,
+          "default": "2",
+          "description": "Deepest ring to draw (1 = top-level only)."
+        },
+        {
+          "name": "padAngle",
+          "type": "number | undefined",
+          "required": false,
+          "default": "0.012",
+          "description": "Angular gap between arcs in radians."
+        },
+        {
+          "name": "cornerRadius",
+          "type": "number | undefined",
+          "required": false,
+          "default": "2",
+          "description": "Corner radius of each arc in px."
+        },
+        {
+          "name": "innerRadius",
+          "type": "number | undefined",
+          "required": false,
+          "default": "36",
+          "description": "Radius of the centre hole in px."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Lists the top-level branches beside the rings when the chart is wide enough."
+        },
+        {
+          "name": "onNodeSelect",
+          "type": "((info: { name: string; path: string[]; value: number; depth: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when an arc is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "240",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Industries and roles",
+          "code": "<SunburstChart label=\"Applications by industry and role\" data={{ name: \"Applications\", children: [{ name: \"SaaS\", children: [{ name: \"Frontend\", value: 28 }] }] }} centerLabel=\"applied\" />"
+        },
+        {
+          "title": "Custom centre",
+          "code": "<SunburstChart label=\"Applications by industry\" data={tree} centerValue=\"4 sectors\" centerLabel=\"in play\" showLegend={false} />"
+        }
+      ],
+      "a11y": "Pass a meaningful `label`. Arcs form a focus grid by ring: Tab enters the chart, Left/Right move around the current ring, Up/Down move between rings, Escape closes the tooltip. Each arc announces its full path, value and share. The hidden data table lists every arc (`showTable` renders it visibly).",
+      "doNot": [
+        "Do not use a sunburst for more than about six top-level branches or three rings; it becomes unreadable. Fold the tail into an \"Other\" branch or use a table.",
+        "Do not use it to compare close values; angular differences are hard to judge. Use a BarChart.",
+        "Do not put a decorative or display typeface on the centre figure; it uses the same sans as everything else."
+      ],
+      "docsUrl": "/docs/application/charts/sunburst-chart",
+      "isExtracted": true
+    },
+    {
+      "id": "application/charts/treemap-chart",
+      "name": "TreemapChart",
+      "importName": "TreemapChart",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/charts/treemap-chart",
+      "category": "application",
+      "description": "Treemap for hierarchical share: each top-level branch takes a categorical hue and its leaves tint by value. Use it to show how a total splits across groups and items at a glance. Every tile is keyboard focusable and every leaf is listed in a screen-reader table.",
+      "props": [
+        {
+          "name": "data",
+          "type": "ChartTreeNode",
+          "required": true,
+          "description": "The root node. Its top-level children each take a categorical hue; leaves tint by value. Memoise it: a new identity replays the transition."
+        },
+        {
+          "name": "paddingInner",
+          "type": "number | undefined",
+          "required": false,
+          "default": "2",
+          "description": "Gap between sibling tiles in px."
+        },
+        {
+          "name": "paddingOuter",
+          "type": "number | undefined",
+          "required": false,
+          "default": "0",
+          "description": "Gap around the outside of the plot in px."
+        },
+        {
+          "name": "labelMinSize",
+          "type": "{ width: number; height: number; } | undefined",
+          "required": false,
+          "default": "{ width: 64, height: 34 }",
+          "description": "Tiles smaller than this get no inline label; the tooltip and table carry it."
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number) => string) | undefined",
+          "required": false,
+          "default": "(value: number): string => {\n    if (!Number.isFinite(value)) return \"–\";\n    return Number.isInteger(value) ? thousands(value) : oneDecimal(value);\n}"
+        },
+        {
+          "name": "showShare",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Adds the share of the total to tooltips and the table."
+        },
+        {
+          "name": "onNodeSelect",
+          "type": "((info: { name: string; path: string[]; value: number; }) => void) | undefined",
+          "required": false,
+          "description": "Called when a tile is activated with Enter, Space or a click."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name announced for the whole chart, e.g. \"Applications by week\". Required."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible title rendered above the plot."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "required": false,
+          "description": "One-sentence summary of what the data shows, exposed to assistive technology. Charts generate a default from their data."
+        },
+        {
+          "name": "height",
+          "type": "number | undefined",
+          "required": false,
+          "default": "240",
+          "description": "Plot height in px. Width is always the container width."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Slot rendered at the end of the header row (e.g. a range select)."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible supporting text rendered under the title."
+        },
+        {
+          "name": "legendPosition",
+          "type": "enum",
+          "enumValues": [
+            "bottom",
+            "top"
+          ],
+          "required": false,
+          "description": "Where to render the legend. Defaults to `top`."
+        },
+        {
+          "name": "showTable",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Renders the data table visibly under the chart."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Text shown in the empty state."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Two-level hierarchy",
+          "code": "<TreemapChart label=\"Matched jobs by category\" data={{ name: \"Jobs\", children: [{ name: \"Engineering\", children: [{ name: \"Frontend\", value: 320 }] }] }} />"
+        },
+        {
+          "title": "Flat",
+          "code": "<TreemapChart label=\"Applications by location\" data={{ name: \"Locations\", children: [{ name: \"Remote\", value: 128 }, { name: \"London\", value: 64 }] }} showShare={false} />"
+        }
+      ],
+      "a11y": "Pass a meaningful `label`. Tiles are a single focus list: Tab enters the chart, any arrow key moves to the next or previous tile, Escape closes the tooltip. Tiles too small for an inline label still announce their name, value and share, and remain in the hidden data table (`showTable` renders it visibly).",
+      "doNot": [
+        "Do not use a treemap to compare values that are close together; readers cannot judge small area differences. Use a BarChart instead.",
+        "Do not nest more than two levels; deeper hierarchies belong in a SunburstChart or a table.",
+        "Do not set explicit `color` on leaves; hue belongs to the top-level branch so identity stays consistent."
+      ],
+      "docsUrl": "/docs/application/charts/treemap-chart",
       "isExtracted": true
     },
     {
@@ -3252,12 +5506,6 @@
           "description": "Tooltip message on hover."
         },
         {
-          "name": "wrapperClassName",
-          "type": "string | undefined",
-          "required": false,
-          "description": "Class name for the input wrapper."
-        },
-        {
           "name": "shortcut",
           "type": "string | boolean | undefined",
           "required": false,
@@ -3273,6 +5521,12 @@
           "type": "string | undefined",
           "required": false,
           "description": "Class name for the icon."
+        },
+        {
+          "name": "wrapperClassName",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Class name for the input wrapper."
         },
         {
           "name": "tooltipClassName",
@@ -3364,12 +5618,6 @@
           "description": "Tooltip message on hover."
         },
         {
-          "name": "wrapperClassName",
-          "type": "string | undefined",
-          "required": false,
-          "description": "Class name for the input wrapper."
-        },
-        {
           "name": "shortcut",
           "type": "string | boolean | undefined",
           "required": false,
@@ -3385,6 +5633,12 @@
           "type": "string | undefined",
           "required": false,
           "description": "Class name for the icon."
+        },
+        {
+          "name": "wrapperClassName",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Class name for the input wrapper."
         },
         {
           "name": "tooltipClassName",
@@ -3581,16 +5835,16 @@
           "description": "Input size."
         },
         {
-          "name": "wrapperClassName",
-          "type": "string | undefined",
-          "required": false,
-          "description": "Class name for the input wrapper."
-        },
-        {
           "name": "iconClassName",
           "type": "string | undefined",
           "required": false,
           "description": "Class name for the icon."
+        },
+        {
+          "name": "wrapperClassName",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Class name for the input wrapper."
         },
         {
           "name": "tooltipClassName",
@@ -6225,6 +8479,155 @@
         "usage": "Base Color token."
       },
       {
+        "cssVar": "--color-chart-1",
+        "className": "chart-1",
+        "value": "var(--color-brand-600)",
+        "darkValue": "var(--color-brand-500)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-2",
+        "className": "chart-2",
+        "value": "var(--color-lime-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-3",
+        "className": "chart-3",
+        "value": "var(--color-cyan-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-4",
+        "className": "chart-4",
+        "value": "var(--color-orange-700)",
+        "darkValue": "var(--color-orange-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-5",
+        "className": "chart-5",
+        "value": "var(--color-sky-500)",
+        "darkValue": "var(--color-sky-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-6",
+        "className": "chart-6",
+        "value": "var(--color-amber-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-7",
+        "className": "chart-7",
+        "value": "var(--color-blue-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-8",
+        "className": "chart-8",
+        "value": "var(--color-emerald-500)",
+        "darkValue": "var(--color-emerald-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-axis",
+        "className": "chart-axis",
+        "value": "var(--color-neutral-200)",
+        "darkValue": "var(--color-neutral-700)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-diverging-mid",
+        "className": "chart-diverging-mid",
+        "value": "var(--color-neutral-300)",
+        "darkValue": "var(--color-neutral-700)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-diverging-negative",
+        "className": "chart-diverging-negative",
+        "value": "var(--color-orange-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-diverging-positive",
+        "className": "chart-diverging-positive",
+        "value": "var(--color-brand-600)",
+        "darkValue": "var(--color-brand-500)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-empty-cell",
+        "className": "chart-empty-cell",
+        "value": "var(--color-neutral-100)",
+        "darkValue": "var(--color-neutral-800)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-grid",
+        "className": "chart-grid",
+        "value": "var(--color-neutral-100)",
+        "darkValue": "var(--color-neutral-800)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-1",
+        "className": "chart-sequential-1",
+        "value": "var(--color-brand-100)",
+        "darkValue": "var(--color-brand-950)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-2",
+        "className": "chart-sequential-2",
+        "value": "var(--color-brand-200)",
+        "darkValue": "var(--color-brand-900)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-3",
+        "className": "chart-sequential-3",
+        "value": "var(--color-brand-300)",
+        "darkValue": "var(--color-brand-800)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-4",
+        "className": "chart-sequential-4",
+        "value": "var(--color-brand-400)",
+        "darkValue": "var(--color-brand-700)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-5",
+        "className": "chart-sequential-5",
+        "value": "var(--color-brand-500)",
+        "darkValue": "var(--color-brand-600)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-6",
+        "className": "chart-sequential-6",
+        "value": "var(--color-brand-600)",
+        "darkValue": "var(--color-brand-500)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-sequential-7",
+        "className": "chart-sequential-7",
+        "value": "var(--color-brand-700)",
+        "darkValue": "var(--color-brand-400)",
+        "usage": "Chart Colors token."
+      },
+      {
+        "cssVar": "--color-chart-track",
+        "className": "chart-track",
+        "value": "var(--color-neutral-100)",
+        "darkValue": "var(--color-neutral-800)",
+        "usage": "Chart Colors token."
+      },
+      {
         "cssVar": "--color-featured-icon-light-fg-brand",
         "className": "featured-icon-light-fg-brand",
         "value": "var(--color-brand-600)",
@@ -7587,8 +9990,8 @@
     "allowedTailwindPatterns": [
       "^(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
       "^(hover|focus|focus-visible|active|disabled|dark):(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
-      "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text)$",
-      "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text)$",
+      "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell)$",
+      "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell)$",
       "^-?(m|p)[trblxy]?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",
       "^m[trblxy]?-auto$",
       "^gap(-x|-y)?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",

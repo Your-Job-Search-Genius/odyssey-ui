@@ -20,20 +20,84 @@ function text(payload: unknown): { content: [{ type: "text"; text: string }] } {
     return { content: [{ type: "text", text: typeof payload === "string" ? payload : JSON.stringify(payload, null, 2) }] };
 }
 
+/**
+ * Function words that carry no intent. Without this list a long
+ * description full of "a"/"to"/"the" outranks a short, exact match (a
+ * chart described in two sentences beat Button for "a button to submit a
+ * form"), so they are dropped from both the query and the haystack.
+ */
+const STOPWORDS = new Set([
+    "a",
+    "an",
+    "the",
+    "to",
+    "for",
+    "of",
+    "in",
+    "on",
+    "and",
+    "or",
+    "with",
+    "that",
+    "this",
+    "is",
+    "it",
+    "as",
+    "be",
+    "by",
+    "at",
+    "from",
+    "into",
+    "my",
+    "i",
+    "me",
+    "we",
+    "you",
+    "your",
+    "its",
+    "are",
+    "was",
+    "when",
+    "which",
+    "what",
+    "some",
+    "any",
+    "one",
+    "use",
+    "used",
+]);
+
 function tokenize(s: string): string[] {
     return s
         .toLowerCase()
         .split(/[^a-z0-9]+/)
-        .filter(Boolean);
+        .filter((t) => t.length >= 2 && !STOPWORDS.has(t));
 }
 
+/** Split a PascalCase name into its words so "StatTile" matches "tile" and "stat". */
+function nameTokens(name: string): string[] {
+    return tokenize(name.replace(/([a-z0-9])([A-Z])/g, "$1 $2"));
+}
+
+/**
+ * Query tokens found in the component's name/id count 3, tokens found
+ * only in the description or do-not list count 1. Each distinct query
+ * token is counted once, so repeating a word does not inflate the score.
+ */
+function scoreComponent(c: ComponentEntry, needleTokens: string[]): number {
+    const strong = new Set([...nameTokens(c.name), ...tokenize(c.id)]);
+    const weak = new Set(componentSearchTokens(c));
+    return [...new Set(needleTokens)].reduce((acc, t) => acc + (strong.has(t) ? 3 : weak.has(t) ? 1 : 0), 0);
+}
+
+/** Plain token overlap, used for icon search where there is no description to weight against. */
 function score(haystack: string[], needleTokens: string[]): number {
     const set = new Set(haystack);
-    return needleTokens.reduce((acc, t) => acc + (set.has(t) ? 1 : 0), 0);
+    return [...new Set(needleTokens)].reduce((acc, t) => acc + (set.has(t) ? 1 : 0), 0);
 }
 
 function componentSearchTokens(c: ComponentEntry): string[] {
-    return tokenize([c.id, c.name, c.category, c.description, ...c.doNot].join(" "));
+    return tokenize([c.id, ...nameTokens(c.name), c.category, c.description, ...c.doNot].join(" "));
 }
 
 function summarize(c: ComponentEntry) {
@@ -107,14 +171,14 @@ export interface SearchComponentsResult {
 export function searchComponents(registry: Registry, intent: string): SearchComponentsResult[] {
     const needle = tokenize(intent);
     return registry.components
-        .map((c) => ({ c, s: score(componentSearchTokens(c), needle) }))
+        .map((c) => ({ c, s: scoreComponent(c, needle) }))
         .filter((r) => r.s > 0)
         .sort((a, b) => b.s - a.s)
         .slice(0, 10)
         .map(({ c, s }) => ({
             ...summarize(c),
             matchScore: s,
-            reason: `Matched on: ${needle.filter((t) => componentSearchTokens(c).includes(t)).join(", ")}`,
+            reason: `Matched on: ${[...new Set(needle)].filter((t) => componentSearchTokens(c).includes(t)).join(", ")}`,
         }));
 }
 
@@ -168,7 +232,7 @@ export interface SuggestCompositionResult {
 export function suggestComposition(registry: Registry, intent: string): SuggestCompositionResult {
     const needle = tokenize(intent);
     const relevant = registry.components
-        .map((c) => ({ c, s: score(componentSearchTokens(c), needle) }))
+        .map((c) => ({ c, s: scoreComponent(c, needle) }))
         .filter((r) => r.s > 0)
         .sort((a, b) => b.s - a.s)
         .slice(0, 5)

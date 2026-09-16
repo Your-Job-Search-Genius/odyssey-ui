@@ -1,0 +1,93 @@
+---
+title: Building custom charts
+description: The Chart root, hooks and primitives every built-in chart is made of, so a new chart type gets the same accessibility and motion for free.
+---
+
+## Overview
+
+Every chart in this library is a few hundred lines on top of the same five pieces. If you need a chart type that does not exist yet, build it the same way and it inherits the keyboard model, the tooltip, the table twin, the empty state, responsive sizing and reduced-motion handling.
+
+<ComponentPreview demo="application/charts/chart" export="CustomLollipopChart" />
+
+## The pieces
+
+```ts
+import { Chart, useChartContext, useChartTooltip } from "@/components/application/charts/chart";
+import {
+    ChartAxisBottom,
+    ChartAxisLeft,
+    ChartBaseline,
+    ChartCrosshair,
+    ChartFocusRing,
+    ChartGrid,
+    ChartLabel,
+} from "@/components/application/charts/chart-primitives";
+import { divergingColor, formatCompact, formatNumber, lerp, sequentialColor, seriesColor, stagger } from "@/components/application/charts/chart-utils";
+import { useChartFocus } from "@/components/application/charts/use-chart-focus";
+import { useChartTransition, usePreviousDistinct } from "@/components/application/charts/use-chart-motion";
+```
+
+| Piece                | Job                                                                                                                                                                                    |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Chart`              | The frame. Measures the container width, renders the header, legend, HTML tooltip, live region and the data-table twin. Its render prop hands you `{ width, height }` and expects SVG. |
+| `useChartFocus`      | Roving tabindex over a grid of marks. Spread `getItemProps(row, col, label)` onto each mark; read `current` / `isKeyboard` to draw the tooltip and ring.                               |
+| `useChartTooltip`    | Declarative tooltip: pass a descriptor in plot pixels, or `null`.                                                                                                                      |
+| `useChartTransition` | A progress value in `[0, 1]` that restarts when `data` changes and is `1` under reduced motion. Compute geometry from it in render.                                                    |
+| Primitives           | `ChartGrid`, `ChartAxisLeft`, `ChartAxisBottom`, `ChartBaseline`, `ChartCrosshair`, `ChartFocusRing`, `ChartLabel`: the recessive chrome, always in text and border tokens.            |
+
+## The pattern
+
+1. **Outer component** turns props into a legend, a data table and an auto-generated description, then renders `<Chart>`.
+2. **Inner plot component** (rendered through the render prop so it can use the context) computes scales with `d3-scale`, geometry with `d3-shape`, and animates by deriving geometry from `useChartTransition`.
+3. **Every mark** is wrapped in an element carrying `focus.getItemProps(...)`, includes a hit target at least 24px wide, and gets a `ChartFocusRing` when `focus.isKeyboard` and it is `current`.
+4. **Colors** come from `seriesColor(index)` (categorical), `sequentialColor(t)` (magnitude) or `divergingColor(value)` (polarity). Text never wears a series color.
+
+```tsx
+const Plot = ({ width, height }: { width: number; height: number }) => {
+    const progress = useChartTransition(data);
+    const focus = useChartFocus({ rowCount: 1, colCount: () => data.length, navigation: "list" });
+    useChartTooltip(focus.current ? { x, y, title, rows } : null);
+    return <g>{/* marks with {...focus.getItemProps(0, i, label)} */}</g>;
+};
+
+<Chart label="…" height={200} table={{ columns, rows }}>
+    {(size) => <Plot {...size} />}
+</Chart>;
+```
+
+## Props
+
+**Chart**
+
+<PropsTable component="application/charts/chart" name="Chart" />
+
+**ChartLegend**
+
+<PropsTable component="application/charts/chart" name="ChartLegend" />
+
+**ChartDataTable**
+
+<PropsTable component="application/charts/chart" name="ChartDataTable" />
+
+**ChartFocusRing**
+
+<PropsTable component="application/charts/chart-primitives" name="ChartFocusRing" />
+
+## Tokens
+
+Chart colors are design tokens in `styles/theme.css`, defined in a `@theme static` block so they are always emitted:
+
+| Token                                                     | Use                                                           |
+| :-------------------------------------------------------- | :------------------------------------------------------------ |
+| `--color-chart-1` … `--color-chart-8`                     | Categorical series slots, in fixed order. Never cycle past 8. |
+| `--color-chart-sequential-1` … `-7`                       | Magnitude, one hue light to dark.                             |
+| `--color-chart-diverging-negative` / `-mid` / `-positive` | Polarity around a neutral midpoint.                           |
+| `--color-chart-grid`, `--color-chart-axis`                | Hairline chrome, one step off the surface.                    |
+| `--color-chart-track`, `--color-chart-empty-cell`         | Unfilled tracks and empty heatmap cells.                      |
+
+Each token has a light and a dark value; the dark values were re-selected for the dark surface rather than inverted.
+
+## Related
+
+- [Charts overview](/docs/application/charts)
+- [Line chart](/docs/application/charts/line-chart)

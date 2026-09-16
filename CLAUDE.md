@@ -688,6 +688,57 @@ import { Button } from "@/components/base/buttons/button";
 </Button>
 ```
 
+### Charts
+
+The chart family lives in `components/application/charts/` and is built directly on modular d3 packages (`d3-scale`, `d3-shape`, `d3-hierarchy`, `d3-sankey`), rendered as React SVG. There is no wrapper chart library and no WebGL: every mark is a real DOM element so it can be focused and announced.
+
+**Import (one file per chart type, no barrel):**
+
+```typescript
+import { BarChart } from "@/components/application/charts/bar-chart";
+import { FunnelChart } from "@/components/application/charts/funnel-chart";
+import { HeatmapChart } from "@/components/application/charts/heatmap-chart";
+import { LineChart } from "@/components/application/charts/line-chart";
+import { PieChart } from "@/components/application/charts/pie-chart";
+import { RadarChart } from "@/components/application/charts/radar-chart";
+import { RadialChart } from "@/components/application/charts/radial-chart";
+import { SankeyChart } from "@/components/application/charts/sankey-chart";
+import { ScatterChart } from "@/components/application/charts/scatter-chart";
+import { Sparkline } from "@/components/application/charts/sparkline";
+import { StatTile, StatTileGroup } from "@/components/application/charts/stat-tile";
+import { SunburstChart } from "@/components/application/charts/sunburst-chart";
+import { TreemapChart } from "@/components/application/charts/treemap-chart";
+```
+
+**Shared architecture (follow it when adding a chart type):**
+
+- `chart.tsx` -- the `Chart` root: measures width, renders header/legend/tooltip/live region/data-table twin, exposes `useChartContext` and `useChartTooltip`.
+- `use-chart-focus.ts` -- roving-tabindex keyboard model (`getItemProps(row, col, label)`); the chart is one tab stop, arrows walk the marks.
+- `use-chart-motion.ts` -- `useChartTransition(data)` returns a 0..1 progress in React state (1 under reduced motion); geometry is derived from it in render. `usePreviousDistinct` enables morphing on data change.
+- `chart-primitives.tsx` -- `ChartGrid`, `ChartAxisLeft/Bottom`, `ChartBaseline`, `ChartCrosshair`, `ChartFocusRing`, `ChartLabel`.
+- `chart-utils.ts` -- `seriesColor(i)`, `sequentialColor(t)`, `divergingColor(v)`, formatters, `stagger`, bar path helpers.
+- Each chart = outer component (legend, table twin, auto description, `<Chart>`) + inner `*Plot` component (scales, geometry, focus, tooltip).
+
+**Rules every chart follows:**
+
+- `label` is required (the figure's accessible name). Every value is mirrored in a hidden table (`showTable` renders it visibly). Empty data renders an empty state.
+- Series colors are the `--color-chart-1..8` tokens in fixed order, never cycled (fold a 9th series into "Other"). Magnitude uses `--color-chart-sequential-*`, polarity `--color-chart-diverging-*`. These live in a `@theme static` block in `styles/theme.css` with dark-mode overrides.
+- Text (labels, ticks, legends) always wears text tokens, never the series color. Marks: bars <= 24px with 4px rounded data ends, 2px lines, >= 8px markers with a 2px surface ring, 2px surface gaps between touching fills, hairline solid grid.
+- Memoise `data`: a new array identity replays the transition.
+- Scatter/bubble caps categories at 3 (only slots 1-3 pass the all-pairs colorblind check).
+
+**Example:**
+
+```typescript
+<LineChart
+  label="Applications by week"
+  title="Pipeline activity"
+  data={rows}
+  xKey="week"
+  series={[{ key: "applications", name: "Applications" }, { key: "responses", name: "Responses" }]}
+/>
+```
+
 ### Common Component Patterns
 
 1. **Size Variants**: Most components support `sm`, `md`, `lg` sizes

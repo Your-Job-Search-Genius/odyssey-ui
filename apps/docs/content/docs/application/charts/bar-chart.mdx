@@ -1,0 +1,116 @@
+---
+title: Bar chart
+description: Vertical and horizontal bars, grouped, stacked or diverging, with 24px-capped marks and rounded data ends.
+---
+
+## Overview
+
+Use `BarChart` for **magnitude by category**. Bars never exceed 24px (the rest of the band is air), are rounded at the data end and square at the baseline, and touching fills are separated by a 2px surface gap rather than a stroke. Horizontal orientation is the right choice for ranked, nominal categories with long labels.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartGrouped" />
+
+## Installation
+
+```ts
+import { BarChart } from "@/components/application/charts/bar-chart";
+```
+
+## Usage
+
+```tsx
+<BarChart
+    label="Applications and interviews by month"
+    data={rows}
+    xKey="month"
+    series={[
+        { key: "applications", name: "Applications" },
+        { key: "interviews", name: "Interviews" },
+    ]}
+/>
+
+// Ranked categories: one hue, values at the tip
+<BarChart label="Skills in matched job posts" data={skills} xKey="skill" series={[{ key: "posts" }]} orientation="horizontal" showValues />
+
+// Signed values around a zero baseline
+<BarChart label="Score vs benchmark" data={scores} xKey="skill" series={[{ key: "delta" }]} mode="diverging" orientation="horizontal" showValues />
+```
+
+## Props
+
+**BarChart**
+
+<PropsTable component="application/charts/bar-chart" name="BarChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+A single series wears slot 1 only. Never encode a nominal category by a value ramp: bar length already carries the value.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartBasic" />
+
+### Grouped
+
+`mode="grouped"` (default) places each series side by side with a 2px gap inside the group.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartGrouped" />
+
+### Stacked
+
+`mode="stacked"` builds segments bottom-up in series order, separated by a 2px surface gap. Only the top segment is rounded.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartStacked" />
+
+### Horizontal
+
+`orientation="horizontal"` with `showValues`: the label sits at the bar tip and never inside a bar it does not fit.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartHorizontal" />
+
+### Diverging
+
+`mode="diverging"` colors negative bars with the orange pole and positive bars with the brand pole around a zero rule.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartDiverging" />
+
+### With values
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartWithValues" />
+
+### Live update
+
+Bars morph to the new heights instead of re-entering.
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartLiveUpdate" />
+
+### Empty
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartEmpty" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (or bar).                                                                |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Move between series at the same category. With a single series all four arrows walk the bars.                   |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onBarSelect`).                                                                              |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “May, Applications, 78”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Line chart](/docs/application/charts/line-chart)
+- [Funnel chart](/docs/application/charts/funnel-chart)
+- [Heatmap](/docs/application/charts/heatmap-chart)
+- [Charts overview](/docs/application/charts/index)

@@ -1,0 +1,86 @@
+---
+title: Radar chart
+description: A profile across several dimensions, for comparing two shapes such as a candidate against a role.
+---
+
+## Overview
+
+Use `RadarChart` to compare a **profile across dimensions**, for example a candidate’s skills against a role’s requirements. Keep it to two series: more overlapping polygons stop being readable. Each vertex is a focusable point and the tooltip lists every series for that axis.
+
+<ComponentPreview demo="application/charts/radar-chart" export="RadarChartBasic" />
+
+## Installation
+
+```ts
+import { RadarChart } from "@/components/application/charts/radar-chart";
+```
+
+## Usage
+
+```tsx
+<RadarChart
+    label="Your skills against the role requirement"
+    data={[
+        { axis: "Frontend", you: 90, role: 80 },
+        { axis: "Backend", you: 70, role: 80 },
+        { axis: "Cloud", you: 45, role: 70 },
+        // ...
+    ]}
+    axisKey="axis"
+    series={[
+        { key: "role", name: "Role requirement" },
+        { key: "you", name: "You" },
+    ]}
+/>
+```
+
+## Props
+
+**RadarChart**
+
+<PropsTable component="application/charts/radar-chart" name="RadarChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+Two series, four grid levels, dots at every vertex.
+
+<ComponentPreview demo="application/charts/radar-chart" export="RadarChartBasic" />
+
+### Single series
+
+<ComponentPreview demo="application/charts/radar-chart" export="RadarChartSingleSeries" />
+
+### Without dots
+
+`showDots={false}` keeps the vertices focusable but invisible at rest.
+
+<ComponentPreview demo="application/charts/radar-chart" export="RadarChartWithoutDots" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (axis).                                                                  |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Move between series on the same axis.                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onPointSelect`).                                                                            |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “Cloud, You, 45”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Line chart](/docs/application/charts/line-chart)
+- [Bar chart](/docs/application/charts/bar-chart)
+- [Charts overview](/docs/application/charts/index)

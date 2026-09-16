@@ -1,0 +1,84 @@
+---
+title: Heatmap
+description: Matrix and calendar heatmaps for density over two categorical axes, on the sequential brand ramp.
+---
+
+## Overview
+
+Use `HeatmapChart` for **density across two categorical axes**, such as activity per day over weeks (a calendar) or skills against job categories (a matrix). Magnitude uses the seven-step sequential brand ramp; signed change uses the diverging orange / brand poles. Every cell is focusable and the table twin carries the exact numbers.
+
+<ComponentPreview demo="application/charts/heatmap-chart" export="HeatmapChartCalendar" />
+
+## Installation
+
+```ts
+import { HeatmapChart } from "@/components/application/charts/heatmap-chart";
+```
+
+## Usage
+
+```tsx
+<HeatmapChart
+    label="Job-search activity per day over 16 weeks"
+    data={activity} // { x: "W1", y: "Mon", value: 3 }
+    yDomain={["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]}
+    height={180}
+/>
+```
+
+## Props
+
+**HeatmapChart**
+
+<PropsTable component="application/charts/heatmap-chart" name="HeatmapChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Calendar
+
+Weeks across, days down, a “less → more” ramp legend under the grid.
+
+<ComponentPreview demo="application/charts/heatmap-chart" export="HeatmapChartCalendar" />
+
+### Matrix with values
+
+`showValues` labels a cell only when the number fits; ink switches to white on the darker steps.
+
+<ComponentPreview demo="application/charts/heatmap-chart" export="HeatmapChartMatrix" />
+
+### Diverging
+
+`colorScale="diverging"` for change versus a baseline: orange below, brand above, neutral at zero.
+
+<ComponentPreview demo="application/charts/heatmap-chart" export="HeatmapChartDiverging" />
+
+### Empty
+
+<ComponentPreview demo="application/charts/heatmap-chart" export="HeatmapChartEmpty" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (cell).                                                                  |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Move to the row above / below.                                                                                  |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onCellSelect`).                                                                             |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “W9, Wednesday, 4 activities”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Bar chart](/docs/application/charts/bar-chart)
+- [Treemap](/docs/application/charts/treemap-chart)
+- [Charts overview](/docs/application/charts/index)

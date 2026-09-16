@@ -1,0 +1,83 @@
+---
+title: Sankey
+description: Flow between stages as ribbons that draw on, every ribbon focusable.
+---
+
+## Overview
+
+Use `SankeyChart` for **flow between stages**: where applications came from and where they ended. Ribbons carry the color of their origin and draw on column by column; outcomes you want to de-emphasise (no reply, rejected) go in `mutedNodes` and render at lower opacity. Layout comes from `d3-sankey`.
+
+<ComponentPreview demo="application/charts/sankey-chart" export="SankeyChartBasic" />
+
+## Installation
+
+```ts
+import { SankeyChart } from "@/components/application/charts/sankey-chart";
+```
+
+## Usage
+
+```tsx
+<SankeyChart
+    label="Where applications came from and where they ended"
+    nodes={[
+        { id: "linkedin", name: "LinkedIn" },
+        { id: "screened", name: "Screened" },
+        { id: "offer", name: "Offer" },
+        // ...
+    ]}
+    links={[
+        { source: "linkedin", target: "screened", value: 46 },
+        { source: "screened", target: "offer", value: 5 },
+        // ...
+    ]}
+    mutedNodes={["no-reply", "rejected"]}
+/>
+```
+
+## Props
+
+**SankeyChart**
+
+<PropsTable component="application/charts/sankey-chart" name="SankeyChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+Three columns with muted negative outcomes.
+
+<ComponentPreview demo="application/charts/sankey-chart" export="SankeyChartBasic" />
+
+### Simple
+
+Two columns.
+
+<ComponentPreview demo="application/charts/sankey-chart" export="SankeyChartSimple" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (ribbon, top to bottom, all four arrows).                                |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Same as left / right.                                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onLinkSelect`).                                                                             |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “LinkedIn to Screened, 46 applications”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Funnel chart](/docs/application/charts/funnel-chart)
+- [Bar chart](/docs/application/charts/bar-chart)
+- [Charts overview](/docs/application/charts/index)

@@ -1,7 +1,8 @@
 /**
- * Extracts design tokens from packages/ui/styles/theme.css (a single
- * Tailwind v4 `@theme { ... }` block, plus a `.dark-mode { ... }`
- * override block -- there is no tailwind.config.js in this repo).
+ * Extracts design tokens from packages/ui/styles/theme.css (a main
+ * Tailwind v4 `@theme { ... }` block, a `@theme static { ... }` block for
+ * chart tokens, plus a `.dark-mode { ... }` override block -- there is no
+ * tailwind.config.js in this repo).
  *
  * Deliberately parses with postcss instead of a regex over lines: the
  * file mixes custom properties with `@keyframes` blocks and multi-line
@@ -82,7 +83,9 @@ export function extractTokens({ themeCssPath, claudeMdPath }: ExtractTokensOptio
     const root = postcss.parse(css, { from: themeCssPath });
     const usageMap = extractColorUsageFromClaudeMd(claudeMdPath);
 
-    const themeAtRule = root.nodes.find((n) => n.type === "atrule" && n.name === "theme") as postcss.AtRule | undefined;
+    // theme.css has a main `@theme { ... }` block plus a `@theme static { ... }`
+    // block for chart tokens (see the comment there); walk every one.
+    const themeAtRules = root.nodes.filter((n): n is postcss.AtRule => n.type === "atrule" && n.name === "theme");
     // .dark-mode is nested inside `@layer base { ... }`, not a top-level
     // rule -- walkRules searches the whole tree, not just direct children.
     let darkModeRule: postcss.Rule | undefined;
@@ -90,7 +93,7 @@ export function extractTokens({ themeCssPath, claudeMdPath }: ExtractTokensOptio
         darkModeRule = rule;
     });
 
-    const lightDecls = themeAtRule ? collectDecls(themeAtRule) : [];
+    const lightDecls = themeAtRules.flatMap((rule) => collectDecls(rule));
     const darkDecls = darkModeRule ? collectDecls(darkModeRule) : [];
     const darkByProp = new Map(darkDecls.map((d) => [d.prop, d.value]));
 

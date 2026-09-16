@@ -1,0 +1,20 @@
+{
+    "title": "Charts",
+    "pages": [
+        "index",
+        "line-chart",
+        "bar-chart",
+        "pie-chart",
+        "radial-chart",
+        "radar-chart",
+        "scatter-chart",
+        "heatmap-chart",
+        "treemap-chart",
+        "sunburst-chart",
+        "funnel-chart",
+        "sankey-chart",
+        "sparkline",
+        "stat-tile",
+        "custom-charts"
+    ]
+}

@@ -1,0 +1,67 @@
+---
+title: Charts
+description: A hand-built D3 chart family with a validated palette, full keyboard and screen-reader support, and motion that draws the data in.
+---
+
+## Overview
+
+Odyssey Charts are built directly on `d3-scale`, `d3-shape`, `d3-hierarchy` and `d3-sankey`, rendered as React SVG. That is a deliberate choice over a wrapper library or WebGL: every mark is a real DOM element, so each data point can be focused, named and announced, and the whole chart can be mirrored in an accessible table.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartEndLabels" />
+
+## Choosing a chart
+
+Pick the form by the job the data has to do. If the story is one number, it is not a chart.
+
+| Job                                   | Component                                                                                                                                 |
+| :------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| Change over time                      | [Line chart](/docs/application/charts/line-chart) (line, area, stacked area)                                                              |
+| Magnitude by category, ranking        | [Bar chart](/docs/application/charts/bar-chart) (vertical, horizontal, grouped, stacked)                                                  |
+| Polarity around a baseline            | [Bar chart](/docs/application/charts/bar-chart) with `mode="diverging"`, or a diverging [heatmap](/docs/application/charts/heatmap-chart) |
+| Part-to-whole at a glance (≤ 6 parts) | [Pie chart](/docs/application/charts/pie-chart)                                                                                           |
+| Progress toward a maximum             | [Radial chart](/docs/application/charts/radial-chart) (rings, gauge, progress)                                                            |
+| A profile across dimensions           | [Radar chart](/docs/application/charts/radar-chart)                                                                                       |
+| Correlation between two measures      | [Scatter chart](/docs/application/charts/scatter-chart) (scatter, bubble)                                                                 |
+| Density over two categorical axes     | [Heatmap](/docs/application/charts/heatmap-chart) (matrix, calendar)                                                                      |
+| Hierarchical share                    | [Treemap](/docs/application/charts/treemap-chart), [Sunburst](/docs/application/charts/sunburst-chart)                                    |
+| Ordered stages                        | [Funnel chart](/docs/application/charts/funnel-chart)                                                                                     |
+| Flow between stages                   | [Sankey](/docs/application/charts/sankey-chart)                                                                                           |
+| One headline number                   | [Stat tile](/docs/application/charts/stat-tile) with a [sparkline](/docs/application/charts/sparkline)                                    |
+| Something else                        | [Build it on the Chart root](/docs/application/charts/custom-charts)                                                                      |
+
+## Palette
+
+Every chart color is an existing token, snapped to the step that passes a colorblind-safety validator. The brand purple leads; the seven that follow were chosen by search, not by eye, so every neighbouring pair stays distinct under protanopia and deuteranopia (worst adjacent pair ΔE 20.8 in OKLab, against a target of 8) and for full-color readers (worst pair 22.3, floor 15). Slots 1–3 also pass the all-pairs check, which is why scatter and bubble charts cap at three categories.
+
+<ComponentPreview demo="application/charts/chart-palette" export="ChartPaletteCategorical" />
+
+<ComponentPreview demo="application/charts/chart-palette" export="ChartPaletteRamps" />
+
+Rules the components enforce:
+
+- **Categorical hues are assigned in fixed order, never cycled.** A ninth series folds into “Other”.
+- **Color follows the entity.** Hiding a series through the legend never repaints the survivors.
+- **Sequential is one hue; diverging is two hues plus a neutral midpoint.** Never a rainbow.
+- **Status colors are reserved** for values that mean good or bad, and always travel with an icon or label.
+- **Text wears text tokens.** Labels, values, legends and ticks are never colored with the series hue; the mark beside them carries identity.
+
+## Anatomy
+
+The same skeleton sits under every chart: a recessive hairline grid one step off the surface, 2px lines with round joins, bars capped at 24px with 4px rounded data ends and square baselines, a 2px surface gap between touching fills, a 2px surface ring on markers, area washes at roughly 14% opacity, and selective direct labels (an end label, a bar tip, a hero figure), never a number on every point.
+
+## Accessibility
+
+- The chart is a `figure` with an accessible name (`label`) and a generated description.
+- It is **one tab stop**. Arrow keys walk the data, Home/End jump to the ends, Escape closes the tooltip, Enter activates. Each mark announces “category, series, value”.
+- A visible **focus ring** in the design system's focus color is drawn as a real SVG element.
+- Focus shows **the same tooltip** pointer users get. The crosshair on line charts snaps to the nearest x, and marks on bar, dot and cell charts are their own hit targets, never smaller than 24px.
+- Every value is in a **data table twin**, visually hidden by default, visible with `showTable`.
+- **Reduced motion** renders the final frame immediately; **empty data** renders a labelled empty state.
+
+## Motion
+
+Entry animations take 700 ms with a cubic-out ease and stagger marks by a few frames; data updates tween geometry in 400 ms so a filter change reads as the same chart moving. Lines draw on, areas rise from the baseline, bars grow from zero, arcs sweep, cells bloom and Sankey ribbons draw column by column. All of it is derived from one progress value in React state, so there is no imperative DOM mutation to keep in sync.
+
+## Why not Three.js
+
+WebGL paints pixels. It cannot expose a focusable element per data point, which is the core requirement here, and it would add a second render tree and several hundred kilobytes for effects that SVG transforms and opacity already run at 60 fps at these data sizes.

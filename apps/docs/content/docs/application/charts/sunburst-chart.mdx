@@ -1,0 +1,87 @@
+---
+title: Sunburst
+description: Nested share as concentric rings, with the inner ring and outer ring both keyboard navigable.
+---
+
+## Overview
+
+Use `SunburstChart` for **nested part-to-whole** when the hierarchy itself is the story. The inner ring holds the top-level branches at full strength, the outer ring their children at 45%, and the total sits in the centre. Up and Down move between rings; Left and Right move around one.
+
+<ComponentPreview demo="application/charts/sunburst-chart" export="SunburstChartBasic" />
+
+## Installation
+
+```ts
+import { SunburstChart } from "@/components/application/charts/sunburst-chart";
+```
+
+## Usage
+
+```tsx
+<SunburstChart
+    label="Industries and roles applied to"
+    data={{
+        name: "Applications",
+        children: [
+            {
+                name: "SaaS",
+                children: [
+                    { name: "Frontend", value: 28 },
+                    { name: "Full-stack", value: 19 },
+                ],
+            },
+            {
+                name: "Fintech",
+                children: [
+                    { name: "Backend", value: 16 },
+                    { name: "Data", value: 9 },
+                ],
+            },
+        ],
+    }}
+    centerLabel="applied"
+/>
+```
+
+## Props
+
+**SunburstChart**
+
+<PropsTable component="application/charts/sunburst-chart" name="SunburstChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+<ComponentPreview demo="application/charts/sunburst-chart" export="SunburstChartBasic" />
+
+### Custom centre
+
+<ComponentPreview demo="application/charts/sunburst-chart" export="SunburstChartCustomCenter" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point around the ring.                                                         |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Move to the inner / outer ring.                                                                                 |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onNodeSelect`).                                                                             |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “SaaS, Frontend, 28 applications”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Treemap](/docs/application/charts/treemap-chart)
+- [Pie chart](/docs/application/charts/pie-chart)
+- [Charts overview](/docs/application/charts/index)

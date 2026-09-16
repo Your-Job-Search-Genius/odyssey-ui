@@ -1,0 +1,96 @@
+---
+title: Pie chart
+description: Donut and pie charts for part-to-whole at a glance, with a hero figure in the hole and at most six slices.
+---
+
+## Overview
+
+Use `PieChart` for **part-to-whole at a glance** with six slices or fewer. The donut form leaves room for the total in the centre, the legend carries name, value and share, and every slice is focusable. To compare close values use a bar chart instead: readers cannot judge small angle differences.
+
+<ComponentPreview demo="application/charts/pie-chart" export="PieChartDonut" />
+
+## Installation
+
+```ts
+import { PieChart } from "@/components/application/charts/pie-chart";
+```
+
+## Usage
+
+```tsx
+<PieChart
+    label="Applications by source"
+    title="Applications by source"
+    data={[
+        { name: "LinkedIn", value: 132 },
+        { name: "Indeed", value: 63 },
+        { name: "Referrals", value: 49 },
+        { name: "Company sites", value: 31 },
+    ]}
+    centerLabel="applications"
+/>
+```
+
+## Props
+
+**PieChart**
+
+<PropsTable component="application/charts/pie-chart" name="PieChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Donut
+
+The default `innerRadius` of 0.66 leaves room for the total, which counts up during the entry animation.
+
+<ComponentPreview demo="application/charts/pie-chart" export="PieChartDonut" />
+
+### Pie
+
+`innerRadius={0}` for a full pie. The centre value is hidden.
+
+<ComponentPreview demo="application/charts/pie-chart" export="PieChartPie" />
+
+### Legend at the bottom
+
+`legendPosition="bottom"` uses the shared legend; the chart also falls back to it automatically under 420px.
+
+<ComponentPreview demo="application/charts/pie-chart" export="PieChartLegendBottom" />
+
+### Folding the tail
+
+Slices beyond `maxSlices` (default 6) fold into a single “Other” slice; colors are never cycled.
+
+<ComponentPreview demo="application/charts/pie-chart" export="PieChartFoldedOther" />
+
+### Custom centre
+
+<ComponentPreview demo="application/charts/pie-chart" export="PieChartCustomCenter" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (all four arrows step through the slices).                               |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Same as left / right.                                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onSliceSelect`).                                                                            |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “LinkedIn, 132, 46%”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Radial chart](/docs/application/charts/radial-chart)
+- [Sunburst](/docs/application/charts/sunburst-chart)
+- [Bar chart](/docs/application/charts/bar-chart)
+- [Charts overview](/docs/application/charts/index)

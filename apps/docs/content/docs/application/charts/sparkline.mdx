@@ -1,0 +1,54 @@
+---
+title: Sparkline
+description: A word-sized trend line for stat tiles and table cells.
+---
+
+## Overview
+
+Use `Sparkline` where a **trend is a glance, not a chart**: inside a stat tile or a table cell. It has no axes, no tooltip and no per-point focus; it is decoration for a number that is stated elsewhere. Give it a `label` that says what the trend is doing so screen readers get the gist.
+
+<ComponentPreview demo="application/charts/sparkline" export="SparklineArea" />
+
+## Installation
+
+```ts
+import { Sparkline } from "@/components/application/charts/sparkline";
+```
+
+## Usage
+
+```tsx
+<Sparkline data={[30, 34, 31, 40, 44, 42, 51, 56, 54, 63, 66, 72]} label="Profile views over 12 weeks, rising" />
+```
+
+## Props
+
+**Sparkline**
+
+<PropsTable component="application/charts/sparkline" name="Sparkline" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Line
+
+<ComponentPreview demo="application/charts/sparkline" export="SparklineLine" />
+
+### Area
+
+<ComponentPreview demo="application/charts/sparkline" export="SparklineArea" />
+
+### Bar
+
+<ComponentPreview demo="application/charts/sparkline" export="SparklineBar" />
+
+## Accessibility
+
+A sparkline is an `img` with the `label` you pass as its accessible name. It is not focusable and has no tooltip: put the actual number and its change in the surrounding [stat tile](/docs/application/charts/stat-tile) or table cell, and use `describeTrend` to phrase the label (“rising”, “falling”, “flat”). Motion respects `prefers-reduced-motion`.
+
+## Related
+
+- [Stat tile](/docs/application/charts/stat-tile)
+- [Line chart](/docs/application/charts/line-chart)
+- [Charts overview](/docs/application/charts/index)

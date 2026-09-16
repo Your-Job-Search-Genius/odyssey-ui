@@ -1,0 +1,66 @@
+---
+title: Stat tile
+description: When the story is one number: label, value, delta and an optional trend.
+---
+
+## Overview
+
+Use `StatTile` when **the story is a single number**. The most common way a chart misses its point is eight series where one figure would do. A tile carries a label, a value in proportional figures, a signed delta colored by whether the direction is good, and an optional sparkline. Group tiles with `StatTileGroup`.
+
+<ComponentPreview demo="application/charts/stat-tile" export="StatTileGroupDemo" />
+
+## Installation
+
+```ts
+import { StatTile } from "@/components/application/charts/stat-tile";
+```
+
+## Usage
+
+```tsx
+<StatTileGroup>
+    <StatTile label="Profile views" value={1284} delta={{ value: "12.4%", direction: "up", caption: "vs last month" }} trend={views} />
+    <StatTile label="Applications sent" value={286} delta={{ value: "8.1%", direction: "up", caption: "vs last month" }} trend={applications} />
+    <StatTile label="Response rate" value="31%" delta={{ value: "2.3 pts", direction: "down", caption: "vs last month" }} trend={responses} />
+</StatTileGroup>
+```
+
+## Props
+
+**StatTile**
+
+<PropsTable component="application/charts/stat-tile" name="StatTile" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+<ComponentPreview demo="application/charts/stat-tile" export="StatTileBasic" />
+
+### With trend
+
+A sparkline in the delta color under the number.
+
+<ComponentPreview demo="application/charts/stat-tile" export="StatTileWithTrend" />
+
+### Group
+
+`StatTileGroup` lays tiles out on a responsive grid.
+
+<ComponentPreview demo="application/charts/stat-tile" export="StatTileGroupDemo" />
+
+### Sizes
+
+<ComponentPreview demo="application/charts/stat-tile" export="StatTileSizes" />
+
+## Accessibility
+
+A stat tile is a `group` named by its label; the value and delta are plain text, so they are read in order. The delta always carries an arrow icon and a sign in addition to color. Numeric values count up on entry unless the reader prefers reduced motion.
+
+## Related
+
+- [Sparkline](/docs/application/charts/sparkline)
+- [Radial chart](/docs/application/charts/radial-chart)
+- [Charts overview](/docs/application/charts/index)

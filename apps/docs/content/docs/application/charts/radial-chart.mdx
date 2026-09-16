@@ -1,0 +1,90 @@
+---
+title: Radial chart
+description: Activity rings, gauges and progress circles for progress toward a maximum.
+---
+
+## Overview
+
+Use `RadialChart` for **progress toward a maximum**. `rings` stacks concentric activity rings (each ring in its own slot, the track in the same hue at 14% opacity), `gauge` draws a single 240° arc with the value counted up in the centre, and `progress` is a compact full circle in four sizes. This replaces the previous activity gauges and progress circles.
+
+<ComponentPreview demo="application/charts/radial-chart" export="RadialChartRings" />
+
+## Installation
+
+```ts
+import { RadialChart } from "@/components/application/charts/radial-chart";
+```
+
+## Usage
+
+```tsx
+<RadialChart
+    label="Resume score, job match and profile completeness"
+    data={[
+        { name: "Resume score", value: 82 },
+        { name: "Job match", value: 67 },
+        { name: "Profile", value: 91 },
+    ]}
+/>
+
+<RadialChart label="Resume score" variant="gauge" data={[{ name: "Resume score", value: 82, max: 100 }]} />
+
+<RadialChart label="Profile completeness" variant="progress" size="sm" data={[{ name: "Profile", value: 91 }]} />
+```
+
+## Props
+
+**RadialChart**
+
+<PropsTable component="application/charts/radial-chart" name="RadialChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Activity rings
+
+Outermost ring first. The legend lists each ring with its value.
+
+<ComponentPreview demo="application/charts/radial-chart" export="RadialChartRings" />
+
+### Gauge
+
+A single value with min / max labels at the arc ends. Pass `color` to use a status token when the value means good or bad.
+
+<ComponentPreview demo="application/charts/radial-chart" export="RadialChartGauge" />
+
+### Progress circle
+
+<ComponentPreview demo="application/charts/radial-chart" export="RadialChartProgress" />
+
+### Progress sizes
+
+`size` is `xs`, `sm`, `md` or `lg`.
+
+<ComponentPreview demo="application/charts/radial-chart" export="RadialChartProgressSizes" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (all four arrows step through the rings).                                |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Same as left / right.                                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onSelect`).                                                                                 |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “Resume score, 82 of 100”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Pie chart](/docs/application/charts/pie-chart)
+- [Stat tile](/docs/application/charts/stat-tile)
+- [Charts overview](/docs/application/charts/index)

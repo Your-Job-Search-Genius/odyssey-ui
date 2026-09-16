@@ -477,6 +477,41 @@
     --outline-color-brand-solid_hover: var(--color-bg-brand-solid_hover);
 }
 
+/* Chart tokens live in their own `@theme static` block: charts reference them
+   through inline `var(--color-chart-*)` styles that Tailwind's source scanner
+   cannot see, so they must be emitted unconditionally. */
+@theme static {
+    /* CHART COLORS */
+    /* Categorical series slots. Fixed order, assigned in sequence, never cycled.
+       Each step was chosen by running the palette through a colorblind-safety
+       validator (adjacent-pair OKLab dE >= 8 under protan/deutan simulation). */
+    --color-chart-1: var(--color-brand-600);
+    --color-chart-2: var(--color-lime-600);
+    --color-chart-3: var(--color-cyan-600);
+    --color-chart-4: var(--color-orange-700);
+    --color-chart-5: var(--color-sky-500);
+    --color-chart-6: var(--color-amber-600);
+    --color-chart-7: var(--color-blue-600);
+    --color-chart-8: var(--color-emerald-500);
+    /* Sequential (magnitude) ramp: one hue, light to dark. */
+    --color-chart-sequential-1: var(--color-brand-100);
+    --color-chart-sequential-2: var(--color-brand-200);
+    --color-chart-sequential-3: var(--color-brand-300);
+    --color-chart-sequential-4: var(--color-brand-400);
+    --color-chart-sequential-5: var(--color-brand-500);
+    --color-chart-sequential-6: var(--color-brand-600);
+    --color-chart-sequential-7: var(--color-brand-700);
+    /* Diverging (polarity) poles around a neutral midpoint. */
+    --color-chart-diverging-negative: var(--color-orange-600);
+    --color-chart-diverging-mid: var(--color-neutral-300);
+    --color-chart-diverging-positive: var(--color-brand-600);
+    /* Chart chrome. */
+    --color-chart-grid: var(--color-neutral-100);
+    --color-chart-axis: var(--color-neutral-200);
+    --color-chart-track: var(--color-neutral-100);
+    --color-chart-empty-cell: var(--color-neutral-100);
+}
+
 @layer base {
     /* DARK MODE VARIABLES */
 
@@ -770,6 +805,30 @@
         --background-color-border-brand: var(--color-border-brand);
         --background-color-border-tertiary: var(--color-border-tertiary);
         --background-color-border-brand_alt: var(--color-border-brand_alt);
+
+        /* CHART COLORS */
+        --color-chart-1: var(--color-brand-500);
+        --color-chart-2: var(--color-lime-600);
+        --color-chart-3: var(--color-cyan-600);
+        --color-chart-4: var(--color-orange-600);
+        --color-chart-5: var(--color-sky-600);
+        --color-chart-6: var(--color-amber-600);
+        --color-chart-7: var(--color-blue-600);
+        --color-chart-8: var(--color-emerald-600);
+        --color-chart-sequential-1: var(--color-brand-950);
+        --color-chart-sequential-2: var(--color-brand-900);
+        --color-chart-sequential-3: var(--color-brand-800);
+        --color-chart-sequential-4: var(--color-brand-700);
+        --color-chart-sequential-5: var(--color-brand-600);
+        --color-chart-sequential-6: var(--color-brand-500);
+        --color-chart-sequential-7: var(--color-brand-400);
+        --color-chart-diverging-negative: var(--color-orange-600);
+        --color-chart-diverging-mid: var(--color-neutral-700);
+        --color-chart-diverging-positive: var(--color-brand-500);
+        --color-chart-grid: var(--color-neutral-800);
+        --color-chart-axis: var(--color-neutral-700);
+        --color-chart-track: var(--color-neutral-800);
+        --color-chart-empty-cell: var(--color-neutral-800);
 
         /* TEXT PROPERTY COLORS */
         --text-color-primary: var(--color-text-primary);

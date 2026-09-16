@@ -1,0 +1,121 @@
+---
+title: Line chart
+description: Line, area and stacked-area charts for change over time, with a crosshair that finds the x position for you.
+---
+
+## Overview
+
+Use `LineChart` when the job is **change over time**. It draws up to eight series with 2px round-joined strokes, a recessive hairline grid, and a crosshair that snaps to the nearest x position so readers aim at a week, not at a line. The tooltip lists every series at that x, and each point is a focusable mark.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartBasic" />
+
+## Installation
+
+```ts
+import { LineChart } from "@/components/application/charts/line-chart";
+```
+
+## Usage
+
+```tsx
+const rows = [
+    { week: "W1", applications: 12, responses: 3 },
+    { week: "W2", applications: 18, responses: 6 },
+    // ...
+];
+
+<LineChart
+    label="Applications and responses by week"
+    title="Pipeline activity"
+    data={rows}
+    xKey="week"
+    series={[
+        { key: "applications", name: "Applications" },
+        { key: "responses", name: "Responses" },
+    ]}
+/>;
+```
+
+<Callout type="info">Memoise `data`: the transition replays whenever the array identity changes.</Callout>
+
+## Props
+
+**LineChart**
+
+<PropsTable component="application/charts/line-chart" name="LineChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+Three series, legend on top. Click a legend entry to hide a series; the others keep their colors.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartBasic" />
+
+### End labels
+
+`showEndLabels` names each series at its last point. Colliding labels are pushed apart; past four converging series prefer small multiples.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartEndLabels" />
+
+### Area
+
+`variant="area"` adds a gradient wash under a single series. `showDots` renders every marker at rest.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartArea" />
+
+### Stacked area
+
+`variant="stacked-area"` stacks the series and reveals them from the baseline upward.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartStackedArea" />
+
+### Step curve
+
+`curve="step"` for values that hold until the next reading.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartStep" />
+
+### With visible table
+
+`showTable` renders the accessible table twin under the plot.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartWithTable" />
+
+### Live update
+
+A new `data` identity tweens the lines from the previous geometry in 400 ms.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartLiveUpdate" />
+
+### Empty
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartEmpty" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point.                                                                         |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Move to the previous / next series at the same point.                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onPointSelect`).                                                                            |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “W9, Applications, 41”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Bar chart](/docs/application/charts/bar-chart)
+- [Sparkline](/docs/application/charts/sparkline)
+- [Stat tile](/docs/application/charts/stat-tile)
+- [Charts overview](/docs/application/charts/index)

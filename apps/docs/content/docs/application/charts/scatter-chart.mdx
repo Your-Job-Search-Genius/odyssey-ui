@@ -1,0 +1,85 @@
+---
+title: Scatter chart
+description: Scatter and bubble charts for correlation between two measures, with 24px hit targets on every point.
+---
+
+## Overview
+
+Use `ScatterChart` for **correlation** between two measures; add `sizeKey` for a third measure as bubble area. Every point carries a transparent 24px hit target so nobody has to land on an 8px dot. Colors by `categoryKey` are capped at three: the palette is only validated for any-pair distinctness on its first three slots, so more categories fold into “Other”.
+
+<ComponentPreview demo="application/charts/scatter-chart" export="ScatterChartBubble" />
+
+## Installation
+
+```ts
+import { ScatterChart } from "@/components/application/charts/scatter-chart";
+```
+
+## Usage
+
+```tsx
+<ScatterChart
+    label="Salary against match score, sized by openings"
+    data={jobs}
+    xKey="match"
+    yKey="salary"
+    sizeKey="openings"
+    categoryKey="workplace"
+    labelKey="title"
+    xFormatter={(v) => `${v}%`}
+    yFormatter={(v) => `$${v}k`}
+/>
+```
+
+## Props
+
+**ScatterChart**
+
+<PropsTable component="application/charts/scatter-chart" name="ScatterChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+One measure against another, no category.
+
+<ComponentPreview demo="application/charts/scatter-chart" export="ScatterChartBasic" />
+
+### Bubble
+
+`sizeKey` maps a third measure onto bubble area with `scaleSqrt`.
+
+<ComponentPreview demo="application/charts/scatter-chart" export="ScatterChartBubble" />
+
+### Categories
+
+`categoryKey` colors points by category (three at most) and adds a legend.
+
+<ComponentPreview demo="application/charts/scatter-chart" export="ScatterChartCategories" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point in x order (all four arrows).                                            |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Same as left / right.                                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onPointSelect`).                                                                            |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “Frontend Engineer, Remote, 78% match, $120k, 6 openings”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Line chart](/docs/application/charts/line-chart)
+- [Heatmap](/docs/application/charts/heatmap-chart)
+- [Charts overview](/docs/application/charts/index)

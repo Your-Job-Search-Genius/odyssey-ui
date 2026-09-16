@@ -1,0 +1,78 @@
+---
+title: Funnel chart
+description: Ordered stages on the ordinal brand ramp, with conversion between steps.
+---
+
+## Overview
+
+Use `FunnelChart` for **ordered stages** where each step is a subset of the previous one, such as a hiring pipeline. Stages wear the ordinal brand ramp from dark to light so the order reads in the color, values sit inside the marks, and the conversion from the previous stage sits between them.
+
+<ComponentPreview demo="application/charts/funnel-chart" export="FunnelChartBasic" />
+
+## Installation
+
+```ts
+import { FunnelChart } from "@/components/application/charts/funnel-chart";
+```
+
+## Usage
+
+```tsx
+<FunnelChart
+    label="Hiring pipeline conversion"
+    data={[
+        { name: "Applied", value: 286 },
+        { name: "Screened", value: 112 },
+        { name: "Interviewed", value: 41 },
+        { name: "Final round", value: 14 },
+        { name: "Offers", value: 5 },
+    ]}
+/>
+```
+
+## Props
+
+**FunnelChart**
+
+<PropsTable component="application/charts/funnel-chart" name="FunnelChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Horizontal
+
+Stages side by side, centred on a shared midline.
+
+<ComponentPreview demo="application/charts/funnel-chart" export="FunnelChartBasic" />
+
+### Vertical
+
+`orientation="vertical"` stacks the stages top to bottom with names on the left.
+
+<ComponentPreview demo="application/charts/funnel-chart" export="FunnelChartVertical" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (stage, all four arrows).                                                |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Same as left / right.                                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onStageSelect`).                                                                            |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “Screened, 112, 39% of previous stage”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Bar chart](/docs/application/charts/bar-chart)
+- [Sankey](/docs/application/charts/sankey-chart)
+- [Charts overview](/docs/application/charts/index)

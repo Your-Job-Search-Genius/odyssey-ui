@@ -77,21 +77,33 @@ typography, and the Tailwind plugins the library needs:
 @import "@your-job-search-genius/odyssey-ui/styles/globals.css";
 ```
 
-Since **v1.0.1** the package declares its own `@source` directives, so Tailwind automatically
-scans the library source inside `node_modules` and emits every component utility -- no manual
-configuration needed.
+That one line is all the styling setup a current version needs:
 
-<Callout title="Using v1.0.0 or an unusual setup?">
+- Since **v1.0.1** the package declares its own `@source` directives, so Tailwind
+  automatically scans the library source inside `node_modules` and emits every component
+  utility.
+- Since **v1.0.2** the Tailwind plugins the stylesheet loads (`@tailwindcss/typography`,
+  `tailwindcss-react-aria-components`, `tailwindcss-animate`) are dependencies of the
+  package, so your package manager installs them for you.
 
-If you are pinned to `1.0.0`, or your bundler resolves the package somewhere Tailwind's
-scanner cannot follow (e.g. a non-standard `node_modules` layout), add explicit `@source`
-directives after the import, with paths **relative to your CSS file**:
+<Callout title="Pinned to an older version, or an unusual setup?">
+
+On `1.0.0`, or if your bundler resolves the package somewhere Tailwind's scanner cannot
+follow (e.g. a non-standard `node_modules` layout), add explicit `@source` directives after
+the import, with paths **relative to your CSS file**:
 
 ```css
 @import "@your-job-search-genius/odyssey-ui/styles/globals.css";
 @source "../node_modules/@your-job-search-genius/odyssey-ui/components";
 @source "../node_modules/@your-job-search-genius/odyssey-ui/hooks";
 @source "../node_modules/@your-job-search-genius/odyssey-ui/utils";
+```
+
+On `1.0.1` or older, also install the three Tailwind plugins in your app manually --
+otherwise the `@plugin` directives fail with `Can't resolve` errors:
+
+```bash
+pnpm add @tailwindcss/typography tailwindcss-react-aria-components tailwindcss-animate
 ```
 
 </Callout>
@@ -129,6 +141,21 @@ In Next.js, also transpile the package:
 const nextConfig = {
     transpilePackages: ["@your-job-search-genius/odyssey-ui"],
 };
+```
+
+In Vite, also configure `optimizeDeps` -- the package's TypeScript source lives in
+`node_modules`, where Vite's dependency scanner does not look, so react-aria's ESM files
+would otherwise be served unbundled and fail in the browser with errors like
+`The requested module '.../use-sync-external-store/shim/index.js' does not provide an export
+named 'useSyncExternalStore'`:
+
+```ts title="vite.config.ts"
+export default defineConfig({
+    optimizeDeps: {
+        exclude: ["@your-job-search-genius/odyssey-ui"],
+        include: ["react-aria-components", "react-aria", "react-stately", "@internationalized/date"],
+    },
+});
 ```
 
 Keep your app's own source on a different alias (e.g. `~/` or `@app/`) so the two never

@@ -1,0 +1,91 @@
+---
+title: Treemap
+description: Hierarchical share as nested tiles: hue for the group, tint for the value.
+---
+
+## Overview
+
+Use `TreemapChart` for **hierarchical share**: which groups dominate, and which items inside them. Each top-level branch takes a categorical slot and its leaves are tinted by value, so both levels read at once. Tiles too small for a label rely on the tooltip and the table twin.
+
+<ComponentPreview demo="application/charts/treemap-chart" export="TreemapChartBasic" />
+
+## Installation
+
+```ts
+import { TreemapChart } from "@/components/application/charts/treemap-chart";
+```
+
+## Usage
+
+```tsx
+<TreemapChart
+    label="Matched jobs by category"
+    data={{
+        name: "Jobs",
+        children: [
+            {
+                name: "Engineering",
+                children: [
+                    { name: "Frontend", value: 320 },
+                    { name: "Backend", value: 260 },
+                ],
+            },
+            {
+                name: "Data",
+                children: [
+                    { name: "Analytics", value: 140 },
+                    { name: "ML", value: 95 },
+                ],
+            },
+            { name: "Other", value: 60 },
+        ],
+    }}
+/>
+```
+
+## Props
+
+**TreemapChart**
+
+<PropsTable component="application/charts/treemap-chart" name="TreemapChart" />
+
+All charts also accept the shared [`Chart` root props](/docs/application/charts/custom-charts): `label`, `description`, `title`, `subtitle`, `actions`, `height`, `className`, `legendPosition`, `showTable` and `emptyMessage`.
+
+## Examples
+
+### Basic
+
+Two levels: hue by group, tint by value.
+
+<ComponentPreview demo="application/charts/treemap-chart" export="TreemapChartBasic" />
+
+### Flat
+
+A single level of leaves.
+
+<ComponentPreview demo="application/charts/treemap-chart" export="TreemapChartFlat" />
+
+## Accessibility
+
+Every Odyssey chart uses the same keyboard and screen-reader model, provided by the shared `Chart` root and the `useChartFocus` hook:
+
+| Key                               | Action                                                                                                          |
+| :-------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| <kbd>Tab</kbd>                    | Moves focus into the chart (one tab stop: the last visited mark, or the first).                                 |
+| <kbd>←</kbd> <kbd>→</kbd>         | Move to the previous / next data point (tile, all four arrows).                                                 |
+| <kbd>↑</kbd> <kbd>↓</kbd>         | Same as left / right.                                                                                           |
+| <kbd>Home</kbd> <kbd>End</kbd>    | Jump to the first / last point. <kbd>Ctrl</kbd>+<kbd>Home</kbd>/<kbd>End</kbd> jump to the first / last series. |
+| <kbd>Enter</kbd> <kbd>Space</kbd> | Activate the mark (`onNodeSelect`).                                                                             |
+| <kbd>Esc</kbd>                    | Close the tooltip and drop focus.                                                                               |
+
+- The root is a `figure` named by `label` and described by `description` (a sentence is generated from the data when you omit it).
+- Each mark is a focusable `role="img"` element whose accessible name reads like “Engineering, Frontend, 320 jobs”. Focusing it shows the same tooltip pointer users get, plus a 2px focus ring drawn in the design system's focus-ring color.
+- Every value is mirrored in a data table rendered for assistive technology. Pass `showTable` to render it visibly.
+- Motion respects `prefers-reduced-motion`: the final frame renders immediately.
+- An empty `data` array renders a labelled empty state, never a blank plot.
+
+## Related
+
+- [Sunburst](/docs/application/charts/sunburst-chart)
+- [Pie chart](/docs/application/charts/pie-chart)
+- [Charts overview](/docs/application/charts/index)
