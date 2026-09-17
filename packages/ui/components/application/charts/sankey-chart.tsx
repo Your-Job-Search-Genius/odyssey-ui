@@ -81,7 +81,13 @@ export const SankeyChart = ({
     }, [links, nodes.length, nameOf, valueFormatter]);
 
     return (
-        <Chart {...chartProps} height={height} description={description ?? autoDescription} table={table} isEmpty={links.length === 0 || nodes.length === 0}>
+        <Chart
+            {...chartProps}
+            height={height}
+            description={description ?? autoDescription}
+            table={table}
+            isEmpty={links.length === 0 || nodes.length === 0 || links.every((link) => !(link.value > 0))}
+        >
             {(size) => (
                 <SankeyChartPlot
                     {...size}

@@ -263,7 +263,8 @@ const HeatmapChartPlot = ({
                 {xs.map((x, col) =>
                     col % tickEvery === 0 ? (
                         <text key={x} x={cellX(col)} y={-7} textAnchor="start">
-                            {xFormatter(x)}
+                            {fitLabel(xFormatter(x), Math.max(24, tickEvery * (cell + cellGap) - 4))}
+                            <title>{xFormatter(x)}</title>
                         </text>
                     ) : null,
                 )}

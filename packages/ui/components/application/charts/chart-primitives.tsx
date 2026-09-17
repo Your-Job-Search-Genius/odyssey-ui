@@ -31,6 +31,8 @@ interface ChartAxisTick {
     /** Pixel position along the axis. */
     position: number;
     label: string;
+    /** Per-tick text anchor override, e.g. to keep the first/last label inside the plot. */
+    anchor?: "start" | "middle" | "end";
 }
 
 interface ChartAxisLeftProps {
@@ -70,7 +72,7 @@ export const ChartAxisBottom = ({ ticks, y, offset = 18, anchor = "middle", show
     <g aria-hidden="true" className={cx("fill-text-quaternary text-xs", className)}>
         {showLine && <line x1={0} x2={width} y1={y} y2={y} className="stroke-chart-axis" strokeWidth={1} shapeRendering="crispEdges" />}
         {ticks.map((tick, index) => (
-            <text key={index} x={tick.position} y={y + offset} textAnchor={anchor}>
+            <text key={index} x={tick.position} y={y + offset} textAnchor={tick.anchor ?? anchor}>
                 {tick.label}
             </text>
         ))}

@@ -346,7 +346,17 @@ const LineChartPlot = <T extends object>({
 
             {showGrid && <ChartGrid horizontal={ticks.map((t) => y(t))} width={plotWidth} height={plotHeight} />}
             <ChartAxisLeft ticks={ticks.map((t) => ({ position: y(t), label: tickFormatter(t) }))} />
-            <ChartAxisBottom ticks={xTicks.map((i) => ({ position: xOf(i), label: formatX(data[i], i) }))} y={plotHeight} />
+            <ChartAxisBottom
+                ticks={xTicks.map((i) => {
+                    const label = fitLabel(formatX(data[i], i), Math.max(24, plotWidth / Math.max(1, xTicks.length) - 8));
+                    const half = estimateTextWidth(label, 12) / 2;
+                    const position = xOf(i);
+                    // Keep the first/last label inside the figure instead of spilling past the axes.
+                    const anchor = position - half < -margin.left + 4 ? "start" : position + half > plotWidth + margin.right - 4 ? "end" : "middle";
+                    return { position, label, anchor } as const;
+                })}
+                y={plotHeight}
+            />
 
             <g clipPath={`url(#${clipId})`}>
                 {visible.map((s, si) => (

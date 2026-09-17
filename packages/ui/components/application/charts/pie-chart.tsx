@@ -192,7 +192,10 @@ const PieChartPlot = ({
 
     const legendWidth = showSvgLegend
         ? Math.ceil(
-              Math.max(0, ...slices.map((s) => estimateTextWidth(`${s.name}  ${valueFormatter(s.value)}${showShare ? `  ${formatPercent(s.share)}` : ""}`, 12))),
+              Math.max(
+                  0,
+                  ...slices.map((s) => estimateTextWidth(`${s.name}  ${valueFormatter(s.value)}${showShare ? `  ${formatPercent(s.share)}` : ""}`, 12)),
+              ),
           ) + 24
         : 0;
     const legendSpace = showSvgLegend ? Math.min(legendWidth + 24, width * 0.55) : 0;

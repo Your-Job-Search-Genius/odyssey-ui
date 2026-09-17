@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { max as d3Max, min as d3Min } from "d3-array";
 import { scaleBand, scaleLinear } from "d3-scale";
-import { stack as d3Stack } from "d3-shape";
+import { stack as d3Stack, stackOffsetDiverging } from "d3-shape";
 import type { ChartProps } from "./chart";
 import { Chart, useChartTooltip } from "./chart";
 import { ChartAxisBottom, ChartAxisLeft, ChartBaseline, ChartFocusRing, ChartGrid, ChartLabel } from "./chart-primitives";
@@ -224,9 +224,11 @@ const BarChartPlot = <T extends object>({
     const stacks = useMemo(() => {
         const compute = (rows: T[]) => {
             if (isStacked) {
+                // Diverging offset stacks negatives below the baseline instead of dropping them.
                 const stacked = d3Stack<T, string>()
+                    .offset(stackOffsetDiverging)
                     .keys(visible.map((s) => s.key))
-                    .value((d, key) => Math.max(0, toNumber(d[key as keyof T])))(rows);
+                    .value((d, key) => toNumber(d[key as keyof T]))(rows);
                 return stacked.map((layer) => layer.map((point) => [point[0], point[1]] as [number, number]));
             }
             return visible.map((s) => rows.map((d) => [0, toNumber(d[s.key])] as [number, number]));
@@ -278,7 +280,7 @@ const BarChartPlot = <T extends object>({
               bottom: showValueAxis ? 28 : 6,
               left: Math.min(Math.max(28, widestCategoryLabel + 14), Math.max(28, width * 0.4)),
           }
-        : { top: showValues ? 22 : 12, right: 12, bottom: 28, left: Math.max(28, widestTick + 12) };
+        : { top: showValues ? 22 : 12, right: 12, bottom: showValues && valueExtent[0] < 0 ? 42 : 28, left: Math.max(28, widestTick + 12) };
     const plotWidth = Math.max(0, width - margin.left - margin.right);
     const plotHeight = Math.max(0, height - margin.top - margin.bottom);
 
@@ -411,7 +413,7 @@ const BarChartPlot = <T extends object>({
             ) : (
                 <>
                     <ChartAxisLeft ticks={ticks.map((t) => ({ position: valueScale(t), label: tickFormatter(t) }))} />
-                    <ChartAxisBottom ticks={categoryTicks} y={plotHeight} />
+                    <ChartAxisBottom ticks={categoryTicks} y={plotHeight} offset={showValues && valueExtent[0] < 0 ? 32 : 18} />
                     <ChartBaseline y={zero} width={plotWidth} />
                 </>
             )}
