@@ -1,6 +1,6 @@
 {
   "version": "1.0.5",
-  "generatedAt": "library@1.0.5+components:124+tokens:268+icons:1179",
+  "generatedAt": "library@1.0.5+components:135+tokens:268+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -7277,6 +7277,385 @@
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/tooltip/tooltip",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/body-1",
+      "name": "Body1",
+      "importName": "Body1",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/body-1",
+      "category": "base",
+      "description": "Secondary/supporting body copy (`<p>`) at the larger of the two body sizes.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-tertiary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/body-1",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/body-2",
+      "name": "Body2",
+      "importName": "Body2",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/body-2",
+      "category": "base",
+      "description": "Secondary/supporting body copy (`<p>`) at the smaller of the two body sizes.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-tertiary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/body-2",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/caption",
+      "name": "Caption",
+      "importName": "Caption",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/caption",
+      "category": "base",
+      "description": "Smallest supporting text (`<span>`) — figure captions, timestamps, helper labels.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-quaternary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/caption",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/em",
+      "name": "Em",
+      "importName": "Em",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/em",
+      "category": "base",
+      "description": "Stress-emphasized inline text (`<em>`), rendered italic.",
+      "props": [],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/em",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/heading",
+      "name": "Heading",
+      "importName": "Heading",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/heading",
+      "category": "base",
+      "description": "Semantic heading (`h1`-`h6`). `level` determines both the rendered tag and, by default, the\nvisual size — pass `size` separately when a heading needs to look larger or smaller than its\nplace in the document outline without misrepresenting that outline to assistive tech.",
+      "props": [
+        {
+          "name": "level",
+          "type": "enum",
+          "enumValues": [
+            "1",
+            "2",
+            "4",
+            "3",
+            "6",
+            "5"
+          ],
+          "required": true,
+          "description": "Semantic heading level. Controls the rendered tag (`h1`-`h6`) and, by default, the visual size."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "1",
+            "2",
+            "4",
+            "3",
+            "6",
+            "5"
+          ],
+          "required": false,
+          "description": "Visual size override, independent of `level`. Defaults to `level`."
+        },
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-primary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/heading",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/paragraph",
+      "name": "Paragraph",
+      "importName": "Paragraph",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/paragraph",
+      "category": "base",
+      "description": "Primary reading copy (`<p>`). For secondary/supporting body text, use `Body1`/`Body2` instead.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-primary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/paragraph",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/strong",
+      "name": "Strong",
+      "importName": "Strong",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/strong",
+      "category": "base",
+      "description": "Semantically important inline text (`<strong>`), rendered bold.",
+      "props": [],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/strong",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/subtitle",
+      "name": "Subtitle",
+      "importName": "Subtitle",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/subtitle",
+      "category": "base",
+      "description": "Secondary heading-adjacent display text (`<p>`), typically paired under a `Title`. Purely visual.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-primary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/subtitle",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/subtitle-2",
+      "name": "Subtitle2",
+      "importName": "Subtitle2",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/subtitle-2",
+      "category": "base",
+      "description": "A smaller, lighter step down from `Subtitle` (`<p>`). Purely visual.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-secondary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/subtitle-2",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/text",
+      "name": "Text",
+      "importName": "Text",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/text",
+      "category": "base",
+      "description": "Generic inline text (`<span>`) for styling a run of text without changing its semantics.",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "xs"
+          ],
+          "required": false,
+          "description": "Font-size override. Omit to inherit the ambient size from surrounding text."
+        },
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-primary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/text",
+      "isExtracted": true
+    },
+    {
+      "id": "base/typography/title",
+      "name": "Title",
+      "importName": "Title",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/typography/title",
+      "category": "base",
+      "description": "Large heading-adjacent display text (`<p>`). Purely visual — unlike `Heading`, it does not\nparticipate in the document outline. Use `Heading` when the text is structurally a heading.",
+      "props": [
+        {
+          "name": "color",
+          "type": "enum",
+          "enumValues": [
+            "text-primary",
+            "text-tertiary",
+            "text-secondary",
+            "text-quaternary",
+            "text-white",
+            "text-brand-primary",
+            "text-error-primary",
+            "text-warning-primary",
+            "text-success-primary"
+          ],
+          "required": false,
+          "default": "text-primary"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/typography/title",
       "isExtracted": true
     },
     {

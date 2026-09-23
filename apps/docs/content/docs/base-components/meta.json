@@ -20,6 +20,7 @@
         "separator",
         "tooltip",
         "form",
-        "file-upload-trigger"
+        "file-upload-trigger",
+        "typography"
     ]
 }

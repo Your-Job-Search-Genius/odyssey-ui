@@ -1,0 +1,194 @@
+---
+title: Typography
+description: "Semantic text primitives -- headings, body copy, and inline emphasis -- styled from the library's font-size and color tokens."
+---
+
+## Overview
+
+<ComponentPreview demo="base/typography/heading" export="Default" />
+
+## Installation
+
+```ts
+import { Body1 } from "@/components/base/typography/body-1";
+import { Body2 } from "@/components/base/typography/body-2";
+import { Caption } from "@/components/base/typography/caption";
+import { Em } from "@/components/base/typography/em";
+import { Heading } from "@/components/base/typography/heading";
+import { Paragraph } from "@/components/base/typography/paragraph";
+import { Strong } from "@/components/base/typography/strong";
+import { Subtitle } from "@/components/base/typography/subtitle";
+import { Subtitle2 } from "@/components/base/typography/subtitle-2";
+import { Text } from "@/components/base/typography/text";
+import { Title } from "@/components/base/typography/title";
+```
+
+## Usage
+
+Reach for `Heading` whenever text is structurally a heading -- it's the only component in this
+family that affects the document outline. Everything else is presentational:
+
+- `Text`, `Strong`, and `Em` style a run of inline text without changing its block layout.
+- `Paragraph`, `Body1`, and `Body2` are block body copy at decreasing size/emphasis --
+  `Paragraph` for primary reading content, `Body1`/`Body2` for secondary or supporting copy.
+- `Caption` is the smallest supporting text, for captions, timestamps, and helper labels.
+- `Title`, `Subtitle`, and `Subtitle2` are large, heading-_styled_ text for places like empty
+  states or page headers where you want heading-sized type without claiming a heading level.
+
+```tsx
+import { Body1 } from "@/components/base/typography/body-1";
+import { Heading } from "@/components/base/typography/heading";
+
+<Heading level={1}>Dashboard</Heading>
+<Body1>An overview of your team's activity this week.</Body1>
+```
+
+Every component accepts a `color` prop drawn from the library's semantic text-color tokens (see
+[Theming](/docs/getting-started/theming)) and forwards `className`/native props for one-off
+overrides.
+
+## Props
+
+**Body1**
+
+<PropsTable component="base/typography/body-1" />
+
+**Body2**
+
+<PropsTable component="base/typography/body-2" />
+
+**Caption**
+
+<PropsTable component="base/typography/caption" />
+
+**Em**
+
+<PropsTable component="base/typography/em" />
+
+**Heading**
+
+<PropsTable component="base/typography/heading" />
+
+**Paragraph**
+
+<PropsTable component="base/typography/paragraph" />
+
+**Strong**
+
+<PropsTable component="base/typography/strong" />
+
+**Subtitle**
+
+<PropsTable component="base/typography/subtitle" />
+
+**Subtitle2**
+
+<PropsTable component="base/typography/subtitle-2" />
+
+**Text**
+
+<PropsTable component="base/typography/text" />
+
+**Title**
+
+<PropsTable component="base/typography/title" />
+
+## Examples
+
+**Body 1**
+
+### Default
+
+<ComponentPreview demo="base/typography/body-1" export="Default" />
+
+**Body 2**
+
+### Default
+
+<ComponentPreview demo="base/typography/body-2" export="Default" />
+
+**Caption**
+
+### Default
+
+<ComponentPreview demo="base/typography/caption" export="Default" />
+
+**Em**
+
+### Default
+
+<ComponentPreview demo="base/typography/em" export="Default" />
+
+**Heading**
+
+### Default
+
+<ComponentPreview demo="base/typography/heading" export="Default" />
+
+### Size Override
+
+<ComponentPreview demo="base/typography/heading" export="SizeOverride" />
+
+**Paragraph**
+
+### Default
+
+<ComponentPreview demo="base/typography/paragraph" export="Default" />
+
+**Strong**
+
+### Default
+
+<ComponentPreview demo="base/typography/strong" export="Default" />
+
+**Subtitle**
+
+### Default
+
+<ComponentPreview demo="base/typography/subtitle" export="Default" />
+
+**Subtitle 2**
+
+### Default
+
+<ComponentPreview demo="base/typography/subtitle-2" export="Default" />
+
+**Text**
+
+### Default
+
+<ComponentPreview demo="base/typography/text" export="Default" />
+
+### Sizes
+
+<ComponentPreview demo="base/typography/text" export="Sizes" />
+
+### Colors
+
+<ComponentPreview demo="base/typography/text" export="Colors" />
+
+**Title**
+
+### Default
+
+<ComponentPreview demo="base/typography/title" export="Default" />
+
+## Accessibility
+
+- `Heading`'s `level` and `size` are intentionally decoupled: `level` sets the rendered tag
+  (`h1`-`h6`) and drives the document outline, while `size` only changes the visual scale.
+  Choose `level` based on document structure first, and use `size` if you need it to look larger
+  or smaller than that level implies -- never skip heading levels purely for a visual effect.
+- `Title`, `Subtitle`, and `Subtitle2` render as `<p>` on purpose. They do not participate in the
+  heading outline, so don't use them as a substitute for `Heading` when text is structurally a
+  heading (e.g. a section's leading title) -- screen reader users navigating by heading won't see
+  them.
+- `Strong` and `Em` carry meaning to assistive technology (importance and stress emphasis,
+  respectively), not just a visual style. Use them for text that's genuinely emphasized, and use
+  `Text` with a `className` override for purely decorative bold/italic styling.
+
+## Related
+
+- [Theming](/docs/getting-started/theming)
+- [Avatar](/docs/base-components/avatar)
+- [Badges](/docs/base-components/badges)
