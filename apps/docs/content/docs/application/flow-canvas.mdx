@@ -1,0 +1,179 @@
+---
+title: Flow Canvas
+description: An interactive node/edge diagram editor for pipelines, workflows and decision trees, with pan/zoom, drag-to-connect authoring and consumer-driven run-status visualization.
+---
+
+## Overview
+
+`FlowCanvas` is a glass-styled, pannable/zoomable node-and-edge diagram: drag nodes to reposition them, drag from a node's right handle onto another node to connect them, click a node or edge to edit it in the inspector, and hand it live execution status (queued/running/done/skipped) to animate a pipeline as it runs. It is not built on React Aria Components -- like the chart family, it needs bespoke pointer-driven pan/zoom/drag logic that no existing primitive covers.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasBasic" />
+
+## Installation
+
+```ts
+import { FlowCanvas } from "@/components/application/flow-canvas/flow-canvas";
+```
+
+## Usage
+
+```tsx
+const nodes = [
+    { id: "start", label: "Trigger", role: "start", x: 80, y: 160 },
+    { id: "process", label: "Fetch data", role: "process", x: 380, y: 160 },
+    { id: "end", label: "Notify", role: "end", x: 680, y: 160 },
+];
+const edges = [
+    { id: "e1", source: "start", target: "process" },
+    { id: "e2", source: "process", target: "end" },
+];
+
+<FlowCanvas defaultNodes={nodes} defaultEdges={edges} />;
+```
+
+<Callout type="info">
+    Memoise `nodes`/`edges` you pass in from outside -- array identity is how `FlowCanvas` detects the graph changed, the same convention every chart uses for
+    `data`.
+</Callout>
+
+<Callout type="info">
+    `status` on a node or edge is plain controlled data -- `FlowCanvas` never computes execution order itself. See [Run simulation](#run-simulation) below for a
+    reference (fake) executor to adapt, not to ship as-is.
+</Callout>
+
+## Props
+
+**FlowCanvas**
+
+<PropsTable component="application/flow-canvas/flow-canvas" name="FlowCanvas" />
+
+### Data model
+
+`react-docgen-typescript` only extracts a component's own prop signature, not the type aliases it references -- so the shapes of `FlowNode`, `FlowEdge` and `FlowRoleDefinition` (all exported from `flow-canvas-types.ts`) are documented here by hand.
+
+**FlowNode**
+
+| Field         | Type                                                     | Description                                                                 |
+| :------------ | :------------------------------------------------------- | :-------------------------------------------------------------------------- |
+| `id`          | `string`                                                 | Stable, unique id. Required for selection, deletion and controlled updates. |
+| `label`       | `string`                                                 | —                                                                           |
+| `description` | `string?`                                                | Short supporting text shown under the label.                                |
+| `role`        | `string`                                                 | Key into the role registry (`roles` prop merged over `DEFAULT_FLOW_ROLES`). |
+| `icon`        | `FC<{ className?: string }>?`                            | Overrides the role's default icon for this one node.                        |
+| `x`, `y`      | `number`                                                 | Content-space position of the node's center.                                |
+| `status`      | `"idle" \| "queued" \| "running" \| "done" \| "skipped"` | Execution status. Defaults to `"idle"`.                                     |
+| `data`        | `TData?`                                                 | Arbitrary consumer data, not read by `FlowCanvas` itself.                   |
+
+**FlowEdge**
+
+| Field    | Type                                           | Description                                             |
+| :------- | :--------------------------------------------- | :------------------------------------------------------ |
+| `id`     | `string`                                       | Stable, unique id.                                      |
+| `source` | `string`                                       | Source node id (edge starts at its right/"out" handle). |
+| `target` | `string`                                       | Target node id (edge ends at its left/"in" handle).     |
+| `label`  | `string?`                                      | Rendered as a chip at the edge's midpoint.              |
+| `status` | `"idle" \| "active" \| "traversed" \| "muted"` | Execution status. Defaults to `"idle"`.                 |
+
+**FlowRoleDefinition** (the shape of each entry in the `roles` prop and `DEFAULT_FLOW_ROLES`)
+
+| Field   | Type                                                     | Description                                      |
+| :------ | :------------------------------------------------------- | :----------------------------------------------- |
+| `label` | `string`                                                 | Shown in the inspector's role picker and legend. |
+| `icon`  | `FC<{ className?: string }>`                             | Rendered on the role's `FeaturedIcon` tile.      |
+| `color` | `"brand" \| "gray" \| "success" \| "warning" \| "error"` | The five colors `FeaturedIcon` supports.         |
+
+## Examples
+
+### Basic
+
+Full default chrome, uncontrolled -- the shape most consumers reach for first.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasBasic" />
+
+### Controlled state
+
+`nodes`/`edges`/`selectedId` as controlled props with their `onChange` callbacks, mutated here from a button outside the canvas.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasControlled" />
+
+### Minimal embed
+
+`isReadOnly` with every chrome piece (toolbar, minimap, inspector, zoom dock, hint chip) turned off -- for embedding a status summary where editing doesn't make sense.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasMinimalEmbed" />
+
+### Custom roles
+
+`roles` merges partial overrides over `DEFAULT_FLOW_ROLES` by key -- this example adds a 7th, fully custom role.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasCustomRoles" />
+
+### Sketchy style
+
+`defaultEdgeStyle="sketchy"` swaps clean bezier edges for hand-wobbled ones (an SVG turbulence filter) and switches labels to a handwriting font.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasSketchyMode" />
+
+### Run simulation
+
+A local, demo-only fixture computes a topological execution order and alternates which branch a decision node takes each run, driving `status` and `runLog` through the same public props any real integration would use.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasRunSimulation" />
+
+### Empty state
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasEmpty" />
+
+## Accessibility
+
+| Key                                              | Action                                                                      |
+| :----------------------------------------------- | :-------------------------------------------------------------------------- |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd> | Move a roving focus to the next/previous node (the canvas is one tab stop). |
+| <kbd>Enter</kbd> / <kbd>Space</kbd>              | Select the focused node.                                                    |
+| Arrow keys                                       | Nudge the focused/selected node's position by one grid unit.                |
+| <kbd>Shift</kbd> + arrow keys                    | Nudge by a larger step.                                                     |
+| <kbd>Delete</kbd> / <kbd>Backspace</kbd>         | Remove the selected node or edge.                                           |
+| <kbd>Esc</kbd>                                   | Clear the current selection.                                                |
+| <kbd>+</kbd> / <kbd>-</kbd>                      | Zoom in / out around the viewport center.                                   |
+| <kbd>0</kbd>                                     | Reset zoom and fit every node into view.                                    |
+| Click + drag (empty canvas)                      | Pan.                                                                        |
+| Drag a node's "out" handle onto another node     | Create a directed edge (live preview, drop-target highlight).               |
+
+- Roving-tabindex model (`use-flow-canvas-focus.ts`): Tab moves focus, arrow keys never move focus here -- they reposition the node instead, since that reads as the more useful default for an editable diagram.
+- Every mutating action (connect, delete, add) is pushed to a polite live region.
+- `prefers-reduced-motion` freezes the ambient flow-dot travel and the running-status pulse via `useReducedMotion` (`motion/react`), the same mechanism every chart uses.
+- Role and status are never color-only: an icon and a text label always pair with the color, and the optional legend (`showLegend`) spells out what each color means.
+- Set `keyboardShortcuts={false}` to disable the canvas-level shortcuts (zoom, fit view, escape, delete-selected-edge, run) if they'd conflict with a host page's own bindings. Per-node editing is governed by `isReadOnly` instead.
+
+## Best practices
+
+<Callout type="info">
+    Nodes render as real, non-virtualized HTML elements (needed for `backdrop-blur`, wrapped text and focus) -- comfortable up to roughly 150-200 nodes on
+    screen at once. Beyond that, cluster or paginate your data before handing it to `FlowCanvas`.
+</Callout>
+
+<Callout type="info">
+    Controlled vs. uncontrolled: reach for `defaultNodes`/`defaultEdges` for a self-contained authoring tool, and controlled `nodes`/`edges`/`selectedId` when
+    syncing with a backend, undo/redo, or multiplayer state.
+</Callout>
+
+<Callout type="info">
+    Sketchy mode reads as a whiteboard/ideation aesthetic -- good for brainstorming and onboarding demos, not recommended for dense production dashboards.
+</Callout>
+
+<Callout type="info">
+    Wiring a real backend is the entire integration surface: subscribe to your execution source (websocket, polling, a state machine) and write the results
+    straight into each node's/edge's `status` field plus `runLog` -- exactly what the [Run simulation](#run-simulation) example's fixture hook does, just with
+    real data instead of a `setTimeout` loop.
+</Callout>
+
+<Callout type="warning">
+    `FlowCanvas` has no theme provider of its own -- dark mode is the host app's `.dark-mode` class, same as every other Odyssey component. Don't add a second
+    theme switcher inside `toolbarExtra` if the host page already has one.
+</Callout>
+
+## Related
+
+- [Table](/docs/application/table)
+- [Charts overview](/docs/application/charts/index)
+- [Empty state](/docs/application/empty-state)

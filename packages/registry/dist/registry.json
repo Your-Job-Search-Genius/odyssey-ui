@@ -1,6 +1,6 @@
 {
-  "version": "1.0.5",
-  "generatedAt": "library@1.0.5+components:135+tokens:268+icons:1179",
+  "version": "1.0.6",
+  "generatedAt": "library@1.0.6+components:143+tokens:269+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -3077,6 +3077,724 @@
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/file-upload/file-upload-base",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas",
+      "name": "FlowCanvas",
+      "importName": "FlowCanvas",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas",
+      "category": "application",
+      "description": "Interactive node/edge diagram editor -- pipelines, workflows, decision trees, execution graphs -- with pan/zoom, drag-to-connect authoring, an extensible role registry, and consumer-driven run-status visualization. Nodes render as real HTML (glass cards, FeaturedIcon role tiles); edges are SVG bezier splines with a smooth or hand-wobbled 'sketchy' style.",
+      "props": [
+        {
+          "name": "nodes",
+          "type": "FlowNode<TData>[] | undefined",
+          "required": false,
+          "description": "Controlled node array. Memoise it -- a new array identity is how `FlowCanvas` knows the graph changed."
+        },
+        {
+          "name": "defaultNodes",
+          "type": "FlowNode<TData>[] | undefined",
+          "required": false,
+          "description": "Initial nodes for uncontrolled use."
+        },
+        {
+          "name": "onNodesChange",
+          "type": "((nodes: FlowNode<TData>[]) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "edges",
+          "type": "FlowEdge[] | undefined",
+          "required": false,
+          "description": "Controlled edge array."
+        },
+        {
+          "name": "defaultEdges",
+          "type": "FlowEdge[] | undefined",
+          "required": false,
+          "description": "Initial edges for uncontrolled use."
+        },
+        {
+          "name": "onEdgesChange",
+          "type": "((edges: FlowEdge[]) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "selectedId",
+          "type": "string | null | undefined",
+          "required": false,
+          "description": "Id of the selected node or edge (both share one id namespace)."
+        },
+        {
+          "name": "defaultSelectedId",
+          "type": "string | null | undefined",
+          "required": false
+        },
+        {
+          "name": "onSelectedIdChange",
+          "type": "((id: string | null) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onNodeSelect",
+          "type": "((node: FlowNode<TData> | null) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onEdgeSelect",
+          "type": "((edge: FlowEdge | null) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onConnect",
+          "type": "((connection: FlowConnection) => void) | undefined",
+          "required": false,
+          "description": "Fired when a user drags from one node's \"out\" handle onto another node."
+        },
+        {
+          "name": "onNodeAdd",
+          "type": "((node: FlowNode<TData>) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onNodeDelete",
+          "type": "((node: FlowNode<TData>) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onEdgeDelete",
+          "type": "((edge: FlowEdge) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "newNodeDefaults",
+          "type": "Partial<FlowNode<TData>> | (() => Partial<FlowNode<TData>>) | undefined",
+          "required": false,
+          "description": "Fields merged onto the node the toolbar's \"Add node\" button creates. A function is called fresh each time."
+        },
+        {
+          "name": "roles",
+          "type": "Record<string, Partial<FlowRoleDefinition>> | undefined",
+          "required": false,
+          "description": "Partial overrides merged over `DEFAULT_FLOW_ROLES` by key -- add a new role or restyle a built-in one."
+        },
+        {
+          "name": "edgeStyle",
+          "type": "enum",
+          "enumValues": [
+            "smooth",
+            "sketchy"
+          ],
+          "required": false,
+          "description": "Smooth (clean bezier) or sketchy (hand-wobbled, Excalidraw-style) edges."
+        },
+        {
+          "name": "defaultEdgeStyle",
+          "type": "enum",
+          "enumValues": [
+            "smooth",
+            "sketchy"
+          ],
+          "required": false,
+          "default": "smooth"
+        },
+        {
+          "name": "onEdgeStyleChange",
+          "type": "((style: FlowEdgeStyle) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "snapToGrid",
+          "type": "boolean | undefined",
+          "required": false
+        },
+        {
+          "name": "defaultSnapToGrid",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "onSnapToGridChange",
+          "type": "((value: boolean) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "gridSize",
+          "type": "number | undefined",
+          "required": false,
+          "default": "24",
+          "description": "Content-space grid size in px used by snap-to-grid and the \"Add node\" button."
+        },
+        {
+          "name": "isPlaying",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Whether the ambient flow-dot animation is playing."
+        },
+        {
+          "name": "defaultIsPlaying",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "onPlayingChange",
+          "type": "((isPlaying: boolean) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "speed",
+          "type": "enum",
+          "enumValues": [
+            "slow",
+            "normal",
+            "fast"
+          ],
+          "required": false,
+          "description": "Ambient flow-dot travel speed."
+        },
+        {
+          "name": "defaultSpeed",
+          "type": "enum",
+          "enumValues": [
+            "slow",
+            "normal",
+            "fast"
+          ],
+          "required": false,
+          "default": "normal"
+        },
+        {
+          "name": "onSpeedChange",
+          "type": "((speed: FlowSpeed) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "runLog",
+          "type": "FlowRunLogEntry[] | undefined",
+          "required": false,
+          "description": "Lines shown in the inspector's run log when nothing is selected. Purely display data."
+        },
+        {
+          "name": "maxRunLogEntries",
+          "type": "number | undefined",
+          "required": false,
+          "default": "20",
+          "description": "Most recent entries of `runLog` to display."
+        },
+        {
+          "name": "showToolbar",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showZoomControls",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showMinimap",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showInspector",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "showHintChip",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true"
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Disables dragging, connecting, deleting and nudging. Panning, zooming, selecting and inspecting still work."
+        },
+        {
+          "name": "keyboardShortcuts",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Governs the canvas-level shortcuts (zoom, fit view, escape, delete-selected-edge, run). Per-node editing is governed by `isReadOnly` instead."
+        },
+        {
+          "name": "height",
+          "type": "string | number | undefined",
+          "required": false,
+          "default": "560",
+          "description": "Canvas surface height. Width always fills the measured container."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties | undefined",
+          "required": false
+        },
+        {
+          "name": "toolbarExtra",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Rendered at the end of the toolbar row -- e.g. a host app's own theme switcher. FlowCanvas never ships one itself."
+        },
+        {
+          "name": "renderNodeContent",
+          "type": "((node: FlowNode<TData>) => ReactNode) | undefined",
+          "required": false,
+          "description": "Renders extra content inside a node card, after the label/description."
+        },
+        {
+          "name": "onRunRequest",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "The toolbar's Run button only renders when this is provided."
+        },
+        {
+          "name": "onReset",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Called when Reset is pressed, after the viewport has been fit back to the graph."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "edgeStyle": [
+          "smooth",
+          "sketchy"
+        ],
+        "speed": [
+          "slow",
+          "normal",
+          "fast"
+        ]
+      },
+      "allowedChildren": "none",
+      "examples": [
+        {
+          "title": "Uncontrolled, full chrome",
+          "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} />"
+        },
+        {
+          "title": "Controlled state",
+          "code": "<FlowCanvas nodes={nodes} onNodesChange={setNodes} edges={edges} onEdgesChange={setEdges} selectedId={selectedId} onSelectedIdChange={setSelectedId} />"
+        },
+        {
+          "title": "Read-only summary embed",
+          "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} isReadOnly showToolbar={false} showMinimap={false} showInspector={false} />"
+        },
+        {
+          "title": "Custom role",
+          "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} roles={{ validation: { label: \"Validation\", icon: ShieldTick, color: \"success\" } }} />"
+        }
+      ],
+      "a11y": "The canvas is one tab stop; Tab/Shift+Tab move a roving focus between nodes, arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
+      "doNot": [
+        "Do not pass a new `nodes`/`edges` array identity on every render if you can avoid it -- memoise external data before handing it to FlowCanvas.",
+        "Do not ship a fake execution-order simulator in production code; `status` is controlled display data -- drive it from a real backend/websocket/state machine, the same way the 'Run simulation' example's local fixture hook does.",
+        "Do not render more than roughly 150-200 nodes at once -- nodes are real, non-virtualized HTML elements (needed for backdrop-blur, wrapped text and focus). Cluster or paginate larger graphs before handing them to FlowCanvas.",
+        "Do not reach for sketchy mode in dense production dashboards -- it reads as a whiteboard/ideation aesthetic, not a data-density one.",
+        "Do not add a second theme switcher inside `toolbarExtra` if the host app already has one -- FlowCanvas has no theme provider of its own by design."
+      ],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-context",
+      "name": "FlowCanvasProvider",
+      "importName": "FlowCanvasProvider",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-context",
+      "category": "application",
+      "description": "",
+      "props": [],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-context",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-edge",
+      "name": "FlowCanvasEdgePath",
+      "importName": "FlowCanvasEdgePath",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-edge",
+      "category": "application",
+      "description": "One edge: an invisible wide hit-stroke for easy click targeting, the visible stroke, and (unless paused/reduced-motion/muted/traversed) ambient travel dots.",
+      "props": [
+        {
+          "name": "edge",
+          "type": "FlowEdge",
+          "required": true
+        },
+        {
+          "name": "d",
+          "type": "string",
+          "required": true,
+          "description": "Precomputed by the caller (`buildEdgePath`) so the same path/midpoint is shared with `FlowCanvasEdgeLabel`."
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onSelect",
+          "type": "() => void",
+          "required": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-edge",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-inspector",
+      "name": "FlowCanvasInspector",
+      "importName": "FlowCanvasInspector",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-inspector",
+      "category": "application",
+      "description": "",
+      "props": [
+        {
+          "name": "selection",
+          "type": "FlowSelection",
+          "required": true
+        },
+        {
+          "name": "nodes",
+          "type": "readonly FlowNode<TData>[]",
+          "required": true
+        },
+        {
+          "name": "edges",
+          "type": "readonly FlowEdge[]",
+          "required": true
+        },
+        {
+          "name": "zoomPercent",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "runLog",
+          "type": "readonly FlowRunLogEntry[] | undefined",
+          "required": false
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean | undefined",
+          "required": false
+        },
+        {
+          "name": "onNodeLabelChange",
+          "type": "(id: string, label: string) => void",
+          "required": true
+        },
+        {
+          "name": "onNodeDescriptionChange",
+          "type": "(id: string, description: string) => void",
+          "required": true
+        },
+        {
+          "name": "onNodeRoleChange",
+          "type": "(id: string, role: string) => void",
+          "required": true
+        },
+        {
+          "name": "onEdgeLabelChange",
+          "type": "(id: string, label: string) => void",
+          "required": true
+        },
+        {
+          "name": "onDeleteSelected",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onGoToNode",
+          "type": "(id: string) => void",
+          "required": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-inspector",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-minimap",
+      "name": "FlowCanvasMinimap",
+      "importName": "FlowCanvasMinimap",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-minimap",
+      "category": "application",
+      "description": "A small overview of every node plus a clickable rectangle showing the current pan/zoom window.",
+      "props": [
+        {
+          "name": "nodes",
+          "type": "readonly FlowNode<TData>[]",
+          "required": true
+        },
+        {
+          "name": "viewport",
+          "type": "FlowViewport",
+          "required": true
+        },
+        {
+          "name": "containerSize",
+          "type": "{ width: number; height: number; }",
+          "required": true,
+          "description": "The main canvas's measured pixel size, used to draw the visible-region rectangle."
+        },
+        {
+          "name": "onNavigate",
+          "type": "(point: FlowPoint) => void",
+          "required": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-minimap",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-node",
+      "name": "FlowNodeCard",
+      "importName": "FlowNodeCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-node",
+      "category": "application",
+      "description": "",
+      "props": [
+        {
+          "name": "node",
+          "type": "FlowNode<TData>",
+          "required": true
+        },
+        {
+          "name": "isSelected",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "isDropTarget",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "zoom",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "focusProps",
+          "type": "FlowCanvasFocusItemProps",
+          "required": true
+        },
+        {
+          "name": "onSelect",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onMoveBy",
+          "type": "(dx: number, dy: number) => void",
+          "required": true
+        },
+        {
+          "name": "onMoveEnd",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onNudge",
+          "type": "(dx: number, dy: number) => void",
+          "required": true
+        },
+        {
+          "name": "onDelete",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onConnectStart",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onConnectMoveTo",
+          "type": "(clientX: number, clientY: number) => void",
+          "required": true
+        },
+        {
+          "name": "onConnectEnd",
+          "type": "(dropElement: Element | null) => void",
+          "required": true
+        },
+        {
+          "name": "renderContent",
+          "type": "((node: FlowNode<TData>) => ReactNode) | undefined",
+          "required": false
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-node",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-primitives",
+      "name": "FlowCanvasGrid",
+      "importName": "FlowCanvasGrid",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-primitives",
+      "category": "application",
+      "description": "The dot-grid background, panning and zooming with content -- rendered as the first child inside the transformed edge layer.",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "gridSize",
+          "type": "number | undefined",
+          "required": false,
+          "default": "24"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-primitives",
+      "isExtracted": true
+    },
+    {
+      "id": "application/flow-canvas/flow-canvas-toolbar",
+      "name": "FlowCanvasToolbar",
+      "importName": "FlowCanvasToolbar",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/flow-canvas/flow-canvas-toolbar",
+      "category": "application",
+      "description": "",
+      "props": [
+        {
+          "name": "edgeStyle",
+          "type": "enum",
+          "enumValues": [
+            "smooth",
+            "sketchy"
+          ],
+          "required": true
+        },
+        {
+          "name": "onEdgeStyleChange",
+          "type": "(style: FlowEdgeStyle) => void",
+          "required": true
+        },
+        {
+          "name": "speed",
+          "type": "enum",
+          "enumValues": [
+            "slow",
+            "normal",
+            "fast"
+          ],
+          "required": true
+        },
+        {
+          "name": "onSpeedChange",
+          "type": "(speed: FlowSpeed) => void",
+          "required": true
+        },
+        {
+          "name": "isPlaying",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onPlayingChange",
+          "type": "(isPlaying: boolean) => void",
+          "required": true
+        },
+        {
+          "name": "snapToGrid",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onSnapToGridChange",
+          "type": "(value: boolean) => void",
+          "required": true
+        },
+        {
+          "name": "isReadOnly",
+          "type": "boolean | undefined",
+          "required": false
+        },
+        {
+          "name": "onRun",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "The Run button only renders when this is provided."
+        },
+        {
+          "name": "onAddNode",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onReset",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "toolbarExtra",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Rendered at the end of the toolbar row -- e.g. a host app's own theme switcher. FlowCanvas never ships one itself."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/flow-canvas/flow-canvas-toolbar",
       "isExtracted": true
     },
     {
@@ -9115,6 +9833,13 @@
         "usage": "Foreground elements that are always white, regardless of the mode."
       },
       {
+        "cssVar": "--color-flow-glow-brand",
+        "className": "flow-glow-brand",
+        "value": "rgb(110 98 239 / 0.45)",
+        "darkValue": "rgb(140 139 246 / 0.55)",
+        "usage": "Flow Canvas token."
+      },
+      {
         "cssVar": "--color-focus-ring",
         "className": "focus-ring",
         "value": "var(--color-brand-500)",
@@ -10306,14 +11031,16 @@
     ],
     "animations": [
       "caret-blink",
+      "flow-dot-travel",
+      "flow-status-pulse",
       "marquee"
     ],
     "radius": [],
     "allowedTailwindPatterns": [
       "^(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
       "^(hover|focus|focus-visible|active|disabled|dark):(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
-      "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell)$",
-      "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell)$",
+      "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
+      "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
       "^-?(m|p)[trblxy]?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",
       "^m[trblxy]?-auto$",
       "^gap(-x|-y)?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",

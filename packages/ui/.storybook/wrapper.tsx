@@ -1,10 +1,19 @@
 import React, { useEffect } from "react";
-import { Inter } from "next/font/google";
+import { Inter, Kalam } from "next/font/google";
 
 const inter = Inter({
     subsets: ["latin"],
     display: "swap",
     variable: "--font-inter",
+});
+
+// Backs the `--font-handwritten` token (styles/theme.css) used only by
+// FlowCanvas's "sketchy" edge style.
+const kalam = Kalam({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    display: "swap",
+    variable: "--font-kalam",
 });
 
 const Wrapper = (Story: any) => {
@@ -47,7 +56,7 @@ const Wrapper = (Story: any) => {
     }, []);
 
     return (
-        <div className={inter.variable}>
+        <div className={`${inter.variable} ${kalam.variable}`}>
             <Story />
         </div>
     );

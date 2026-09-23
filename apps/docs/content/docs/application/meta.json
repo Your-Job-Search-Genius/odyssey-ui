@@ -20,6 +20,7 @@
         "loading-indicator",
         "carousel",
         "virtualized-list",
-        "ai-chatbox"
+        "ai-chatbox",
+        "flow-canvas"
     ]
 }

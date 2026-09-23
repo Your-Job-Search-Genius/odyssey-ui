@@ -3,6 +3,8 @@
     --font-body: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     --font-display: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     --font-mono: ui-monospace, "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* Used only by FlowCanvas's "sketchy" edge style; loaded via next/font in apps/docs and Storybook (see .storybook/wrapper.tsx). */
+    --font-handwritten: var(--font-kalam, "Kalam", cursive);
 
     /* FONT SIZE */
     --text-xs: calc(var(--spacing) * 3);
@@ -78,6 +80,11 @@
     /* ANIMATIONS */
     --animate-marquee: marquee 60s linear infinite;
     --animate-caret-blink: caret-blink 1s infinite;
+    /* FlowCanvas ambient edge-dot travel. Duration is set per-instance via the `--flow-duration`
+       custom property (see flow-canvas-utils.ts's SPEED_DURATIONS), inherited from wherever
+       FlowCanvas sets it -- resolved dynamically per element, same mechanism as any CSS var. */
+    --animate-flow-dot-travel: flow-dot-travel var(--flow-duration, 2.4s) linear infinite;
+    --animate-flow-status-pulse: flow-status-pulse 1.6s ease-in-out infinite;
 
     @keyframes marquee {
         0% {
@@ -96,6 +103,22 @@
         51%,
         100% {
             opacity: 0;
+        }
+    }
+
+    @keyframes flow-dot-travel {
+        to {
+            offset-distance: 100%;
+        }
+    }
+
+    @keyframes flow-status-pulse {
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 var(--color-flow-glow-brand);
+        }
+        50% {
+            box-shadow: 0 0 0 8px transparent;
         }
     }
 
@@ -510,6 +533,10 @@
     --color-chart-axis: var(--color-neutral-200);
     --color-chart-track: var(--color-neutral-100);
     --color-chart-empty-cell: var(--color-neutral-100);
+
+    /* FLOW CANVAS */
+    /* Brand-tinted glow for active edges and the running-status chip pulse -- the one FlowCanvas effect with no existing token to reuse. */
+    --color-flow-glow-brand: rgb(110 98 239 / 0.45);
 }
 
 @layer base {
@@ -829,6 +856,9 @@
         --color-chart-axis: var(--color-neutral-700);
         --color-chart-track: var(--color-neutral-800);
         --color-chart-empty-cell: var(--color-neutral-800);
+
+        /* FLOW CANVAS */
+        --color-flow-glow-brand: rgb(140 139 246 / 0.55);
 
         /* TEXT PROPERTY COLORS */
         --text-color-primary: var(--color-text-primary);

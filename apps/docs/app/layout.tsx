@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { RootProvider } from "fumadocs-ui/provider/next";
-import { Inter } from "next/font/google";
+import { Inter, Kalam } from "next/font/google";
 import { themeClassScript } from "~/lib/theme-class-script";
 import { ThemeClassSync } from "~/lib/theme-class-sync";
 import "./global.css";
@@ -12,9 +12,17 @@ const inter = Inter({
     variable: "--font-inter",
 });
 
+// Backs the `--font-handwritten` token (styles/theme.css) used only by
+// FlowCanvas's "sketchy" edge style. Same loading pattern as Inter above.
+const kalam = Kalam({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-kalam",
+});
+
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang="en" className={inter.variable} suppressHydrationWarning>
+        <html lang="en" className={`${inter.variable} ${kalam.variable}`} suppressHydrationWarning>
             <head>
                 {/* Sets .light-mode/.dark-mode on <html> before hydration so the
                     library's semantic color tokens (text-primary, bg-secondary, ...)
