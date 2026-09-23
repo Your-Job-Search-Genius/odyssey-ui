@@ -50,12 +50,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                 isSecondarySidebarVisible && "bg-primary",
             )}
         >
-            <div
-                className={cx(
-                    "flex w-auto flex-col justify-between rounded-xl bg-primary pt-5 ring-1 ring-secondary transition duration-300 ring-inset",
-                    hideBorder && !isSecondarySidebarVisible && "ring-transparent",
-                )}
-            >
+            <div className="flex w-auto flex-col justify-between rounded-xl bg-secondary pt-5 transition duration-300">
                 <div className="flex justify-center px-3">
                     <BrandLogoMinimal className="size-6" />
                 </div>
@@ -64,6 +59,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                     {items.map((item) => (
                         <li key={item.label}>
                             <NavButton
+                                variant="rail"
                                 current={currentItem?.href === item.href}
                                 href={item.href}
                                 label={item.label || ""}
@@ -79,6 +75,7 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                             {footerItems.map((item) => (
                                 <li key={item.label}>
                                     <NavButton
+                                        variant="rail"
                                         current={currentItem?.href === item.href}
                                         label={item.label || ""}
                                         href={item.href}
@@ -135,8 +132,8 @@ export const SidebarNavigationSlim = ({ activeUrl, items, footerItems = [], hide
                     exit={{ width: 0, borderColor: "rgba(0,0,0,0)", transition: { borderColor: { type: "tween", delay: 0.05 } } }}
                     transition={{ type: "spring", damping: 26, stiffness: 220, bounce: 0 }}
                     className={cx(
-                        "relative h-full overflow-x-hidden overflow-y-auto bg-primary",
-                        !(hideBorder || hideRightBorder) && "box-content border-r-[1.5px]",
+                        "relative h-full overflow-x-hidden overflow-y-auto bg-secondary",
+                        !(hideBorder || hideRightBorder) && "border-r border-secondary",
                     )}
                 >
                     <div style={{ width: SECONDARY_SIDEBAR_WIDTH }} className="flex h-full flex-col px-4 pt-6">

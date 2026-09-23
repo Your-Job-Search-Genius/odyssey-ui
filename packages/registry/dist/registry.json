@@ -1,6 +1,6 @@
 {
-  "version": "1.0.4",
-  "generatedAt": "library@1.0.4+components:125+tokens:268+icons:1179",
+  "version": "1.0.5",
+  "generatedAt": "library@1.0.5+components:124+tokens:268+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -270,88 +270,6 @@
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/alerts/alert",
-      "isExtracted": true
-    },
-    {
-      "id": "application/app-navigation/header-navigation",
-      "name": "HeaderNavigationBase",
-      "importName": "HeaderNavigationBase",
-      "importPath": "@your-job-search-genius/odyssey-ui/components/application/app-navigation/header-navigation",
-      "category": "application",
-      "description": "",
-      "props": [
-        {
-          "name": "activeUrl",
-          "type": "string | undefined",
-          "required": false,
-          "description": "URL of the currently active item."
-        },
-        {
-          "name": "items",
-          "type": "NavItem[]",
-          "required": true,
-          "description": "List of items to display."
-        },
-        {
-          "name": "subItems",
-          "type": "NavItem[] | undefined",
-          "required": false,
-          "description": "List of sub-items to display."
-        },
-        {
-          "name": "hideBorder",
-          "type": "boolean | undefined",
-          "required": false,
-          "default": "false",
-          "description": "Whether to hide the bottom border."
-        },
-        {
-          "name": "actions",
-          "type": "ReactNode",
-          "required": false,
-          "description": "Replaces the entire right-side actions (icon buttons + account dropdown).\nWhen provided, the default actions are ignored."
-        },
-        {
-          "name": "centered",
-          "type": "boolean | undefined",
-          "required": false,
-          "default": "false",
-          "description": "Centers the primary nav items between the logo and actions."
-        },
-        {
-          "name": "secondaryType",
-          "type": "enum",
-          "enumValues": [
-            "buttons",
-            "tabs"
-          ],
-          "required": false,
-          "default": "buttons",
-          "description": "Controls how the secondary header renders sub-items.\n- \"buttons\" — NavButton pills (default)\n- \"tabs\" — Underline tabs"
-        }
-      ],
-      "slots": [],
-      "variants": {},
-      "allowedChildren": "any",
-      "examples": [],
-      "doNot": [],
-      "docsUrl": "/docs/application/app-navigation/header-navigation",
-      "isExtracted": true
-    },
-    {
-      "id": "application/app-navigation/sidebar-navigation-base",
-      "name": "MobileNavigationHeader",
-      "importName": "MobileNavigationHeader",
-      "importPath": "@your-job-search-genius/odyssey-ui/components/application/app-navigation/sidebar-navigation-base",
-      "category": "application",
-      "description": "",
-      "props": [],
-      "slots": [],
-      "variants": {},
-      "allowedChildren": "any",
-      "examples": [],
-      "doNot": [],
-      "docsUrl": "/docs/application/app-navigation/sidebar-navigation-base",
       "isExtracted": true
     },
     {
@@ -721,8 +639,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -842,8 +760,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "default": "top",
@@ -1061,8 +979,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -1248,8 +1166,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -1459,8 +1377,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -1801,8 +1719,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -1956,8 +1874,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -2112,8 +2030,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -2311,8 +2229,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -2641,8 +2559,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -2783,8 +2701,8 @@
           "name": "legendPosition",
           "type": "enum",
           "enumValues": [
-            "bottom",
-            "top"
+            "top",
+            "bottom"
           ],
           "required": false,
           "description": "Where to render the legend. Defaults to `top`."
@@ -3028,10 +2946,10 @@
           "name": "placement",
           "type": "enum",
           "enumValues": [
-            "bottom",
             "top",
-            "left",
-            "right"
+            "bottom",
+            "right",
+            "left"
           ],
           "required": false,
           "default": "right",
@@ -3505,52 +3423,61 @@
       "isExtracted": true
     },
     {
-      "id": "application/sidebar/sidebar",
-      "name": "Sidebar",
-      "importName": "Sidebar",
-      "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar",
+      "id": "application/sidebar/header-navigation",
+      "name": "HeaderNavigationBase",
+      "importName": "HeaderNavigationBase",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/header-navigation",
       "category": "application",
-      "description": "Sidebar — plain semantic `<nav>`/`<ul>`, no behavior library needed. Nested items use\n`<details>`/`<summary>` for native keyboard/expanded-state support for free. This is a\ndistinct component from the `app-navigation` sidebar family — it ships the nested-disclosure,\n`SidebarItemData`-driven nav pattern from the original design as-is.",
+      "description": "",
       "props": [
         {
-          "name": "aria-label",
-          "type": "string",
-          "required": true,
-          "description": "Landmark label (WCAG: a page with more than one `<nav>` needs each one named)."
+          "name": "activeUrl",
+          "type": "string | undefined",
+          "required": false,
+          "description": "URL of the currently active item."
         },
         {
           "name": "items",
-          "type": "SidebarItemData[]",
-          "required": true
+          "type": "NavItem[]",
+          "required": true,
+          "description": "List of items to display."
         },
         {
-          "name": "activeId",
-          "type": "string | undefined",
+          "name": "subItems",
+          "type": "NavItem[] | undefined",
           "required": false,
-          "description": "id of the currently active item — rendered with `aria-current=\"page\"` and the active-rail indicator, never color alone."
+          "description": "List of sub-items to display."
         },
         {
-          "name": "header",
+          "name": "hideBorder",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Whether to hide the bottom border."
+        },
+        {
+          "name": "actions",
           "type": "ReactNode",
           "required": false,
-          "description": "Optional block above the nav list — a workspace/institution identity slot."
+          "description": "Replaces the entire right-side actions (icon buttons + account dropdown).\nWhen provided, the default actions are ignored."
         },
         {
-          "name": "footer",
-          "type": "ReactNode",
+          "name": "centered",
+          "type": "boolean | undefined",
           "required": false,
-          "description": "Optional block below the nav list, bottom-aligned when the nav is given a fixed height."
+          "default": "false",
+          "description": "Centers the primary nav items between the logo and actions."
         },
         {
-          "name": "className",
-          "type": "string | undefined",
+          "name": "secondaryType",
+          "type": "enum",
+          "enumValues": [
+            "buttons",
+            "tabs"
+          ],
           "required": false,
-          "acceptsClassName": true
-        },
-        {
-          "name": "style",
-          "type": "CSSProperties | undefined",
-          "required": false
+          "default": "buttons",
+          "description": "Controls how the secondary header renders sub-items.\n- \"buttons\" — NavButton pills (default)\n- \"tabs\" — Underline tabs"
         }
       ],
       "slots": [],
@@ -3558,7 +3485,23 @@
       "allowedChildren": "any",
       "examples": [],
       "doNot": [],
-      "docsUrl": "/docs/application/sidebar/sidebar",
+      "docsUrl": "/docs/application/sidebar/header-navigation",
+      "isExtracted": true
+    },
+    {
+      "id": "application/sidebar/sidebar-navigation-base",
+      "name": "MobileNavigationHeader",
+      "importName": "MobileNavigationHeader",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar-navigation-base",
+      "category": "application",
+      "description": "",
+      "props": [],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/sidebar/sidebar-navigation-base",
       "isExtracted": true
     },
     {
@@ -4544,23 +4487,23 @@
           "type": "enum",
           "enumValues": [
             "end",
+            "top",
             "bottom",
+            "start",
+            "right",
+            "left",
             "bottom left",
             "bottom right",
             "bottom start",
             "bottom end",
-            "top",
             "top left",
             "top right",
             "top start",
             "top end",
-            "left",
             "left top",
             "left bottom",
-            "start",
             "start top",
             "start bottom",
-            "right",
             "right top",
             "right bottom",
             "end top",
@@ -6920,8 +6863,8 @@
           "name": "selectionIndicatorAlign",
           "type": "enum",
           "enumValues": [
-            "left",
-            "right"
+            "right",
+            "left"
           ],
           "required": false,
           "default": "right",

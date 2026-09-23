@@ -1,31 +1,37 @@
 "use client";
 
 import type { FC } from "react";
-import { FeaturedCardProgressBar, FeaturedCardProgressCircle } from "@/components/application/app-navigation/base-components/featured-cards.demo";
-import type { NavItemDividerType, NavItemType } from "@/components/application/app-navigation/config";
-import { SidebarNavigationDualTier } from "@/components/application/app-navigation/sidebar-navigation/sidebar-dual-tier";
-import { SidebarNavigationSectionDividers } from "@/components/application/app-navigation/sidebar-navigation/sidebar-section-dividers";
-import { SidebarNavigationSectionsSubheadings } from "@/components/application/app-navigation/sidebar-navigation/sidebar-sections-subheadings";
-import { SidebarNavigationSimple } from "@/components/application/app-navigation/sidebar-navigation/sidebar-simple";
-import { SidebarNavigationSlim } from "@/components/application/app-navigation/sidebar-navigation/sidebar-slim";
+import { FeaturedCardProgressBar, FeaturedCardProgressCircle } from "@/components/application/sidebar/base-components/featured-cards.demo";
+import type { NavItemDividerType, NavItemType } from "@/components/application/sidebar/config";
+import { SidebarNavigationDualTier } from "@/components/application/sidebar/sidebar-navigation/sidebar-dual-tier";
+import { SidebarNavigationSectionDividers } from "@/components/application/sidebar/sidebar-navigation/sidebar-section-dividers";
+import { SidebarNavigationSectionsSubheadings } from "@/components/application/sidebar/sidebar-navigation/sidebar-sections-subheadings";
+import { SidebarNavigationSimple } from "@/components/application/sidebar/sidebar-navigation/sidebar-simple";
+import { SidebarNavigationSlim } from "@/components/application/sidebar/sidebar-navigation/sidebar-slim";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Badge, BadgeWithDot } from "@/components/base/badges/badges";
 import {
     Archive,
     BarChartSquare02,
+    Bell01,
+    Briefcase01,
     Calendar,
     CheckDone01,
     ChevronRight,
     ClockFastForward,
     CurrencyDollarCircle,
+    File01,
     File05,
+    Flash,
     Folder,
     Grid03,
+    Home03,
     HomeLine,
     Inbox01,
     LayoutAlt01,
     LifeBuoy01,
     LineChartUp03,
+    Mail01,
     MessageChatCircle,
     NotificationBox,
     Package,
@@ -407,3 +413,36 @@ export const SidebarNavigationSlimDemo = () => (
 export const SidebarSectionDividersDemo = () => <SidebarNavigationSectionDividers activeUrl="/" items={navItemsWithDividers} />;
 
 export const SidebarNavigationSectionsSubheadingsDemo = () => <SidebarNavigationSectionsSubheadings activeUrl="/" items={navItemsWithSectionsSubheadings} />;
+
+const navItemsMinimal: NavItemType[] = [
+    { label: "Home", href: "/", icon: Home03 },
+    { label: "Resume", href: "/resume", icon: File01 },
+    {
+        label: "Interview prep",
+        href: "/interview-prep",
+        icon: Briefcase01,
+        items: [
+            { label: "Mock interview", href: "/interview-prep/mock" },
+            { label: "Question bank", href: "/interview-prep/question-bank" },
+        ],
+    },
+    { label: "Messages", href: "/messages", icon: Mail01 },
+    { label: "Notifications", href: "/notifications", icon: Bell01 },
+    { label: "Upgrade plan", href: "/upgrade-plan", icon: Flash },
+];
+
+const navItemsMinimalWithoutIcons: NavItemType[] = navItemsMinimal.map(({ icon: _icon, ...item }) => item);
+
+export const SidebarNavigationSimpleMinimalDemo = () => (
+    <SidebarNavigationSimple items={navItemsMinimal} activeUrl="/resume" showSearch={false} showAccountCard={false} />
+);
+
+export const SidebarNavigationSimpleMinimalNestedDemo = () => (
+    <SidebarNavigationSimple items={navItemsMinimal} activeUrl="/interview-prep/mock" showSearch={false} showAccountCard={false} />
+);
+
+export const SidebarNavigationSimpleMinimalNoActiveDemo = () => <SidebarNavigationSimple items={navItemsMinimal} showSearch={false} showAccountCard={false} />;
+
+export const SidebarNavigationSimpleMinimalWithoutIconsDemo = () => (
+    <SidebarNavigationSimple items={navItemsMinimalWithoutIcons} activeUrl="/resume" showSearch={false} showAccountCard={false} />
+);

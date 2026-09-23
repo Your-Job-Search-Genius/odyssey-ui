@@ -22,7 +22,7 @@ interface PreviewFrameProps {
      * viewport, by giving the frame a bounded height and `contain: paint`
      * -- which the CSS spec makes a containing block for fixed-position
      * descendants, the same way `transform` does. Use for demos that render
-     * always-mounted `fixed` layout shells (e.g. app-navigation sidebars),
+     * always-mounted `fixed` layout shells (e.g. sidebar navigation shells),
      * so multiple examples on one page don't all pin to the real viewport
      * at once. Leave off for on-demand overlays (Modal/Drawer/Slideout
      * Menu/BottomSheet) -- those are meant to cover the real viewport when

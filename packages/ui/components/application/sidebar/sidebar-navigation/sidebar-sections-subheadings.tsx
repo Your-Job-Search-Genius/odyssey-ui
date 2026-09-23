@@ -25,7 +25,7 @@ export const SidebarNavigationSectionsSubheadings = ({ activeUrl = "/", items }:
                     "--width": `${MAIN_SIDEBAR_WIDTH}px`,
                 } as React.CSSProperties
             }
-            className="flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 shadow-xs ring-secondary ring-inset lg:w-(--width) lg:rounded-xl lg:ring-1"
+            className="flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-secondary pt-4 lg:w-(--width) lg:rounded-xl"
         >
             <div className="flex items-center justify-between gap-5 px-4 lg:pl-5">
                 <BrandLogo className="h-6" />
@@ -38,9 +38,9 @@ export const SidebarNavigationSectionsSubheadings = ({ activeUrl = "/", items }:
                         <div className="px-5 pb-1">
                             <p className="text-xs font-bold text-quaternary uppercase">{group.label}</p>
                         </div>
-                        <ul className="px-4 pb-5">
+                        <ul className="flex flex-col gap-1 px-4 pb-5">
                             {group.items.map((item) => (
-                                <li key={item.label} className="py-0.25">
+                                <li key={item.label}>
                                     <NavItemBase icon={item.icon} href={item.href} badge={item.badge} type="link" current={item.href === activeUrl}>
                                         {item.label}
                                     </NavItemBase>

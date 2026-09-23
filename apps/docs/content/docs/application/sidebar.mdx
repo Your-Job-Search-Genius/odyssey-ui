@@ -5,12 +5,14 @@ description: TODO -- one sentence describing Sidebar's primary use case.
 
 ## Overview
 
-<ComponentPreview demo="application/sidebar/sidebar" export="BasicSidebarDemo" />
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalDemo" align="start" contain />
 
 ## Installation
 
 ```ts
-import { Sidebar } from "@/components/application/sidebar/sidebar";
+import { HeaderNavigationBase } from "@/components/application/sidebar/header-navigation";
+import { MobileNavigationHeader } from "@/components/application/sidebar/sidebar-navigation-base";
+import { SidebarNavigationSimple } from "@/components/application/sidebar/sidebar-navigation/sidebar-simple";
 ```
 
 ## Usage
@@ -19,27 +21,83 @@ import { Sidebar } from "@/components/application/sidebar/sidebar";
 
 ## Props
 
-**Sidebar**
+**HeaderNavigationBase**
 
-<PropsTable component="application/sidebar/sidebar" />
+<PropsTable component="application/sidebar/header-navigation" />
+
+**MobileNavigationHeader**
+
+<PropsTable component="application/sidebar/sidebar-navigation-base" />
 
 ## Examples
 
-### Basic Sidebar
+**Featured Cards**
 
-<ComponentPreview demo="application/sidebar/sidebar" export="BasicSidebarDemo" />
+### Featured Card Progress Bar
 
-### Nested Sidebar
+<ComponentPreview demo="application/sidebar/base-components/featured-cards" export="FeaturedCardProgressBar" />
 
-<ComponentPreview demo="application/sidebar/sidebar" export="NestedSidebarDemo" />
+### Featured Card Progress Circle
 
-### No Active Item Sidebar
+<ComponentPreview demo="application/sidebar/base-components/featured-cards" export="FeaturedCardProgressCircle" />
 
-<ComponentPreview demo="application/sidebar/sidebar" export="NoActiveItemSidebarDemo" />
+**Header Navigation**
 
-### Without Icons Sidebar
+### Header Navigation Simple
 
-<ComponentPreview demo="application/sidebar/sidebar" export="WithoutIconsSidebarDemo" />
+<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationSimpleDemo" />
+
+### Header Navigation Dual Tier
+
+<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationDualTierDemo" />
+
+### Header Navigation Tabs
+
+<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationTabsDemo" />
+
+### Header Navigation Centered
+
+<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationCenteredDemo" />
+
+**Sidebar Navigation**
+
+### Sidebar Navigation Simple
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleDemo" align="start" contain />
+
+### Sidebar Navigation Dual Tier
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationDualTierDemo" align="start" contain />
+
+### Sidebar Navigation Slim
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSlimDemo" align="start" contain />
+
+### Sidebar Section Dividers
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarSectionDividersDemo" align="start" contain />
+
+### Sidebar Navigation Sections Subheadings
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSectionsSubheadingsDemo" align="start" contain />
+
+**Sidebar Navigation Simple — minimal**
+
+### Basic
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalDemo" align="start" contain />
+
+### With expanded submenu
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalNestedDemo" align="start" contain />
+
+### No active item
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalNoActiveDemo" align="start" contain />
+
+### Without icons
+
+<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalWithoutIconsDemo" align="start" contain />
 
 ## Accessibility
 

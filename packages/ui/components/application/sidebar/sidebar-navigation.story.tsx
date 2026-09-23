@@ -2,7 +2,7 @@ import { withOverlayAware } from "@/components/internal/decorators";
 import * as Demos from "./sidebar-navigation.demo";
 
 export default {
-    title: "Application/Application navigation",
+    title: "Application/Sidebar",
     decorators: [
         withOverlayAware((Story) => (
             <div className="min-h-screen w-full bg-primary">
@@ -51,3 +51,15 @@ SidebarNavigationSectionsSubheadingsDemo.parameters = {
         desktop: "7901-412479",
     },
 };
+
+export const SidebarNavigationSimpleMinimalDemo = () => <Demos.SidebarNavigationSimpleMinimalDemo />;
+SidebarNavigationSimpleMinimalDemo.storyName = "Sidebar navigation simple — minimal";
+
+export const SidebarNavigationSimpleMinimalNestedDemo = () => <Demos.SidebarNavigationSimpleMinimalNestedDemo />;
+SidebarNavigationSimpleMinimalNestedDemo.storyName = "Sidebar navigation simple — minimal, expanded submenu";
+
+export const SidebarNavigationSimpleMinimalNoActiveDemo = () => <Demos.SidebarNavigationSimpleMinimalNoActiveDemo />;
+SidebarNavigationSimpleMinimalNoActiveDemo.storyName = "Sidebar navigation simple — minimal, no active item";
+
+export const SidebarNavigationSimpleMinimalWithoutIconsDemo = () => <Demos.SidebarNavigationSimpleMinimalWithoutIconsDemo />;
+SidebarNavigationSimpleMinimalWithoutIconsDemo.storyName = "Sidebar navigation simple — minimal, without icons";

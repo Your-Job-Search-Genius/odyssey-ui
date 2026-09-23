@@ -5,10 +5,14 @@ import { Link as AriaLink } from "react-aria-components";
 import { Badge } from "@/components/base/badges/badges";
 import { ChevronDown, Share04 } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
+import { FOCUS_RING, NavRail } from "./nav-rail";
 
 const styles = sortCx({
-    root: "group relative flex max-h-9 w-full cursor-pointer items-center rounded-md bg-primary outline-focus-ring transition duration-100 ease-linear select-none hover:bg-primary_hover focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
-    rootSelected: "bg-secondary hover:bg-secondary_hover",
+    root: cx(
+        "group relative box-border flex min-h-9 w-full cursor-pointer items-center gap-[0.3125rem] rounded-[0.4375rem] border-0 bg-transparent py-1.5 pr-2.5 pl-[0.3125rem] text-left text-sm text-primary no-underline transition duration-100 ease-linear select-none hover:text-utility-brand-700 focus-visible:z-10",
+        FOCUS_RING,
+    ),
+    rootCurrent: "bg-utility-brand-50 text-utility-brand-700",
 });
 
 interface NavItemBaseProps {
@@ -38,47 +42,40 @@ export const NavItemBase = ({ current, type, badge, href, icon: Icon, children, 
     const iconElement = Icon && (
         <Icon
             aria-hidden="true"
-            className={cx(
-                "mr-2 size-5 shrink-0 text-fg-quaternary transition-inherit-all group-hover/item:text-fg-quaternary_hover",
-                current && "text-fg-quaternary_hover",
-            )}
+            className={cx("size-5 shrink-0 text-fg-quaternary transition-inherit-all group-hover:text-utility-brand-700", current && "text-utility-brand-700")}
         />
     );
 
     const badgeElement =
         badge && (typeof badge === "string" || typeof badge === "number") ? (
-            <Badge className="ml-3" color="gray" type="pill-color" size="sm">
+            <Badge color="gray" type="pill-color" size="sm">
                 {badge}
             </Badge>
         ) : (
             badge
         );
 
-    const labelElement = (
-        <span
-            className={cx(
-                "flex-1 text-sm font-semibold text-secondary transition-inherit-all group-hover/item:text-secondary_hover",
-                truncate && "truncate",
-                current && "text-secondary_hover",
-            )}
-        >
-            {children}
-        </span>
-    );
+    const labelElement = <span className={cx("flex-1 text-sm font-semibold transition-inherit-all", truncate && "truncate")}>{children}</span>;
 
     const isExternal = href && href.startsWith("http");
     const externalIcon = isExternal && <Share04 className="size-4 stroke-[2.5px] text-fg-quaternary" />;
 
     if (type === "collapsible") {
         return (
-            <summary className={cx("p-2", styles.root, current && styles.rootSelected)} onClick={onClick}>
+            <summary className={cx(styles.root, current && styles.rootCurrent, "list-none [&::-webkit-details-marker]:hidden")} onClick={onClick}>
+                <NavRail />
+
                 {iconElement}
 
                 {labelElement}
 
                 {badgeElement}
 
-                <ChevronDown aria-hidden="true" className="ml-3 size-4 shrink-0 stroke-[2.5px] text-fg-quaternary in-open:-scale-y-100" />
+                <ChevronDown
+                    aria-hidden="true"
+                    size={18}
+                    className="shrink-0 text-current transition-transform duration-150 ease-in-out in-open:rotate-180 motion-reduce:transition-none"
+                />
             </summary>
         );
     }
@@ -89,7 +86,7 @@ export const NavItemBase = ({ current, type, badge, href, icon: Icon, children, 
                 href={href!}
                 target={isExternal ? "_blank" : "_self"}
                 rel="noopener noreferrer"
-                className={cx("py-2 pr-3 pl-10", styles.root, current && styles.rootSelected)}
+                className={cx(styles.root, current && styles.rootCurrent, "rounded px-1 py-0.5")}
                 onClick={onClick}
                 aria-current={current ? "page" : undefined}
             >
@@ -105,10 +102,11 @@ export const NavItemBase = ({ current, type, badge, href, icon: Icon, children, 
             href={href!}
             target={isExternal ? "_blank" : "_self"}
             rel="noopener noreferrer"
-            className={cx("group/item p-2", styles.root, current && styles.rootSelected)}
+            className={cx(styles.root, current && styles.rootCurrent)}
             onClick={onClick}
             aria-current={current ? "page" : undefined}
         >
+            <NavRail active={current} />
             {iconElement}
             {labelElement}
             {externalIcon}

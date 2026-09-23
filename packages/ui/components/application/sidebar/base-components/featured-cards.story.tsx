@@ -4,7 +4,7 @@ import { withOverlayAware } from "@/components/internal/decorators";
 import * as FeatureCard from "./featured-cards.demo";
 
 export default {
-    title: "Application/Application navigation/Base components",
+    title: "Application/Sidebar/Base components",
     decorators: [
         withOverlayAware((Story: any) => (
             <div className="min-h-screen w-full bg-primary p-8">

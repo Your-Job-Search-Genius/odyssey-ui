@@ -25,7 +25,7 @@ export const SidebarNavigationSectionDividers = ({ activeUrl, items }: SidebarNa
                     "--width": `${MAIN_SIDEBAR_WIDTH}px`,
                 } as React.CSSProperties
             }
-            className="flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-primary pt-4 shadow-xs ring-secondary ring-inset lg:w-(--width) lg:rounded-xl lg:pt-5 lg:ring-1"
+            className="flex h-full w-full max-w-full flex-col justify-between overflow-auto bg-secondary pt-4 lg:w-(--width) lg:rounded-xl lg:pt-5"
         >
             <div className="flex flex-col gap-5 px-4 lg:px-5">
                 <BrandLogo className="h-6" />

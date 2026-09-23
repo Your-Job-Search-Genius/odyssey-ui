@@ -2,7 +2,7 @@ import { withOverlayAware } from "@/components/internal/decorators";
 import * as Demos from "./header-navigation.demo";
 
 export default {
-    title: "Application/Application navigation",
+    title: "Application/Sidebar",
     decorators: [
         withOverlayAware((Story) => (
             <div className="min-h-screen w-full bg-primary">

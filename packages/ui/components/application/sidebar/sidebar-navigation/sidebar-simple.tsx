@@ -20,6 +20,8 @@ interface SidebarNavigationProps {
     footerItems?: NavItemType[];
     /** Feature card to display. */
     featureCard?: ReactNode;
+    /** Whether to show the search input. */
+    showSearch?: boolean;
     /** Whether to show the account card. */
     showAccountCard?: boolean;
     /** Whether to hide the right side border. */
@@ -35,6 +37,7 @@ export const SidebarNavigationSimple = ({
     items,
     footerItems = [],
     featureCard,
+    showSearch = true,
     showAccountCard = true,
     hideBorder = false,
     className,
@@ -57,20 +60,24 @@ export const SidebarNavigationSimple = ({
             <div className="flex flex-col gap-5 px-4 lg:px-5">
                 <BrandLogo className="h-6" />
 
-                {/* Mobile search input */}
-                <Input size="md" aria-label="Search" placeholder="Search" icon={SearchLg} className="md:hidden" />
+                {showSearch && (
+                    <>
+                        {/* Mobile search input */}
+                        <Input size="md" aria-label="Search" placeholder="Search" icon={SearchLg} className="md:hidden" />
 
-                {/* Desktop search input */}
-                <Input shortcut size="sm" aria-label="Search" placeholder="Search" icon={SearchLg} className="max-md:hidden" />
+                        {/* Desktop search input */}
+                        <Input shortcut size="sm" aria-label="Search" placeholder="Search" icon={SearchLg} className="max-md:hidden" />
+                    </>
+                )}
             </div>
 
             <NavList activeUrl={activeUrl} items={items} />
 
             <div className="mt-auto flex flex-col gap-3 px-4 py-4 lg:py-5">
                 {footerItems.length > 0 && (
-                    <ul className="flex flex-col">
+                    <ul className="flex flex-col gap-1">
                         {footerItems.map((item) => (
-                            <li key={item.label} className="py-px">
+                            <li key={item.label}>
                                 <NavItemBase badge={item.badge} icon={item.icon} href={item.href} type="link" current={item.href === activeUrl}>
                                     {item.label}
                                 </NavItemBase>

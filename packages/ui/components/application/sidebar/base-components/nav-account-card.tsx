@@ -12,6 +12,7 @@ import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
 import { BookOpen01, ChevronSelectorVertical, LogOut01, Plus, Settings01, User01 } from "@/components/foundations/icons";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cx } from "@/utils/cx";
+import { FOCUS_RING } from "./nav-rail";
 
 export type NavAccountType = {
     /** Unique identifier for the nav item. */
@@ -187,7 +188,12 @@ export const NavAccountCard = ({
             />
 
             <AriaDialogTrigger>
-                <AriaButton className="absolute top-2 right-2 flex cursor-pointer items-center justify-center rounded-md p-1.5 text-fg-quaternary outline-focus-ring transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 pressed:bg-primary_hover pressed:text-fg-quaternary_hover">
+                <AriaButton
+                    className={cx(
+                        "absolute top-2 right-2 flex cursor-pointer items-center justify-center rounded-md p-1.5 text-fg-quaternary transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover pressed:bg-primary_hover pressed:text-fg-quaternary_hover",
+                        FOCUS_RING,
+                    )}
+                >
                     <ChevronSelectorVertical className="size-4 shrink-0 stroke-[2.25px]" />
                 </AriaButton>
                 <AriaPopover
