@@ -401,6 +401,11 @@ export const FlowCanvas = <TData = unknown,>({
     const handleCanvasPointerDown = useCallback(
         (event: ReactPointerEvent<HTMLDivElement>) => {
             if (event.button !== 0) return;
+            // Chrome controls (zoom, fit, hint, minimap) live inside the pan surface.
+            // Capturing the pointer here retargets their click to the canvas, so the
+            // button never runs. Let those events through.
+            const target = event.target;
+            if (target instanceof Element && target.closest("button, a, input, textarea, select, [data-flow-chrome]")) return;
             viewportApi.startPan(event.clientX, event.clientY);
             event.currentTarget.setPointerCapture(event.pointerId);
             clearSelection();
@@ -441,7 +446,7 @@ export const FlowCanvas = <TData = unknown,>({
 
     return (
         <FlowCanvasProvider value={{ roles, edgeStyle, reducedMotion, isReadOnly, isPlaying, sketchyFilterId, arrowMarkerId, arrowMarkerActiveId }}>
-            <div className={cx("flex flex-col gap-3", className)} style={{ ...style, "--flow-duration": SPEED_DURATIONS[speed] } as CSSProperties}>
+            <div className={cx("flex w-full flex-col gap-3", className)} style={{ ...style, "--flow-duration": SPEED_DURATIONS[speed] } as CSSProperties}>
                 {showToolbar && (
                     <FlowCanvasToolbar
                         edgeStyle={edgeStyle}
@@ -472,7 +477,7 @@ export const FlowCanvas = <TData = unknown,>({
                         onPointerCancel={handleCanvasPointerUp}
                         onKeyDown={handleCanvasKeyDown}
                         style={{ height: typeof height === "number" ? `${height}px` : height, touchAction: "none" }}
-                        className="relative min-w-0 flex-1 overflow-hidden rounded-2xl border border-secondary bg-secondary shadow-xl outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                        className="relative w-full shrink-0 overflow-hidden rounded-2xl border border-secondary bg-secondary shadow-xl outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring lg:min-w-0 lg:flex-1"
                     >
                         <FlowCanvasBlobs />
 
@@ -559,6 +564,7 @@ export const FlowCanvas = <TData = unknown,>({
                                 {!isReadOnly && (
                                     <button
                                         type="button"
+                                        data-flow-chrome=""
                                         onClick={addNode}
                                         className="pointer-events-auto text-sm font-semibold text-brand-secondary hover:text-brand-secondary_hover"
                                     >
@@ -569,7 +575,10 @@ export const FlowCanvas = <TData = unknown,>({
                         )}
 
                         {showHintChip && !hintDismissed && (
-                            <div className="pointer-events-auto absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full border border-secondary/60 bg-primary/70 py-1 pr-1.5 pl-2.5 text-xs text-tertiary shadow-xs backdrop-blur-sm">
+                            <div
+                                data-flow-chrome=""
+                                className="pointer-events-auto absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full border border-secondary/60 bg-primary/70 py-1 pr-1.5 pl-2.5 text-xs text-tertiary shadow-xs backdrop-blur-sm"
+                            >
                                 {isReadOnly ? "Drag canvas to pan · scroll to zoom" : "Drag nodes · drag canvas to pan · scroll to zoom"}
                                 <button
                                     type="button"
@@ -594,7 +603,10 @@ export const FlowCanvas = <TData = unknown,>({
                         )}
 
                         {showZoomControls && (
-                            <div className="pointer-events-auto absolute bottom-3 left-3 z-10 flex items-center gap-1 rounded-xl border border-secondary/60 bg-primary/70 p-1 shadow-xs backdrop-blur-sm">
+                            <div
+                                data-flow-chrome=""
+                                className="pointer-events-auto absolute bottom-3 left-3 z-10 flex items-center gap-1 rounded-xl border border-secondary/60 bg-primary/70 p-1 shadow-xs backdrop-blur-sm"
+                            >
                                 <button
                                     type="button"
                                     aria-label="Zoom out"
@@ -625,7 +637,10 @@ export const FlowCanvas = <TData = unknown,>({
                         )}
 
                         {showMinimap && nodes.length > 0 && (
-                            <div className="pointer-events-auto absolute right-3 bottom-3 z-10 h-20 w-44 overflow-hidden rounded-lg border border-secondary/60 bg-primary/70 shadow-xs backdrop-blur-sm">
+                            <div
+                                data-flow-chrome=""
+                                className="pointer-events-auto absolute right-3 bottom-3 z-10 h-20 w-44 overflow-hidden rounded-lg border border-secondary/60 bg-primary/70 shadow-xs backdrop-blur-sm"
+                            >
                                 <FlowCanvasMinimap
                                     nodes={nodes}
                                     viewport={viewport}

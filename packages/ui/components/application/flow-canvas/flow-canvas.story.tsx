@@ -19,6 +19,8 @@ export const Controlled = () => <Demos.FlowCanvasControlled />;
 Controlled.storyName = "Controlled state";
 export const MinimalEmbed = () => <Demos.FlowCanvasMinimalEmbed />;
 MinimalEmbed.storyName = "Minimal embed";
+export const NoToolbar = () => <Demos.FlowCanvasNoToolbar />;
+NoToolbar.storyName = "No toolbar";
 export const CustomRoles = () => <Demos.FlowCanvasCustomRoles />;
 CustomRoles.storyName = "Custom roles";
 export const Sketchy = () => <Demos.FlowCanvasSketchyMode />;
