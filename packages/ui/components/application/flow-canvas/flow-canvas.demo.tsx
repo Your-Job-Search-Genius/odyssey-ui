@@ -84,6 +84,9 @@ export const FlowCanvasMinimalEmbed = () => (
     />
 );
 
+/** Editable graph with the top toolbar and the right inspector hidden. Zoom, legend, minimap, and the hint chip stay. */
+export const FlowCanvasNoToolbar = () => <FlowCanvas defaultNodes={cloneNodes()} defaultEdges={cloneEdges()} showToolbar={false} showInspector={false} />;
+
 const customRoleNodes: FlowNode[] = [
     { id: "start", label: "New submission", role: "start", x: 80, y: 160 },
     { id: "validate", label: "Validate fields", description: "Custom role", role: "validation", x: 380, y: 160 },

@@ -18,6 +18,7 @@ export const componentMeta = {
         "Do not render more than roughly 150-200 nodes at once -- nodes are real, non-virtualized HTML elements (needed for backdrop-blur, wrapped text and focus). Cluster or paginate larger graphs before handing them to FlowCanvas.",
         "Do not reach for sketchy mode in dense production dashboards -- it reads as a whiteboard/ideation aesthetic, not a data-density one.",
         "Do not add a second theme switcher inside `toolbarExtra` if the host app already has one -- FlowCanvas has no theme provider of its own by design.",
+        "Do not use the read-only summary (`isReadOnly` with every chrome flag off) when the canvas should stay editable. Hide the top toolbar and right inspector with `showToolbar={false}` and `showInspector={false}` instead.",
     ],
     examples: [
         {
@@ -31,6 +32,10 @@ export const componentMeta = {
         {
             title: "Read-only summary embed",
             code: "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} isReadOnly showToolbar={false} showMinimap={false} showInspector={false} />",
+        },
+        {
+            title: "Canvas only (no top toolbar, no inspector)",
+            code: "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} showToolbar={false} showInspector={false} />",
         },
         {
             title: "Custom role",
