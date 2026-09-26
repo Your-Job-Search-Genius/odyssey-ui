@@ -17,6 +17,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import * as docgen from "react-docgen-typescript";
+import ts from "typescript";
 import type { ComponentCategory, ComponentEntry, ComponentMetaOverride, PropEntry } from "../schema.js";
 import { ComponentMetaOverrideSchema, UI_COMPONENTS_IMPORT_ROOT } from "../schema.js";
 
@@ -153,6 +154,50 @@ function pickPrimaryDoc(docs: docgen.ComponentDoc[], baseName: string): docgen.C
     return docs.find((d) => d.displayName === expected) ?? docs[0];
 }
 
+function isPascalCase(name: string): boolean {
+    return /^[A-Z]/.test(name);
+}
+
+/**
+ * Syntactic scan of a component file for its PascalCase runtime exports and
+ * the compound members assigned onto them (`Table.Row = TableRow`). docgen
+ * only yields one primary entry per file, so without this, siblings like
+ * ModalHeader and members like Table.Row are invisible to validate_jsx.
+ */
+export function collectModuleExports(filePath: string): string[] {
+    const sourceFile = ts.createSourceFile(filePath, fs.readFileSync(filePath, "utf8"), ts.ScriptTarget.Latest, false, ts.ScriptKind.TSX);
+    const isExported = (node: ts.Node) => ts.canHaveModifiers(node) && (ts.getModifiers(node)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword) ?? false);
+
+    /** Local binding name -> public exported name(s). */
+    const exportedAs = new Map<string, string[]>();
+    const addExport = (local: string, exported: string) => exportedAs.set(local, [...(exportedAs.get(local) ?? []), exported]);
+
+    for (const stmt of sourceFile.statements) {
+        if (ts.isVariableStatement(stmt) && isExported(stmt)) {
+            for (const decl of stmt.declarationList.declarations) if (ts.isIdentifier(decl.name)) addExport(decl.name.text, decl.name.text);
+        } else if ((ts.isFunctionDeclaration(stmt) || ts.isClassDeclaration(stmt)) && stmt.name && isExported(stmt)) {
+            addExport(stmt.name.text, stmt.name.text);
+        } else if (ts.isExportDeclaration(stmt) && !stmt.isTypeOnly && !stmt.moduleSpecifier && stmt.exportClause && ts.isNamedExports(stmt.exportClause)) {
+            for (const spec of stmt.exportClause.elements) if (!spec.isTypeOnly) addExport((spec.propertyName ?? spec.name).text, spec.name.text);
+        }
+    }
+
+    const names = new Set<string>();
+    for (const exported of exportedAs.values()) for (const name of exported) if (isPascalCase(name)) names.add(name);
+
+    // Compound members: top-level `Local.Member = ...` where Local is exported.
+    for (const stmt of sourceFile.statements) {
+        if (!ts.isExpressionStatement(stmt) || !ts.isBinaryExpression(stmt.expression)) continue;
+        const { left, operatorToken } = stmt.expression;
+        if (operatorToken.kind !== ts.SyntaxKind.EqualsToken || !ts.isPropertyAccessExpression(left) || !ts.isIdentifier(left.expression)) continue;
+        const member = left.name.text;
+        if (!isPascalCase(member)) continue;
+        for (const exported of exportedAs.get(left.expression.text) ?? []) if (isPascalCase(exported)) names.add(`${exported}.${member}`);
+    }
+
+    return [...names].sort();
+}
+
 async function loadMetaOverride(componentFilePath: string): Promise<ComponentMetaOverride | undefined> {
     const metaPath = componentFilePath.replace(/\.tsx$/, ".meta.ts");
     if (!fs.existsSync(metaPath)) return undefined;
@@ -238,6 +283,8 @@ export async function extractComponents({ componentsRoot, uiTsconfigPath, docsUr
             isExtracted: primary !== undefined,
             ...componentOverride,
         };
+        const moduleExports = collectModuleExports(candidate.filePath);
+        if (moduleExports.length > 0) entry.moduleExports = moduleExports;
         components.push(entry);
     }
 

@@ -62,6 +62,8 @@ const FORBIDDEN_TAG_SUGGESTIONS: Record<string, string | undefined> = {
 interface ImportBinding {
     /** Local identifier this import binds, e.g. "Button" or "ChevronDown". */
     localName: string;
+    /** Name as exported by the module -- differs from localName for `import { X as Y }`. */
+    importedName: string;
     /** Module specifier text, e.g. "@your-job-search-genius/odyssey-ui/components/base/buttons/button". */
     modulePath: string;
     /** True when imported from the icons barrel. */
@@ -110,6 +112,27 @@ function findComponentByImportOrName(registry: Registry, name: string): Componen
     return registry.components.find((c) => c.importName === name || c.name === name);
 }
 
+/** "@/components/..." is compared by its package-specifier meaning (collectImports already reported the alias itself). */
+function effectiveModulePath(binding: ImportBinding): string {
+    return binding.modulePath.replace(/^@\//, `${UI_PACKAGE_NAME}/`);
+}
+
+/**
+ * A tag with no registry entry of its own can still be a real library export:
+ * a sibling of the file's primary component (ModalHeader from modals/modal) or
+ * a compound member (Table.Row). Resolved through the tag's import binding
+ * against the module's extracted moduleExports, so a made-up member like
+ * Table.Bogus is still rejected.
+ */
+function isKnownModuleExport(ctx: Ctx, tag: string): boolean {
+    const [root, ...members] = tag.split(".");
+    const binding = root ? ctx.imports.get(root) : undefined;
+    if (!binding) return false;
+    const exportedTag = [binding.importedName, ...members].join(".");
+    const modulePath = effectiveModulePath(binding);
+    return ctx.registry.components.some((c) => c.importPath === modulePath && c.moduleExports?.includes(exportedTag));
+}
+
 function collectImports(ctx: Ctx) {
     for (const stmt of ctx.sourceFile.statements) {
         if (!ts.isImportDeclaration(stmt) || !ts.isStringLiteral(stmt.moduleSpecifier)) continue;
@@ -143,7 +166,7 @@ function collectImports(ctx: Ctx) {
 
         for (const spec of namedBindings.elements) {
             const localName = spec.name.text;
-            ctx.imports.set(localName, { localName, modulePath, isIconImport });
+            ctx.imports.set(localName, { localName, importedName: spec.propertyName?.text ?? localName, modulePath, isIconImport });
 
             if (isIconImport) {
                 if (!ctx.registry.icons.some((i) => i.name === (spec.propertyName?.text ?? localName))) {
@@ -325,6 +348,8 @@ function visitOpeningElement(ctx: Ctx, node: ts.JsxOpeningLikeElement, tag: stri
 
     const entry = findComponentByImportOrName(ctx.registry, tag);
     if (!entry) {
+        // Real export without its own registry entry: no prop metadata to check against.
+        if (isKnownModuleExport(ctx, tag)) return undefined;
         addError(
             ctx,
             node,
@@ -334,13 +359,9 @@ function visitOpeningElement(ctx: Ctx, node: ts.JsxOpeningLikeElement, tag: stri
     }
 
     const binding = ctx.imports.get(tag.split(".")[0] ?? tag);
-    // A legacy "@/components/..." path is compared by its package-specifier
-    // meaning here -- collectImports already reported the alias itself, and
-    // a second "wrong module" error per usage would just repeat it.
-    const effectiveModulePath = binding?.modulePath.replace(/^@\//, `${UI_PACKAGE_NAME}/`);
     if (!binding) {
         addError(ctx, node, `<${tag}> is used but not imported.`);
-    } else if (effectiveModulePath !== entry.importPath && !tag.includes(".")) {
+    } else if (effectiveModulePath(binding) !== entry.importPath && !tag.includes(".")) {
         addError(ctx, node, `<${tag}> must be imported from "${entry.importPath}", not "${binding.modulePath}".`);
     }
 

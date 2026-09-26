@@ -70,7 +70,7 @@ const Header = ({ pattern = "circle", patternSize = "md", ...props }: HeaderProp
     const hasIllustration = Children.toArray(props.children).some((headerChild) => isValidElement(headerChild) && headerChild.type === Illustration);
 
     return (
-        <header
+        <div
             {...props}
             className={cx("relative mb-4", (size === "md" || size === "lg") && "mb-5", hasIllustration && size === "lg" && "mb-6!", props.className)}
         >
@@ -78,7 +78,7 @@ const Header = ({ pattern = "circle", patternSize = "md", ...props }: HeaderProp
                 <BackgroundPattern size={patternSize} pattern={pattern} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             )}
             {props.children}
-        </header>
+        </div>
     );
 };
 
@@ -86,7 +86,7 @@ const Content = (props: ComponentPropsWithRef<"div">) => {
     const { size } = useContext(RootContext);
 
     return (
-        <main
+        <div
             {...props}
             className={cx(
                 "z-10 mb-6 flex w-full max-w-88 flex-col items-center justify-center gap-1",
@@ -98,14 +98,24 @@ const Content = (props: ComponentPropsWithRef<"div">) => {
 };
 
 const Footer = (props: ComponentPropsWithRef<"div">) => {
-    return <footer {...props} className={cx("z-10 flex gap-3", props.className)} />;
+    return <div {...props} className={cx("z-10 flex gap-3", props.className)} />;
 };
 
-const Title = (props: ComponentPropsWithRef<"h1">) => {
+interface TitleProps extends ComponentPropsWithRef<"h2"> {
+    /**
+     * Heading level. An empty state sits inside a page that already has its own `<h1>`,
+     * so this defaults to 2; set it to match the surrounding document outline.
+     * @default 2
+     */
+    level?: 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+const Title = ({ level = 2, ...props }: TitleProps) => {
     const { size } = useContext(RootContext);
+    const Heading = `h${level}` as const;
 
     return (
-        <h1
+        <Heading
             {...props}
             className={cx(
                 "text-md font-semibold text-primary",

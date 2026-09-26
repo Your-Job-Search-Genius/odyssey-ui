@@ -156,6 +156,30 @@ describe("validate_jsx: unknown / misimported components", () => {
         expect(result.errors).toHaveLength(2);
     });
 
+    it("accepts compound members (Table.Row) and sibling exports (ModalHeader) that have no registry entry of their own", () => {
+        const code = [
+            'import { Table } from "@your-job-search-genius/odyssey-ui/components/application/table/table";',
+            'import { Dialog, Modal, ModalBody, ModalFooter, ModalHeader, ModalOverlay } from "@your-job-search-genius/odyssey-ui/components/application/modals/modal";',
+            "const X = () => (",
+            "  <ModalOverlay><Modal><Dialog>",
+            '    <ModalHeader title="Members" />',
+            "    <ModalBody>",
+            '      <Table aria-label="Members"><Table.Header><Table.Head>Name</Table.Head></Table.Header><Table.Body><Table.Row><Table.Cell>Olivia</Table.Cell></Table.Row></Table.Body></Table>',
+            "    </ModalBody>",
+            "    <ModalFooter />",
+            "  </Dialog></Modal></ModalOverlay>",
+            ");",
+        ].join("\n");
+        const result = run(code);
+        expect(result.errors.filter((e) => e.message.includes("Unknown component"))).toEqual([]);
+    });
+
+    it("still rejects a made-up member of a real compound component", () => {
+        const code = 'import { Table } from "@your-job-search-genius/odyssey-ui/components/application/table/table";\nconst X = () => <Table.Bogus />;';
+        const result = run(code);
+        expect(result.errors.some((e) => e.message.includes("Unknown component <Table.Bogus>"))).toBe(true);
+    });
+
     it("rejects an icon name that does not exist", () => {
         const code =
             'import { TotallyFakeIcon } from "@your-job-search-genius/odyssey-ui/components/foundations/icons";\nconst X = () => <div>{TotallyFakeIcon}</div>;';

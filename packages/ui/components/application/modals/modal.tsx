@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentPropsWithRef, FC, ReactNode } from "react";
+import { type ComponentPropsWithRef, type FC, type ReactNode, useContext } from "react";
 import type { DialogProps as AriaDialogProps, ModalOverlayProps as AriaModalOverlayProps } from "react-aria-components";
 import {
     Dialog as AriaDialog,
@@ -8,6 +8,7 @@ import {
     Heading as AriaHeading,
     Modal as AriaModal,
     ModalOverlay as AriaModalOverlay,
+    OverlayTriggerStateContext as AriaOverlayTriggerStateContext,
     Text as AriaText,
 } from "react-aria-components";
 import { CloseButton } from "@/components/base/buttons/close-button";
@@ -84,9 +85,14 @@ interface ModalHeaderProps extends Omit<ComponentPropsWithRef<"div">, "title"> {
     iconColor?: ComponentPropsWithRef<typeof FeaturedIcon>["color"];
     /** Theme passed through to the `FeaturedIcon`. @default "light" */
     iconTheme?: ComponentPropsWithRef<typeof FeaturedIcon>["theme"];
-    /** Shows the top-right dismiss button, which closes the parent Dialog via its `slot="close"` binding. @default true */
+    /**
+     * Shows the top-right dismiss button, which closes the parent Dialog via its `slot="close"` binding.
+     * It is only rendered when pressing it can actually do something: inside an open `Modal`/`DialogTrigger`
+     * (which supplies the overlay state), or when `onClose` is passed.
+     * @default true
+     */
     showCloseButton?: boolean;
-    /** Called in addition to the default dismiss behavior when the close button is pressed. */
+    /** Called in addition to the default dismiss behavior when the close button is pressed. Required for the button to appear outside a `Modal`/`DialogTrigger`. */
     onClose?: () => void;
     /**
      * Moves keyboard focus straight to the close button as soon as the dialog mounts, instead of
@@ -112,6 +118,11 @@ export const ModalHeader = ({
     children,
     ...props
 }: ModalHeaderProps) => {
+    // The close button's `slot="close"` only resolves to `state.close()` when an overlay state is in
+    // context. Without one (and without `onClose`) it would render as a dead control, so hide it.
+    const overlayState = useContext(AriaOverlayTriggerStateContext);
+    const canClose = overlayState != null || onClose != null;
+
     return (
         <div {...props} className={cx("relative flex flex-col gap-4 px-4 pt-5 sm:px-6 sm:pt-6", className)}>
             {Icon && <FeaturedIcon icon={Icon} color={iconColor} theme={iconTheme} size="lg" />}
@@ -129,7 +140,9 @@ export const ModalHeader = ({
 
             {children}
 
-            {showCloseButton && <CloseButton size="sm" autoFocus={autoFocus} className="absolute top-4 right-4 sm:top-5 sm:right-5" onClick={onClose} />}
+            {showCloseButton && canClose && (
+                <CloseButton size="sm" autoFocus={autoFocus} className="absolute top-4 right-4 sm:top-5 sm:right-5" onClick={onClose} />
+            )}
         </div>
     );
 };

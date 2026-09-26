@@ -73,6 +73,14 @@ export const ComponentEntrySchema = z.object({
     allowedChildren: z.union([z.literal("none"), z.literal("text"), z.literal("any"), z.array(z.string())]),
     /** Registry ids this component is only ever valid inside, e.g. Select.Item inside Select. */
     allowedParents: z.array(z.string()).optional(),
+    /**
+     * Every PascalCase runtime export of this entry's module, plus compound
+     * members assigned onto them (`Table.Row = TableRow` -> "Table.Row").
+     * A file gets one registry entry for its primary component, but also
+     * ships siblings (ModalHeader next to Modal) and members (Table.Row) --
+     * this is how validate_jsx recognizes those as real, not unknown.
+     */
+    moduleExports: z.array(z.string()).optional(),
     examples: z.array(ComponentExampleSchema),
     a11y: z.string().optional(),
     doNot: z.array(z.string()),
@@ -102,8 +110,8 @@ export type PropOverride = z.infer<typeof PropOverrideSchema>;
 /**
  * The subset of ComponentEntry a `<component>.meta.ts` override file may
  * supply. Anything omitted here falls back to what react-docgen-typescript
- * extracted. `id`, `name`, `importPath`, `props`, and `isExtracted` can
- * never be overridden -- they are facts about the source file, not
+ * extracted. `id`, `name`, `importPath`, `props`, `isExtracted`, and
+ * `moduleExports` can never be overridden -- they are facts about the source file, not
  * curation. `importName` IS overridable: it is exactly how a compound
  * sub-component (e.g. select-item.tsx's real export `SelectItem`) is
  * curated to its public access form (`Select.Item`) -- see
@@ -116,6 +124,7 @@ export const ComponentMetaOverrideSchema = ComponentEntrySchema.omit({
     importPath: true,
     props: true,
     isExtracted: true,
+    moduleExports: true,
 })
     .partial()
     .extend({ propOverrides: z.record(z.string(), PropOverrideSchema).optional() });

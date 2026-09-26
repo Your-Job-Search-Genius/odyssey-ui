@@ -9,7 +9,7 @@ import { validateJsxRule } from "./rules/validate-jsx.js";
 const PLUGIN_NAME = "@your-job-search-genius/ds";
 
 const plugin: ESLint.Plugin = {
-    meta: { name: PLUGIN_NAME, version: "0.1.1" },
+    meta: { name: PLUGIN_NAME, version: "0.1.2" },
     rules: { "validate-jsx": validateJsxRule },
 };
 

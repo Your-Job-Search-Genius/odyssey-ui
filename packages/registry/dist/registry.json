@@ -1,6 +1,6 @@
 {
-  "version": "1.0.6",
-  "generatedAt": "library@1.0.6+components:143+tokens:269+icons:1179",
+  "version": "1.0.7",
+  "generatedAt": "library@1.0.7+components:143+tokens:269+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -34,6 +34,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Accordion",
+        "Accordion.Item",
+        "Accordion.Panel",
+        "Accordion.Trigger"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/accordion/accordion",
@@ -184,6 +190,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "AIChatbox"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/ai-chatbox/ai-chatbox",
@@ -267,6 +276,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Alert",
+        "Toaster"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/alerts/alert",
@@ -307,6 +320,16 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BottomSheet",
+        "BottomSheet.Content",
+        "BottomSheet.Footer",
+        "BottomSheet.Header",
+        "BottomSheet.Trigger",
+        "BottomSheetDialog",
+        "BottomSheetOverlay",
+        "BottomSheetPanel"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/bottom-sheet/bottom-sheet",
@@ -379,6 +402,11 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BreadcrumbItem",
+        "Breadcrumbs",
+        "Breadcrumbs.Item"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/breadcrumbs/breadcrumbs",
@@ -451,6 +479,13 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Card",
+        "Card.Body",
+        "Card.Footer",
+        "Card.Header",
+        "Card.Media"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/cards/card",
@@ -467,6 +502,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Carousel",
+        "CarouselContext"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/carousel/carousel-base",
@@ -671,6 +710,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "BarChart"
+      ],
       "examples": [
         {
           "title": "Single series",
@@ -816,6 +858,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "none",
+      "moduleExports": [
+        "Chart",
+        "ChartDataTable",
+        "ChartEmptyState",
+        "ChartLegend"
+      ],
       "examples": [
         {
           "title": "Custom chart skeleton",
@@ -875,6 +923,15 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ChartAxisBottom",
+        "ChartAxisLeft",
+        "ChartBaseline",
+        "ChartCrosshair",
+        "ChartFocusRing",
+        "ChartGrid",
+        "ChartLabel"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/charts/chart-primitives",
@@ -1006,6 +1063,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "FunnelChart"
+      ],
       "examples": [
         {
           "title": "Hiring pipeline",
@@ -1193,6 +1253,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "HeatmapChart"
+      ],
       "examples": [
         {
           "title": "Calendar heatmap",
@@ -1410,6 +1473,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "LineChart"
+      ],
       "examples": [
         {
           "title": "Multi-series line",
@@ -1583,6 +1649,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "PieChart"
+      ],
       "examples": [
         {
           "title": "Donut",
@@ -1741,6 +1810,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "none",
+      "moduleExports": [
+        "RadarChart"
+      ],
       "examples": [
         {
           "title": "You vs role requirement",
@@ -1908,6 +1980,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "RadialChart"
+      ],
       "examples": [
         {
           "title": "Activity rings",
@@ -2052,6 +2127,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "none",
+      "moduleExports": [
+        "SankeyChart"
+      ],
       "examples": [
         {
           "title": "Source to outcome",
@@ -2251,6 +2329,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "none",
+      "moduleExports": [
+        "ScatterChart"
+      ],
       "examples": [
         {
           "title": "Bubble by category",
@@ -2335,6 +2416,9 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "Sparkline"
+      ],
       "examples": [
         {
           "title": "Area sparkline",
@@ -2415,6 +2499,10 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "StatTile",
+        "StatTileGroup"
+      ],
       "examples": [
         {
           "title": "Basic",
@@ -2581,6 +2669,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "none",
+      "moduleExports": [
+        "SunburstChart"
+      ],
       "examples": [
         {
           "title": "Industries and roles",
@@ -2723,6 +2814,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "none",
+      "moduleExports": [
+        "TreemapChart"
+      ],
       "examples": [
         {
           "title": "Two-level hierarchy",
@@ -2766,6 +2860,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Calendar",
+        "CalendarContextProvider"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/date-picker/calendar",
@@ -2802,6 +2900,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "CalendarCell"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/date-picker/cell",
@@ -2844,6 +2945,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "DatePicker"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/date-picker/date-picker",
@@ -2886,6 +2990,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "DateRangePicker"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/date-picker/date-range-picker",
@@ -2929,6 +3036,11 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "RangeCalendar",
+        "RangeCalendarContextProvider",
+        "RangePresetButton"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/date-picker/range-calendar",
@@ -2983,6 +3095,16 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Drawer",
+        "Drawer.Content",
+        "Drawer.Footer",
+        "Drawer.Header",
+        "Drawer.Trigger",
+        "DrawerDialog",
+        "DrawerOverlay",
+        "DrawerPanel"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/drawer/drawer",
@@ -3011,6 +3133,20 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "EmptyState",
+        "EmptyState.AvatarGrid",
+        "EmptyState.AvatarRadius",
+        "EmptyState.AvatarRow",
+        "EmptyState.Content",
+        "EmptyState.Description",
+        "EmptyState.FeaturedIcon",
+        "EmptyState.FileTypeIcon",
+        "EmptyState.Footer",
+        "EmptyState.Header",
+        "EmptyState.Illustration",
+        "EmptyState.Title"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/empty-state/empty-state",
@@ -3058,6 +3194,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Draggable"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/file-upload/draggable",
@@ -3074,6 +3213,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FileListItemProgressBar",
+        "FileListItemProgressFill",
+        "FileUpload",
+        "FileUploadDropZone"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/file-upload/file-upload-base",
@@ -3391,6 +3536,10 @@
         ]
       },
       "allowedChildren": "none",
+      "moduleExports": [
+        "DEFAULT_FLOW_ROLES",
+        "FlowCanvas"
+      ],
       "examples": [
         {
           "title": "Uncontrolled, full chrome",
@@ -3431,6 +3580,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowCanvasProvider"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-context",
@@ -3469,6 +3621,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowCanvasEdgeLabel",
+        "FlowCanvasEdgePath"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-edge",
@@ -3546,6 +3702,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowCanvasInspector"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-inspector",
@@ -3584,6 +3743,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowCanvasMinimap"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-minimap",
@@ -3671,6 +3833,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowNodeCard"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-node",
@@ -3699,6 +3864,13 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowCanvasBlobs",
+        "FlowCanvasEdgeMarkers",
+        "FlowCanvasGrid",
+        "FlowCanvasSketchyFilterDefs",
+        "FlowCanvasStatusChip"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-primitives",
@@ -3792,6 +3964,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FlowCanvasToolbar"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/flow-canvas/flow-canvas-toolbar",
@@ -3840,6 +4015,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "LoadingIndicator"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/loading-indicator/loading-indicator",
@@ -3870,6 +4048,15 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Dialog",
+        "DialogTrigger",
+        "Modal",
+        "ModalBody",
+        "ModalFooter",
+        "ModalHeader",
+        "ModalOverlay"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/modals/modal",
@@ -3932,6 +4119,14 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "PaginationButtonGroup",
+        "PaginationCardAdvanced",
+        "PaginationCardDefault",
+        "PaginationCardMinimal",
+        "PaginationPageDefault",
+        "PaginationPageMinimalCenter"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/pagination/pagination",
@@ -3987,6 +4182,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Pagination"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/pagination/pagination-base",
@@ -4064,6 +4262,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "PaginationDot"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/pagination/pagination-dot",
@@ -4135,6 +4336,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "PaginationLine"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/pagination/pagination-line",
@@ -4201,6 +4405,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "HeaderNavigationBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/sidebar/header-navigation",
@@ -4239,6 +4446,16 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Dialog",
+        "Modal",
+        "ModalOverlay",
+        "SlideoutMenu",
+        "SlideoutMenu.Content",
+        "SlideoutMenu.Footer",
+        "SlideoutMenu.Header",
+        "SlideoutMenu.Trigger"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/slideout-menus/slideout-menu",
@@ -4266,6 +4483,16 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Table",
+        "Table.Body",
+        "Table.Cell",
+        "Table.Head",
+        "Table.Header",
+        "Table.Row",
+        "TableCard",
+        "TableRowActionsDropdown"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/table/table",
@@ -4282,6 +4509,15 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Tab",
+        "TabList",
+        "TabPanel",
+        "Tabs",
+        "Tabs.Item",
+        "Tabs.List",
+        "Tabs.Panel"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/tabs/tabs",
@@ -4382,6 +4618,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "VirtualizedList"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/application/virtualized-list/virtualized-list",
@@ -4509,6 +4748,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Avatar"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/avatar/avatar",
@@ -4646,6 +4888,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "AvatarLabelGroup"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/avatar/avatar-label-group",
@@ -4770,6 +5015,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "AvatarProfilePhoto"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/avatar/avatar-profile-photo",
@@ -4849,6 +5097,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BadgeGroup"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/badges/badge-groups",
@@ -4911,6 +5162,15 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Badge",
+        "BadgeIcon",
+        "BadgeWithButton",
+        "BadgeWithDot",
+        "BadgeWithFlag",
+        "BadgeWithIcon",
+        "BadgeWithImage"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/badges/badges",
@@ -4946,6 +5206,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ButtonGroup",
+        "ButtonGroupItem"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/button-group/button-group",
@@ -4973,6 +5237,13 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "AppGalleryButton",
+        "AppStoreButton",
+        "GalaxyStoreButton",
+        "GooglePlayButton",
+        "GooglePlayWhiteButton"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/buttons/app-store-buttons",
@@ -5000,6 +5271,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "AppGalleryButton",
+        "AppStoreButton",
+        "GalaxyStoreButton",
+        "GooglePlayButton"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/buttons/app-store-buttons-outline",
@@ -5118,6 +5395,9 @@
         ]
       },
       "allowedChildren": "text",
+      "moduleExports": [
+        "Button"
+      ],
       "examples": [
         {
           "title": "Basic",
@@ -5241,6 +5521,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ButtonUtility"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/buttons/button-utility",
@@ -5292,6 +5575,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "CloseButton"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/buttons/close-button",
@@ -5367,6 +5653,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "SocialButton"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/buttons/social-button",
@@ -5389,6 +5678,15 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "AppleLogo",
+        "DribbleLogo",
+        "FacebookLogo",
+        "FigmaLogo",
+        "FigmaLogoOutlined",
+        "GoogleLogo",
+        "TwitterLogo"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/buttons/social-logos",
@@ -5431,6 +5729,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Checkbox",
+        "CheckboxBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/checkbox/checkbox",
@@ -5455,6 +5757,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorArea"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-area",
@@ -5509,6 +5814,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorField"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-field",
@@ -5576,6 +5884,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorPicker"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-picker",
@@ -5613,6 +5924,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorSlider"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-slider",
@@ -5643,6 +5957,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorSwatch"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-swatch",
@@ -5667,6 +5984,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorSwatchPicker",
+        "ColorSwatchPickerItem"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-swatch-picker",
@@ -5683,6 +6004,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ColorThumb"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/color-picker/color-thumb",
@@ -5793,6 +6117,14 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBox",
+        "ComboBox.EmptyState",
+        "ComboBox.Footer",
+        "ComboBox.Item",
+        "ComboBox.LoadingState",
+        "ComboBox.Section"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/combobox/combobox",
@@ -5885,6 +6217,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBoxItem"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/combobox/combobox-item",
@@ -5928,6 +6263,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBoxEmptyState",
+        "ComboBoxFooter",
+        "ComboBoxLoadingState",
+        "ComboBoxSection"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/combobox/combobox-parts",
@@ -5944,6 +6285,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBoxContext"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/combobox/combobox-shared",
@@ -5960,6 +6304,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Dropdown"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/dropdown/dropdown",
@@ -6017,6 +6364,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FileTrigger"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/file-upload-trigger/file-upload-trigger",
@@ -6033,6 +6383,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Form"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/form/form",
@@ -6061,6 +6414,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FormField",
+        "HookForm"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/form/hook-form",
@@ -6099,6 +6456,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "HintText"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/hint-text",
@@ -6205,6 +6565,11 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Input",
+        "InputBase",
+        "TextField"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input",
@@ -6311,6 +6676,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "InputDate",
+        "InputDateBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-date",
@@ -6421,6 +6790,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "InputFile"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-file",
@@ -6523,6 +6895,11 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "InputGroup",
+        "InputGroup.Prefix",
+        "InputPrefix"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-group",
@@ -6608,6 +6985,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "InputNumber",
+        "InputNumberBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-number",
@@ -6624,6 +7005,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "PaymentInput"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-payment",
@@ -6757,6 +7141,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "InputTags"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-tags",
@@ -6890,6 +7277,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "InputTagsOuter"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/input-tags-outer",
@@ -6932,6 +7322,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Label"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/label",
@@ -6975,6 +7368,14 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "PinInput",
+        "PinInput.Description",
+        "PinInput.Group",
+        "PinInput.Label",
+        "PinInput.Separator",
+        "PinInput.Slot"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/input/pin-input",
@@ -7031,6 +7432,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ProgressBarCircle",
+        "ProgressBarHalfCircle"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/progress-indicators/progress-circles",
@@ -7087,6 +7492,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ProgressBar",
+        "ProgressBarBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/progress-indicators/progress-indicators",
@@ -7125,6 +7534,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "CircleProgressBar"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/progress-indicators/simple-circle",
@@ -7173,6 +7585,11 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "RadioButton",
+        "RadioButtonBase",
+        "RadioGroup"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/radio-buttons/radio-buttons",
@@ -7261,6 +7678,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBox"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/select/combobox",
@@ -7439,6 +7859,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "MultiSelect",
+        "MultiSelect.EmptyState",
+        "MultiSelect.Footer",
+        "MultiSelect.Item"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/select/multi-select",
@@ -7466,6 +7892,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Popover"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/select/popover",
@@ -7542,6 +7971,11 @@
       },
       "allowedChildren": [
         "base/select/select-item"
+      ],
+      "moduleExports": [
+        "Select",
+        "Select.ComboBox",
+        "Select.Item"
       ],
       "examples": [
         {
@@ -7627,6 +8061,9 @@
         "base/select/select",
         "base/select/combobox"
       ],
+      "moduleExports": [
+        "SelectItem"
+      ],
       "examples": [],
       "doNot": [
         "Do not import or render Select.Item outside of a Select / Select.ComboBox."
@@ -7677,6 +8114,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "NativeSelect"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/select/select-native",
@@ -7693,6 +8133,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "SelectContext"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/select/select-shared",
@@ -7789,6 +8232,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "TagSelect",
+        "TagSelect.Item",
+        "TagSelectBase",
+        "TagSelectTagsValue"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/select/tag-select",
@@ -7819,6 +8268,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Separator"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/separator/separator",
@@ -7852,6 +8304,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Slider"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/slider/slider",
@@ -7875,6 +8330,12 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Tag",
+        "TagAvatar",
+        "TagGroup",
+        "TagList"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/tags/tags",
@@ -7907,6 +8368,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "TextArea",
+        "TextAreaBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/textarea/textarea",
@@ -7949,6 +8414,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Toggle",
+        "ToggleBase"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/toggle/toggle",
@@ -7992,6 +8461,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Tooltip",
+        "TooltipTrigger"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/tooltip/tooltip",
@@ -8026,6 +8499,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Body1"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/body-1",
@@ -8060,6 +8536,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Body2"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/body-2",
@@ -8094,6 +8573,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Caption"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/caption",
@@ -8110,6 +8592,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Em"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/em",
@@ -8172,6 +8657,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Heading"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/heading",
@@ -8206,6 +8694,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Paragraph"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/paragraph",
@@ -8222,6 +8713,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Strong"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/strong",
@@ -8256,6 +8750,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Subtitle"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/subtitle",
@@ -8290,6 +8787,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Subtitle2"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/subtitle-2",
@@ -8337,6 +8837,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Text"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/text",
@@ -8371,6 +8874,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Title"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/typography/title",
@@ -8398,6 +8904,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Dot"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/dot-icon",
@@ -8468,6 +8977,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FeaturedIcon"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/featured-icon/featured-icon",
@@ -8522,6 +9034,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "FileIcon",
+        "SUPPORTED_FILE_TYPES"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/file-icons/file-icon",
@@ -8538,6 +9054,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BrandLogo"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/logo/brand-logo",
@@ -8554,6 +9073,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BrandLogoMinimal"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/logo/brand-logo-minimal",
@@ -8577,6 +9099,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "PlayButtonIcon"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/play-button-icon",
@@ -8621,6 +9146,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "RatingBadge",
+        "Wreath"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/rating-badge",
@@ -8658,6 +9187,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "RatingStars",
+        "StarIcon"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/foundations/rating-stars",
@@ -8685,6 +9218,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Circle"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/background-patterns/circle",
@@ -8712,6 +9248,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Grid"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/background-patterns/grid",
@@ -8738,6 +9277,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "GridCheck"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/background-patterns/grid-check",
@@ -8776,6 +9318,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BackgroundPattern"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/background-patterns/index",
@@ -8803,6 +9348,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Square"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/background-patterns/square",
@@ -8876,6 +9424,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "CreditCard"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/credit-card/credit-card",
@@ -8892,6 +9443,11 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "MastercardIcon",
+        "MastercardIconWhite",
+        "PaypassIcon"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/credit-card/icons",
@@ -8930,6 +9486,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "BoxIllustration"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/illustrations/box",
@@ -8968,6 +9527,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "CloudIllustration"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/illustrations/cloud",
@@ -9006,6 +9568,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "CreditCardIllustration"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/illustrations/credit-card",
@@ -9044,6 +9609,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "DocumentsIllustration"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/illustrations/documents",
@@ -9092,6 +9660,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "Illustration"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/illustrations/index",
@@ -9132,6 +9703,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "IPhoneMockup"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/iphone-mockup",
@@ -9148,6 +9722,10 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "GradientScan",
+        "QRCode"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/qr-code",
@@ -9164,6 +9742,9 @@
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
+      "moduleExports": [
+        "SectionDivider"
+      ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/shared-assets/section-divider",
