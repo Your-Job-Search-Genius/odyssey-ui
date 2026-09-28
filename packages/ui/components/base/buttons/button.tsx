@@ -54,9 +54,11 @@ export const styles = sortCx({
     },
 
     colors: {
+        // Filled variants shrink slightly while pressed (not when attached to an `InputGroup`).
         primary: {
             root: [
                 "bg-brand-solid text-white shadow-xs-skeuomorphic ring-1 ring-transparent ring-inset hover:bg-brand-solid_hover data-loading:bg-brand-solid_hover",
+                "not-in-data-input-wrapper:motion-safe:data-pressed:scale-98",
                 // Inner border gradient
                 "before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0%",
                 // Icon styles
@@ -66,6 +68,7 @@ export const styles = sortCx({
         secondary: {
             root: [
                 "bg-primary text-secondary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover hover:text-secondary_hover data-loading:bg-primary_hover",
+                "not-in-data-input-wrapper:motion-safe:data-pressed:scale-98",
                 // Icon styles
                 "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover",
             ].join(" "),
@@ -98,6 +101,7 @@ export const styles = sortCx({
         "primary-destructive": {
             root: [
                 "bg-error-solid text-white shadow-xs-skeuomorphic ring-1 ring-transparent outline-error ring-inset hover:bg-error-solid_hover data-loading:bg-error-solid_hover",
+                "not-in-data-input-wrapper:motion-safe:data-pressed:scale-98",
                 // Inner border gradient
                 "before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0%",
                 // Icon styles
@@ -107,6 +111,7 @@ export const styles = sortCx({
         "secondary-destructive": {
             root: [
                 "bg-primary text-error-primary shadow-xs-skeuomorphic ring-1 ring-error_subtle outline-error ring-inset hover:bg-error-primary hover:text-error-primary_hover data-loading:bg-error-primary",
+                "not-in-data-input-wrapper:motion-safe:data-pressed:scale-98",
                 // Icon styles
                 "*:data-icon:text-fg-error-secondary hover:*:data-icon:text-fg-error-primary",
             ].join(" "),

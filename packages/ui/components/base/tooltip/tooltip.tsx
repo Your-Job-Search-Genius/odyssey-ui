@@ -102,7 +102,15 @@ interface TooltipTriggerProps extends AriaButtonProps {}
 
 export const TooltipTrigger = ({ children, className, ...buttonProps }: TooltipTriggerProps) => {
     return (
-        <AriaButton {...buttonProps} className={(values) => cx("h-max w-max outline-hidden", typeof className === "function" ? className(values) : className)}>
+        <AriaButton
+            {...buttonProps}
+            className={(values) =>
+                cx(
+                    "h-max w-max rounded-sm outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+                    typeof className === "function" ? className(values) : className,
+                )
+            }
+        >
             {children}
         </AriaButton>
     );
