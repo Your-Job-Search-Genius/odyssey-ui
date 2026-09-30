@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8",
-  "generatedAt": "library@1.0.8+components:143+tokens:269+icons:1179",
+  "version": "2.0.0",
+  "generatedAt": "library@2.0.0+components:143+tokens:269+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -3978,6 +3978,75 @@
       "isExtracted": true
     },
     {
+      "id": "application/header-navigation/header-navigation",
+      "name": "HeaderNavigationBase",
+      "importName": "HeaderNavigationBase",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/header-navigation/header-navigation",
+      "category": "application",
+      "description": "",
+      "props": [
+        {
+          "name": "activeUrl",
+          "type": "string | undefined",
+          "required": false,
+          "description": "URL of the currently active item."
+        },
+        {
+          "name": "items",
+          "type": "NavItem[]",
+          "required": true,
+          "description": "List of items to display."
+        },
+        {
+          "name": "subItems",
+          "type": "NavItem[] | undefined",
+          "required": false,
+          "description": "List of sub-items to display."
+        },
+        {
+          "name": "hideBorder",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Whether to hide the bottom border."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Replaces the entire right-side actions (icon buttons + account dropdown).\nWhen provided, the default actions are ignored."
+        },
+        {
+          "name": "centered",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Centers the primary nav items between the logo and actions."
+        },
+        {
+          "name": "secondaryType",
+          "type": "enum",
+          "enumValues": [
+            "buttons",
+            "tabs"
+          ],
+          "required": false,
+          "default": "buttons",
+          "description": "Controls how the secondary header renders sub-items.\n- \"buttons\" — NavButton pills (default)\n- \"tabs\" — Underline tabs"
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "HeaderNavigationBase"
+      ],
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/application/header-navigation/header-navigation",
+      "isExtracted": true
+    },
+    {
       "id": "application/loading-indicator/loading-indicator",
       "name": "LoadingIndicator",
       "importName": "LoadingIndicator",
@@ -4350,88 +4419,131 @@
       "isExtracted": true
     },
     {
-      "id": "application/sidebar/header-navigation",
-      "name": "HeaderNavigationBase",
-      "importName": "HeaderNavigationBase",
-      "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/header-navigation",
+      "id": "application/sidebar/sidebar",
+      "name": "SidebarLayout",
+      "importName": "SidebarLayout",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar",
       "category": "application",
-      "description": "",
+      "description": "The application shell and the ONLY sidebar navigation component: a collapsible sidebar (brand, nav items with expandable groups, language switcher, footer rows, account menu) beside a scrollable rounded main content card on desktop (md, >=768px); a bottom tab bar (first 4 destinations + a More bottom sheet) on mobile. Wrap each page's content in it as children. Navigation is data-driven via `items`; highlight the current page by passing the router's current URL as `activeUrl`.",
       "props": [
+        {
+          "name": "brand",
+          "type": "SidebarBrand",
+          "required": true,
+          "description": "Product name and logo shown at the top of the sidebar and the mobile More sheet."
+        },
+        {
+          "name": "items",
+          "type": "SidebarNavItem[]",
+          "required": true,
+          "description": "Primary destinations. Items with `items` render as expandable groups. The first `mobilePrimaryCount` become bottom tabs on mobile."
+        },
         {
           "name": "activeUrl",
           "type": "string | undefined",
           "required": false,
-          "description": "URL of the currently active item."
+          "description": "The current URL (path + optional query), used to highlight the best-matching destination."
         },
         {
-          "name": "items",
-          "type": "NavItem[]",
-          "required": true,
-          "description": "List of items to display."
-        },
-        {
-          "name": "subItems",
-          "type": "NavItem[] | undefined",
+          "name": "footerItems",
+          "type": "SidebarFooterItem[] | undefined",
           "required": false,
-          "description": "List of sub-items to display."
+          "description": "Secondary rows above the account row (e.g. \"Help and shortcuts\")."
         },
         {
-          "name": "hideBorder",
+          "name": "language",
+          "type": "SidebarLanguage | undefined",
+          "required": false,
+          "description": "Optional language switcher shown at the top of the footer."
+        },
+        {
+          "name": "account",
+          "type": "SidebarAccount | undefined",
+          "required": false,
+          "description": "Signed-in user shown at the bottom of the sidebar, with an optional menu."
+        },
+        {
+          "name": "isCollapsed",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Whether the desktop sidebar is collapsed to icons (controlled)."
+        },
+        {
+          "name": "defaultCollapsed",
           "type": "boolean | undefined",
           "required": false,
           "default": "false",
-          "description": "Whether to hide the bottom border."
+          "description": "Initial collapsed state (uncontrolled)."
         },
         {
-          "name": "actions",
+          "name": "onCollapsedChange",
+          "type": "((isCollapsed: boolean) => void) | undefined",
+          "required": false,
+          "description": "Called when the user collapses or expands the sidebar."
+        },
+        {
+          "name": "mobilePrimaryCount",
+          "type": "number | undefined",
+          "required": false,
+          "default": "4",
+          "description": "How many destinations get their own tab in the mobile bottom bar; the rest go in the More sheet."
+        },
+        {
+          "name": "moreLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "More",
+          "description": "Label of the mobile More tab."
+        },
+        {
+          "name": "children",
           "type": "ReactNode",
           "required": false,
-          "description": "Replaces the entire right-side actions (icon buttons + account dropdown).\nWhen provided, the default actions are ignored."
+          "description": "Page content, rendered inside the scrollable main card."
         },
         {
-          "name": "centered",
-          "type": "boolean | undefined",
+          "name": "className",
+          "type": "string | undefined",
           "required": false,
-          "default": "false",
-          "description": "Centers the primary nav items between the logo and actions."
+          "description": "Classes for the root element (defaults to a full-viewport `h-dvh` shell).",
+          "acceptsClassName": true
         },
         {
-          "name": "secondaryType",
-          "type": "enum",
-          "enumValues": [
-            "buttons",
-            "tabs"
-          ],
+          "name": "contentClassName",
+          "type": "string | undefined",
           "required": false,
-          "default": "buttons",
-          "description": "Controls how the secondary header renders sub-items.\n- \"buttons\" — NavButton pills (default)\n- \"tabs\" — Underline tabs"
+          "description": "Classes for the `<main>` content card, e.g. `p-0` for full-bleed pages. The card is a CSS container, so page content can use `@md:`/`@3xl:` container-query variants to respond to the space the sidebar leaves."
         }
       ],
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
       "moduleExports": [
-        "HeaderNavigationBase"
+        "SidebarLayout"
       ],
-      "examples": [],
-      "doNot": [],
-      "docsUrl": "/docs/application/sidebar/header-navigation",
-      "isExtracted": true
-    },
-    {
-      "id": "application/sidebar/sidebar-navigation-base",
-      "name": "MobileNavigationHeader",
-      "importName": "MobileNavigationHeader",
-      "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar-navigation-base",
-      "category": "application",
-      "description": "",
-      "props": [],
-      "slots": [],
-      "variants": {},
-      "allowedChildren": "any",
-      "examples": [],
-      "doNot": [],
-      "docsUrl": "/docs/application/sidebar/sidebar-navigation-base",
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<SidebarLayout\n  brand={{ name: \"Writesea\" }}\n  activeUrl={pathname}\n  items={[\n    { label: \"Dashboard\", href: \"/dashboard\", icon: Home02 },\n    { label: \"Resume\", href: \"/resumes\", icon: File06 },\n    { label: \"Contacts\", href: \"/contact\", icon: Users01 },\n  ]}\n>\n  <h1 className=\"text-display-xs font-semibold text-primary\">Dashboard</h1>\n</SidebarLayout>"
+        },
+        {
+          "title": "With groups, footer and account",
+          "code": "<SidebarLayout\n  brand={{ name: \"Writesea\" }}\n  activeUrl={pathname}\n  items={[\n    { label: \"Dashboard\", href: \"/dashboard\", icon: Home02 },\n    {\n      label: \"Jobs\",\n      icon: Briefcase01,\n      items: [\n        { label: \"Feed\", href: \"/job-board\" },\n        { label: \"Tracker\", href: \"/job-board?activeTab=tracker\" },\n      ],\n    },\n  ]}\n  footerItems={[\n    {\n      label: \"Help and Shortcuts\",\n      icon: HelpCircle,\n      menu: [\n        { id: \"help\", label: \"Help\", icon: BookOpen01 },\n        { id: \"shortcuts\", label: \"Accessibility Shortcuts\", icon: Keyboard01 },\n      ],\n    },\n  ]}\n  account={{\n    name: \"Olivia Rhye\",\n    email: \"olivia@example.com\",\n    menuItems: [{ id: \"logout\", label: \"Log out\", icon: LogOut01, onAction: signOut }],\n  }}\n>\n  {page}\n</SidebarLayout>"
+        },
+        {
+          "title": "Collapsed by default, full-bleed content",
+          "code": "<SidebarLayout brand={{ name: \"Writesea\" }} items={items} activeUrl={pathname} defaultCollapsed contentClassName=\"p-0\">\n  {editor}\n</SidebarLayout>"
+        }
+      ],
+      "a11y": "Renders a 'Skip to main content' link, an <aside> with a <nav aria-label=\"Main\"> landmark, and <main id=\"main-content\">. Links set aria-current=\"page\"; the collapse toggle exposes aria-expanded. Collapsed icon-only items show tooltips and keep their label as screen-reader text. Groups are React Aria disclosures (Enter/Space toggles). Wrap the app in React Aria's RouterProvider so links use client-side routing.",
+      "doNot": [
+        "Do not build a sidebar, app shell, hamburger drawer or bottom tab bar by hand from <aside>/<nav>/div primitives -- use SidebarLayout.",
+        "Do not nest SidebarLayout, or render more than one per page; it owns the page's <main> landmark.",
+        "Do not pass more than ~8 top-level items; group related destinations with `items` sub-items instead.",
+        "Do not compute active state yourself -- pass `activeUrl` (path + query) and let SidebarLayout pick the best match.",
+        "Do not use it for top-bar navigation; use HeaderNavigationBase (application/header-navigation/header-navigation) instead."
+      ],
+      "docsUrl": "/docs/application/sidebar/sidebar",
       "isExtracted": true
     },
     {
@@ -20880,11 +20992,12 @@
       "If no approved component or icon matches the request at all, say so explicitly and offer the closest available alternative. Never invent a component, prop, or icon that is not in the registry.",
       "Compound components must respect their documented parent/child nesting (e.g. Select.Item only inside Select / Select.ComboBox).",
       "Icons must come from search_icons / get_tokens results only.",
+      "App shells: wrap page content in SidebarLayout (@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar) -- it is the only sidebar navigation component and owns the page's <main> landmark (one per page, never nested). Top-bar navigation uses HeaderNavigationBase (@your-job-search-genius/odyssey-ui/components/application/header-navigation/header-navigation). Never assemble a sidebar or mobile nav from <aside>/<nav>/div primitives.",
       "Call validate_jsx before presenting generated code as final."
     ],
     "uxPreamble": [
       "Purpose: these standing rules govern how components from @your-job-search-genius/odyssey-ui are assembled into screens so the output has correct layout, spacing, responsiveness, and accessibility by default. The registry tools return correct components; these rules make the composition correct too. They apply to every screen, view, dialog, and fragment built with this library.",
-      "Precedence order: (1) An explicit user request wins over any rule here. When a user request conflicts with a rule, follow the user request AND add a code comment citing the overridden rule ID and the reason, e.g. {/* Overrides LAY-11 per user request: fixed 320px sidebar required for embedded widget */}. (2) Where two rules conflict, the more specific rule and the stricter accessibility requirement win. (3) WCAG 2.2 Level A and AA success criteria are mandatory. AAA items are targets; apply them where practical and note where not met.",
+      "Precedence order: (1) An explicit user request wins over any rule here. When a user request conflicts with a rule, follow the user request AND add a code comment citing the overridden rule ID and the reason, e.g. {/* Overrides LAY-11 per user request: fixed 320px height required for embedded widget */}. (2) Where two rules conflict, the more specific rule and the stricter accessibility requirement win. (3) WCAG 2.2 Level A and AA success criteria are mandatory. AAA items are targets; apply them where practical and note where not met.",
       "Rule ID prefixes: LAY (layout/spacing/grid), RES (responsiveness), ZOOM (zoom/reflow), KEY (keyboard/focus), ARIA (ARIA/screen readers), COL (colour/contrast), FORM (forms), STATE (interaction states/feedback), FLOW (UX flow/placement), CODE (code quality), CHK (checklist). Conflicts between sources are resolved inline in \"Source conflict\" rules, with the adopted convention and reason.",
       "Many KEY/ARIA behaviours below (focus traps, roving tabindex, ARIA states) are already implemented by the library components via React Aria. The rules still bind: use them to pick the right component and props, to handle what the library cannot do for you (focus after deletion or route change, heading order, landmarks, live regions, error flows), and to verify the assembled screen."
     ],
@@ -20921,7 +21034,7 @@
           "RES-01: Use these breakpoints (min-width, mobile-first). Mobile: 0-599px. Tablet: 600-1023px. Desktop: 1024-1439px. Large desktop: >= 1440px. Verify: responsive behaviour changes at these thresholds, min-width-first.",
           "RES-02 (Source conflict, breakpoints): Material 3 window classes put the compact/medium boundary at 600dp; Tailwind defaults are sm 640, md 768, lg 1024, xl 1280, 2xl 1536; Bootstrap 5 differs again. Adopt the RES-01 set because 600px is the most defensible mobile/tablet content boundary and 1024/1440 match common laptop/desktop widths and Tailwind's lg. Because consumers style exclusively with Tailwind classes, map: mobile = unprefixed, tablet ~ md/lg, desktop ~ lg/xl, large desktop ~ 2xl -- and document the mapping in a code comment where the layout is defined.",
           "RES-03: Author mobile-first: base (unprefixed) styles target mobile; responsive prefixes (md:, lg:, ...) add complexity upward. Verify: no max-width-only responsive strategy for core layout.",
-          "RES-04: Navigation reflow. Mobile: hamburger opening a drawer, or a bottom navigation bar for 3-5 primary destinations. Tablet: navigation rail. Desktop: persistent top bar and/or sidebar (use the library's application navigation components). Source: Material adaptive navigation. Verify: at each breakpoint the correct navigation pattern renders and is operable.",
+          "RES-04: Navigation reflow. App shells use SidebarLayout (application/sidebar/sidebar), the library's single sidebar navigation component: at md (>=768px) and up it renders a persistent sidebar that users can collapse to an icon rail; below md it swaps to a bottom tab bar with the first 4 destinations plus a More bottom sheet for the rest. Top-bar-only apps use HeaderNavigationBase (application/header-navigation/header-navigation). Never hand-build a sidebar, hamburger drawer, navigation rail or bottom tab bar. Source: Material adaptive navigation. Verify: at each breakpoint the correct navigation pattern renders and is operable.",
           "RES-05: Tables. Mobile: either a horizontal-scroll container with the first column sticky, OR stacked cards (one card per row), OR column-priority hiding of non-essential columns. Never force a wide multi-column Table to overflow the page horizontally. Desktop: full Table. Verify: at 320px the table uses one of the three strategies with no page-level horizontal scroll.",
           "RES-06: Multi-column layouts collapse to one column at mobile and reflow to 2+ panes only at desktop widths. Verify: single column below tablet.",
           "RES-07: Modals. Mobile: full-screen or bottom sheet. Desktop: centered dialog with a max-width (e.g. 560px tier) and backdrop. Use the library Modal for both. Verify: dialog is a full-width sheet at mobile, centered at desktop.",
@@ -21103,7 +21216,7 @@
           "CHK-M1 [Major] (KEY-07, KEY-08): Visible focus indicator on every focusable element meeting the ring spec.",
           "CHK-M2 [Major] (ARIA-09..11): Live regions present on load with correct politeness; toasts/errors announced.",
           "CHK-M3 [Major] (FORM-03, FORM-05, FORM-06): Errors linked, worded with a fix, focus moves to the first error, summary for multiple errors.",
-          "CHK-M4 [Major] (RES-04..09): Navigation, tables, modals, and forms reflow correctly at each breakpoint.",
+          "CHK-M4 [Major] (RES-04..09): Navigation (SidebarLayout sidebar at md+, bottom tab bar below md), tables, modals, and forms reflow correctly at each breakpoint.",
           "CHK-M5 [Major] (ARIA-07, ARIA-08): One main landmark; one h1; no skipped heading levels.",
           "CHK-M6 [Major] (STATE-01): Loading, empty, and error states present for every data view.",
           "CHK-M7 [Major] (RES-14): Touch targets >= 44px default (never < 24px) with >= 8px spacing.",
@@ -21117,6 +21230,6 @@
         ]
       }
     ],
-    "version": "3.0.0"
+    "version": "3.1.0"
   }
 }

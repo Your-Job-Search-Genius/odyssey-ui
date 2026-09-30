@@ -1,110 +1,78 @@
 ---
 title: Sidebar
-description: TODO -- one sentence describing Sidebar's primary use case.
+description: The application shell — a collapsible sidebar beside a scrollable content card on desktop, and a bottom tab bar with a More sheet on mobile.
 ---
 
 ## Overview
 
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalDemo" align="start" contain />
+<ComponentPreview demo="application/sidebar/sidebar" export="SidebarLayoutDemo" align="start" contain />
+
+`SidebarLayout` is the library's only sidebar navigation component. It renders the whole app shell, so every page passes its content as `children`:
+
+- **Desktop (`md`, ≥768px):** a gray sidebar card holds the brand, the navigation items (with expandable groups), an optional language switcher, footer rows and the account menu. Beside it sits a rounded, bordered content card that scrolls on its own. The toggle next to the brand collapses the sidebar to an icon rail with tooltips. The width animates, labels fade, and open groups fold shut. When collapsed, the toggle sits centered on the rail's right edge.
+- **Mobile:** the sidebar is replaced by a fixed bottom tab bar holding the first `mobilePrimaryCount` destinations (4 by default) and a **More** tab. More opens a bottom sheet with the remaining destinations, account links, language and help. The bar hides while you scroll down and comes back when you scroll up or stop.
 
 ## Installation
 
 ```ts
-import { HeaderNavigationBase } from "@/components/application/sidebar/header-navigation";
-import { MobileNavigationHeader } from "@/components/application/sidebar/sidebar-navigation-base";
-import { SidebarNavigationSimple } from "@/components/application/sidebar/sidebar-navigation/sidebar-simple";
+import { SidebarLayout, type SidebarNavItem } from "@/components/application/sidebar/sidebar";
 ```
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+const items: SidebarNavItem[] = [
+    { label: "Dashboard", href: "/dashboard", icon: Home02 },
+    { label: "Resume", href: "/resumes", icon: File06 },
+    {
+        label: "Jobs",
+        icon: Briefcase01,
+        items: [
+            { label: "Feed", href: "/job-board" },
+            { label: "Tracker", href: "/job-board?activeTab=tracker" },
+        ],
+    },
+];
+
+<RouterProvider navigate={router.push}>
+    <SidebarLayout brand={{ name: "Writesea" }} items={items} activeUrl={pathname + search}>
+        <DashboardPage />
+    </SidebarLayout>
+</RouterProvider>;
+```
+
+Pass the router's current URL as `activeUrl`, and the sidebar highlights the single best match. Paths match exactly or as the prefix of a nested route. A query string on an item's `href` must also be present, which is how `Feed` and `Tracker` above can share a path. Wrap the app in React Aria's `RouterProvider` so links navigate client-side.
+
+The content card is a CSS container, so lay page content out with container-query variants (`@3xl:grid-cols-3` rather than `lg:grid-cols-3`). It then responds to the width the sidebar leaves as it expands and collapses, not to the viewport.
 
 ## Props
 
-**HeaderNavigationBase**
+**SidebarLayout**
 
-<PropsTable component="application/sidebar/header-navigation" />
-
-**MobileNavigationHeader**
-
-<PropsTable component="application/sidebar/sidebar-navigation-base" />
+<PropsTable component="application/sidebar/sidebar" />
 
 ## Examples
 
-**Featured Cards**
+### Collapsed
 
-### Featured Card Progress Bar
+<ComponentPreview demo="application/sidebar/sidebar" export="SidebarLayoutCollapsedDemo" align="start" contain />
 
-<ComponentPreview demo="application/sidebar/base-components/featured-cards" export="FeaturedCardProgressBar" />
+### Minimal
 
-### Featured Card Progress Circle
-
-<ComponentPreview demo="application/sidebar/base-components/featured-cards" export="FeaturedCardProgressCircle" />
-
-**Header Navigation**
-
-### Header Navigation Simple
-
-<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationSimpleDemo" />
-
-### Header Navigation Dual Tier
-
-<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationDualTierDemo" />
-
-### Header Navigation Tabs
-
-<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationTabsDemo" />
-
-### Header Navigation Centered
-
-<ComponentPreview demo="application/sidebar/header-navigation" export="HeaderNavigationCenteredDemo" />
-
-**Sidebar Navigation**
-
-### Sidebar Navigation Simple
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleDemo" align="start" contain />
-
-### Sidebar Navigation Dual Tier
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationDualTierDemo" align="start" contain />
-
-### Sidebar Navigation Slim
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSlimDemo" align="start" contain />
-
-### Sidebar Section Dividers
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarSectionDividersDemo" align="start" contain />
-
-### Sidebar Navigation Sections Subheadings
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSectionsSubheadingsDemo" align="start" contain />
-
-**Sidebar Navigation Simple — minimal**
-
-### Basic
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalDemo" align="start" contain />
-
-### With expanded submenu
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalNestedDemo" align="start" contain />
-
-### No active item
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalNoActiveDemo" align="start" contain />
-
-### Without icons
-
-<ComponentPreview demo="application/sidebar/sidebar-navigation" export="SidebarNavigationSimpleMinimalWithoutIconsDemo" align="start" contain />
+<ComponentPreview demo="application/sidebar/sidebar" export="SidebarLayoutMinimalDemo" align="start" contain />
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- A "Skip to main content" link is the first tab stop and jumps to `<main id="main-content">`.
+- The sidebar is an `<aside>` containing a `<nav aria-label="Main">`. The mobile bottom bar is its own `<nav>`, rendered only below `md`.
+- The current page's link has `aria-current="page"`.
+- Groups are React Aria disclosures, so <kbd>Enter</kbd> or <kbd>Space</kbd> toggles them. The group holding the current page opens automatically.
+- The collapse toggle has an `aria-label` and `aria-expanded`. In the collapsed state, every icon shows a tooltip and keeps its label as screen-reader text.
+- The language, help and account menus are React Aria menus: arrow keys move between items and <kbd>Escape</kbd> closes them. The More sheet traps focus and closes with <kbd>Escape</kbd>, the backdrop, or a downward drag.
+- Motion (collapse/expand width, label fades, group expand, bottom bar slide) is removed under `prefers-reduced-motion`.
 
 ## Related
 
-- [Accordion](/docs/application/accordion)
-- [AI Chatbox](/docs/application/ai-chatbox)
-- [Alerts](/docs/application/alerts)
+- [Header navigation](/docs/application/header-navigation)
+- [Bottom sheet](/docs/application/bottom-sheet)
+- [Dropdown](/docs/base-components/dropdown)

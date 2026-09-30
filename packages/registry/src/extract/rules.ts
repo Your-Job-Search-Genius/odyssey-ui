@@ -9,7 +9,7 @@ import type { RuleSet } from "../schema.js";
 import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "../schema.js";
 import { buildUxPreamble, buildUxSections } from "./ux-rules.js";
 
-export const RULE_SET_VERSION = "3.0.0";
+export const RULE_SET_VERSION = "3.1.0";
 
 export function buildRuleSet(): RuleSet {
     return {
@@ -40,6 +40,7 @@ export function buildRuleSet(): RuleSet {
             "If no approved component or icon matches the request at all, say so explicitly and offer the closest available alternative. Never invent a component, prop, or icon that is not in the registry.",
             "Compound components must respect their documented parent/child nesting (e.g. Select.Item only inside Select / Select.ComboBox).",
             "Icons must come from search_icons / get_tokens results only.",
+            `App shells: wrap page content in SidebarLayout (${UI_COMPONENTS_IMPORT_ROOT}/application/sidebar/sidebar) -- it is the only sidebar navigation component and owns the page's <main> landmark (one per page, never nested). Top-bar navigation uses HeaderNavigationBase (${UI_COMPONENTS_IMPORT_ROOT}/application/header-navigation/header-navigation). Never assemble a sidebar or mobile nav from <aside>/<nav>/div primitives.`,
             "Call validate_jsx before presenting generated code as final.",
         ],
         uxPreamble: buildUxPreamble(),
