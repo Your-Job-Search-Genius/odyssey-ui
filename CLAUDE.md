@@ -772,6 +772,17 @@ import { TreemapChart } from "@/components/application/charts/treemap-chart";
 />
 ```
 
+### Scrollbars
+
+Scrollbars are styled globally by `packages/ui/styles/scrollbars.css` (imported by `globals.css`). Every scroll container, the page included, gets the **Ruled** design by default. Do not hand-style scrollbars with `[&::-webkit-scrollbar]:*` arbitrary variants or `scrollbar-width` / `scrollbar-color`.
+
+- Switch design with a utility on the scroll area or any ancestor (on `<html>` for the whole app): `scrollbar-ruled` (default), `scrollbar-hairline`, `scrollbar-pill`, `scrollbar-overlay`, `scrollbar-ink`, `scrollbar-rail`.
+- Hide a scrollbar with `scrollbar-hide` (the `SidebarLayout` nav and content card do this).
+- Colors are the `--color-scrollbar-*` tokens in the `@theme static` block of `theme.css`, with dark overrides in `.dark-mode`.
+- Each variant is a set of `--sb-*` custom properties declared on every element (so tokens resolve against the nearest `.dark-mode`); one set of `::-webkit-scrollbar` rules reads them. Nested variants resolve by source order.
+- Chromium 121+ ignores `::-webkit-scrollbar` on any element with `scrollbar-width` / `scrollbar-color` set, so the standard properties (Firefox fallback) are fenced behind `@supports not selector(::-webkit-scrollbar)`. Tailwind's built-in `scrollbar-thin` / `scrollbar-thumb-*` therefore act as a per-element opt-out to a native scrollbar.
+- Examples: `components/foundations/scrollbar.demo.tsx` (Storybook "Foundations/Scrollbar", docs `/docs/foundations/scrollbar`).
+
 ### Common Component Patterns
 
 1. **Size Variants**: Most components support `sm`, `md`, `lg` sizes

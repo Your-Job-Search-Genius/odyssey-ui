@@ -1,0 +1,101 @@
+---
+title: Scrollbar
+description: One global scrollbar design for every scroll area, with six variants you can switch per area or app-wide.
+---
+
+## Overview
+
+Every scroll container in the app, the page itself included, gets the **Ruled** scrollbar automatically: a
+tick-marked track with a gripped brand thumb. No component or class is needed.
+
+<ComponentPreview demo="foundations/scrollbar" export="DefaultDemo" />
+
+## Installation
+
+The styles ship in the library stylesheet. Importing `globals.css` is all it takes:
+
+```css
+@import "@your-job-search-genius/odyssey-ui/styles/globals.css";
+```
+
+## Usage
+
+Put a variant class on a scroll area, or on any ancestor, to restyle every scrollbar inside it. Put it on
+`<html>` to change the default for the whole app.
+
+```tsx
+// One area
+<div className="scrollbar-hairline h-64 overflow-y-auto">...</div>
+
+// The whole app
+<html className="scrollbar-overlay">...</html>
+
+// Hide a scrollbar (the area still scrolls)
+<nav className="scrollbar-hide overflow-y-auto">...</nav>
+```
+
+| Class                | Design                                                  | Firefox                       |
+| :------------------- | :------------------------------------------------------ | :---------------------------- |
+| `scrollbar-ruled`    | Default. Ticks every 8px, 10px brand thumb with a grip. | Standard width, brand on gray |
+| `scrollbar-hairline` | 4px neutral thumb, no track, widens to 8px on hover.    | Thin, neutral                 |
+| `scrollbar-pill`     | 6px brand thumb inside a tinted, rounded brand track.   | Thin, brand on tinted track   |
+| `scrollbar-overlay`  | Hidden until the area is hovered or focused.            | Thin, shows on hover          |
+| `scrollbar-ink`      | Brand gradient thumb in a recessed track.               | Thin, solid brand             |
+| `scrollbar-rail`     | Brand bead riding on a 2px guide line.                  | Thin, brand, no rail          |
+
+Colors come from the `--color-scrollbar-*` tokens in `styles/theme.css`, so every variant follows dark mode and
+brand themes.
+
+## Examples
+
+### All variants
+
+<ComponentPreview demo="foundations/scrollbar" export="AllVariantsDemo" />
+
+### Ruled
+
+<ComponentPreview demo="foundations/scrollbar" export="RuledDemo" />
+
+### Hairline
+
+<ComponentPreview demo="foundations/scrollbar" export="HairlineDemo" />
+
+### Pill
+
+<ComponentPreview demo="foundations/scrollbar" export="PillDemo" />
+
+### Overlay
+
+<ComponentPreview demo="foundations/scrollbar" export="OverlayDemo" />
+
+### Ink
+
+<ComponentPreview demo="foundations/scrollbar" export="InkDemo" />
+
+### Rail
+
+<ComponentPreview demo="foundations/scrollbar" export="RailDemo" />
+
+### Hidden
+
+<ComponentPreview demo="foundations/scrollbar" export="HiddenDemo" />
+
+## Browser support
+
+- **Chrome, Edge, Safari** render the full design through `::-webkit-scrollbar`.
+- **Firefox** only supports a width keyword and two colors, so it gets the simplified version in the table above.
+- Chrome 121+ drops the custom design on any element that sets `scrollbar-width` or `scrollbar-color`. Tailwind's
+  built-in `scrollbar-thin` / `scrollbar-thumb-*` utilities do exactly that, so use them only when you want a
+  native scrollbar on one element.
+- Nested variants resolve by stylesheet order, not by depth. Avoid putting one variant inside another.
+
+## Accessibility
+
+- Windows high-contrast (forced colors) mode always gets the system scrollbars.
+- `scrollbar-overlay` and `scrollbar-hide` remove the visual hint that an area scrolls. Use them where the content
+  makes that obvious, and keep scroll areas keyboard-focusable (`tabIndex={0}` with an `aria-label`) when they
+  hold no focusable children.
+
+## Related
+
+- [Sidebar](/docs/application/sidebar)

@@ -9,7 +9,7 @@ import type { RuleSet } from "../schema.js";
 import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "../schema.js";
 import { buildUxPreamble, buildUxSections } from "./ux-rules.js";
 
-export const RULE_SET_VERSION = "3.1.0";
+export const RULE_SET_VERSION = "3.2.0";
 
 export function buildRuleSet(): RuleSet {
     return {
@@ -33,6 +33,7 @@ export function buildRuleSet(): RuleSet {
             "No inline style={{...}} props.",
             "No CSS-in-JS, no <style> tags, no new CSS files, no new CSS custom properties.",
             "Colors must come from the documented semantic classes (text-primary, bg-secondary, border-brand, etc.), never a raw Tailwind palette color like bg-blue-700 or text-gray-900.",
+            "Scrollbars are styled globally by globals.css (the Ruled design is the default). Never hand-style them with [&::-webkit-scrollbar] arbitrary variants or scrollbar-width / scrollbar-color. To switch design, put one of scrollbar-ruled | scrollbar-hairline | scrollbar-pill | scrollbar-overlay | scrollbar-ink | scrollbar-rail on the scroll area or an ancestor (on <html> to change the app-wide default); use scrollbar-hide to hide one.",
         ],
         compositionRules: [
             `Only components exported from ${UI_PACKAGE_NAME} (imported from ${UI_COMPONENTS_IMPORT_ROOT}/...) and the allowed HTML primitives may appear in generated UI.`,

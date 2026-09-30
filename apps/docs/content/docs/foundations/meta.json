@@ -11,6 +11,7 @@
         "dot-icon",
         "play-button-icon",
         "rating-badge",
-        "rating-stars"
+        "rating-stars",
+        "scrollbar"
     ]
 }

@@ -537,6 +537,21 @@
     /* FLOW CANVAS */
     /* Brand-tinted glow for active edges and the running-status chip pulse -- the one FlowCanvas effect with no existing token to reuse. */
     --color-flow-glow-brand: rgb(110 98 239 / 0.45);
+
+    /* SCROLLBARS */
+    /* Read by styles/scrollbars.css through var(), so they must be emitted unconditionally. */
+    --color-scrollbar-thumb: var(--color-neutral-300);
+    --color-scrollbar-thumb-hover: var(--color-neutral-400);
+    --color-scrollbar-overlay: rgb(115 115 115 / 0.45);
+    --color-scrollbar-overlay-hover: rgb(82 82 82 / 0.8);
+    --color-scrollbar-brand: var(--color-brand-600);
+    --color-scrollbar-brand-hover: var(--color-brand-700);
+    --color-scrollbar-brand-track: var(--color-brand-50);
+    --color-scrollbar-ink-from: var(--color-brand-400);
+    --color-scrollbar-ink-to: var(--color-brand-700);
+    --color-scrollbar-track: var(--color-neutral-100);
+    --color-scrollbar-rail: var(--color-neutral-300);
+    --color-scrollbar-grip: rgb(255 255 255 / 0.75);
 }
 
 @layer base {
@@ -856,6 +871,19 @@
         --color-chart-axis: var(--color-neutral-700);
         --color-chart-track: var(--color-neutral-800);
         --color-chart-empty-cell: var(--color-neutral-800);
+
+        --color-scrollbar-thumb: var(--color-neutral-700);
+        --color-scrollbar-thumb-hover: var(--color-neutral-600);
+        --color-scrollbar-overlay: rgb(163 163 163 / 0.4);
+        --color-scrollbar-overlay-hover: rgb(212 212 212 / 0.75);
+        --color-scrollbar-brand: var(--color-brand-500);
+        --color-scrollbar-brand-hover: var(--color-brand-400);
+        --color-scrollbar-brand-track: rgb(19 4 69 / 0.6);
+        --color-scrollbar-ink-from: var(--color-brand-300);
+        --color-scrollbar-ink-to: var(--color-brand-600);
+        --color-scrollbar-track: var(--color-neutral-900);
+        --color-scrollbar-rail: var(--color-neutral-700);
+        --color-scrollbar-grip: rgb(255 255 255 / 0.8);
 
         /* FLOW CANVAS */
         --color-flow-glow-brand: rgb(140 139 246 / 0.55);

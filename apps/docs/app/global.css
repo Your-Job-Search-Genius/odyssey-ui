@@ -9,6 +9,7 @@
  */
 @import "../../../packages/ui/styles/theme.css";
 @import "../../../packages/ui/styles/typography.css";
+@import "../../../packages/ui/styles/scrollbars.css";
 
 @plugin "@tailwindcss/typography";
 @plugin "tailwindcss-react-aria-components";

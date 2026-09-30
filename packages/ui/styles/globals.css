@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./theme.css";
 @import "./typography.css";
+@import "./scrollbars.css";
 
 /* The library ships as TypeScript source, so Tailwind must scan it to emit
    the component utilities. Paths resolve relative to this file, which makes

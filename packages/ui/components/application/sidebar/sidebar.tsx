@@ -160,10 +160,7 @@ export const SidebarLayout = ({
                             </Tooltip>
                         </div>
 
-                        <nav
-                            aria-label="Main"
-                            className="min-h-0 flex-1 [scrollbar-width:thin] overflow-x-hidden overflow-y-auto py-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-quaternary"
-                        >
+                        <nav aria-label="Main" className="scrollbar-hide min-h-0 flex-1 overflow-x-hidden overflow-y-auto py-1">
                             <SidebarNav items={items} expandedKeys={expandedKeys} onExpandedChange={setExpandedKeys} />
                         </nav>
 
