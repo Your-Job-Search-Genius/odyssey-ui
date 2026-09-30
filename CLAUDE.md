@@ -131,6 +131,7 @@ Located in `components/application/`, these are complex UI patterns:
 - `Pagination` - Data navigation
 - `Table` - Data display with sorting
 - `Tabs` - Content organization
+- `SidebarLayout` - The app shell: the single sidebar navigation component (desktop sidebar + mobile bottom tab bar)
 
 #### 3. Styling Architecture
 
@@ -687,6 +688,38 @@ import { Button } from "@/components/base/buttons/button";
   Visit Site
 </Button>
 ```
+
+### SidebarLayout (app shell)
+
+`SidebarLayout` is the **only** sidebar navigation component. It renders the whole shell: a collapsible sidebar on a gray card (`bg-tertiary`) beside a scrollable, rounded content card on desktop (`md`+), and a bottom tab bar (first 4 items + a "More" bottom sheet) on mobile. Do not build other sidebars; top-bar navigation uses `HeaderNavigationBase` from `@/components/application/header-navigation/header-navigation`.
+
+**Import:**
+
+```typescript
+import { SidebarLayout, type SidebarNavItem } from "@/components/application/sidebar/sidebar";
+```
+
+**Key props:** `brand`, `items` (with optional `items` sub-items for groups), `activeUrl` (path + query; best match wins), `footerItems` (optional `menu`), `language`, `account` (with `menuItems`), `isCollapsed` / `defaultCollapsed` / `onCollapsedChange`, `mobilePrimaryCount` (default 4), `contentClassName`.
+
+**Example:**
+
+```typescript
+<RouterProvider navigate={router.push}>
+    <SidebarLayout
+        brand={{ name: "Writesea" }}
+        activeUrl={pathname}
+        items={[
+            { label: "Dashboard", href: "/dashboard", icon: Home02 },
+            { label: "Jobs", icon: Briefcase01, items: [{ label: "Feed", href: "/job-board" }, { label: "Tracker", href: "/job-board?activeTab=tracker" }] },
+        ]}
+        account={{ name: "Olivia Rhye", menuItems: [{ id: "logout", label: "Log out", icon: LogOut01 }] }}
+    >
+        {page}
+    </SidebarLayout>
+</RouterProvider>
+```
+
+Source layout: `sidebar.tsx` (public, registered) + `sidebar-parts/` (nav rows, footer, mobile bar/sheet, shared types and active-route resolution) + `hooks/use-hide-on-scroll.ts`.
 
 ### Charts
 

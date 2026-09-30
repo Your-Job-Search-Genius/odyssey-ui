@@ -44,7 +44,7 @@ const placeholderAccounts: NavAccountType[] = [
     },
 ];
 
-export const NavAccountMenu = ({
+const NavAccountMenu = ({
     className,
     selectedAccountId = "olivia",
     ...dialogProps

@@ -1,7 +1,7 @@
 "use client";
 
-import { NavButton } from "@/components/application/sidebar/base-components/nav-button";
-import { HeaderNavigationBase } from "@/components/application/sidebar/header-navigation";
+import { NavButton } from "@/components/application/header-navigation/base-components/nav-button";
+import { HeaderNavigationBase } from "@/components/application/header-navigation/header-navigation";
 import { Button } from "@/components/base/buttons/button";
 import { DropdownAccountCardSM } from "@/components/base/dropdown/dropdown-account-card-sm";
 import { DropdownAvatar } from "@/components/base/dropdown/dropdown-avatar";
