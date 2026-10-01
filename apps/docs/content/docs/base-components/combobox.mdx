@@ -97,7 +97,7 @@ Pass `onLoadMore` and `loadingState` (e.g. from React Aria's `useAsyncList`) to 
 ## Accessibility
 
 - Follows the ARIA combobox pattern: type to filter, arrow keys move through options, <kbd>Enter</kbd> selects, <kbd>Esc</kbd> closes.
-- The menu opens on focus, so don't `autoFocus` a combobox (for example as a dialog's first field) -- its menu would cover the form.
+- The menu opens on click, on typing, or with <kbd>↓</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> -- not when the field merely receives focus, so tabbing through a form or auto-focusing a dialog's first field never covers the page. `menuTrigger="focus"` restores open-on-focus.
 - The ⌘K hint (`shortcut`) is decorative and off by default; only enable it when your app actually focuses the combobox on ⌘K.
 
 ## Related

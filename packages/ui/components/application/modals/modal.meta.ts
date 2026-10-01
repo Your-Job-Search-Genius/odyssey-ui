@@ -10,7 +10,6 @@ export const componentMeta = {
     doNot: [
         "Do not hand-build a fixed inset-0 overlay -- use ModalOverlay + Modal (focus trap, scroll lock and focus return come with it).",
         "Do not label the dialog with aria-label when a visible ModalHeader title exists.",
-        "Do not autofocus a ComboBox inside a modal: it opens its menu on focus and covers the form. Let the dialog focus its first text input or close button.",
         "Do not use a Modal wider than xl for reading content; 2xl/full are for previews and comparisons.",
     ],
     examples: [

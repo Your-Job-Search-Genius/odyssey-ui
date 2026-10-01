@@ -179,7 +179,8 @@ export const TagSelectBase = ({
             <SelectContext.Provider value={{ size }}>
                 <AriaComboBox
                     allowsEmptyCollection
-                    menuTrigger="focus"
+                    // Opens on click (handleInputMouseDown), typing or Arrow Down -- not on focus alone.
+                    menuTrigger="input"
                     items={visibleItems}
                     onInputChange={handleInputChange}
                     inputValue={filterText}

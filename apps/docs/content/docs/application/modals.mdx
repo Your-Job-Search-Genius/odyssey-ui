@@ -70,7 +70,7 @@ import { DialogTrigger } from "@/components/application/modals/modal";
 - Focus moves into the dialog on open, <kbd>Tab</kbd> stays inside, <kbd>Esc</kbd> closes it, and focus returns to the trigger.
 - `ModalHeader`'s title labels the dialog -- don't add a separate `aria-label`.
 - For confirmations use `<Dialog role="alertdialog">`, keep Cancel first, and set `isDismissable={false}` on the overlay while the action runs.
-- Don't auto-focus a combobox inside a dialog: its menu opens on focus and covers the form.
+- A combobox can be the dialog's first field: its menu opens on click, typing or <kbd>Alt</kbd>+<kbd>↓</kbd>, not when it merely receives focus.
 
 ## Related
 

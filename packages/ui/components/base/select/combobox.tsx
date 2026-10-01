@@ -83,6 +83,11 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
                 <AriaInput
                     placeholder={placeholder}
+                    // The menu opens on click, typing or Alt/Arrow Down -- not on focus alone, so an
+                    // auto-focused combobox (e.g. a dialog's first field) doesn't cover the form.
+                    onClick={() => {
+                        if (state && !state.isOpen) state.open(null, "manual");
+                    }}
                     className={cx(
                         "z-10 w-full appearance-none bg-transparent text-transparent caret-alpha-black/90 placeholder:text-placeholder focus:outline-hidden disabled:cursor-not-allowed",
                         sizes[size].text,
@@ -141,7 +146,7 @@ export const ComboBox = ({
 
     return (
         <SelectContext.Provider value={{ size }}>
-            <AriaComboBox menuTrigger="focus" {...otherProps}>
+            <AriaComboBox menuTrigger="input" {...otherProps}>
                 {(state) => (
                     <div className="flex flex-col gap-1.5">
                         {otherProps.label && (
