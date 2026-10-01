@@ -54,10 +54,45 @@ const FORBIDDEN_TAG_SUGGESTIONS: Record<string, string | undefined> = {
     ul: undefined,
     ol: undefined,
     li: undefined,
-    iframe: undefined,
+    // Phrased as "the X component" on purpose: attemptAutoFix only renames tags whose suggestion
+    // starts with a bare component name, and these replacements take props, not the old children.
+    iframe: "the HtmlPreview component (sandboxed; pass the markup as `html` and a `title`)",
+    pre: "the CodeBlock component (pass the text as `code`)",
+    code: "the CodeBlock component (pass the text as `code`)",
+    dl: "the DescriptionList component (DescriptionList + DescriptionList.Item term=...)",
+    dt: "the DescriptionList component (DescriptionList + DescriptionList.Item term=...)",
+    dd: "the DescriptionList component (DescriptionList + DescriptionList.Item term=...)",
     svg: undefined,
     style: undefined,
 };
+
+/**
+ * App-setup providers from react-aria-components that the library's own docs tell consumers to
+ * mount (RouterProvider for client-side routing of library links, I18nProvider for locale). They
+ * render no UI, so they are allowed even though they have no registry entry.
+ */
+const SETUP_PROVIDERS: Record<string, readonly string[]> = {
+    "react-aria-components": ["RouterProvider", "I18nProvider"],
+};
+
+function isSetupProvider(binding: ImportBinding | undefined): boolean {
+    return !!binding && (SETUP_PROVIDERS[binding.modulePath]?.includes(binding.importedName) ?? false);
+}
+
+/**
+ * Tailwind variants a class may be prefixed with, in any stack ("md:hover:bg-primary_hover").
+ * Stripped before matching the class against the token patterns, which describe bare utilities.
+ */
+const VARIANT_PATTERN =
+    /^(hover|focus|focus-visible|focus-within|active|disabled|visited|invalid|required|checked|selected|pressed|placeholder|first|last|odd|even|empty|open|dark|motion-safe|motion-reduce|print|sm|md|lg|xl|2xl|max-(sm|md|lg|xl|2xl)|(group|peer)(-[a-z-]+)?(\/[a-z0-9-]+)?|aria-[a-z-]+|data-[a-z-]+|in-[a-z-]+|not-[a-z-]+|\*):/;
+
+function stripVariants(cls: string): string {
+    let bare = cls;
+    for (let match = VARIANT_PATTERN.exec(bare); match; match = VARIANT_PATTERN.exec(bare)) {
+        bare = bare.slice(match[0].length);
+    }
+    return bare;
+}
 
 interface ImportBinding {
     /** Local identifier this import binds, e.g. "Button" or "ChevronDown". */
@@ -176,7 +211,7 @@ function collectImports(ctx: Ctx) {
                         `Unknown icon "${spec.propertyName?.text ?? localName}" -- not found in the icon set. Use search_icons to find an available one.`,
                     );
                 }
-            } else if (!isComponentPath && isPascalCase(localName)) {
+            } else if (!isComponentPath && isPascalCase(localName) && !isSetupProvider(ctx.imports.get(localName))) {
                 addError(
                     ctx,
                     stmt,
@@ -202,7 +237,7 @@ function checkClassName(ctx: Ctx, attr: ts.JsxAttribute) {
 
     const patterns = ctx.registry.tokens.allowedTailwindPatterns.map((p) => new RegExp(p));
     for (const cls of literalText.split(/\s+/).filter(Boolean)) {
-        const bare = cls.replace(/^(hover|focus|focus-visible|active|disabled|dark|sm|md|lg|xl|2xl):/, "");
+        const bare = stripVariants(cls);
         if (/\[.*\]/.test(cls)) {
             addError(ctx, attr, `Arbitrary Tailwind value "${cls}" is not allowed. Use a token-backed class (see get_tokens) instead.`);
             continue;
@@ -350,6 +385,7 @@ function visitOpeningElement(ctx: Ctx, node: ts.JsxOpeningLikeElement, tag: stri
     if (!entry) {
         // Real export without its own registry entry: no prop metadata to check against.
         if (isKnownModuleExport(ctx, tag)) return undefined;
+        if (!tag.includes(".") && isSetupProvider(ctx.imports.get(tag))) return undefined;
         addError(
             ctx,
             node,
