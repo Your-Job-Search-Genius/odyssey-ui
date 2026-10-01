@@ -3345,7 +3345,35 @@
           "name": "onEdgesChange",
           "type": "((edges: FlowEdge<TEdgeData>[]) => void) | undefined",
           "required": false,
-          "description": "Fired with the full edge array after any change. Connecting two nodes adds the edge here\n(id `e-{source}-{target}-{base36 timestamp}`) *and* fires `onConnect`, so add edges in only\none of the two. Self-loops and a second edge in the same direction between two nodes are refused."
+          "description": "Fired with the full edge array after any change. Connecting two nodes adds the edge here *and*\nfires `onConnect`, so add edges in only one of the two. See `allowSelfLoops`,\n`allowDuplicateEdges` and `createEdgeId` for what a connect creates."
+        },
+        {
+          "name": "allowSelfLoops",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Lets a node connect to itself (drawn as a loop over the card). Refused and announced when false."
+        },
+        {
+          "name": "allowDuplicateEdges",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Allows more than one edge between the same output and input (they fan apart). When false, a\nsecond identical connection is refused and announced; other ports of the same nodes still connect."
+        },
+        {
+          "name": "createEdgeId",
+          "type": "((connection: FlowConnection) => string) | undefined",
+          "required": false,
+          "default": "`e-{source}-{target}-{base36 timestamp}`",
+          "description": "Id for an edge created by connecting."
+        },
+        {
+          "name": "createNodeId",
+          "type": "(() => string) | undefined",
+          "required": false,
+          "default": "`n-{base36 timestamp}-{random}`",
+          "description": "Id for a node created by the toolbar's \"Add node\"."
         },
         {
           "name": "selectedId",
@@ -3629,6 +3657,10 @@
       ],
       "examples": [
         {
+          "title": "Decision with Yes / No ports and edge data",
+          "code": "<FlowCanvas<unknown, { condition: string }>\n  nodes={[{ id: \"check\", label: \"Opened email?\", role: \"decision\", x: 400, y: 200, outputs: [{ id: \"yes\", label: \"Yes\" }, { id: \"no\", label: \"No\" }] }, ...rest]}\n  edges={[{ id: \"e1\", source: \"check\", sourcePort: \"yes\", target: \"nurture\", data: { condition: \"opened\" } }]}\n  onEdgesChange={setEdges}\n  createEdgeId={({ source, sourcePort, target }) => `${source}.${sourcePort}->${target}`}\n/>"
+        },
+        {
           "title": "Uncontrolled, full chrome",
           "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} />"
         },
@@ -3649,7 +3681,7 @@
           "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} roles={{ validation: { label: \"Validation\", icon: ShieldTick, color: \"success\" } }} />"
         }
       ],
-      "a11y": "The canvas is one tab stop; Tab/Shift+Tab move a roving focus between nodes, arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
+      "a11y": "The canvas is one tab stop; Tab/Shift+Tab move a roving focus through the nodes and then the connections (announced as 'Connection from A (Yes) to B'; Enter selects, Delete removes), arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
       "doNot": [
         "Do not pass a new `nodes`/`edges` array identity on every render if you can avoid it -- memoise external data before handing it to FlowCanvas.",
         "Do not ship a fake execution-order simulator in production code; `status` is controlled display data -- drive it from a real backend/websocket/state machine, the same way the 'Run simulation' example's local fixture hook does.",
@@ -3920,7 +3952,7 @@
         },
         {
           "name": "onConnectStart",
-          "type": "() => void",
+          "type": "(portId: string | undefined) => void",
           "required": true
         },
         {
@@ -4350,7 +4382,6 @@
       "doNot": [
         "Do not hand-build a fixed inset-0 overlay -- use ModalOverlay + Modal (focus trap, scroll lock and focus return come with it).",
         "Do not label the dialog with aria-label when a visible ModalHeader title exists.",
-        "Do not autofocus a ComboBox inside a modal: it opens its menu on focus and covers the form. Let the dialog focus its first text input or close button.",
         "Do not use a Modal wider than xl for reading content; 2xl/full are for previews and comparisons."
       ],
       "docsUrl": "/docs/application/modals/modal",
@@ -8659,8 +8690,7 @@
       "a11y": "label is required for a real accessible name; placeholder text alone is not an accessible label. isRequired reflects required state to assistive tech automatically.",
       "doNot": [
         "Do not use a raw HTML <select> -- always use this component (or Select.ComboBox for a searchable variant).",
-        "Do not put anything other than Select.Item (directly, or returned from the items render-prop) inside Select's children.",
-        "Do not autoFocus Select.ComboBox (or ComboBox): its menu opens on focus, so an auto-focused combobox covers the rest of the form."
+        "Do not put anything other than Select.Item (directly, or returned from the items render-prop) inside Select's children."
       ],
       "docsUrl": "/docs/base/select/select",
       "isExtracted": true

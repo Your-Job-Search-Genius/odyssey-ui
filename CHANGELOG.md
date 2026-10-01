@@ -12,6 +12,7 @@ app's `YJSG_MCP_ISSUES.md`). Everything is additive except the behaviour changes
 
 - **Toasts no longer take focus by default** (V9). `toast()` defaults to `autoFocus: false`; pass `{ autoFocus: true }` for a toast the user should act on. Hovering or keyboard-focusing a toast still pauses it, but focus placed by `autoFocus` no longer stops it from timing out.
 - **The ⌘K hint is off by default** on `ComboBox` and `Select.ComboBox` (V10). Nothing was bound to it; pass `shortcut` if your app wires the key itself.
+- **Comboboxes open on click, typing or ↓ / Alt+↓, not on focus** (`ComboBox`, `Select.ComboBox`, `TagSelect`; V17). Tabbing through a form or auto-focusing a dialog's first field no longer pops a menu over the page. Pass `menuTrigger="focus"` for the old behaviour.
 - **`DatePicker` / `DateRangePicker` Cancel restores the value from when the picker opened** (V11), firing `onChange` with it.
 - **`ButtonGroup` selected items** use `bg-active text-primary` and show a leading check on text items (V19). Opt out with `showSelectedIndicator={false}`.
 - **Dark-mode `Alert`** uses the subtle `bg-*-primary` surfaces (V29). Light mode is unchanged.
@@ -34,7 +35,8 @@ app's `YJSG_MCP_ISSUES.md`). Everything is additive except the behaviour changes
 
 - `CodeBlock` (M2), `DescriptionList` (M3), `HtmlPreview` (M1).
 - `Modal` sizes `2xl` (960px) and `full` (M4).
-- `FlowCanvas`: `FlowEdge.data` with a `TEdgeData` generic, per-node `width`/`height`, node `tooltip`, keyboard-focusable edges (Tab after nodes, Enter selects, Delete removes) (M5, M15, M16). Ports are not supported yet.
+- `FlowCanvas`: `FlowEdge.data` with a `TEdgeData` generic, per-node `width`/`height`, node `tooltip`, keyboard-focusable edges (Tab after nodes, Enter selects, Delete removes) (M5, M15, M16).
+- `FlowCanvas` named ports: `inputs` / `outputs` on nodes and `sourcePort` / `targetPort` on edges and `onConnect` (M5). `allowSelfLoops` and `allowDuplicateEdges` (drawn as an arc and as fanned-out parallel edges), and `createEdgeId` / `createNodeId` for app-controlled ids (V23, V24).
 - `Dropdown.Item variant="destructive"` (M6).
 - `Avatar imageFit="contain"` (M7).
 - `StatTile` `icon` and `description` (M8).
@@ -45,6 +47,14 @@ app's `YJSG_MCP_ISSUES.md`). Everything is additive except the behaviour changes
 - `Table.Row isDetail` + `Table.Cell colSpan` for expandable rows; `Table.Body` documents `dependencies` (M14, V15).
 - `SidebarMenuItem` `section` and `isSelected` for single-choice groups such as a theme picker (M17).
 - `Badge type="modern"` accepts every color (V18).
+
+### Docs site
+
+The production build (`next build`) hung in local builds; three separate causes, all fixed:
+
+- `ui-tree` imported `ICONS_IMPORT_PATH` from the `ds-registry` root, whose `loadRegistry` pulls `node:fs` into the client-side playground preview (Turbopack panic). It now imports from the fs-free `ds-registry/schema` entry. CI never hit this because the deploy job deletes the playground routes before building.
+- Inter and Kalam are self-hosted with `next/font/local` (docs and Storybook) instead of `next/font/google`, so builds never wait on Google Fonts. Storybook's `<body>` now actually uses the loaded Inter (it previously named a literal "Inter" family that only resolved if installed locally).
+- An unquoted `description:` containing `: ` in `select.mdx` frontmatter (from this release) failed webpack and silently stalled Turbopack. A new docs test parses every page's frontmatter so this fails fast in `pnpm run test`.
 
 ### MCP / validator (ds-registry, ds-mcp)
 
