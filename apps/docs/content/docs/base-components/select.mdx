@@ -1,6 +1,6 @@
 ---
 title: Select
-description: Dropdown selection fields: single, searchable, multi-select and tag select.
+description: Dropdown selection fields -- single, searchable, multi-select and tag select.
 ---
 
 ## Overview
@@ -184,7 +184,7 @@ import { TagSelectBase } from "@/components/base/select/tag-select";
 ## Accessibility
 
 - Always pass `label` -- the placeholder is not an accessible name.
-- `Select.ComboBox` opens its menu on focus, so don't `autoFocus` it. Its ⌘K hint (`shortcut`) is decorative and off by default.
+- `Select.ComboBox`, `ComboBox` and `TagSelect` open their menu on click, on typing, or with <kbd>↓</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> -- not when focus lands on them, so auto-focusing one (or tabbing through a form) never pops a menu over the page. Pass `menuTrigger="focus"` to get the old behaviour. The ⌘K hint (`shortcut`) is decorative and off by default.
 - In `MultiSelect` and `TagSelect`, <kbd>Esc</kbd> closes the menu without clearing the selection.
 
 ## Related

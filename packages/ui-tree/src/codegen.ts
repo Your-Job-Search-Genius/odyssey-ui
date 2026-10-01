@@ -14,7 +14,9 @@
  * that generated code is correct by construction.
  */
 import type { ComponentEntry, Registry } from "@your-job-search-genius/ds-registry";
-import { ICONS_IMPORT_PATH } from "@your-job-search-genius/ds-registry";
+// The "/schema" entry is fs-free; the package root also exports loadRegistry (node:fs), which must
+// never reach the client bundle that renders the playground preview.
+import { ICONS_IMPORT_PATH } from "@your-job-search-genius/ds-registry/schema";
 import prettier from "prettier";
 import type { PropValue, UINode, UITree } from "./schema.js";
 

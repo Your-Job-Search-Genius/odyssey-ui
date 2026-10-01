@@ -18,8 +18,9 @@
 <style>
     html,
     body {
+        /* --font-inter is set on <html> by .storybook/wrapper.tsx (self-hosted next/font/local). */
         font-family:
-            "Inter",
+            var(--font-inter, "Inter"),
             -apple-system,
             "Segoe UI",
             Roboto,
