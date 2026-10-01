@@ -1,8 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { FC, ReactNode } from "react";
+import { isValidElement, useId } from "react";
 import { ArrowDown, ArrowUp, Minus } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
+import { isReactComponent } from "@/utils/is-react-component";
 import { formatNumber } from "./chart-utils";
 import { Sparkline, describeTrend } from "./sparkline";
 import { useChartTransition } from "./use-chart-motion";
@@ -29,6 +31,10 @@ export interface StatTileProps {
     trend?: number[];
     /** Controls the value's display size. */
     size?: "sm" | "md" | "lg";
+    /** Decorative icon shown before the label (hidden from assistive tech). */
+    icon?: FC<{ className?: string }> | ReactNode;
+    /** Supporting text under the value, e.g. "Across 12 active campaigns". Announced as the tile's description. */
+    description?: ReactNode;
     className?: string;
 }
 
@@ -39,7 +45,8 @@ const valueSizes = { sm: "text-display-xs", md: "text-display-sm", lg: "text-dis
  * value in proportional figures, an optional signed delta colored by
  * whether the change is good, and an optional sparkline trend.
  */
-export const StatTile = ({ label, value, valueFormatter = formatNumber, delta, trend, size = "md", className }: StatTileProps) => {
+export const StatTile = ({ label, value, valueFormatter = formatNumber, delta, trend, size = "md", icon: Icon, description, className }: StatTileProps) => {
+    const descriptionId = useId();
     const progress = useChartTransition(value);
     const isNumber = typeof value === "number";
     const displayValue = isNumber ? valueFormatter(Math.round(value * progress)) : value;
@@ -52,12 +59,31 @@ export const StatTile = ({ label, value, valueFormatter = formatNumber, delta, t
     const DeltaIcon = delta?.direction === "up" ? ArrowUp : delta?.direction === "down" ? ArrowDown : Minus;
 
     return (
-        <div role="group" aria-label={label} className={cx("flex min-w-0 flex-col gap-1", className)}>
-            <p className="text-sm text-tertiary">{label}</p>
+        <div
+            role="group"
+            aria-label={label}
+            aria-describedby={description ? descriptionId : undefined}
+            className={cx("flex min-w-0 flex-col gap-1", className)}
+        >
+            <p className="flex items-center gap-2 text-sm text-tertiary">
+                {isReactComponent(Icon) ? (
+                    <Icon aria-hidden="true" className="size-4 shrink-0 text-fg-quaternary" />
+                ) : isValidElement(Icon) ? (
+                    <span aria-hidden="true" className="flex shrink-0 text-fg-quaternary *:size-4">
+                        {Icon}
+                    </span>
+                ) : null}
+                <span className="min-w-0">{label}</span>
+            </p>
             <p className={cx("font-semibold text-primary", valueSizes[size])}>
                 <span aria-hidden="true">{displayValue}</span>
                 <span className="sr-only">{finalValue}</span>
             </p>
+            {description && (
+                <p id={descriptionId} className="text-sm text-tertiary">
+                    {description}
+                </p>
+            )}
             {delta && (
                 <p className={cx("flex items-center gap-1 text-sm font-medium", deltaTone)}>
                     <DeltaIcon data-icon aria-hidden="true" className="size-3 shrink-0" />

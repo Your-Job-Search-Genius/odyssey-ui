@@ -1,12 +1,12 @@
 "use client";
 
-import type { FocusEventHandler, KeyboardEvent, PointerEventHandler, RefAttributes, RefObject } from "react";
-import React, { createContext, useCallback, useContext, useRef, useState } from "react";
+import type { FocusEventHandler, KeyboardEvent, MouseEvent, PointerEventHandler, RefAttributes, RefObject } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
+import { useControlledState } from "@react-stately/utils";
 import { FocusScope, useFilter, useFocusManager } from "react-aria";
 import type { ComboBoxProps as AriaComboBoxProps, GroupProps as AriaGroupProps, ListBoxProps as AriaListBoxProps, Key } from "react-aria-components";
 import { ComboBox as AriaComboBox, Group as AriaGroup, Input as AriaInput, ListBox as AriaListBox, ComboBoxStateContext } from "react-aria-components";
 import type { ListData } from "react-stately";
-import { useListData } from "react-stately";
 import { Avatar } from "@/components/base/avatar/avatar";
 import type { IconComponentType } from "@/components/base/badges/badge-types";
 import { HintText } from "@/components/base/input/hint-text";
@@ -33,28 +33,43 @@ interface TagSelectValueProps extends AriaGroupProps {
 
 const TagSelectContext = createContext<{
     selectedKeys: Key[];
-    selectedItems: ListData<SelectItemType>;
+    selected: SelectItemType[];
     onRemove: (keys: Set<Key>) => void;
-    onInputChange: (value: string) => void;
     valueFormatter?: (item: SelectItemType) => string;
 }>({
     selectedKeys: [],
-    selectedItems: {} as ListData<SelectItemType>,
+    selected: [],
     onRemove: () => {},
-    onInputChange: () => {},
 });
 
-interface TagSelectProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items">, RefAttributes<HTMLDivElement> {
+interface TagSelectProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items" | "onSelectionChange">, RefAttributes<HTMLDivElement> {
     hint?: string;
     label?: string;
     tooltip?: string;
     size?: "sm" | "md" | "lg";
     placeholder?: string;
     shortcut?: boolean;
+    /** The options. Reactive: replacing the array (e.g. after an async load) updates the menu. */
     items?: SelectItemType[];
     popoverClassName?: string;
     shortcutClassName?: string;
-    selectedItems: ListData<SelectItemType>;
+    /**
+     * Selection held in a `useListData` list owned by the caller (the original API). Prefer
+     * `selectedKeys` / `defaultSelectedKeys` + `onSelectionChange` in new code.
+     */
+    selectedItems?: ListData<SelectItemType>;
+    /** The selected item ids (controlled). Ignored when `selectedItems` is passed. */
+    selectedKeys?: Key[];
+    /** The initially selected item ids (uncontrolled). */
+    defaultSelectedKeys?: Key[];
+    /** Called with the full list of selected ids whenever a tag is added or removed. */
+    onSelectionChange?: (keys: Key[]) => void;
+    /**
+     * How options are matched against the typed text. Pass `null` to turn local filtering off when
+     * `items` already holds server results for the current input (listen with `onInputChange`).
+     * Selected options are always hidden from the menu.
+     */
+    filter?: ((textValue: string, inputValue: string) => boolean) | null;
     icon?: IconComponentType | null;
     children: AriaListBoxProps<SelectItemType>["children"];
     onItemCleared?: (key: Key) => void;
@@ -67,6 +82,10 @@ export const TagSelectBase = ({
     children,
     size = "sm",
     selectedItems,
+    selectedKeys: selectedKeysProp,
+    defaultSelectedKeys,
+    onSelectionChange: onSelectionChangeProp,
+    filter: filterProp,
     onItemCleared,
     onItemInserted,
     valueFormatter,
@@ -76,22 +95,28 @@ export const TagSelectBase = ({
     // Omit name to avoid conflicts with the `Select` component
     name: _name,
     className,
+    onInputChange: onInputChangeProp,
     ...props
 }: TagSelectProps) => {
     const { contains } = useFilter({ sensitivity: "base" });
-    const selectedKeys = selectedItems.items.map((item) => item.id);
+    const [filterText, setFilterText] = useState("");
+    const [keysState, setKeysState] = useControlledState<Key[]>(selectedKeysProp, defaultSelectedKeys ?? [], onSelectionChangeProp);
 
-    const filter = useCallback(
-        (item: SelectItemType, filterText: string) => {
-            return !selectedKeys.includes(item.id) && contains(item.label || item.supportingText || "", filterText);
-        },
-        [contains, selectedKeys],
-    );
+    // Every option seen so far, so a selected tag keeps its label after `items` is replaced by
+    // results that no longer contain it (server-side search).
+    const seenItems = useRef(new Map<Key, SelectItemType>());
+    for (const item of items ?? []) seenItems.current.set(item.id, item);
 
-    const accessibleList = useListData({
-        initialItems: items,
-        filter,
-    });
+    const selected: SelectItemType[] = selectedItems
+        ? selectedItems.items
+        : keysState.map((key) => seenItems.current.get(key)).filter((item): item is SelectItemType => !!item);
+    const selectedKeys = selected.map((item) => item.id);
+
+    const visibleItems = useMemo(() => {
+        const matches = filterProp === null ? () => true : (filterProp ?? contains);
+        return (items ?? []).filter((item) => !selectedKeys.includes(item.id) && matches(item.label || item.supportingText || "", filterText));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [items, filterProp, contains, filterText, selectedKeys.join("\u0000")]);
 
     const onRemove = useCallback(
         (keys: Set<Key>) => {
@@ -99,33 +124,31 @@ export const TagSelectBase = ({
 
             if (!key) return;
 
-            selectedItems.remove(key);
+            if (selectedItems) selectedItems.remove(key);
+            else setKeysState(keysState.filter((k) => k !== key));
             onItemCleared?.(key);
         },
-        [selectedItems, onItemCleared],
+        [selectedItems, keysState, setKeysState, onItemCleared],
     );
 
+    const handleInputChange = (value: string) => {
+        setFilterText(value);
+        onInputChangeProp?.(value);
+    };
+
     const onSelectionChange = (id: Key | null) => {
-        if (!id) {
-            return;
-        }
+        if (!id) return;
 
-        const item = accessibleList.getItem(id);
+        const item = seenItems.current.get(id);
+        if (!item) return;
 
-        if (!item) {
-            return;
-        }
-
-        if (!selectedKeys.includes(id as string)) {
-            selectedItems.append(item);
+        if (!selectedKeys.includes(id)) {
+            if (selectedItems) selectedItems.append(item);
+            else setKeysState([...keysState, id]);
             onItemInserted?.(id);
         }
 
-        accessibleList.setFilterText("");
-    };
-
-    const onInputChange = (value: string) => {
-        accessibleList.setFilterText(value);
+        handleInputChange("");
     };
 
     const placeholderRef = useRef<HTMLDivElement>(null);
@@ -134,7 +157,7 @@ export const TagSelectBase = ({
     // Resize observer for popover width
     const onResize = useCallback(() => {
         if (!placeholderRef.current) return;
-        let divRect = placeholderRef.current?.getBoundingClientRect();
+        const divRect = placeholderRef.current?.getBoundingClientRect();
         setPopoverWidth(divRect.width + "px");
     }, [placeholderRef, setPopoverWidth]);
 
@@ -148,8 +171,7 @@ export const TagSelectBase = ({
         <TagSelectContext.Provider
             value={{
                 selectedKeys,
-                selectedItems,
-                onInputChange,
+                selected,
                 onRemove,
                 valueFormatter,
             }}
@@ -158,9 +180,9 @@ export const TagSelectBase = ({
                 <AriaComboBox
                     allowsEmptyCollection
                     menuTrigger="focus"
-                    items={accessibleList.items}
-                    onInputChange={onInputChange}
-                    inputValue={accessibleList.filterText}
+                    items={visibleItems}
+                    onInputChange={handleInputChange}
+                    inputValue={filterText}
                     // This keeps the combobox popover open and the input value unchanged when an item is selected.
                     value={null}
                     onChange={onSelectionChange}
@@ -188,7 +210,8 @@ export const TagSelectBase = ({
                             />
 
                             <Popover size={size} triggerRef={placeholderRef} style={{ width: popoverWidth }} className={props?.popoverClassName}>
-                                <AriaListBox selectionMode="multiple" className="size-full outline-hidden">
+                                {/* Escape closes the menu; it must never clear the chosen tags. */}
+                                <AriaListBox selectionMode="multiple" escapeKeyBehavior="none" className="size-full outline-hidden">
                                     {children}
                                 </AriaListBox>
                             </Popover>
@@ -230,7 +253,7 @@ const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, 
     };
 
     // Ensure dropdown opens on click even if input is already focused
-    const handleInputMouseDown = (_event: React.MouseEvent<HTMLInputElement>) => {
+    const handleInputMouseDown = (_event: MouseEvent<HTMLInputElement>) => {
         if (comboBoxStateContext && !comboBoxStateContext.isOpen) {
             comboBoxStateContext.open();
         }
@@ -244,7 +267,7 @@ const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, 
 
         event.preventDefault();
 
-        const isFirstTag = tagSelectContext?.selectedItems?.items?.[0]?.id === value;
+        const isFirstTag = tagSelectContext.selected[0]?.id === value;
 
         switch (event.key) {
             case " ":
@@ -271,12 +294,12 @@ const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, 
         }
     };
 
-    const isSelectionEmpty = tagSelectContext?.selectedItems?.items?.length === 0;
+    const isSelectionEmpty = tagSelectContext.selected.length === 0;
 
     return (
         <div className="relative flex w-full min-w-0 flex-1 flex-row flex-wrap items-center justify-start gap-1.5">
             {!isSelectionEmpty &&
-                tagSelectContext?.selectedItems?.items?.map((value) => (
+                tagSelectContext.selected.map((value) => (
                     <span
                         key={value.id}
                         className={cx(

@@ -177,7 +177,7 @@ export const SidebarLayout = ({
                         id="main-content"
                         tabIndex={-1}
                         className={cx(
-                            "@container h-full [scrollbar-width:none] overflow-y-auto bg-primary p-5 pb-20 outline-hidden md:rounded-[17px] md:border-[0.5px] md:border-secondary md:pb-5 md:shadow-xs [&::-webkit-scrollbar]:hidden",
+                            "@container scrollbar-hide h-full overflow-y-auto bg-primary p-5 pb-20 outline-hidden md:rounded-[17px] md:border-[0.5px] md:border-secondary md:pb-5 md:shadow-xs",
                             contentClassName,
                         )}
                     >

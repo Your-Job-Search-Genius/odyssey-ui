@@ -1,8 +1,15 @@
 import type { FlowBounds, FlowEdgeStatus, FlowNode, FlowNodeStatus, FlowPoint, FlowRoleDefinition, FlowRoleRegistry, FlowSpeed } from "./flow-canvas-types";
 
-/** Node card size in content-space px. Fixed -- every node is the same size. */
+/** Default node card size in content-space px; a node can override it with `width` / `height`. */
 export const NODE_WIDTH = 224;
 export const NODE_HEIGHT = 84;
+
+type SizedPoint = Pick<FlowNode, "x" | "y" | "width" | "height">;
+
+/** A node's card size, falling back to the defaults. */
+export function nodeSize(node: Pick<FlowNode, "width" | "height">): { width: number; height: number } {
+    return { width: node.width && node.width > 0 ? node.width : NODE_WIDTH, height: node.height && node.height > 0 ? node.height : NODE_HEIGHT };
+}
 
 export const DEFAULT_GRID_SIZE = 24;
 
@@ -18,13 +25,13 @@ export function snapValue(value: number, gridSize: number): number {
 }
 
 /** The right/"out" connection point of a node, in content-space. */
-export function nodeOutAnchor(node: Pick<FlowNode, "x" | "y">): FlowPoint {
-    return { x: node.x + NODE_WIDTH / 2, y: node.y };
+export function nodeOutAnchor(node: SizedPoint): FlowPoint {
+    return { x: node.x + nodeSize(node).width / 2, y: node.y };
 }
 
 /** The left/"in" connection point of a node, in content-space. */
-export function nodeInAnchor(node: Pick<FlowNode, "x" | "y">): FlowPoint {
-    return { x: node.x - NODE_WIDTH / 2, y: node.y };
+export function nodeInAnchor(node: SizedPoint): FlowPoint {
+    return { x: node.x - nodeSize(node).width / 2, y: node.y };
 }
 
 const round = (value: number) => Math.round(value * 10) / 10;
@@ -44,14 +51,15 @@ export function buildEdgePath(source: FlowPoint, target: FlowPoint): { d: string
     return { d, mid };
 }
 
-export function nodeBounds(node: Pick<FlowNode, "x" | "y">): FlowBounds {
-    return { minX: node.x - NODE_WIDTH / 2, minY: node.y - NODE_HEIGHT / 2, maxX: node.x + NODE_WIDTH / 2, maxY: node.y + NODE_HEIGHT / 2 };
+export function nodeBounds(node: SizedPoint): FlowBounds {
+    const { width, height } = nodeSize(node);
+    return { minX: node.x - width / 2, minY: node.y - height / 2, maxX: node.x + width / 2, maxY: node.y + height / 2 };
 }
 
 const FALLBACK_BOUNDS: FlowBounds = { minX: 0, minY: 0, maxX: 800, maxY: 400 };
 
 /** The bounding box of every node, or a fixed fallback box when there are none. */
-export function graphBounds(nodes: readonly Pick<FlowNode, "x" | "y">[]): FlowBounds {
+export function graphBounds(nodes: readonly SizedPoint[]): FlowBounds {
     if (nodes.length === 0) return FALLBACK_BOUNDS;
     let minX = Infinity;
     let minY = Infinity;

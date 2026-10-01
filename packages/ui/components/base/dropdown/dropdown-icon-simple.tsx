@@ -5,7 +5,7 @@ import { Dropdown } from "@/components/base/dropdown/dropdown";
 
 export const DropdownIconSimple = () => (
     <Dropdown.Root>
-        <Dropdown.DotsButton />
+        <Dropdown.DotsButton aria-label="File actions" />
 
         <Dropdown.Popover className="w-54">
             <Dropdown.Menu>
@@ -18,7 +18,7 @@ export const DropdownIconSimple = () => (
                 <Dropdown.Section>
                     <Dropdown.Item>Edit</Dropdown.Item>
                     <Dropdown.Item>Duplicate</Dropdown.Item>
-                    <Dropdown.Item>Delete</Dropdown.Item>
+                    <Dropdown.Item variant="destructive">Delete</Dropdown.Item>
                 </Dropdown.Section>
                 <Dropdown.Separator />
                 <Dropdown.Section>

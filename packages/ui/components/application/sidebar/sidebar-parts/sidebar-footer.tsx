@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 import { Tooltip } from "@/components/base/tooltip/tooltip";
@@ -16,6 +16,7 @@ import {
     SidebarMark,
     type SidebarMenuItem,
     getInitials,
+    groupMenuItems,
     useSidebar,
 } from "./sidebar-shared";
 
@@ -28,16 +29,46 @@ const rowStyles = (isCollapsed: boolean) =>
     );
 
 /** Menu popover shared by footer rows and the account row; opens to the right of the sidebar. */
-const SidebarMenu = ({ items, header, className }: { items: SidebarMenuItem[]; header?: ReactNode; className?: string }) => (
-    <Dropdown.Popover placement="right bottom" offset={12} className={cx("w-50 rounded-[11px]", className)}>
-        {header}
-        <Dropdown.Menu onAction={(key) => items.find((item) => item.id === key)?.onAction?.()}>
-            {items.map((item) => (
-                <Dropdown.Item key={item.id} id={item.id} label={item.label} icon={item.icon} href={item.href} />
-            ))}
-        </Dropdown.Menu>
-    </Dropdown.Popover>
-);
+const SidebarMenu = ({ items, header, className }: { items: SidebarMenuItem[]; header?: ReactNode; className?: string }) => {
+    const groups = groupMenuItems(items);
+    const isFlat = groups.length === 1 && !groups[0].section && !groups[0].isChoice;
+
+    return (
+        <Dropdown.Popover placement="right bottom" offset={12} className={cx("w-50 rounded-[11px]", className)}>
+            {header}
+            <Dropdown.Menu onAction={(key) => items.find((item) => item.id === key)?.onAction?.()}>
+                {isFlat
+                    ? items.map((item) => <Dropdown.Item key={item.id} id={item.id} label={item.label} icon={item.icon} href={item.href} />)
+                    : groups.map((group, index) => (
+                          <Fragment key={group.items[0].id}>
+                              {index > 0 && <Dropdown.Separator />}
+                              <Dropdown.Section
+                                  aria-label={group.section}
+                                  selectionMode={group.isChoice ? "single" : undefined}
+                                  selectedKeys={group.isChoice ? group.items.filter((item) => item.isSelected).map((item) => item.id) : undefined}
+                              >
+                                  {group.section && (
+                                      <Dropdown.SectionHeader className="px-4 pt-1.5 pb-1 text-xs font-semibold text-quaternary">
+                                          {group.section}
+                                      </Dropdown.SectionHeader>
+                                  )}
+                                  {group.items.map((item) => (
+                                      // An icon would replace the check, so choice items show the check only.
+                                      <Dropdown.Item
+                                          key={item.id}
+                                          id={item.id}
+                                          label={item.label}
+                                          icon={group.isChoice ? undefined : item.icon}
+                                          href={item.href}
+                                      />
+                                  ))}
+                              </Dropdown.Section>
+                          </Fragment>
+                      ))}
+            </Dropdown.Menu>
+        </Dropdown.Popover>
+    );
+};
 
 const RowInner = ({ item }: { item: Pick<SidebarFooterItem, "icon" | "label"> }) => {
     const { isCollapsed } = useSidebar();

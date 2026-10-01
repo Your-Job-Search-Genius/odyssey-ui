@@ -14,6 +14,11 @@ import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
 interface ComboBoxProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items">, RefAttributes<HTMLDivElement>, CommonProps {
+    /**
+     * Displays a decorative ⌘K hint inside the trigger. No shortcut is bound by the component, so
+     * only turn this on when the app itself focuses the combobox on ⌘K.
+     * @default false
+     */
     shortcut?: boolean;
     items?: SelectItemType[];
     popoverClassName?: string;
@@ -107,7 +112,7 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
 export const ComboBox = ({
     placeholder = "Search",
-    shortcut = true,
+    shortcut = false,
     size = "md",
     children,
     items,

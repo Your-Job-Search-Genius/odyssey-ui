@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useRef } from "react";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { useControlledState } from "@react-stately/utils";
 import { useDateFormatter } from "react-aria";
@@ -10,28 +11,40 @@ import { Calendar as CalendarIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { Calendar } from "./calendar";
 
-const highlightedDates = [today(getLocalTimeZone())];
-
 interface DatePickerProps extends AriaDatePickerProps<DateValue> {
     /** The function to call when the apply button is clicked. */
     onApply?: () => void;
-    /** The function to call when the cancel button is clicked. */
+    /** The function to call when the cancel button is clicked. Cancel also restores the value the picker had when it opened. */
     onCancel?: () => void;
     size?: ButtonProps["size"];
 }
 
-export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, onCancel, size = "sm", ...props }: DatePickerProps) => {
+export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, onCancel, onOpenChange, size = "sm", ...props }: DatePickerProps) => {
     const formatter = useDateFormatter({
         month: "short",
         day: "numeric",
         year: "numeric",
     });
     const [value, setValue] = useControlledState(valueProp, defaultValue || null, onChange);
+    // Calendar clicks commit immediately; remember the value at open so Cancel can undo them.
+    const valueAtOpen = useRef<DateValue | null>(value);
+    // Computed per render (not at module load) so "today" is right after midnight and under SSR.
+    const highlightedDates = useMemo(() => [today(getLocalTimeZone())], []);
 
     const formattedDate = value ? formatter.format(value.toDate(getLocalTimeZone())) : "Select date";
 
     return (
-        <AriaDatePicker aria-label="Date picker" shouldCloseOnSelect={false} {...props} value={value} onChange={setValue}>
+        <AriaDatePicker
+            aria-label="Date picker"
+            shouldCloseOnSelect={false}
+            {...props}
+            value={value}
+            onChange={setValue}
+            onOpenChange={(isOpen) => {
+                if (isOpen) valueAtOpen.current = value;
+                onOpenChange?.(isOpen);
+            }}
+        >
             <AriaGroup>
                 <Button size={size} color="secondary" iconLeading={CalendarIcon}>
                     {formattedDate}
@@ -61,6 +74,7 @@ export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, 
                                     size="md"
                                     color="secondary"
                                     onClick={() => {
+                                        if (value?.toString() !== valueAtOpen.current?.toString()) setValue(valueAtOpen.current);
                                         onCancel?.();
                                         close();
                                     }}

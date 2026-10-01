@@ -24,3 +24,5 @@ WithValues.storyName = "With values";
 export const LiveUpdate = () => <Demos.BarChartLiveUpdate />;
 LiveUpdate.storyName = "Live update";
 export const Empty = () => <Demos.BarChartEmpty />;
+export const ColorByIndex = () => <Demos.BarChartColorByIndex />;
+ColorByIndex.storyName = "Color by category";

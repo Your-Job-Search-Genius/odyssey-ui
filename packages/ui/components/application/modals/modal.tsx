@@ -41,12 +41,16 @@ const modalSizes = sortCx({
     md: "sm:max-w-120",
     lg: "sm:max-w-150",
     xl: "sm:max-w-180",
+    /** 960px: previews, side-by-side comparisons. */
+    "2xl": "sm:max-w-240",
+    /** Fills the overlay (minus its padding) on every viewport. */
+    full: "sm:max-w-none",
 });
 
 interface ModalProps extends AriaModalOverlayProps {
     /**
-     * Constrains the dialog panel's max width on `sm`+ viewports. On mobile the
-     * panel always spans the full available width.
+     * Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 480, lg 600, xl 720,
+     * 2xl 960px, full = the whole overlay). On mobile the panel always spans the full available width.
      * @default "md"
      */
     size?: keyof typeof modalSizes;

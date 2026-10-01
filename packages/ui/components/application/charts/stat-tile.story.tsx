@@ -19,3 +19,5 @@ export const WithTrend = () => <Demos.StatTileWithTrend />;
 WithTrend.storyName = "With trend";
 export const Group = () => <Demos.StatTileGroupDemo />;
 export const Sizes = () => <Demos.StatTileSizes />;
+export const WithIconAndDescription = () => <Demos.StatTileWithIconAndDescription />;
+WithIconAndDescription.storyName = "Icon and description";

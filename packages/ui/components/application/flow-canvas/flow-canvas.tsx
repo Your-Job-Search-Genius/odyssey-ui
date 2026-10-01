@@ -26,7 +26,7 @@ import type {
     FlowSpeed,
 } from "./flow-canvas-types";
 import { DEFAULT_GRID_SIZE, SPEED_DURATIONS, buildEdgePath, graphBounds, mergeRoles, nodeInAnchor, nodeOutAnchor, snapValue } from "./flow-canvas-utils";
-import { useFlowCanvasFocus } from "./use-flow-canvas-focus";
+import { edgeFocusKey, useFlowCanvasFocus } from "./use-flow-canvas-focus";
 
 /** The six built-in roles. Extend or override any of them with the `roles` prop -- unspecified fields are kept. */
 export const DEFAULT_FLOW_ROLES: FlowRoleRegistry = {
@@ -38,31 +38,36 @@ export const DEFAULT_FLOW_ROLES: FlowRoleRegistry = {
     end: { label: "End", icon: Bell01, color: "brand" },
 };
 
-export interface FlowCanvasProps<TData = unknown> {
+export interface FlowCanvasProps<TData = unknown, TEdgeData = unknown> {
     /** Controlled node array. Memoise it -- a new array identity is how `FlowCanvas` knows the graph changed. */
     nodes?: FlowNode<TData>[];
     /** Initial nodes for uncontrolled use. */
     defaultNodes?: FlowNode<TData>[];
     onNodesChange?: (nodes: FlowNode<TData>[]) => void;
 
-    /** Controlled edge array. */
-    edges?: FlowEdge[];
+    /** Controlled edge array. Each edge may carry its own `data` (e.g. a branch condition), preserved through every update. */
+    edges?: FlowEdge<TEdgeData>[];
     /** Initial edges for uncontrolled use. */
-    defaultEdges?: FlowEdge[];
-    onEdgesChange?: (edges: FlowEdge[]) => void;
+    defaultEdges?: FlowEdge<TEdgeData>[];
+    /**
+     * Fired with the full edge array after any change. Connecting two nodes adds the edge here
+     * (id `e-{source}-{target}-{base36 timestamp}`) *and* fires `onConnect`, so add edges in only
+     * one of the two. Self-loops and a second edge in the same direction between two nodes are refused.
+     */
+    onEdgesChange?: (edges: FlowEdge<TEdgeData>[]) => void;
 
     /** Id of the selected node or edge (both share one id namespace). */
     selectedId?: string | null;
     defaultSelectedId?: string | null;
     onSelectedIdChange?: (id: string | null) => void;
     onNodeSelect?: (node: FlowNode<TData> | null) => void;
-    onEdgeSelect?: (edge: FlowEdge | null) => void;
+    onEdgeSelect?: (edge: FlowEdge<TEdgeData> | null) => void;
 
     /** Fired when a user drags from one node's "out" handle onto another node. */
     onConnect?: (connection: FlowConnection) => void;
     onNodeAdd?: (node: FlowNode<TData>) => void;
     onNodeDelete?: (node: FlowNode<TData>) => void;
-    onEdgeDelete?: (edge: FlowEdge) => void;
+    onEdgeDelete?: (edge: FlowEdge<TEdgeData>) => void;
     /** Fields merged onto the node the toolbar's "Add node" button creates. A function is called fresh each time. */
     newNodeDefaults?: Partial<FlowNode<TData>> | (() => Partial<FlowNode<TData>>);
 
@@ -112,6 +117,13 @@ export interface FlowCanvasProps<TData = unknown> {
     /** Governs the canvas-level shortcuts (zoom, fit view, escape, delete-selected-edge, run). Per-node editing is governed by `isReadOnly` instead. @default true */
     keyboardShortcuts?: boolean;
 
+    /**
+     * The view fits the graph automatically once the container is measured and again the first time
+     * nodes appear (e.g. after an async load). Change this value to refit on demand -- e.g. pass the
+     * id of the workflow or revision being shown.
+     */
+    fitViewKey?: unknown;
+
     /** Canvas surface height. Width always fills the measured container. @default 560 */
     height?: number | string;
     className?: string;
@@ -130,7 +142,7 @@ export interface FlowCanvasProps<TData = unknown> {
 
 const clampGridSize = (value: number | undefined) => (value && value > 0 ? value : DEFAULT_GRID_SIZE);
 
-export const FlowCanvas = <TData = unknown,>({
+export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
     nodes: nodesProp,
     defaultNodes,
     onNodesChange,
@@ -178,7 +190,8 @@ export const FlowCanvas = <TData = unknown,>({
     renderNodeContent,
     onRunRequest,
     onReset,
-}: FlowCanvasProps<TData>) => {
+    fitViewKey,
+}: FlowCanvasProps<TData, TEdgeData>) => {
     const instanceId = useId();
     const sketchyFilterId = `${instanceId}-sketchy`;
     const arrowMarkerId = `${instanceId}-arrow`;
@@ -186,7 +199,7 @@ export const FlowCanvas = <TData = unknown,>({
     const gridPatternId = `${instanceId}-grid`;
 
     const [nodes, setNodes] = useControllableState<FlowNode<TData>[]>({ value: nodesProp, defaultValue: defaultNodes ?? [], onChange: onNodesChange });
-    const [edges, setEdges] = useControllableState<FlowEdge[]>({ value: edgesProp, defaultValue: defaultEdges ?? [], onChange: onEdgesChange });
+    const [edges, setEdges] = useControllableState<FlowEdge<TEdgeData>[]>({ value: edgesProp, defaultValue: defaultEdges ?? [], onChange: onEdgesChange });
     const [selectedId, setSelectedId] = useControllableState<string | null>({
         value: selectedIdProp,
         defaultValue: defaultSelectedId ?? null,
@@ -241,14 +254,25 @@ export const FlowCanvas = <TData = unknown,>({
     const viewportApi = useFlowViewport({ containerRef });
     const { viewport } = viewportApi;
 
-    const hasAutoFitted = useRef(false);
+    // Auto-fit when the container is first measured, and once more when the graph first gets nodes
+    // (a graph loaded after mount would otherwise stay framed on the empty fallback box).
+    const autoFit = useRef<"none" | "empty" | "graph">("none");
+    const hasNodes = nodes.length > 0;
     useEffect(() => {
-        if (hasAutoFitted.current || size.width === 0) return;
-        hasAutoFitted.current = true;
+        if (size.width === 0 || autoFit.current === "graph" || (autoFit.current === "empty" && !hasNodes)) return;
+        autoFit.current = hasNodes ? "graph" : "empty";
         viewportApi.fitToBounds(graphBounds(nodesRef.current));
-        // Only ever auto-fits once, the moment the container is first measured.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [size.width]);
+    }, [size.width, hasNodes]);
+
+    // `fitViewKey`: refit whenever the caller says a different graph is showing.
+    const lastFitViewKey = useRef(fitViewKey);
+    useEffect(() => {
+        if (Object.is(lastFitViewKey.current, fitViewKey)) return;
+        lastFitViewKey.current = fitViewKey;
+        if (size.width > 0) viewportApi.fitToBounds(graphBounds(nodesRef.current));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fitViewKey, size.width]);
 
     useEffect(() => {
         const element = containerRef.current;
@@ -263,8 +287,9 @@ export const FlowCanvas = <TData = unknown,>({
     }, [viewportApi.zoomBy]);
 
     // --- focus -------------------------------------------------------------------
-    const nodeIds = useMemo(() => nodes.map((node) => node.id), [nodes]);
-    const focus = useFlowCanvasFocus({ nodeIds });
+    // Tab order: every node, then every edge (edges are keyboard-selectable and deletable too).
+    const focusKeys = useMemo(() => [...nodes.map((node) => node.id), ...edges.map((edge) => edgeFocusKey(edge.id))], [nodes, edges]);
+    const focus = useFlowCanvasFocus({ nodeIds: focusKeys });
 
     // --- selection -----------------------------------------------------------------
     const selectNode = useCallback(
@@ -297,22 +322,31 @@ export const FlowCanvas = <TData = unknown,>({
         [selectNode, focus],
     );
 
+    // Deletes by id (not through `selection`, which is stale within the same event as a selectNode call).
+    const deleteItem = useCallback(
+        (target: NonNullable<FlowSelection>, options: { restoreFocus?: boolean } = {}) => {
+            if (isReadOnly) return;
+            if (target.type === "node") {
+                const node = nodesRef.current.find((n) => n.id === target.id);
+                setNodes(nodesRef.current.filter((n) => n.id !== target.id));
+                setEdges(edgesRef.current.filter((edge) => edge.source !== target.id && edge.target !== target.id));
+                if (node) onNodeDelete?.(node);
+                announce(`Deleted ${node?.label ?? "node"}`);
+            } else {
+                const edge = edgesRef.current.find((e) => e.id === target.id);
+                setEdges(edgesRef.current.filter((e) => e.id !== target.id));
+                if (edge) onEdgeDelete?.(edge);
+                announce("Edge deleted");
+            }
+            clearSelection();
+            // The focused card/path just unmounted; keep keyboard users inside the canvas.
+            if (options.restoreFocus) containerRef.current?.focus({ preventScroll: true });
+        },
+        [isReadOnly, setNodes, setEdges, onNodeDelete, onEdgeDelete, announce, clearSelection],
+    );
     const deleteSelected = useCallback(() => {
-        if (!selection || isReadOnly) return;
-        if (selection.type === "node") {
-            const node = nodesRef.current.find((n) => n.id === selection.id);
-            setNodes(nodesRef.current.filter((n) => n.id !== selection.id));
-            setEdges(edgesRef.current.filter((edge) => edge.source !== selection.id && edge.target !== selection.id));
-            if (node) onNodeDelete?.(node);
-            announce(`Deleted ${node?.label ?? "node"}`);
-        } else {
-            const edge = edgesRef.current.find((e) => e.id === selection.id);
-            setEdges(edgesRef.current.filter((e) => e.id !== selection.id));
-            if (edge) onEdgeDelete?.(edge);
-            announce("Edge deleted");
-        }
-        clearSelection();
-    }, [selection, isReadOnly, setNodes, setEdges, onNodeDelete, onEdgeDelete, announce, clearSelection]);
+        if (selection) deleteItem(selection);
+    }, [selection, deleteItem]);
 
     // --- node mutation ---------------------------------------------------------------
     const moveNodeBy = useCallback(
@@ -386,7 +420,7 @@ export const FlowCanvas = <TData = unknown,>({
                 announce("Those nodes are already connected");
                 return;
             }
-            const newEdge: FlowEdge = { id: `e-${sourceId}-${targetId}-${Date.now().toString(36)}`, source: sourceId, target: targetId };
+            const newEdge = { id: `e-${sourceId}-${targetId}-${Date.now().toString(36)}`, source: sourceId, target: targetId } as FlowEdge<TEdgeData>;
             setEdges([...edgesRef.current, newEdge]);
             onConnect?.({ source: sourceId, target: targetId });
             selectEdge(newEdge.id);
@@ -420,7 +454,7 @@ export const FlowCanvas = <TData = unknown,>({
         (event: ReactKeyboardEvent<HTMLDivElement>) => {
             if (!keyboardShortcuts) return;
             const target = event.target as HTMLElement;
-            if (target.matches("input,select,textarea") || target.hasAttribute("data-flow-node-id")) return;
+            if (target.matches("input,select,textarea") || target.hasAttribute("data-flow-node-id") || target.hasAttribute("data-flow-edge-id")) return;
             if (event.key === "Escape") clearSelection();
             else if (event.key === "+" || event.key === "=") {
                 event.preventDefault();
@@ -470,7 +504,7 @@ export const FlowCanvas = <TData = unknown,>({
                         ref={containerRef}
                         tabIndex={0}
                         role="application"
-                        aria-label="Flow diagram canvas. Tab to reach a node, arrow keys to move the focused node, Delete to remove it, Escape to deselect."
+                        aria-label="Flow diagram canvas. Tab through the nodes and then the connections, Enter to select, arrow keys to move the focused node, Delete to remove the focused item, Escape to deselect."
                         onPointerDown={handleCanvasPointerDown}
                         onPointerMove={handleCanvasPointerMove}
                         onPointerUp={handleCanvasPointerUp}
@@ -498,8 +532,11 @@ export const FlowCanvas = <TData = unknown,>({
                                             key={edge.id}
                                             edge={edge}
                                             d={d}
+                                            label={`Connection from ${source.label} to ${target.label}${edge.label ? `, ${edge.label}` : ""}`}
+                                            focusProps={focus.getNodeProps(edgeFocusKey(edge.id))}
                                             isSelected={selection?.type === "edge" && selection.id === edge.id}
                                             onSelect={() => selectEdge(edge.id)}
+                                            onDelete={() => deleteItem({ type: "edge", id: edge.id }, { restoreFocus: true })}
                                         />
                                     );
                                 })}
@@ -538,10 +575,7 @@ export const FlowCanvas = <TData = unknown,>({
                                     onMoveBy={(dx, dy) => moveNodeBy(node.id, dx, dy)}
                                     onMoveEnd={() => finishNodeMove(node.id)}
                                     onNudge={(dx, dy) => moveNodeBy(node.id, dx, dy)}
-                                    onDelete={() => {
-                                        selectNode(node.id);
-                                        deleteSelected();
-                                    }}
+                                    onDelete={() => deleteItem({ type: "node", id: node.id }, { restoreFocus: true })}
                                     onConnectStart={() => connectStart(node.id)}
                                     onConnectMoveTo={(clientX, clientY) => connectMoveTo(node.id, clientX, clientY)}
                                     onConnectEnd={(dropElement) => connectEnd(node.id, dropElement)}

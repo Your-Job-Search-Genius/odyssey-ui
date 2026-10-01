@@ -66,6 +66,13 @@ export interface AvatarProps {
      * @default false
      */
     focusable?: boolean;
+    /**
+     * How the image fills the avatar. `contain` shows the whole image (no cropping) on a neutral
+     * surface -- use it for logos and other non-square marks.
+     *
+     * @default "cover"
+     */
+    imageFit?: "cover" | "contain";
 }
 
 const styles = {
@@ -91,6 +98,7 @@ export const Avatar = ({
     count,
     focusable = false,
     rounded = true,
+    imageFit = "cover",
     className,
     contentClassName,
 }: AvatarProps) => {
@@ -100,7 +108,15 @@ export const Avatar = ({
 
     const renderMainContent = () => {
         if (canShowImage) {
-            return <img data-avatar-img className="size-full object-cover" src={src} alt={alt} onError={() => setIsFailed(true)} />;
+            return (
+                <img
+                    data-avatar-img
+                    className={cx("size-full", imageFit === "contain" ? "bg-primary object-contain p-[8%]" : "object-cover")}
+                    src={src}
+                    alt={alt}
+                    onError={() => setIsFailed(true)}
+                />
+            );
         }
 
         if (initials) {

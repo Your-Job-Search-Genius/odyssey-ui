@@ -7,6 +7,7 @@ import {
     type ToggleButtonGroupProps,
     type ToggleButtonProps,
 } from "react-aria-components";
+import { Check } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
@@ -18,10 +19,11 @@ export const styles = sortCx({
             "hover:bg-primary_hover hover:text-secondary_hover focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
             // Disabled styles
             "disabled:cursor-not-allowed disabled:text-secondary/50 disabled:*:opacity-50",
-            // Selected styles
-            "selected:bg-primary_hover selected:text-secondary_hover",
+            // Selected styles: a distinct surface and stronger text (hover only lightens the surface).
+            // Text items also get a leading check, so selection never relies on color alone.
+            "selected:bg-active selected:text-primary",
         ].join(" "),
-        icon: "pointer-events-none text-fg-quaternary transition-[inherit] group-hover/button-group:text-fg-quaternary_hover group-selected/button-group:text-fg-quaternary_hover",
+        icon: "pointer-events-none text-fg-quaternary transition-[inherit] group-hover/button-group:text-fg-quaternary_hover group-selected/button-group:text-fg-secondary",
     },
 
     sizes: {
@@ -42,7 +44,7 @@ export const styles = sortCx({
 
 type ButtonSize = keyof typeof styles.sizes;
 
-const ButtonGroupContext = createContext<{ size: ButtonSize }>({ size: "md" });
+const ButtonGroupContext = createContext<{ size: ButtonSize; showSelectedIndicator: boolean }>({ size: "md", showSelectedIndicator: true });
 
 interface ButtonGroupItemProps extends ToggleButtonProps, RefAttributes<HTMLButtonElement> {
     iconLeading?: FC<{ className?: string }> | ReactNode;
@@ -64,9 +66,10 @@ export const ButtonGroupItem = ({
         throw new Error("ButtonGroupItem must be used within a ButtonGroup component");
     }
 
-    const { size } = context;
+    const { size, showSelectedIndicator } = context;
 
     const isIcon = (IconLeading || IconTrailing) && !children;
+    const canShowCheck = showSelectedIndicator && !IconLeading && !isIcon;
 
     return (
         <AriaToggleButton
@@ -75,13 +78,20 @@ export const ButtonGroupItem = ({
             data-icon-leading={IconLeading ? true : undefined}
             className={cx(styles.common.root, styles.sizes[size].root, className)}
         >
-            {isReactComponent(IconLeading) && <IconLeading className={cx(styles.common.icon, styles.sizes[size].icon)} />}
-            {isValidElement(IconLeading) && IconLeading}
+            {(renderProps) => (
+                <>
+                    {canShowCheck && renderProps.isSelected && (
+                        <Check aria-hidden="true" className={cx(styles.common.icon, styles.sizes[size].icon, "-ml-0.5 size-4 stroke-[2.5px]")} />
+                    )}
+                    {isReactComponent(IconLeading) && <IconLeading className={cx(styles.common.icon, styles.sizes[size].icon)} />}
+                    {isValidElement(IconLeading) && IconLeading}
 
-            {children}
+                    {typeof children === "function" ? children(renderProps) : children}
 
-            {isReactComponent(IconTrailing) && <IconTrailing className={cx(styles.common.icon, styles.sizes[size].icon)} />}
-            {isValidElement(IconTrailing) && IconTrailing}
+                    {isReactComponent(IconTrailing) && <IconTrailing className={cx(styles.common.icon, styles.sizes[size].icon)} />}
+                    {isValidElement(IconTrailing) && IconTrailing}
+                </>
+            )}
         </AriaToggleButton>
     );
 };
@@ -89,11 +99,22 @@ export const ButtonGroupItem = ({
 interface ButtonGroupProps extends Omit<ToggleButtonGroupProps, "orientation">, RefAttributes<HTMLDivElement> {
     size?: ButtonSize;
     className?: string;
+    /**
+     * Shows a check before the label of each selected text item (items with their own leading icon,
+     * and icon-only items, keep their icon). Turn off only when selection is conveyed another way.
+     * @default true
+     */
+    showSelectedIndicator?: boolean;
 }
 
-export const ButtonGroup = ({ children, size = "md", className, ...otherProps }: ButtonGroupProps) => {
+/**
+ * A row of toggle buttons. Single selection by default: items are exposed as `radio`s in a
+ * `radiogroup` (query them with `getByRole("radio")` in tests); `selectionMode="multiple"` makes
+ * them toggle `button`s with `aria-pressed`. Give the group an `aria-label`.
+ */
+export const ButtonGroup = ({ children, size = "md", className, showSelectedIndicator = true, ...otherProps }: ButtonGroupProps) => {
     return (
-        <ButtonGroupContext.Provider value={{ size }}>
+        <ButtonGroupContext.Provider value={{ size, showSelectedIndicator }}>
             <AriaToggleButtonGroup
                 selectionMode="single"
                 className={cx("relative z-0 inline-flex w-max -space-x-px rounded-lg shadow-xs", className)}

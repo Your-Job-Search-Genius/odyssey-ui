@@ -44,7 +44,7 @@ export const ToggleBase = ({ className, isHovered, isDisabled, isFocusVisible, i
     return (
         <div
             className={cx(
-                "cursor-pointer rounded-full bg-tertiary ring-[0.5px] ring-secondary outline-focus-ring transition duration-150 ease-linear ring-inset",
+                "shrink-0 cursor-pointer rounded-full bg-tertiary ring-[0.5px] ring-secondary outline-focus-ring transition duration-150 ease-linear ring-inset",
                 isSelected && "bg-brand-solid",
                 isSelected && isHovered && "bg-brand-solid_hover",
                 isDisabled && "cursor-not-allowed opacity-50",
@@ -103,7 +103,8 @@ export const Toggle = ({ label, hint, className, size = "sm", slim, ...ariaSwitc
             {...ariaSwitchProps}
             className={(state) =>
                 cx(
-                    "relative flex w-max items-start",
+                    // fit-content (not max-content), so a long hint wraps inside narrow containers instead of overflowing.
+                    "relative flex w-fit max-w-full items-start",
                     state.isDisabled && "cursor-not-allowed",
                     styles[size].root,
                     typeof className === "function" ? className(state) : className,
@@ -123,7 +124,7 @@ export const Toggle = ({ label, hint, className, size = "sm", slim, ...ariaSwitc
                     />
 
                     {(label || hint) && (
-                        <div className={cx("flex flex-col", styles[size].textWrapper)}>
+                        <div className={cx("flex min-w-0 flex-col", styles[size].textWrapper)}>
                             {label && <p className={cx("text-secondary select-none", styles[size].label)}>{label}</p>}
                             {hint && (
                                 <span className={cx("text-tertiary", styles[size].hint)} onClick={(event) => event.stopPropagation()}>

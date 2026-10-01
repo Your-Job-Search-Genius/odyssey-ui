@@ -59,6 +59,14 @@ const flag = (code: string) => `https://www.untitledui.com/images/flags/${code}.
 const useShellProps = (initialUrl = "/dashboard") => {
     const [activeUrl, setActiveUrl] = useState(initialUrl);
     const [language, setLanguage] = useState("en");
+    const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
+    const themeItem = (id: typeof theme, label: string) => ({
+        id: `theme-${id}`,
+        label,
+        section: "Theme",
+        isSelected: theme === id,
+        onAction: () => setTheme(id),
+    });
 
     const props: SidebarLayoutProps = {
         brand: { name: "Writesea" },
@@ -88,6 +96,10 @@ const useShellProps = (initialUrl = "/dashboard") => {
             email: "olivia@writesea.com",
             menuItems: [
                 { id: "settings", label: "Account Settings", icon: User01 },
+                // A single-choice section: announced as menuitemradio, the current one shows a check.
+                themeItem("light", "Light"),
+                themeItem("dark", "Dark"),
+                themeItem("system", "System"),
                 { id: "logout", label: "Log out", icon: LogOut01 },
             ],
         },

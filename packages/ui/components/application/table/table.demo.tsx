@@ -14,14 +14,17 @@ import type { BadgeTypes } from "@/components/base/badges/badge-types";
 import { Badge, type BadgeColor, BadgeWithDot, BadgeWithIcon } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import { CodeBlock } from "@/components/base/code-block/code-block";
 import { DropdownIconSimple } from "@/components/base/dropdown/dropdown-icon-simple";
 import { Input } from "@/components/base/input/input";
 import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
+import { NativeSelect } from "@/components/base/select/select-native";
 import { FileIcon } from "@/components/foundations/file-icons/file-icon";
 import {
     AlertCircle,
     Check,
     ChevronDown,
+    ChevronUp,
     DownloadCloud02,
     Edit01,
     FilterLines,
@@ -1236,3 +1239,110 @@ export const TableOffline = () => {
         </TableCard.Root>
     );
 };
+
+const syncLogs = [
+    { id: "log-1", time: "14:02", source: "HubSpot", status: "Failed", details: '{\n  "error": "rate_limited",\n  "retryAfter": 30,\n  "batch": 4\n}' },
+    { id: "log-2", time: "13:47", source: "Salesforce", status: "Synced", details: '{\n  "records": 200,\n  "durationMs": 1840\n}' },
+    { id: "log-3", time: "13:30", source: "HubSpot", status: "Synced", details: '{\n  "records": 186,\n  "durationMs": 1522\n}' },
+];
+
+/** Rows that expand into a full-width detail row (`Table.Row isDetail` + one `Table.Cell colSpan`). */
+export const TableExpandableRows = () => {
+    const [expanded, setExpanded] = useState<ReadonlySet<string>>(() => new Set(["log-1"]));
+    const toggle = (id: string) =>
+        setExpanded((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+
+    return (
+        <TableCard.Root>
+            <TableCard.Header title="Sync log" description="Expand a row to see the raw response." />
+            <Table aria-label="Sync log">
+                <Table.Header>
+                    <Table.Head id="time" label="Time" isRowHeader />
+                    <Table.Head id="source" label="Source" />
+                    <Table.Head id="status" label="Status" />
+                    <Table.Head id="details" label="Details" />
+                </Table.Header>
+                <Table.Body>
+                    {syncLogs.flatMap((log) => {
+                        const isExpanded = expanded.has(log.id);
+                        const rows = [
+                            <Table.Row key={log.id} id={log.id}>
+                                <Table.Cell className="font-medium text-primary">{log.time}</Table.Cell>
+                                <Table.Cell>{log.source}</Table.Cell>
+                                <Table.Cell>
+                                    <BadgeWithDot size="sm" type="pill-color" color={log.status === "Failed" ? "error" : "success"}>
+                                        {log.status}
+                                    </BadgeWithDot>
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <Button
+                                        size="sm"
+                                        color="link-gray"
+                                        iconTrailing={isExpanded ? ChevronUp : ChevronDown}
+                                        aria-expanded={isExpanded}
+                                        onClick={() => toggle(log.id)}
+                                    >
+                                        {isExpanded ? "Hide details" : "View details"}
+                                    </Button>
+                                </Table.Cell>
+                            </Table.Row>,
+                        ];
+                        if (isExpanded) {
+                            rows.push(
+                                <Table.Row key={`${log.id}-detail`} id={`${log.id}-detail`} isDetail>
+                                    <Table.Cell colSpan={4}>
+                                        <CodeBlock language="Response" code={log.details} />
+                                    </Table.Cell>
+                                </Table.Row>,
+                            );
+                        }
+                        return rows;
+                    })}
+                </Table.Body>
+            </Table>
+        </TableCard.Root>
+    );
+};
+
+/** Filters in their own full-width row, so the description keeps its width. */
+export const TableCardWithFilters = () => (
+    <TableCard.Root>
+        <TableCard.Header
+            title="Contacts"
+            description="Everyone who received at least one campaign email in the last 90 days."
+            contentTrailing={<Button size="sm">Add contact</Button>}
+            filters={
+                <>
+                    <Input aria-label="Search contacts" placeholder="Search" icon={SearchLg} size="sm" className="w-full sm:w-64" />
+                    <NativeSelect
+                        aria-label="Status"
+                        size="sm"
+                        className="w-full sm:w-44"
+                        options={[
+                            { label: "All statuses", value: "all" },
+                            { label: "Subscribed", value: "subscribed" },
+                            { label: "Unsubscribed", value: "unsubscribed" },
+                        ]}
+                    />
+                </>
+            }
+        />
+        <Table aria-label="Contacts">
+            <Table.Header>
+                <Table.Head id="name" label="Name" isRowHeader />
+                <Table.Head id="email" label="Email" />
+            </Table.Header>
+            <Table.Body>
+                <Table.Row id="1">
+                    <Table.Cell className="font-medium text-primary">Olivia Rhye</Table.Cell>
+                    <Table.Cell>olivia@example.com</Table.Cell>
+                </Table.Row>
+            </Table.Body>
+        </Table>
+    </TableCard.Root>
+);

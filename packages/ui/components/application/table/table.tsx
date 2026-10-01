@@ -6,6 +6,7 @@ import type {
     CellProps as AriaCellProps,
     ColumnProps as AriaColumnProps,
     RowProps as AriaRowProps,
+    TableBodyProps as AriaTableBodyProps,
     TableHeaderProps as AriaTableHeaderProps,
     TableProps as AriaTableProps,
 } from "react-aria-components";
@@ -66,39 +67,43 @@ interface TableCardHeaderProps {
     badge?: ReactNode;
     /** The description of the table card header. */
     description?: string;
-    /** The content displayed after the title and badge. */
+    /** Compact actions shown beside the title on desktop (buttons, a menu). Put filters in `filters`. */
     contentTrailing?: ReactNode;
+    /**
+     * A full-width row under the title and description for search fields and filter selects, so
+     * they never squeeze the description into a narrow column.
+     */
+    filters?: ReactNode;
     /** The class name of the table card header. */
     className?: string;
 }
 
-const TableCardHeader = ({ title, badge, description, contentTrailing, className }: TableCardHeaderProps) => {
+const TableCardHeader = ({ title, badge, description, contentTrailing, filters, className }: TableCardHeaderProps) => {
     const { size } = useContext(TableContext);
 
     return (
         <div
-            className={cx(
-                "relative flex flex-col items-start gap-4 border-b border-secondary bg-primary px-4 md:flex-row",
-                size === "sm" ? "py-4 md:px-5" : "py-5 md:px-6",
-                className,
-            )}
+            className={cx("relative flex flex-col gap-4 border-b border-secondary bg-primary px-4", size === "sm" ? "py-4 md:px-5" : "py-5 md:px-6", className)}
         >
-            <div className="flex flex-1 flex-col gap-0.5">
-                <div className="flex items-center gap-2">
-                    <h2 className="text-md font-semibold text-primary">{title}</h2>
-                    {badge ? (
-                        isValidElement(badge) ? (
-                            badge
-                        ) : (
-                            <Badge color="gray" size="sm" type="modern">
-                                {badge}
-                            </Badge>
-                        )
-                    ) : null}
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <div className="flex items-center gap-2">
+                        <h2 className="text-md font-semibold text-primary">{title}</h2>
+                        {badge ? (
+                            isValidElement(badge) ? (
+                                badge
+                            ) : (
+                                <Badge color="gray" size="sm" type="modern">
+                                    {badge}
+                                </Badge>
+                            )
+                        ) : null}
+                    </div>
+                    {description && <p className="text-sm text-tertiary">{description}</p>}
                 </div>
-                {description && <p className="text-sm text-tertiary">{description}</p>}
+                {contentTrailing && <div className="flex shrink-0 flex-wrap items-center gap-3">{contentTrailing}</div>}
             </div>
-            {contentTrailing}
+            {filters && <div className="flex w-full flex-wrap items-end gap-3">{filters}</div>}
         </div>
     );
 };
@@ -216,9 +221,23 @@ interface TableRowProps<T extends object>
     extends AriaRowProps<T>, Omit<ComponentPropsWithRef<"tr">, "children" | "className" | "onClick" | "slot" | "style" | "id"> {
     highlightSelectedRow?: boolean;
     size?: "sm" | "md";
+    /**
+     * Marks an expanded detail row: auto height, no hover fill, and no selection checkbox. Render it
+     * right after its parent row with a single `Table.Cell` whose `colSpan` covers every column
+     * (including the selection column, if the table has one).
+     */
+    isDetail?: boolean;
 }
 
-const TableRow = <T extends object>({ columns, children, className, highlightSelectedRow = true, size: sizeProp, ...props }: TableRowProps<T>) => {
+const TableRow = <T extends object>({
+    columns,
+    children,
+    className,
+    highlightSelectedRow = true,
+    size: sizeProp,
+    isDetail = false,
+    ...props
+}: TableRowProps<T>) => {
     const context = useContext(TableContext);
     const { selectionBehavior } = useTableOptions();
 
@@ -229,9 +248,9 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
             {...props}
             className={(state) =>
                 cx(
-                    "relative outline-focus-ring transition-colors after:pointer-events-none hover:bg-secondary focus-visible:outline-2 focus-visible:-outline-offset-2",
-                    size === "sm" ? "h-14" : "h-18",
-                    highlightSelectedRow && "selected:bg-secondary",
+                    "relative outline-focus-ring transition-colors after:pointer-events-none focus-visible:outline-2 focus-visible:-outline-offset-2",
+                    isDetail ? "bg-secondary_subtle h-auto" : cx("hover:bg-secondary", size === "sm" ? "h-14" : "h-18"),
+                    highlightSelectedRow && !isDetail && "selected:bg-secondary",
 
                     // Row border—using an "after" pseudo-element to avoid the border taking up space.
                     "[&>td]:after:absolute [&>td]:after:inset-x-0 [&>td]:after:bottom-0 [&>td]:after:h-px [&>td]:after:w-full [&>td]:after:bg-border-secondary last:[&>td]:after:hidden [&>td]:focus-visible:after:opacity-0 focus-visible:[&>td]:after:opacity-0",
@@ -240,7 +259,7 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
                 )
             }
         >
-            {selectionBehavior === "toggle" && (
+            {selectionBehavior === "toggle" && !isDetail && (
                 <AriaCell className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "md:pl-5" : "md:pl-6")}>
                     <div className="flex items-end">
                         <Checkbox slot="selection" size="md" />
@@ -254,9 +273,11 @@ const TableRow = <T extends object>({ columns, children, className, highlightSel
 
 TableRow.displayName = "TableRow";
 
-interface TableCellProps extends AriaCellProps, Omit<TdHTMLAttributes<HTMLTableCellElement>, "children" | "className" | "style" | "id"> {
+interface TableCellProps extends AriaCellProps, Omit<TdHTMLAttributes<HTMLTableCellElement>, "children" | "className" | "style" | "id" | "colSpan"> {
     ref?: Ref<HTMLTableCellElement>;
     size?: "sm" | "md";
+    /** Number of columns this cell spans, e.g. the single full-width cell of a `Table.Row isDetail`. */
+    colSpan?: number;
 }
 
 const TableCell = ({ className, children, size: sizeProp, ...props }: TableCellProps) => {
@@ -286,19 +307,27 @@ const TableCell = ({ className, children, size: sizeProp, ...props }: TableCellP
 };
 TableCell.displayName = "TableCell";
 
+/**
+ * The table body. With dynamic `items`, rows are cached by item identity: a cell that reads any
+ * other state (a second query, a pending-mutation flag, an expanded-row set) will not re-render
+ * when only that state changes. List such values in `dependencies={[...]}` so rows refresh.
+ */
+const TableBody = <T extends object>(props: AriaTableBodyProps<T>) => <AriaTableBody {...props} />;
+TableBody.displayName = "TableBody";
+
 const TableCard = {
     Root: TableCardRoot,
     Header: TableCardHeader,
 };
 
 const Table = TableRoot as typeof TableRoot & {
-    Body: typeof AriaTableBody;
+    Body: typeof TableBody;
     Cell: typeof TableCell;
     Head: typeof TableHead;
     Header: typeof TableHeader;
     Row: typeof TableRow;
 };
-Table.Body = AriaTableBody;
+Table.Body = TableBody;
 Table.Cell = TableCell;
 Table.Head = TableHead;
 Table.Header = TableHeader;

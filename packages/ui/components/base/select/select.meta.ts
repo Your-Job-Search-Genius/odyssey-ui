@@ -15,6 +15,7 @@ export const componentMeta = {
     doNot: [
         "Do not use a raw HTML <select> -- always use this component (or Select.ComboBox for a searchable variant).",
         "Do not put anything other than Select.Item (directly, or returned from the items render-prop) inside Select's children.",
+        "Do not autoFocus Select.ComboBox (or ComboBox): its menu opens on focus, so an auto-focused combobox covers the rest of the form.",
     ],
     examples: [
         {

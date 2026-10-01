@@ -75,6 +75,30 @@ const addonOnlyColors = Object.fromEntries(Object.entries(filledColors).map(([ke
     { root: string; addon: string }
 >;
 
+/**
+ * "modern" badges sit on the neutral surface with a subtle shadow; a non-gray color tints the
+ * label and addon (dot, icon, close button) only, so every color reads the same in both themes.
+ */
+const modernColors = Object.fromEntries(
+    Object.entries(filledColors).map(([key, value]) => [
+        key,
+        key === "gray"
+            ? {
+                  root: "bg-primary text-secondary ring-primary",
+                  addon: "text-neutral-500",
+                  addonButton: "hover:bg-utility-neutral-100 text-utility-neutral-400 hover:text-utility-neutral-500",
+              }
+            : {
+                  root: cx(
+                      "bg-primary ring-primary",
+                      value.root.split(" ").find((cls) => cls.startsWith("text-")),
+                  ),
+                  addon: value.addon,
+                  addonButton: value.addonButton,
+              },
+    ]),
+) as Record<BadgeColors, { root: string; addon: string; addonButton: string }>;
+
 const withPillTypes = {
     [badgeTypes.pillColor]: {
         common: "size-max flex items-center whitespace-nowrap rounded-full ring-1 ring-inset",
@@ -86,13 +110,7 @@ const withPillTypes = {
     },
     [badgeTypes.badgeModern]: {
         common: "size-max flex items-center whitespace-nowrap rounded-md ring-1 ring-inset shadow-xs",
-        styles: {
-            gray: {
-                root: "bg-primary text-secondary ring-primary",
-                addon: "text-neutral-500",
-                addonButton: "hover:bg-utility-neutral-100 text-utility-neutral-400 hover:text-utility-neutral-500",
-            },
-        },
+        styles: modernColors,
     },
 };
 

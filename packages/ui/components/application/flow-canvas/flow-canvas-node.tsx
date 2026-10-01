@@ -1,13 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useId } from "react";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { HelpCircle } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { useFlowCanvasContext } from "./flow-canvas-context";
 import { FlowCanvasStatusChip } from "./flow-canvas-primitives";
 import type { FlowNode, FlowRoleDefinition } from "./flow-canvas-types";
-import { NODE_HEIGHT, NODE_WIDTH, nodeStatusOf } from "./flow-canvas-utils";
+import { nodeSize, nodeStatusOf } from "./flow-canvas-utils";
 import { useFlowNodeDrag } from "./use-flow-canvas-drag";
 import type { FlowCanvasFocusItemProps } from "./use-flow-canvas-focus";
 
@@ -54,6 +55,10 @@ export const FlowNodeCard = <TData,>({
     const Icon = node.icon ?? role.icon;
     const status = nodeStatusOf(node.status);
     const sketchy = context.edgeStyle === "sketchy";
+    const { width, height } = nodeSize(node);
+    const descriptionId = useId();
+    const tooltipId = useId();
+    const describedBy = [node.description && descriptionId, node.tooltip && tooltipId].filter(Boolean).join(" ") || undefined;
 
     const { bodyHandlers, handleHandlers, isDragging } = useFlowNodeDrag({
         isReadOnly: context.isReadOnly,
@@ -75,6 +80,7 @@ export const FlowNodeCard = <TData,>({
             role="button"
             aria-label={`${node.label}, ${role.label} node${status !== "idle" ? `, ${status}` : ""}`}
             aria-pressed={isSelected}
+            aria-describedby={describedBy}
             onFocus={focusProps.onFocus}
             onKeyDown={(event) => {
                 focusProps.onKeyDown(event);
@@ -106,9 +112,9 @@ export const FlowNodeCard = <TData,>({
                     onSelect();
                 }
             }}
-            style={{ left: node.x - NODE_WIDTH / 2, top: node.y - NODE_HEIGHT / 2, width: NODE_WIDTH, height: NODE_HEIGHT }}
+            style={{ left: node.x - width / 2, top: node.y - height / 2, width, height }}
             className={cx(
-                "pointer-events-auto absolute flex items-center gap-3 rounded-2xl bg-primary/80 px-3.5 shadow-sm ring-1 ring-secondary backdrop-blur-md transition-[box-shadow,ring-color,opacity] duration-100 ease-linear",
+                "group/flow-node pointer-events-auto absolute flex items-center gap-3 rounded-2xl bg-primary/80 px-3.5 shadow-sm ring-1 ring-secondary backdrop-blur-md transition-[box-shadow,ring-color,opacity] duration-100 ease-linear",
                 context.isReadOnly ? "cursor-default" : isDragging ? "cursor-grabbing" : "cursor-grab",
                 "hover:shadow-lg hover:ring-primary focus-visible:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring",
                 isSelected && "shadow-lg ring-2 ring-brand",
@@ -155,8 +161,28 @@ export const FlowNodeCard = <TData,>({
 
             <span className="pointer-events-none flex min-w-0 flex-1 flex-col gap-0.5">
                 <span className={cx("truncate text-sm font-semibold text-primary", sketchy && "font-handwritten text-base")}>{node.label}</span>
-                {node.description && <span className={cx("truncate text-xs text-tertiary", sketchy && "font-handwritten text-sm")}>{node.description}</span>}
+                {node.description && (
+                    // The visible line truncates; the id'd copy keeps the full text for assistive tech.
+                    <span aria-hidden="true" className={cx("truncate text-xs text-tertiary", sketchy && "font-handwritten text-sm")}>
+                        {node.description}
+                    </span>
+                )}
+                {node.description && (
+                    <span id={descriptionId} className="sr-only">
+                        {node.description}
+                    </span>
+                )}
             </span>
+
+            {node.tooltip && (
+                <span
+                    id={tooltipId}
+                    role="tooltip"
+                    className="pointer-events-none invisible absolute bottom-full left-1/2 z-20 mb-2 w-max max-w-80 -translate-x-1/2 rounded-lg bg-primary-solid px-3 py-2 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity duration-100 ease-linear group-hover/flow-node:visible group-hover/flow-node:opacity-100 group-focus-visible/flow-node:visible group-focus-visible/flow-node:opacity-100"
+                >
+                    {node.tooltip}
+                </span>
+            )}
 
             {renderContent?.(node)}
 

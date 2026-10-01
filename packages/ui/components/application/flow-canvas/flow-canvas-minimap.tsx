@@ -5,7 +5,7 @@ import type { FlowViewport } from "@/hooks/use-flow-viewport";
 import { cx } from "@/utils/cx";
 import { useFlowCanvasContext } from "./flow-canvas-context";
 import type { FlowNode, FlowPoint, FlowRoleColor } from "./flow-canvas-types";
-import { NODE_HEIGHT, NODE_WIDTH, graphBounds } from "./flow-canvas-utils";
+import { graphBounds, nodeBounds } from "./flow-canvas-utils";
 
 const ROLE_TEXT_CLASS: Record<FlowRoleColor, string> = {
     brand: "text-fg-brand-primary",
@@ -64,10 +64,10 @@ export const FlowCanvasMinimap = <TData,>({ nodes, viewport, containerSize, onNa
                 return (
                     <rect
                         key={node.id}
-                        x={node.x - NODE_WIDTH / 2}
-                        y={node.y - NODE_HEIGHT / 2}
-                        width={NODE_WIDTH}
-                        height={NODE_HEIGHT}
+                        x={nodeBounds(node).minX}
+                        y={nodeBounds(node).minY}
+                        width={nodeBounds(node).maxX - nodeBounds(node).minX}
+                        height={nodeBounds(node).maxY - nodeBounds(node).minY}
                         rx={14}
                         fill="currentColor"
                         className={cx("opacity-80", role ? ROLE_TEXT_CLASS[role.color] : "text-fg-quaternary")}

@@ -1,9 +1,9 @@
 "use client";
 
-import type { FC, ReactNode } from "react";
+import { type FC, Fragment, type ReactNode } from "react";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { BottomSheet } from "@/components/application/bottom-sheet/bottom-sheet";
-import { DotsHorizontal, Globe01 } from "@/components/foundations/icons";
+import { Check, DotsHorizontal, Globe01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { LanguagePill } from "./sidebar-footer";
 import {
@@ -15,6 +15,7 @@ import {
     type SidebarNavItem,
     getInitials,
     getItemHref,
+    groupMenuItems,
     isBranchActive,
     useSidebar,
 } from "./sidebar-shared";
@@ -32,11 +33,13 @@ interface SheetRowProps {
     onPress?: () => void;
     isUtility?: boolean;
     isActive?: boolean;
+    /** Marks a choice row (e.g. the current theme): shows a check and is announced as pressed. */
+    isChecked?: boolean;
     children?: ReactNode;
 }
 
 /** A row inside the More sheet. Utility rows (language, help) are tighter and lower-contrast, like the client app. */
-const SheetRow = ({ icon: Icon, label, href, onPress, isUtility, isActive, children }: SheetRowProps) => {
+const SheetRow = ({ icon: Icon, label, href, onPress, isUtility, isActive, isChecked, children }: SheetRowProps) => {
     const className = cx(
         "flex w-full items-center gap-3 px-4 text-left text-sm font-semibold outline-focus-ring focus-visible:outline-2 focus-visible:-outline-offset-2",
         isUtility ? "py-1 text-tertiary" : "py-3",
@@ -52,6 +55,7 @@ const SheetRow = ({ icon: Icon, label, href, onPress, isUtility, isActive, child
             )}
             <span className="truncate">{label}</span>
             {children}
+            {isChecked && <Check aria-hidden="true" className="ml-auto size-5 shrink-0 text-fg-brand-primary" />}
         </>
     );
 
@@ -63,7 +67,7 @@ const SheetRow = ({ icon: Icon, label, href, onPress, isUtility, isActive, child
         );
     if (onPress)
         return (
-            <AriaButton onPress={onPress} className={className}>
+            <AriaButton onPress={onPress} aria-pressed={isChecked} className={className}>
                 {content}
             </AriaButton>
         );
@@ -153,19 +157,30 @@ export const SidebarMobileNav = ({ items, primaryCount, isHidden, brand, footerI
                                             </li>
                                         );
                                     })}
-                                    {account?.menuItems?.map((menuItem) => (
-                                        <li key={menuItem.id}>
-                                            <SheetRow
-                                                icon={menuItem.icon}
-                                                label={menuItem.label}
-                                                href={menuItem.href}
-                                                onPress={() => {
-                                                    close();
-                                                    menuItem.onAction?.();
-                                                }}
-                                            />
-                                        </li>
-                                    ))}
+                                    {account?.menuItems &&
+                                        groupMenuItems(account.menuItems).map((group) => (
+                                            <Fragment key={group.items[0].id}>
+                                                {group.section && (
+                                                    <li role="presentation" className="px-4 pt-2 text-xs font-semibold text-quaternary">
+                                                        {group.section}
+                                                    </li>
+                                                )}
+                                                {group.items.map((menuItem) => (
+                                                    <li key={menuItem.id}>
+                                                        <SheetRow
+                                                            icon={group.isChoice ? undefined : menuItem.icon}
+                                                            label={menuItem.label}
+                                                            href={menuItem.href}
+                                                            isChecked={group.isChoice ? !!menuItem.isSelected : undefined}
+                                                            onPress={() => {
+                                                                close();
+                                                                menuItem.onAction?.();
+                                                            }}
+                                                        />
+                                                    </li>
+                                                ))}
+                                            </Fragment>
+                                        ))}
                                 </ul>
 
                                 <ul className="mt-4 flex flex-col gap-4">

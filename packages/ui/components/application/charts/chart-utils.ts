@@ -88,6 +88,16 @@ export const toNumber = (value: unknown): number => {
     return Number.isFinite(n) ? n : 0;
 };
 
+/** True when a datum field holds no number at all (null, undefined, NaN, empty string) -- a gap, not a zero. */
+export const isMissingValue = (value: unknown): boolean => {
+    if (value === null || value === undefined || value === "") return true;
+    const n = typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+    return !Number.isFinite(n);
+};
+
+/** Shown wherever a missing value would otherwise print (tooltips, tables, descriptions). */
+export const MISSING_VALUE_LABEL = "—";
+
 /** Coerces an unknown datum field to a display string. */
 export const toLabel = (value: unknown): string => {
     if (value instanceof Date) return value.toLocaleDateString(undefined, { month: "short", day: "numeric" });

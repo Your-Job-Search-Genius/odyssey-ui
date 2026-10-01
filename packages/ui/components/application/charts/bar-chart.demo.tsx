@@ -172,3 +172,24 @@ export const BarChartEmpty = () => (
         height={200}
     />
 );
+
+const funnel = [
+    { stage: "Sent", contacts: 1284 },
+    { stage: "Opened", contacts: 642 },
+    { stage: "Clicked", contacts: 188 },
+    { stage: "Replied", contacts: 61 },
+];
+
+/** One series, one color per category (`colorBy="index"`), e.g. funnel stages. */
+export const BarChartColorByIndex = () => (
+    <BarChart
+        label="Contacts reached at each stage"
+        title="Funnel diagnostic"
+        data={funnel}
+        xKey="stage"
+        colorBy="index"
+        showValues
+        height={240}
+        series={[{ key: "contacts", name: "Contacts" }]}
+    />
+);

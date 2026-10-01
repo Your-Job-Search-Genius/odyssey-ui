@@ -325,3 +325,43 @@ function useDebouncedServerSearch(setItems: (items: ComboBoxItemType[]) => void,
         [setItems, setIsLoading],
     );
 }
+
+const schools: ComboBoxItemType[] = Array.from({ length: 64 }, (_, index) => ({
+    id: `school-${index + 1}`,
+    label: `${["Northfield", "Lakeside", "Riverside", "Hillcrest"][index % 4]} School ${index + 1}`,
+}));
+
+// Infinite scroll: 20 results per page, the next page loads when the menu is scrolled near its end.
+// The footer button is the visible fallback for users who can't scroll the list.
+export const LoadMoreDemo = () => {
+    const list = useAsyncList<ComboBoxItemType, number>({
+        async load({ cursor, filterText }) {
+            await new Promise((resolve) => setTimeout(resolve, 400));
+            const matches = schools.filter((school) => school.label?.toLowerCase().includes((filterText ?? "").toLowerCase()));
+            const start = cursor ?? 0;
+            return { items: matches.slice(start, start + 20), cursor: start + 20 < matches.length ? start + 20 : undefined };
+        },
+    });
+    const loadingState = list.loadingState === "loadingMore" ? "loadingMore" : list.isLoading ? "loading" : "idle";
+
+    return (
+        <ComboBox
+            label="School"
+            placeholder="Search schools"
+            items={list.items}
+            inputValue={list.filterText}
+            onInputChange={list.setFilterText}
+            onLoadMore={list.loadMore}
+            loadingState={loadingState}
+            footer={
+                <ComboBox.Footer>
+                    <Button size="sm" color="link-color" isDisabled={loadingState !== "idle"} onClick={() => list.loadMore()}>
+                        Load more schools
+                    </Button>
+                </ComboBox.Footer>
+            }
+        >
+            {(item) => <ComboBox.Item id={item.id}>{item.label}</ComboBox.Item>}
+        </ComboBox>
+    );
+};

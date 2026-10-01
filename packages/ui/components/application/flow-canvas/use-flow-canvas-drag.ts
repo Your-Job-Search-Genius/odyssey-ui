@@ -71,12 +71,17 @@ export function useFlowNodeDrag(options: UseFlowNodeDragOptions): UseFlowNodeDra
     const bodyHandlers: FlowNodeDragHandlers = {
         onPointerDown: useCallback(
             (event) => {
-                if (isReadOnly || event.button !== 0) return;
+                if (event.button !== 0) return;
                 event.stopPropagation();
+                if (isReadOnly) {
+                    // Read-only still selects (the inspector shows the node) -- it just never drags.
+                    onClick();
+                    return;
+                }
                 beginDrag(event, "move");
                 setIsDragging(true);
             },
-            [isReadOnly, beginDrag],
+            [isReadOnly, beginDrag, onClick],
         ),
         onPointerMove: useCallback(
             (event) => {

@@ -2,6 +2,7 @@
 
 import type { FC, ReactNode, RefAttributes } from "react";
 import { isValidElement, useCallback, useRef, useState } from "react";
+import { useControlledState } from "@react-stately/utils";
 import { useFilter } from "react-aria";
 import type { Selection } from "react-aria-components";
 import {
@@ -15,6 +16,7 @@ import {
     SearchField as AriaSearchField,
 } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
+import { ComboBoxLoadingState } from "@/components/base/combobox/combobox-parts";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
@@ -155,6 +157,20 @@ interface MultiSelectProps extends RefAttributes<HTMLDivElement>, CommonProps {
     supportingText?: ReactNode;
     /** Leading icon rendered in the trigger, before the placeholder / selected count. Matches `Select`'s `icon`. */
     icon?: FC | ReactNode;
+    /** The search text (controlled). Pair with `onInputChange` and `filter={null}` for server-side search. */
+    inputValue?: string;
+    /** The initial search text (uncontrolled). Uncontrolled search text is cleared when the popover closes. */
+    defaultInputValue?: string;
+    /** Handler that is called when the search text changes. */
+    onInputChange?: (value: string) => void;
+    /**
+     * How items are matched against the search text. Pass `null` to turn local filtering off, e.g.
+     * when `items` already holds the server's results for the current `inputValue`.
+     * @default case- and accent-insensitive "contains"
+     */
+    filter?: ((textValue: string, inputValue: string) => boolean) | null;
+    /** Shows a loading state in the list (e.g. while server results for the search text are in flight). */
+    isLoading?: boolean;
 }
 
 const MultiSelectRoot = ({
@@ -183,9 +199,16 @@ const MultiSelectRoot = ({
     selectedCountFormatter,
     supportingText,
     icon,
+    inputValue,
+    defaultInputValue,
+    onInputChange,
+    filter,
+    isLoading,
 }: MultiSelectProps) => {
     const { contains } = useFilter({ sensitivity: "base" });
-    const [searchValue, setSearchValue] = useState("");
+    const [searchValue, setSearchValue] = useControlledState(inputValue, defaultInputValue ?? "", onInputChange);
+    // Tracked here (not only inside the ListBox) so the trigger's "N selected" also works uncontrolled.
+    const [selection, setSelection] = useControlledState<Selection>(selectedKeys, defaultSelectedKeys ?? new Set(), onSelectionChange);
 
     const triggerRef = useRef<HTMLButtonElement>(null);
     const [popoverWidth, setPopoverWidth] = useState("");
@@ -196,7 +219,7 @@ const MultiSelectRoot = ({
         setPopoverWidth(rect.width + "px");
     }, []);
 
-    const selectedCount = selectedKeys instanceof Set ? selectedKeys.size : selectedKeys === "all" ? (items?.length ?? 0) : 0;
+    const selectedCount = selection === "all" ? (items?.length ?? 0) : selection.size;
     const hasSelection = selectedCount > 0;
 
     // Capitalized alias so a function-component icon can be rendered as JSX (mirrors Select).
@@ -204,7 +227,7 @@ const MultiSelectRoot = ({
 
     const handleClearSearch = useCallback(() => {
         setSearchValue("");
-    }, []);
+    }, [setSearchValue]);
 
     return (
         <SelectContext.Provider value={{ size }}>
@@ -215,7 +238,12 @@ const MultiSelectRoot = ({
                     </Label>
                 )}
 
-                <AriaDialogTrigger>
+                <AriaDialogTrigger
+                    onOpenChange={(isOpen) => {
+                        // A stale query from last time would hide most options on reopen.
+                        if (!isOpen && inputValue === undefined) setSearchValue("");
+                    }}
+                >
                     <AriaButton
                         ref={triggerRef}
                         isDisabled={isDisabled}
@@ -272,7 +300,11 @@ const MultiSelectRoot = ({
                         }
                     >
                         <AriaDialog className="outline-hidden">
-                            <AriaAutocomplete filter={contains} inputValue={searchValue} onInputChange={setSearchValue}>
+                            <AriaAutocomplete
+                                filter={filter === null ? undefined : (filter ?? contains)}
+                                inputValue={searchValue}
+                                onInputChange={setSearchValue}
+                            >
                                 {showSearch && (
                                     <div className={cx("border-b border-secondary", searchSizes[size].wrapper)}>
                                         <AriaSearchField aria-label="Search" value={searchValue} onChange={setSearchValue} autoFocus>
@@ -294,16 +326,22 @@ const MultiSelectRoot = ({
                                     aria-label={label || "Options"}
                                     items={items}
                                     selectionMode="multiple"
-                                    selectedKeys={selectedKeys}
-                                    defaultSelectedKeys={defaultSelectedKeys}
-                                    onSelectionChange={onSelectionChange}
-                                    renderEmptyState={() => (
-                                        <MultiSelectEmptyState
-                                            title={emptyStateTitle}
-                                            description={emptyStateDescription}
-                                            onClearSearch={searchValue ? handleClearSearch : undefined}
-                                        />
-                                    )}
+                                    // React Aria's default ("clearSelection") wiped every selection when Escape
+                                    // was pressed to close the popover. Escape now only closes it.
+                                    escapeKeyBehavior="none"
+                                    selectedKeys={selection}
+                                    onSelectionChange={setSelection}
+                                    renderEmptyState={() =>
+                                        isLoading ? (
+                                            <ComboBoxLoadingState />
+                                        ) : (
+                                            <MultiSelectEmptyState
+                                                title={emptyStateTitle}
+                                                description={emptyStateDescription}
+                                                onClearSearch={searchValue ? handleClearSearch : undefined}
+                                            />
+                                        )
+                                    }
                                     className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size])}
                                 >
                                     {children}
