@@ -77,9 +77,21 @@ const edges = [
 | `status` | `"idle" \| "active" \| "traversed" \| "muted"` | Execution status. Defaults to `"idle"`.                                                                     |
 | `data`   | `TEdgeData?`                                   | Consumer data (e.g. a branch condition), kept on every update. Type it with `FlowCanvas<TData, TEdgeData>`. |
 
-Edges connect a node's single "out" handle to another node's single "in" handle; multiple named ports per node are not supported yet.
+**Ports.** By default a node has one "in" handle (left) and one "out" handle (right). Give it `outputs` (and/or `inputs`) -- e.g. `outputs: [{ id: "yes", label: "Yes" }, { id: "no", label: "No" }]` -- to get one labelled handle per port, spread down the card edge. Edges record the ports as `sourcePort` / `targetPort`; dragging from a handle connects that port, and dropping on a named input targets it (dropping on the card uses the first input). An edge without a port id attaches to the node's first port.
 
-**Connecting rules.** Dragging a handle onto another node adds `{ id: "e-{source}-{target}-{base36 timestamp}", source, target }` through `onEdgesChange` **and** fires `onConnect` -- add edges in one of the two, not both. Self-loops and a second edge in the same direction between the same two nodes are refused (and announced). Edge ids are opaque; don't parse them.
+| Field (FlowNode)    | Type                                | Description                   |
+| :------------------ | :---------------------------------- | :---------------------------- |
+| `inputs`, `outputs` | `{ id: string; label?: string }[]?` | Named handles, top to bottom. |
+
+| Field (FlowEdge)           | Type      | Description                                             |
+| :------------------------- | :-------- | :------------------------------------------------------ |
+| `sourcePort`, `targetPort` | `string?` | Port ids on the source's `outputs` / target's `inputs`. |
+
+**Connecting rules.** Dragging a handle onto a node adds `{ id, source, target, sourcePort?, targetPort? }` through `onEdgesChange` **and** fires `onConnect` with the same connection -- add edges in one of the two, not both.
+
+- `allowSelfLoops` (default `false`) lets a node connect to itself; the loop arcs over the card. When off, the attempt is refused and announced.
+- `allowDuplicateEdges` (default `false`) allows several edges between the same output and input; they fan apart so each stays clickable. When off, an identical second connection is refused and announced (other ports of the same two nodes still connect).
+- `createEdgeId(connection)` sets the id of a connected edge (default `e-{source}-{target}-{base36 timestamp}`), and `createNodeId()` the id of a node added from the toolbar (default `n-{base36 timestamp}-{random}`). Use them when your backend expects its own id format.
 
 **Fitting the view.** The canvas fits the graph when its container is first measured and again the first time nodes appear (so a graph loaded after mount is framed). Pass `fitViewKey` (e.g. the workflow or revision id) to refit whenever it changes.
 
@@ -134,6 +146,12 @@ Editable graph with the top toolbar and the right inspector turned off. Zoom, th
 A local, demo-only fixture computes a topological execution order and alternates which branch a decision node takes each run, driving `status` and `runLog` through the same public props any real integration would use.
 
 <ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasRunSimulation" />
+
+### Named ports, loops and edge data
+
+A decision with Yes / No outputs, edge `data` for each branch, a taller card with a tooltip, and a retry self-loop.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasPorts" />
 
 ### Empty state
 

@@ -8,7 +8,7 @@ import { Grid01, Route, Trash01 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { useFlowCanvasContext } from "./flow-canvas-context";
 import type { FlowEdge, FlowNode, FlowRunLogEntry, FlowSelection } from "./flow-canvas-types";
-import { NODE_STATUS_LABEL, nodeStatusOf } from "./flow-canvas-utils";
+import { NODE_STATUS_LABEL, nodeStatusOf, portLabel, resolvePortId } from "./flow-canvas-utils";
 
 export interface FlowCanvasInspectorProps<TData = unknown> {
     selection: FlowSelection;
@@ -133,7 +133,11 @@ export const FlowCanvasInspector = <TData,>({
                                                 &rarr;
                                             </span>
                                             {other.label}
-                                            {edge.label && <span className="ml-auto text-quaternary">{edge.label}</span>}
+                                            {(edge.label ?? portLabel(node.outputs, resolvePortId(node.outputs, edge.sourcePort))) && (
+                                                <span className="ml-auto text-quaternary">
+                                                    {edge.label ?? portLabel(node.outputs, resolvePortId(node.outputs, edge.sourcePort))}
+                                                </span>
+                                            )}
                                         </button>
                                     ) : null;
                                 })}
@@ -156,6 +160,8 @@ export const FlowCanvasInspector = <TData,>({
         if (edge) {
             const source = nodes.find((n) => n.id === edge.source);
             const target = nodes.find((n) => n.id === edge.target);
+            const outLabel = portLabel(source?.outputs, resolvePortId(source?.outputs, edge.sourcePort));
+            const inLabel = portLabel(target?.inputs, resolvePortId(target?.inputs, edge.targetPort));
             return (
                 <div className="flex h-full flex-col gap-4">
                     <div className="flex items-center gap-3">
@@ -163,7 +169,9 @@ export const FlowCanvasInspector = <TData,>({
                         <div className="min-w-0">
                             <p className="text-xs text-quaternary">Edge</p>
                             <p className="truncate text-sm font-semibold text-primary">
-                                {source?.label ?? edge.source} &rarr; {target?.label ?? edge.target}
+                                {source?.label ?? edge.source}
+                                {outLabel && ` (${outLabel})`} &rarr; {target?.label ?? edge.target}
+                                {inLabel && ` (${inLabel})`}
                             </p>
                         </div>
                     </div>

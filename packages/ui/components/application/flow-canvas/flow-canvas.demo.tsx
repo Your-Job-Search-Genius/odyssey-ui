@@ -220,3 +220,52 @@ export const FlowCanvasEmpty = () => <FlowCanvas defaultNodes={[]} defaultEdges=
 // Re-exported so the "Custom roles" example in the docs page can show the
 // full default registry alongside the one role it adds.
 export { DEFAULT_FLOW_ROLES };
+
+type Branch = { condition: string };
+
+const branchingNodes: FlowNode[] = [
+    { id: "enrolled", label: "Contact enrolled", description: "Tag added", role: "start", x: 80, y: 200 },
+    {
+        id: "opened",
+        label: "Opened email?",
+        description: "Within 3 days",
+        tooltip: "Checks whether the contact opened the welcome email within 3 days of enrolment.",
+        role: "decision",
+        x: 400,
+        y: 200,
+        height: 104,
+        outputs: [
+            { id: "yes", label: "Yes" },
+            { id: "no", label: "No" },
+        ],
+    },
+    { id: "nurture", label: "Send nurture", description: "Day 4", role: "process", x: 760, y: 100 },
+    { id: "resend", label: "Resend welcome", description: "New subject line", role: "warning", x: 760, y: 320 },
+];
+
+const branchingEdges: FlowEdge<Branch>[] = [
+    { id: "e-enrolled-opened", source: "enrolled", target: "opened" },
+    { id: "e-opened-yes", source: "opened", sourcePort: "yes", target: "nurture", data: { condition: "opened" } },
+    { id: "e-opened-no", source: "opened", sourcePort: "no", target: "resend", data: { condition: "not_opened" } },
+    // A retry loop: allowed with allowSelfLoops, drawn as an arc over the card.
+    { id: "e-resend-loop", source: "resend", target: "resend", label: "retry" },
+];
+
+/**
+ * Named output ports (a decision's Yes / No), edge `data`, a taller card with a tooltip, a self-loop,
+ * and app-controlled edge ids. Drag from a specific handle to connect that branch.
+ */
+export const FlowCanvasPorts = () => {
+    const [edges, setEdges] = useState<FlowEdge<Branch>[]>(() => branchingEdges.map((edge) => ({ ...edge })));
+
+    return (
+        <FlowCanvas<unknown, Branch>
+            defaultNodes={branchingNodes.map((node) => ({ ...node }))}
+            edges={edges}
+            onEdgesChange={setEdges}
+            allowSelfLoops
+            createEdgeId={({ source, sourcePort, target }) => `edge-${source}${sourcePort ? `-${sourcePort}` : ""}-${target}-${edges.length + 1}`}
+            height={460}
+        />
+    );
+};

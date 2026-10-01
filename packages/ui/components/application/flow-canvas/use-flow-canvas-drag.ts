@@ -25,7 +25,8 @@ export interface UseFlowNodeDragOptions {
     onMoveEnd: () => void;
     /** Called on pointer-up when the pointer never moved past the click threshold. */
     onClick: () => void;
-    onConnectStart?: () => void;
+    /** Called when a connect-drag starts, with the `data-flow-port-id` of the handle it started on (if any). */
+    onConnectStart?: (portId: string | undefined) => void;
     /** Called continuously while dragging from the "out" handle, with raw client coordinates. */
     onConnectMoveTo?: (clientX: number, clientY: number) => void;
     /** Called once on pointer-up after a connect-drag, with whatever element is under the pointer. */
@@ -115,8 +116,11 @@ export function useFlowNodeDrag(options: UseFlowNodeDragOptions): UseFlowNodeDra
             (event) => {
                 if (isReadOnly || event.button !== 0) return;
                 event.stopPropagation();
+                // No text selection or native drag from the handle (or its port label): either would
+                // turn the gesture into a pointercancel and drop the connection.
+                event.preventDefault();
                 beginDrag(event, "connect");
-                onConnectStart?.();
+                onConnectStart?.(event.currentTarget.dataset.flowPortId);
             },
             [isReadOnly, beginDrag, onConnectStart],
         ),
@@ -137,8 +141,11 @@ export function useFlowNodeDrag(options: UseFlowNodeDragOptions): UseFlowNodeDra
             [onConnectEnd],
         ),
         onPointerCancel: useCallback(() => {
+            const wasConnecting = dragRef.current?.mode === "connect";
             dragRef.current = null;
-        }, []),
+            // Clears the dashed preview; a null drop target creates nothing.
+            if (wasConnecting) onConnectEnd?.(null);
+        }, [onConnectEnd]),
     };
 
     return { bodyHandlers, handleHandlers, isDragging };

@@ -25,7 +25,19 @@ import type {
     FlowSelection,
     FlowSpeed,
 } from "./flow-canvas-types";
-import { DEFAULT_GRID_SIZE, SPEED_DURATIONS, buildEdgePath, graphBounds, mergeRoles, nodeInAnchor, nodeOutAnchor, snapValue } from "./flow-canvas-utils";
+import {
+    DEFAULT_GRID_SIZE,
+    SPEED_DURATIONS,
+    buildEdgePath,
+    graphBounds,
+    mergeRoles,
+    nodeBounds,
+    nodeInAnchor,
+    nodeOutAnchor,
+    portLabel,
+    resolvePortId,
+    snapValue,
+} from "./flow-canvas-utils";
 import { edgeFocusKey, useFlowCanvasFocus } from "./use-flow-canvas-focus";
 
 /** The six built-in roles. Extend or override any of them with the `roles` prop -- unspecified fields are kept. */
@@ -50,11 +62,23 @@ export interface FlowCanvasProps<TData = unknown, TEdgeData = unknown> {
     /** Initial edges for uncontrolled use. */
     defaultEdges?: FlowEdge<TEdgeData>[];
     /**
-     * Fired with the full edge array after any change. Connecting two nodes adds the edge here
-     * (id `e-{source}-{target}-{base36 timestamp}`) *and* fires `onConnect`, so add edges in only
-     * one of the two. Self-loops and a second edge in the same direction between two nodes are refused.
+     * Fired with the full edge array after any change. Connecting two nodes adds the edge here *and*
+     * fires `onConnect`, so add edges in only one of the two. See `allowSelfLoops`,
+     * `allowDuplicateEdges` and `createEdgeId` for what a connect creates.
      */
     onEdgesChange?: (edges: FlowEdge<TEdgeData>[]) => void;
+    /** Lets a node connect to itself (drawn as a loop over the card). Refused and announced when false. @default false */
+    allowSelfLoops?: boolean;
+    /**
+     * Allows more than one edge between the same output and input (they fan apart). When false, a
+     * second identical connection is refused and announced; other ports of the same nodes still connect.
+     * @default false
+     */
+    allowDuplicateEdges?: boolean;
+    /** Id for an edge created by connecting. @default `e-{source}-{target}-{base36 timestamp}` */
+    createEdgeId?: (connection: FlowConnection) => string;
+    /** Id for a node created by the toolbar's "Add node". @default `n-{base36 timestamp}-{random}` */
+    createNodeId?: () => string;
 
     /** Id of the selected node or edge (both share one id namespace). */
     selectedId?: string | null;
@@ -191,6 +215,10 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
     onRunRequest,
     onReset,
     fitViewKey,
+    allowSelfLoops = false,
+    allowDuplicateEdges = false,
+    createEdgeId,
+    createNodeId,
 }: FlowCanvasProps<TData, TEdgeData>) => {
     const instanceId = useId();
     const sketchyFilterId = `${instanceId}-sketchy`;
@@ -374,7 +402,7 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
         const center = viewportApi.screenToCanvas((rect?.left ?? 0) + size.width / 2, (rect?.top ?? 0) + size.height / 2);
         const defaults = typeof newNodeDefaults === "function" ? newNodeDefaults() : newNodeDefaults;
         const newNode = {
-            id: `n-${Date.now().toString(36)}-${Math.round(Math.random() * 1e4).toString(36)}`,
+            id: createNodeId?.() ?? `n-${Date.now().toString(36)}-${Math.round(Math.random() * 1e4).toString(36)}`,
             label: "New step",
             description: "Describe this step",
             role: Object.keys(roles)[0] ?? "process",
@@ -386,7 +414,7 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
         onNodeAdd?.(newNode);
         selectNode(newNode.id);
         announce("Node added");
-    }, [isReadOnly, viewportApi, size, newNodeDefaults, roles, snapToGrid, gridSize, setNodes, onNodeAdd, selectNode, announce]);
+    }, [isReadOnly, viewportApi, size, newNodeDefaults, roles, snapToGrid, gridSize, setNodes, onNodeAdd, selectNode, announce, createNodeId]);
 
     const resetViewport = useCallback(() => {
         viewportApi.fitToBounds(graphBounds(nodesRef.current));
@@ -394,42 +422,102 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
     }, [viewportApi, onReset]);
 
     // --- connecting ---------------------------------------------------------------
-    const [tempEdge, setTempEdge] = useState<{ sourceId: string; point: { x: number; y: number }; hoverId: string | null } | null>(null);
+    const [tempEdge, setTempEdge] = useState<{
+        sourceId: string;
+        sourcePort?: string;
+        point: { x: number; y: number };
+        hoverId: string | null;
+    } | null>(null);
+    // The drop handler runs in the same gesture as the last move; read the port from a ref, not state.
+    const tempEdgeRef = useRef(tempEdge);
+    tempEdgeRef.current = tempEdge;
 
-    const connectStart = useCallback((sourceId: string) => {
+    const connectStart = useCallback((sourceId: string, portId: string | undefined) => {
         const source = nodesRef.current.find((n) => n.id === sourceId);
         if (!source) return;
-        setTempEdge({ sourceId, point: nodeOutAnchor(source), hoverId: null });
+        const sourcePort = resolvePortId(source.outputs, portId);
+        setTempEdge({ sourceId, sourcePort, point: nodeOutAnchor(source, sourcePort), hoverId: null });
     }, []);
     const connectMoveTo = useCallback(
         (sourceId: string, clientX: number, clientY: number) => {
             const point = viewportApi.screenToCanvas(clientX, clientY);
             const target = document.elementFromPoint(clientX, clientY)?.closest<HTMLElement>("[data-flow-node-id]");
-            const hoverId = target && target.dataset.flowNodeId !== sourceId ? (target.dataset.flowNodeId ?? null) : null;
+            const hoverId = target && (allowSelfLoops || target.dataset.flowNodeId !== sourceId) ? (target.dataset.flowNodeId ?? null) : null;
             setTempEdge((prev) => (prev ? { ...prev, point, hoverId } : prev));
         },
-        [viewportApi],
+        [viewportApi, allowSelfLoops],
     );
     const connectEnd = useCallback(
-        (sourceId: string, dropElement: Element | null) => {
+        (sourceId: string, sourcePort: string | undefined, dropElement: Element | null) => {
             const targetEl = dropElement?.closest<HTMLElement>("[data-flow-node-id]");
             const targetId = targetEl?.dataset.flowNodeId;
             setTempEdge(null);
-            if (!targetId || targetId === sourceId) return;
-            if (edgesRef.current.some((e) => e.source === sourceId && e.target === targetId)) {
+            if (!targetId) return;
+            if (targetId === sourceId && !allowSelfLoops) {
+                announce("A node can't connect to itself");
+                return;
+            }
+            const targetNode = nodesRef.current.find((n) => n.id === targetId);
+            const targetPort = resolvePortId(targetNode?.inputs, dropElement?.closest<HTMLElement>("[data-flow-in-port-id]")?.dataset.flowInPortId);
+            const sourceNode = nodesRef.current.find((n) => n.id === sourceId);
+            // Compare resolved ports: an edge stored without a port means the node's first port.
+            const isSameConnection = (e: FlowEdge<TEdgeData>) =>
+                e.source === sourceId &&
+                e.target === targetId &&
+                resolvePortId(sourceNode?.outputs, e.sourcePort) === sourcePort &&
+                resolvePortId(targetNode?.inputs, e.targetPort) === targetPort;
+            if (!allowDuplicateEdges && edgesRef.current.some(isSameConnection)) {
                 announce("Those nodes are already connected");
                 return;
             }
-            const newEdge = { id: `e-${sourceId}-${targetId}-${Date.now().toString(36)}`, source: sourceId, target: targetId } as FlowEdge<TEdgeData>;
+            const connection: FlowConnection = { source: sourceId, target: targetId };
+            if (sourcePort !== undefined) connection.sourcePort = sourcePort;
+            if (targetPort !== undefined) connection.targetPort = targetPort;
+            const newEdge = {
+                id: createEdgeId?.(connection) ?? `e-${sourceId}-${targetId}-${Date.now().toString(36)}`,
+                ...connection,
+            } as FlowEdge<TEdgeData>;
             setEdges([...edgesRef.current, newEdge]);
-            onConnect?.({ source: sourceId, target: targetId });
+            onConnect?.(connection);
             selectEdge(newEdge.id);
-            const sourceLabel = nodesRef.current.find((n) => n.id === sourceId)?.label ?? sourceId;
-            const targetLabel = nodesRef.current.find((n) => n.id === targetId)?.label ?? targetId;
-            announce(`Connected ${sourceLabel} to ${targetLabel}`);
+            const sourceLabel = sourceNode?.label ?? sourceId;
+            const outLabel = portLabel(sourceNode?.outputs, sourcePort);
+            const targetLabel = targetNode?.label ?? targetId;
+            announce(`Connected ${sourceLabel}${outLabel ? ` (${outLabel})` : ""} to ${targetLabel}`);
         },
-        [setEdges, onConnect, selectEdge, announce],
+        [setEdges, onConnect, selectEdge, announce, allowSelfLoops, allowDuplicateEdges, createEdgeId],
     );
+
+    // Path, label midpoint and accessible name per edge. Parallel edges between the same ports fan
+    // apart, and self-loops arc over their node, so every edge stays visible and clickable.
+    const edgeGeometry = useMemo(() => {
+        const byId = new Map(nodes.map((node) => [node.id, node]));
+        const groupKey = (e: FlowEdge<TEdgeData>) => `${e.source}\u0000${e.sourcePort ?? ""}\u0000${e.target}\u0000${e.targetPort ?? ""}`;
+        const groupSize = new Map<string, number>();
+        for (const edge of edges) groupSize.set(groupKey(edge), (groupSize.get(groupKey(edge)) ?? 0) + 1);
+        const seen = new Map<string, number>();
+        const geometry = new Map<string, { d: string; mid: { x: number; y: number }; label: string }>();
+        for (const edge of edges) {
+            const source = byId.get(edge.source);
+            const target = byId.get(edge.target);
+            if (!source || !target) continue;
+            const key = groupKey(edge);
+            const index = seen.get(key) ?? 0;
+            seen.set(key, index + 1);
+            const count = groupSize.get(key) ?? 1;
+            const sourcePort = resolvePortId(source.outputs, edge.sourcePort);
+            const targetPort = resolvePortId(target.inputs, edge.targetPort);
+            const path =
+                source.id === target.id
+                    ? buildEdgePath(nodeOutAnchor(source, sourcePort), nodeInAnchor(target, targetPort), { loopTop: nodeBounds(source).minY - 36 - index * 20 })
+                    : buildEdgePath(nodeOutAnchor(source, sourcePort), nodeInAnchor(target, targetPort), { bend: (index - (count - 1) / 2) * 28 });
+            const outLabel = portLabel(source.outputs, sourcePort);
+            const inLabel = portLabel(target.inputs, targetPort);
+            const label = `Connection from ${source.label}${outLabel ? ` (${outLabel})` : ""} to ${target.label}${inLabel ? ` (${inLabel})` : ""}${edge.label ? `, ${edge.label}` : ""}`;
+            geometry.set(edge.id, { ...path, label });
+        }
+        return geometry;
+    }, [nodes, edges]);
 
     // --- canvas-level pan + keyboard ----------------------------------------------
     const handleCanvasPointerDown = useCallback(
@@ -523,16 +611,14 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
                             <g transform={`translate(${viewport.panX} ${viewport.panY}) scale(${viewport.zoom})`}>
                                 <FlowCanvasGrid id={gridPatternId} gridSize={gridSize} />
                                 {edges.map((edge) => {
-                                    const source = nodes.find((n) => n.id === edge.source);
-                                    const target = nodes.find((n) => n.id === edge.target);
-                                    if (!source || !target) return null;
-                                    const { d } = buildEdgePath(nodeOutAnchor(source), nodeInAnchor(target));
+                                    const geometry = edgeGeometry.get(edge.id);
+                                    if (!geometry) return null;
                                     return (
                                         <FlowCanvasEdgePath
                                             key={edge.id}
                                             edge={edge}
-                                            d={d}
-                                            label={`Connection from ${source.label} to ${target.label}${edge.label ? `, ${edge.label}` : ""}`}
+                                            d={geometry.d}
+                                            label={geometry.label}
                                             focusProps={focus.getNodeProps(edgeFocusKey(edge.id))}
                                             isSelected={selection?.type === "edge" && selection.id === edge.id}
                                             onSelect={() => selectEdge(edge.id)}
@@ -544,7 +630,7 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
                                     (() => {
                                         const sourceNode = nodes.find((n) => n.id === tempEdge.sourceId);
                                         if (!sourceNode) return null;
-                                        const { d } = buildEdgePath(nodeOutAnchor(sourceNode), tempEdge.point);
+                                        const { d } = buildEdgePath(nodeOutAnchor(sourceNode, tempEdge.sourcePort), tempEdge.point);
                                         return (
                                             <path
                                                 d={d}
@@ -576,19 +662,16 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
                                     onMoveEnd={() => finishNodeMove(node.id)}
                                     onNudge={(dx, dy) => moveNodeBy(node.id, dx, dy)}
                                     onDelete={() => deleteItem({ type: "node", id: node.id }, { restoreFocus: true })}
-                                    onConnectStart={() => connectStart(node.id)}
+                                    onConnectStart={(portId) => connectStart(node.id, portId)}
                                     onConnectMoveTo={(clientX, clientY) => connectMoveTo(node.id, clientX, clientY)}
-                                    onConnectEnd={(dropElement) => connectEnd(node.id, dropElement)}
+                                    onConnectEnd={(dropElement) => connectEnd(node.id, tempEdgeRef.current?.sourcePort, dropElement)}
                                     renderContent={renderNodeContent}
                                 />
                             ))}
                             {edges.map((edge) => {
-                                if (!edge.label) return null;
-                                const source = nodes.find((n) => n.id === edge.source);
-                                const target = nodes.find((n) => n.id === edge.target);
-                                if (!source || !target) return null;
-                                const { mid } = buildEdgePath(nodeOutAnchor(source), nodeInAnchor(target));
-                                return <FlowCanvasEdgeLabel key={edge.id} label={edge.label} mid={mid} />;
+                                const geometry = edgeGeometry.get(edge.id);
+                                if (!edge.label || !geometry) return null;
+                                return <FlowCanvasEdgeLabel key={edge.id} label={edge.label} mid={geometry.mid} />;
                             })}
                         </div>
 

@@ -26,6 +26,14 @@ export interface FlowRoleDefinition {
 /** A registry of role ids to their definitions, e.g. `DEFAULT_FLOW_ROLES` or a `roles` prop override. */
 export type FlowRoleRegistry = Record<string, FlowRoleDefinition>;
 
+/** A named connection point on a node, e.g. a decision's "Yes" and "No" outputs. */
+export interface FlowPort {
+    /** Unique within the node's `inputs` or `outputs`. Stored on edges as `sourcePort` / `targetPort`. */
+    id: string;
+    /** Short text shown beside the handle and announced with connections. Defaults to the id. */
+    label?: string;
+}
+
 export interface FlowNode<TData = unknown> {
     /** Stable, unique id. Required for selection, deletion and controlled updates. */
     id: string;
@@ -48,6 +56,13 @@ export interface FlowNode<TData = unknown> {
     width?: number;
     /** Card height in content-space px. Taller cards give `renderNodeContent` room (e.g. count tiles). @default 84 */
     height?: number;
+    /**
+     * Named "in" handles on the left edge, top to bottom. Omit for the single default input.
+     * Drop a connection on a specific handle to target it; dropping on the card uses the first.
+     */
+    inputs?: FlowPort[];
+    /** Named "out" handles on the right edge, top to bottom (e.g. Yes / No). Omit for the single default output. */
+    outputs?: FlowPort[];
     /** Execution status. Defaults to `"idle"` when omitted. */
     status?: FlowNodeStatus;
     /** Arbitrary consumer data, not read by `FlowCanvas` itself. */
@@ -61,6 +76,10 @@ export interface FlowEdge<TEdgeData = unknown> {
     source: string;
     /** Target node id (edge ends at this node's left/"in" handle). */
     target: string;
+    /** Id of the source node's output port. Omit for the default output (or the first named one). */
+    sourcePort?: string;
+    /** Id of the target node's input port. Omit for the default input (or the first named one). */
+    targetPort?: string;
     /** Optional label chip rendered at the edge's midpoint. */
     label?: string;
     /** Execution status. Defaults to `"idle"` when omitted. */
@@ -73,6 +92,10 @@ export interface FlowEdge<TEdgeData = unknown> {
 export interface FlowConnection {
     source: string;
     target: string;
+    /** Output port the drag started from, when the source node has named `outputs`. */
+    sourcePort?: string;
+    /** Input port it was dropped on (or the first one), when the target node has named `inputs`. */
+    targetPort?: string;
 }
 
 /** One line in the inspector's run log. */
