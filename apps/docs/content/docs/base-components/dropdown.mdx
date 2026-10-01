@@ -1,6 +1,6 @@
 ---
 title: Dropdown
-description: TODO -- one sentence describing Dropdown's primary use case.
+description: Action menus with sections, selection and destructive items.
 ---
 
 ## Overview
@@ -15,7 +15,20 @@ import { MenuTrigger } from "@/components/base/dropdown/dropdown";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Dropdown.Root>
+    <Dropdown.DotsButton aria-label={`Actions for ${row.name}`} />
+    <Dropdown.Popover>
+        <Dropdown.Menu onAction={(key) => handle(key)}>
+            <Dropdown.Item id="edit" label="Edit" icon={Edit01} />
+            <Dropdown.Separator />
+            <Dropdown.Item id="delete" label="Delete" icon={Trash01} variant="destructive" />
+        </Dropdown.Menu>
+    </Dropdown.Popover>
+</Dropdown.Root>
+```
+
+`variant="destructive"` colors an item with the error tokens. Still confirm irreversible actions with a dialog.
 
 ## Props
 
@@ -91,7 +104,9 @@ import { MenuTrigger } from "@/components/base/dropdown/dropdown";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Arrow keys move between items, typing jumps to a match, <kbd>Enter</kbd>/<kbd>Space</kbd> activates, <kbd>Esc</kbd> closes and returns focus to the trigger.
+- `Dropdown.DotsButton` is named "Open menu" by default; pass a specific `aria-label` ("Actions for Acme") when several appear on a page.
+- Sections with `selectionMode="single"` expose `menuitemradio` items with a check on the chosen one.
 
 ## Related
 

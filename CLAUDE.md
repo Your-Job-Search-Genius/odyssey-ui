@@ -121,15 +121,18 @@ Located in `components/base/`, these are the building blocks:
 - `Select` - Dropdown selections with complex options
 - `Checkbox`, `Radio`, `Toggle` - Form controls
 - `Avatar`, `Badge`, `Tooltip` - Display components
+- `CodeBlock` - Monospace code/JSON/log block with copy (replaces raw `<pre>`/`<code>`)
+- `DescriptionList` - Semantic `dl` for label/value metadata
 
 #### 2. Application Components
 
 Located in `components/application/`, these are complex UI patterns:
 
 - `DatePicker` - Calendar-based date selection
-- `Modal` - Overlay dialogs
+- `Modal` - Overlay dialogs (sizes sm-xl, 2xl, full)
+- `HtmlPreview` - Sandboxed `<iframe srcDoc>` preview for email/untrusted HTML (the only approved iframe)
 - `Pagination` - Data navigation
-- `Table` - Data display with sorting
+- `Table` - Data display with sorting, `filters` header row, expandable detail rows (`Table.Row isDetail` + `colSpan`)
 - `Tabs` - Content organization
 - `SidebarLayout` - The app shell: the single sidebar navigation component (desktop sidebar + mobile bottom tab bar)
 

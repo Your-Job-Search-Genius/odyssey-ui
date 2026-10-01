@@ -22,6 +22,7 @@
         "carousel",
         "virtualized-list",
         "ai-chatbox",
-        "flow-canvas"
+        "flow-canvas",
+        "html-preview"
     ]
 }

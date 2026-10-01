@@ -1,0 +1,49 @@
+---
+title: Description List
+description: Label/value metadata such as record details and settings summaries, rendered as a semantic dl.
+---
+
+## Overview
+
+`DescriptionList` lays out read-only label/value pairs. It renders a real `<dl>` with `<dt>`/`<dd>`, so assistive tech announces each value with its term -- the relationship a div grid of labels and values loses.
+
+<ComponentPreview demo="base/description-list/description-list" export="DefaultDemo" />
+
+## Installation
+
+```ts
+import { DescriptionList } from "@/components/base/description-list/description-list";
+```
+
+## Usage
+
+```tsx
+<DescriptionList columns={2}>
+    <DescriptionList.Item term="Sender">outreach@example.com</DescriptionList.Item>
+    <DescriptionList.Item term="Audience">1,284 contacts</DescriptionList.Item>
+    <DescriptionList.Item term="Ends">{campaign.endsAt}</DescriptionList.Item> {/* empty values show "—" */}
+</DescriptionList>
+```
+
+## Props
+
+**DescriptionList**
+
+<PropsTable component="base/description-list/description-list" />
+
+## Examples
+
+### Inline, divided
+
+<ComponentPreview demo="base/description-list/description-list" export="InlineDemo" />
+
+## Accessibility
+
+- Terms and values are `dt`/`dd` inside a `dl`.
+- Empty values render an em dash rather than nothing, so a missing value isn't silently skipped.
+- Columns collapse to one on phones; `inline` stacks below `sm`.
+
+## Related
+
+- [Code Block](/docs/base-components/code-block)
+- [Table](/docs/application/table)

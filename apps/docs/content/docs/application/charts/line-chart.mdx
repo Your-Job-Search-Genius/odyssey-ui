@@ -90,6 +90,12 @@ A new `data` identity tweens the lines from the previous geometry in 400 ms.
 
 <ComponentPreview demo="application/charts/line-chart" export="LineChartLiveUpdate" />
 
+### Gaps
+
+A `null` (or missing) value breaks the line instead of plotting 0: no marker is drawn there, and the tooltip, table and description show "—". Stacked areas need a value at every point, so there a gap counts as 0.
+
+<ComponentPreview demo="application/charts/line-chart" export="LineChartGaps" />
+
 ### Empty
 
 <ComponentPreview demo="application/charts/line-chart" export="LineChartEmpty" />

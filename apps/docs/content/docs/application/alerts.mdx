@@ -1,6 +1,6 @@
 ---
 title: Alerts
-description: TODO -- one sentence describing Alerts's primary use case.
+description: Inline status banners, plus transient toast notifications.
 ---
 
 ## Overview
@@ -15,7 +15,15 @@ import { Alert } from "@/components/application/alerts/alert";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Alert color="warning" title="Branching needs two paths" description="Connect a Yes and a No step before publishing." />;
+
+// Transient notifications: mount <Toaster /> once near the app root, then call toast() anywhere.
+toast.success("Template saved");
+toast.error("Refresh failed", { description: error.message, duration: Infinity });
+```
+
+`description` can hold block content (lists, a `CodeBlock`). In dark mode alerts sit on the subtle `bg-*-primary` surfaces so the description and icon stay readable.
 
 ## Props
 
@@ -43,7 +51,9 @@ import { Alert } from "@/components/application/alerts/alert";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- `error` and `warning` use `role="alert"` (assertive); `info` and `success` use `role="status"` (polite).
+- A dismissible `Alert` focuses its close button when it mounts -- right for alerts that appear in response to an action; pass `autoFocus={false}` for alerts present on page load.
+- Toasts don't move focus by default (so a routine "Saved" never interrupts the task). Pass `{ autoFocus: true }` when the toast holds an action the user should take now, and `{ duration: Infinity }` for errors that must be read. Hovering or keyboard-focusing a toast pauses its timer.
 
 ## Related
 

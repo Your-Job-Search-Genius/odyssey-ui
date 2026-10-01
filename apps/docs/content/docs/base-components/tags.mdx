@@ -1,6 +1,6 @@
 ---
 title: Tags
-description: TODO -- one sentence describing Tags's primary use case.
+description: Tag chips for selected values, filters and labels.
 ---
 
 ## Overview
@@ -15,7 +15,16 @@ import { TagAvatar } from "@/components/base/tags/tags";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<TagGroup label="Selected schools" onRemove={(keys) => setSelected((prev) => prev.filter((school) => !keys.has(school.id)))}>
+    <TagList items={selected}>{(school) => <Tag id={school.id}>{school.name}</Tag>}</TagList>
+</TagGroup>
+```
+
+<Callout type="warn">
+    `TagList` caches rendered items, so a callback created per tag (e.g. `onClose={() => remove(tag.id)}` that closes over the list) can run with stale state --
+    removing one chip can remove them all. Handle removal once on `TagGroup` with `onRemove`, or read the latest list from a ref.
+</Callout>
 
 ## Props
 
@@ -79,7 +88,8 @@ import { TagAvatar } from "@/components/base/tags/tags";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Arrow keys move between tags; <kbd>Backspace</kbd> or <kbd>Delete</kbd> removes the focused tag when the group is removable.
+- Give the group a `label`. Remove buttons are always visible and reachable, never hover-only.
 
 ## Related
 

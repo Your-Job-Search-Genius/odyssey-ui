@@ -21,6 +21,8 @@
         "tooltip",
         "form",
         "file-upload-trigger",
-        "typography"
+        "typography",
+        "code-block",
+        "description-list"
     ]
 }

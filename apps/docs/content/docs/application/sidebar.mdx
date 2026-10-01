@@ -68,6 +68,7 @@ The content card is a CSS container, so lay page content out with container-quer
 - The current page's link has `aria-current="page"`.
 - Groups are React Aria disclosures, so <kbd>Enter</kbd> or <kbd>Space</kbd> toggles them. The group holding the current page opens automatically.
 - The collapse toggle has an `aria-label` and `aria-expanded`. In the collapsed state, every icon shows a tooltip and keeps its label as screen-reader text.
+- Account and footer menu items can be grouped with `section` (e.g. "Theme"). A section whose items set `isSelected` becomes a single-choice group: items are `menuitemradio` with a check on the current one on desktop, and toggle buttons with `aria-pressed` and a check in the mobile More sheet.
 - The language, help and account menus are React Aria menus: arrow keys move between items and <kbd>Escape</kbd> closes them. The More sheet traps focus and closes with <kbd>Escape</kbd>, the backdrop, or a downward drag.
 - Motion (collapse/expand width, label fades, group expand, bottom bar slide) is removed under `prefers-reduced-motion`.
 

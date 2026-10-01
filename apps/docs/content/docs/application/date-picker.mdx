@@ -1,6 +1,6 @@
 ---
 title: Date Picker
-description: TODO -- one sentence describing Date Picker's primary use case.
+description: Date and date-range pickers with presets and Apply/Cancel.
 ---
 
 ## Overview
@@ -19,7 +19,12 @@ import { RangeCalendarContextProvider } from "@/components/application/date-pick
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<DatePicker value={date} onChange={setDate} onApply={save} />
+<DateRangePicker value={range} onChange={setRange} />
+```
+
+Picking a date updates the value immediately (so `onChange` fires as the user clicks). **Cancel** restores the value the picker had when it opened and fires `onChange` with it; **Apply** just closes.
 
 ## Props
 

@@ -1,6 +1,6 @@
 ---
 title: Toggle
-description: TODO -- one sentence describing Toggle's primary use case.
+description: On/off switches with an optional label and hint.
 ---
 
 ## Overview
@@ -15,7 +15,11 @@ import { ToggleBase } from "@/components/base/toggle/toggle";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Toggle label="Pause sending" hint="Queued emails stay queued until you resume." isSelected={isPaused} onChange={setIsPaused} />
+```
+
+The toggle sizes to its content but never past its container, so a long `hint` wraps in narrow side panels.
 
 ## Props
 
