@@ -151,3 +151,29 @@ export const LineChartLiveUpdate = () => {
 export const LineChartEmpty = () => (
     <LineChart label="Applications by week" title="Pipeline activity" data={[]} xKey="week" series={[...pipelineSeries]} height={200} />
 );
+
+const openRates = [
+    // collapse-start
+    { day: "Mon", openRate: 41.2 },
+    { day: "Tue", openRate: 43.8 },
+    { day: "Wed", openRate: null },
+    { day: "Thu", openRate: null },
+    { day: "Fri", openRate: 39.5 },
+    { day: "Sat", openRate: 44.1 },
+    { day: "Sun", openRate: 46.0 },
+    // collapse-end
+];
+
+/** `null` values are gaps: the line breaks instead of dropping to zero. */
+export const LineChartGaps = () => (
+    <LineChart
+        label="Open rate by day, with two days without sends"
+        title="Open rate"
+        subtitle="No emails were sent on Wednesday and Thursday"
+        data={openRates}
+        xKey="day"
+        showDots
+        valueFormatter={(v) => `${v.toFixed(1)}%`}
+        series={[{ key: "openRate", name: "Open rate" }]}
+    />
+);

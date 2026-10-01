@@ -53,26 +53,47 @@ const edges = [
 
 **FlowNode**
 
-| Field         | Type                                                     | Description                                                                 |
-| :------------ | :------------------------------------------------------- | :-------------------------------------------------------------------------- |
-| `id`          | `string`                                                 | Stable, unique id. Required for selection, deletion and controlled updates. |
-| `label`       | `string`                                                 | —                                                                           |
-| `description` | `string?`                                                | Short supporting text shown under the label.                                |
-| `role`        | `string`                                                 | Key into the role registry (`roles` prop merged over `DEFAULT_FLOW_ROLES`). |
-| `icon`        | `FC<{ className?: string }>?`                            | Overrides the role's default icon for this one node.                        |
-| `x`, `y`      | `number`                                                 | Content-space position of the node's center.                                |
-| `status`      | `"idle" \| "queued" \| "running" \| "done" \| "skipped"` | Execution status. Defaults to `"idle"`.                                     |
-| `data`        | `TData?`                                                 | Arbitrary consumer data, not read by `FlowCanvas` itself.                   |
+| Field             | Type                                                     | Description                                                                  |
+| :---------------- | :------------------------------------------------------- | :--------------------------------------------------------------------------- |
+| `id`              | `string`                                                 | Stable, unique id. Required for selection, deletion and controlled updates.  |
+| `label`           | `string`                                                 | —                                                                            |
+| `description`     | `string?`                                                | Short supporting text shown under the label (one line; full text announced). |
+| `tooltip`         | `ReactNode?`                                             | Shown on hover/keyboard focus and announced as the node's description.       |
+| `width`, `height` | `number?`                                                | Card size in content-space px. Defaults to 224 × 84.                         |
+| `role`            | `string`                                                 | Key into the role registry (`roles` prop merged over `DEFAULT_FLOW_ROLES`).  |
+| `icon`            | `FC<{ className?: string }>?`                            | Overrides the role's default icon for this one node.                         |
+| `x`, `y`          | `number`                                                 | Content-space position of the node's center.                                 |
+| `status`          | `"idle" \| "queued" \| "running" \| "done" \| "skipped"` | Execution status. Defaults to `"idle"`.                                      |
+| `data`            | `TData?`                                                 | Arbitrary consumer data, not read by `FlowCanvas` itself.                    |
 
 **FlowEdge**
 
-| Field    | Type                                           | Description                                             |
-| :------- | :--------------------------------------------- | :------------------------------------------------------ |
-| `id`     | `string`                                       | Stable, unique id.                                      |
-| `source` | `string`                                       | Source node id (edge starts at its right/"out" handle). |
-| `target` | `string`                                       | Target node id (edge ends at its left/"in" handle).     |
-| `label`  | `string?`                                      | Rendered as a chip at the edge's midpoint.              |
-| `status` | `"idle" \| "active" \| "traversed" \| "muted"` | Execution status. Defaults to `"idle"`.                 |
+| Field    | Type                                           | Description                                                                                                 |
+| :------- | :--------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
+| `id`     | `string`                                       | Stable, unique id.                                                                                          |
+| `source` | `string`                                       | Source node id (edge starts at its right/"out" handle).                                                     |
+| `target` | `string`                                       | Target node id (edge ends at its left/"in" handle).                                                         |
+| `label`  | `string?`                                      | Rendered as a chip at the edge's midpoint.                                                                  |
+| `status` | `"idle" \| "active" \| "traversed" \| "muted"` | Execution status. Defaults to `"idle"`.                                                                     |
+| `data`   | `TEdgeData?`                                   | Consumer data (e.g. a branch condition), kept on every update. Type it with `FlowCanvas<TData, TEdgeData>`. |
+
+**Ports.** By default a node has one "in" handle (left) and one "out" handle (right). Give it `outputs` (and/or `inputs`) -- e.g. `outputs: [{ id: "yes", label: "Yes" }, { id: "no", label: "No" }]` -- to get one labelled handle per port, spread down the card edge. Edges record the ports as `sourcePort` / `targetPort`; dragging from a handle connects that port, and dropping on a named input targets it (dropping on the card uses the first input). An edge without a port id attaches to the node's first port.
+
+| Field (FlowNode)    | Type                                | Description                   |
+| :------------------ | :---------------------------------- | :---------------------------- |
+| `inputs`, `outputs` | `{ id: string; label?: string }[]?` | Named handles, top to bottom. |
+
+| Field (FlowEdge)           | Type      | Description                                             |
+| :------------------------- | :-------- | :------------------------------------------------------ |
+| `sourcePort`, `targetPort` | `string?` | Port ids on the source's `outputs` / target's `inputs`. |
+
+**Connecting rules.** Dragging a handle onto a node adds `{ id, source, target, sourcePort?, targetPort? }` through `onEdgesChange` **and** fires `onConnect` with the same connection -- add edges in one of the two, not both.
+
+- `allowSelfLoops` (default `false`) lets a node connect to itself; the loop arcs over the card. When off, the attempt is refused and announced.
+- `allowDuplicateEdges` (default `false`) allows several edges between the same output and input; they fan apart so each stays clickable. When off, an identical second connection is refused and announced (other ports of the same two nodes still connect).
+- `createEdgeId(connection)` sets the id of a connected edge (default `e-{source}-{target}-{base36 timestamp}`), and `createNodeId()` the id of a node added from the toolbar (default `n-{base36 timestamp}-{random}`). Use them when your backend expects its own id format.
+
+**Fitting the view.** The canvas fits the graph when its container is first measured and again the first time nodes appear (so a graph loaded after mount is framed). Pass `fitViewKey` (e.g. the workflow or revision id) to refit whenever it changes.
 
 **FlowRoleDefinition** (the shape of each entry in the `roles` prop and `DEFAULT_FLOW_ROLES`)
 
@@ -126,27 +147,36 @@ A local, demo-only fixture computes a topological execution order and alternates
 
 <ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasRunSimulation" />
 
+### Named ports, loops and edge data
+
+A decision with Yes / No outputs, edge `data` for each branch, a taller card with a tooltip, and a retry self-loop.
+
+<ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasPorts" />
+
 ### Empty state
 
 <ComponentPreview demo="application/flow-canvas/flow-canvas" export="FlowCanvasEmpty" />
 
 ## Accessibility
 
-| Key                                              | Action                                                                      |
-| :----------------------------------------------- | :-------------------------------------------------------------------------- |
-| <kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd> | Move a roving focus to the next/previous node (the canvas is one tab stop). |
-| <kbd>Enter</kbd> / <kbd>Space</kbd>              | Select the focused node.                                                    |
-| Arrow keys                                       | Nudge the focused/selected node's position by one grid unit.                |
-| <kbd>Shift</kbd> + arrow keys                    | Nudge by a larger step.                                                     |
-| <kbd>Delete</kbd> / <kbd>Backspace</kbd>         | Remove the selected node or edge.                                           |
-| <kbd>Esc</kbd>                                   | Clear the current selection.                                                |
-| <kbd>+</kbd> / <kbd>-</kbd>                      | Zoom in / out around the viewport center.                                   |
-| <kbd>0</kbd>                                     | Reset zoom and fit every node into view.                                    |
-| Click + drag (empty canvas)                      | Pan.                                                                        |
-| Drag a node's "out" handle onto another node     | Create a directed edge (live preview, drop-target highlight).               |
+| Key                                              | Action                                                                                      |
+| :----------------------------------------------- | :------------------------------------------------------------------------------------------ |
+| <kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd> | Move a roving focus through every node, then every connection (the canvas is one tab stop). |
+| <kbd>Enter</kbd> / <kbd>Space</kbd>              | Select the focused node or connection (opens it in the inspector).                          |
+| Arrow keys                                       | Nudge the focused/selected node's position by one grid unit.                                |
+| <kbd>Shift</kbd> + arrow keys                    | Nudge by a larger step.                                                                     |
+| <kbd>Delete</kbd> / <kbd>Backspace</kbd>         | Remove the focused node or connection (focus returns to the canvas).                        |
+| <kbd>Esc</kbd>                                   | Clear the current selection.                                                                |
+| <kbd>+</kbd> / <kbd>-</kbd>                      | Zoom in / out around the viewport center.                                                   |
+| <kbd>0</kbd>                                     | Reset zoom and fit every node into view.                                                    |
+| Click + drag (empty canvas)                      | Pan.                                                                                        |
+| Drag a node's "out" handle onto another node     | Create a directed edge (live preview, drop-target highlight).                               |
 
 - Roving-tabindex model (`use-flow-canvas-focus.ts`): Tab moves focus, arrow keys never move focus here -- they reposition the node instead, since that reads as the more useful default for an editable diagram.
 - Every mutating action (connect, delete, add) is pushed to a polite live region.
+- Connections are announced as "Connection from A to B" plus their label, so a condition's Yes/No branch can be reviewed and deleted without a pointer. Creating a connection still needs a pointer drag; offer a keyboard path in your own UI (e.g. a "Connect to" select in an inspector panel) if editors must work keyboard-only.
+- A node's description is truncated visually but always announced in full; use `tooltip` for longer text or a breakdown of counts.
+- In read-only mode, clicking a node still selects it (for the inspector); dragging does nothing.
 - `prefers-reduced-motion` freezes the ambient flow-dot travel and the running-status pulse via `useReducedMotion` (`motion/react`), the same mechanism every chart uses.
 - Role and status are never color-only: an icon and a text label always pair with the color, and the optional legend (`showLegend`) spells out what each color means.
 - Set `keyboardShortcuts={false}` to disable the canvas-level shortcuts (zoom, fit view, escape, delete-selected-edge, run) if they'd conflict with a host page's own bindings. Per-node editing is governed by `isReadOnly` instead.

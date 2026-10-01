@@ -21,6 +21,17 @@ On this site, use the theme toggle in the top navigation to switch between light
 live component preview reflects the change immediately, using the library's real dark-mode
 styling.
 
+The theme also sets CSS `color-scheme` (`light` on `:root`, `dark` under `.dark-mode`), so native
+controls -- scrollbars, date inputs, `NativeSelect` popups -- follow the active theme without any
+app code. See [Installation](/docs/getting-started/installation#dark-mode) for applying the class
+before first paint.
+
+<Callout type="info">
+    In dark mode the `bg-*-secondary` status tokens (`bg-warning-secondary`, `bg-error-secondary`, ...) are solid 600 fills meant for small accents such as
+    featured icons. Don't put body text on them; for a tinted text surface use the `bg-*-primary` tokens, which become subtle 950 shades in dark mode. `Alert`
+    does exactly this.
+</Callout>
+
 ## Changing the brand color
 
 To re-theme the entire library, edit the `--color-brand-*` scale (25 through 950) in

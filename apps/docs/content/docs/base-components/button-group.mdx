@@ -1,6 +1,6 @@
 ---
 title: Button Group
-description: TODO -- one sentence describing Button Group's primary use case.
+description: Segmented toggle buttons for switching between a few options.
 ---
 
 ## Overview
@@ -63,7 +63,9 @@ import { ButtonGroupItem } from "@/components/base/button-group/button-group";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Single selection (the default) renders a `radiogroup` of `radio`s -- query items with `getByRole("radio")` in tests. `selectionMode="multiple"` renders toggle buttons with `aria-pressed`.
+- Give the group an `aria-label`; icon-only items need their own `aria-label`.
+- The selected item gets a distinct surface and, for text items, a leading check -- selection is never shown by color alone. Turn the check off with `showSelectedIndicator={false}` only when selection is conveyed another way.
 
 ## Related
 

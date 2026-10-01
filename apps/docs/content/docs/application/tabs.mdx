@@ -1,6 +1,6 @@
 ---
 title: Tabs
-description: TODO -- one sentence describing Tabs's primary use case.
+description: Tabbed views with tablist semantics and manual keyboard activation.
 ---
 
 ## Overview
@@ -15,7 +15,21 @@ import { TabList } from "@/components/application/tabs/tabs";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Tabs selectedKey={tab} onSelectionChange={setTab}>
+    <Tabs.List
+        type="underline"
+        items={[
+            { id: "overview", label: "Overview" },
+            { id: "activity", label: "Activity" },
+        ]}
+    />
+    <Tabs.Panel id="overview">
+        <Overview />
+    </Tabs.Panel>
+    <Tabs.Panel id="activity">{tab === "activity" && <Activity />}</Tabs.Panel>
+</Tabs>
+```
 
 ## Props
 
@@ -127,7 +141,9 @@ import { TabList } from "@/components/application/tabs/tabs";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Renders `tablist` / `tab` / `tabpanel`; each `Tabs.Panel` id must match a tab id.
+- **Manual activation:** arrow keys move focus between tabs, <kbd>Enter</kbd> or <kbd>Space</kbd> selects. This suits panels that fetch data when shown. Pass `keyboardActivation="automatic"` to select on arrow instead.
+- In tests, find tabs with `getByRole("tab")` and select with a click or Enter.
 
 ## Related
 

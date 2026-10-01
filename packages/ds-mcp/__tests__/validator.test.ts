@@ -315,3 +315,61 @@ describe("validate_jsx: strict vs non-strict (auto-fix)", () => {
         expect(result.fixedCode).toBeUndefined();
     });
 });
+
+describe("validate_jsx: classes and setup the library itself relies on", () => {
+    it.each([
+        "sr-only focus-visible:not-sr-only",
+        "md:hover:bg-primary_hover",
+        "motion-safe:animate-pulse motion-reduce:animate-none",
+        "max-md:hidden",
+        "line-clamp-2 wrap-anywhere wrap-break-word",
+        "border border-dashed border-secondary",
+        "align-top font-mono",
+        "ring-1 ring-secondary outline-brand",
+        "text-display-xs text-display-2xl",
+        "scrollbar-hide",
+        "group-hover:text-fg-quaternary_hover",
+    ])('accepts className="%s"', (classes) => {
+        const result = run(`<div className="${classes}">x</div>`);
+        expect(result.errors).toEqual([]);
+    });
+
+    it("still rejects arbitrary values and raw palette classes behind a variant", () => {
+        expect(run('<div className="md:w-[13px]">x</div>').ok).toBe(false);
+        expect(run('<div className="md:hover:bg-blue-700">x</div>').ok).toBe(false);
+    });
+
+    it("accepts RouterProvider from react-aria-components as an app setup provider", () => {
+        const code = [
+            'import { RouterProvider } from "react-aria-components";',
+            "const X = ({ navigate }) => <RouterProvider navigate={navigate}><div>app</div></RouterProvider>;",
+        ].join("\n");
+        expect(run(code).errors).toEqual([]);
+    });
+
+    it("still rejects other react-aria-components imports", () => {
+        const code = ['import { Button } from "react-aria-components";', "const X = () => <Button>Go</Button>;"].join("\n");
+        expect(run(code).ok).toBe(false);
+    });
+
+    it("accepts Dropdown.Item, a member of an object-literal namespace export", () => {
+        const code = [
+            'import { Dropdown } from "@your-job-search-genius/odyssey-ui/components/base/dropdown/dropdown";',
+            'const X = () => <Dropdown.Item id="delete" label="Delete" />;',
+        ].join("\n");
+        expect(run(code).errors).toEqual([]);
+    });
+
+    it.each([
+        ["pre", "CodeBlock"],
+        ["code", "CodeBlock"],
+        ["dl", "DescriptionList"],
+        ["iframe", "HtmlPreview"],
+    ])("points <%s> at %s", (tag, component) => {
+        const result = run(`<${tag}>x</${tag}>`);
+        expect(result.ok).toBe(false);
+        expect(result.errors[0]?.message).toContain(component);
+        // These suggestions take props, so non-strict mode must not blindly rename the tag.
+        expect(run(`<${tag}>x</${tag}>`, false).fixedCode).toBeUndefined();
+    });
+});

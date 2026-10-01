@@ -64,3 +64,7 @@ AsyncServerSync.storyName = "Async (server-synced)";
 export const AsyncServerSyncDebounced = () => <ComboBoxes.AsyncServerSyncDebouncedDemo />;
 AsyncServerSyncDebounced.decorators = [DefaultDecorator];
 AsyncServerSyncDebounced.storyName = "Async (debounced server sync)";
+
+export const LoadMore = () => <ComboBoxes.LoadMoreDemo />;
+LoadMore.decorators = [DefaultDecorator];
+LoadMore.storyName = "Load more (infinite scroll)";

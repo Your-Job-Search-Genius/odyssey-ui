@@ -1,22 +1,26 @@
 import type { ReactNode } from "react";
 import { RootProvider } from "fumadocs-ui/provider/next";
-import { Inter, Kalam } from "next/font/google";
+import localFont from "next/font/local";
 import { themeClassScript } from "~/lib/theme-class-script";
 import { ThemeClassSync } from "~/lib/theme-class-sync";
 import "./global.css";
 
 // Same font-loading setup as .storybook/wrapper.tsx, exposed as the
-// `--font-inter` CSS variable that styles/theme.css already expects.
-const inter = Inter({
-    subsets: ["latin"],
+// `--font-inter` CSS variable that styles/theme.css already expects. Self-hosted (OFL, latin
+// subset) instead of next/font/google so the build never depends on reaching Google Fonts.
+const inter = localFont({
+    src: "./fonts/inter-latin-variable.woff2",
+    weight: "100 900",
     variable: "--font-inter",
 });
 
 // Backs the `--font-handwritten` token (styles/theme.css) used only by
 // FlowCanvas's "sketchy" edge style. Same loading pattern as Inter above.
-const kalam = Kalam({
-    subsets: ["latin"],
-    weight: ["400", "700"],
+const kalam = localFont({
+    src: [
+        { path: "./fonts/kalam-latin-400.woff2", weight: "400" },
+        { path: "./fonts/kalam-latin-700.woff2", weight: "700" },
+    ],
     variable: "--font-kalam",
 });
 

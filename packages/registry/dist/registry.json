@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "generatedAt": "library@2.0.0+components:143+tokens:269+icons:1179",
+  "version": "2.1.0",
+  "generatedAt": "library@2.1.0+components:146+tokens:269+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -204,7 +204,7 @@
       "importName": "Alert",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/alerts/alert",
       "category": "application",
-      "description": "A static, inline banner for surfacing page- or section-level status messages.\nFor transient, self-dismissing notifications use `toast()` + `<Toaster />` instead.",
+      "description": "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children.",
       "props": [
         {
           "name": "color",
@@ -274,14 +274,43 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "color": [
+          "info",
+          "success",
+          "warning",
+          "error"
+        ],
+        "size": [
+          "sm",
+          "md"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Alert",
         "Toaster"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Inline error with action",
+          "code": "<Alert color=\"error\" title=\"Couldn't load contacts\" description=\"Check your connection and try again.\" actions={<Button size=\"sm\" color=\"link-color\" onClick={retry}>Try again</Button>} />"
+        },
+        {
+          "title": "Toaster at the root",
+          "code": "<RouterProvider navigate={navigate}>\n  <App />\n  <Toaster />\n</RouterProvider>"
+        },
+        {
+          "title": "Success and persistent error toasts",
+          "code": "toast.success(\"Template saved\");\ntoast.error(\"Refresh failed\", { description: error.message, duration: Infinity });"
+        }
+      ],
+      "a11y": "error/warning use role=alert (assertive); info/success use role=status. A dismissible Alert focuses its close button on mount unless autoFocus={false} -- turn it off for alerts present on page load. Toasts don't take focus unless you pass { autoFocus: true }; pass { duration: Infinity } for errors the user must read.",
+      "doNot": [
+        "Do not build red/amber boxes from divs for errors -- use Alert.",
+        "Do not use a toast for an error the user has to act on; keep it inline (Alert) or make it persistent (duration: Infinity).",
+        "Do not mount more than one <Toaster />."
+      ],
       "docsUrl": "/docs/application/alerts/alert",
       "isExtracted": true
     },
@@ -504,6 +533,13 @@
       "allowedChildren": "any",
       "moduleExports": [
         "Carousel",
+        "Carousel.Content",
+        "Carousel.Indicator",
+        "Carousel.IndicatorGroup",
+        "Carousel.Item",
+        "Carousel.NextTrigger",
+        "Carousel.PrevTrigger",
+        "Carousel.Root",
         "CarouselContext"
       ],
       "examples": [],
@@ -631,6 +667,17 @@
           "type": "((info: { datum: T; seriesKey: string; index: number; }) => void) | undefined",
           "required": false,
           "description": "Called when a bar is activated with Enter, Space or a click."
+        },
+        {
+          "name": "colorBy",
+          "type": "enum",
+          "enumValues": [
+            "index",
+            "series"
+          ],
+          "required": false,
+          "default": "series",
+          "description": "`index` gives each category its own series color (slots 1-8 in order), for a single-series\nchart where the bars are distinct things (e.g. funnel stages). Category labels stay on the axis,\nso color is never the only key. Ignored with more than one series or `mode=\"diverging\"`; past 8\ncategories the last slot repeats, so fold the tail into an \"Other\" category."
         },
         {
           "name": "className",
@@ -1291,7 +1338,7 @@
           "name": "data",
           "type": "T[]",
           "required": true,
-          "description": "One datum per x position, in display order. Memoise it: a new array identity replays the transition."
+          "description": "One datum per x position, in display order. Memoise it: a new array identity replays the transition.\nA `null` / `undefined` series value is a gap: \"line\" and \"area\" break the path there (no marker,\n\"—\" in the tooltip and table); \"stacked-area\" treats it as 0."
         },
         {
           "name": "xKey",
@@ -2484,6 +2531,19 @@
           "description": "Controls the value's display size."
         },
         {
+          "name": "icon",
+          "type": "ReactNode | FC<{ className?: string | undefined; }>",
+          "required": false,
+          "description": "Decorative icon shown before the label (hidden from assistive tech).",
+          "acceptsIcon": true
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Supporting text under the value, e.g. \"Across 12 active campaigns\". Announced as the tile's description."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -2926,7 +2986,7 @@
           "name": "onCancel",
           "type": "(() => void) | undefined",
           "required": false,
-          "description": "The function to call when the cancel button is clicked."
+          "description": "The function to call when the cancel button is clicked. Cancel also restores the value the picker had when it opened."
         },
         {
           "name": "size",
@@ -2984,7 +3044,7 @@
           "name": "onCancel",
           "type": "(() => void) | undefined",
           "required": false,
-          "description": "The function to call when the cancel button is clicked."
+          "description": "The function to call when the cancel button is clicked. Cancel also restores the range the picker had when it opened."
         }
       ],
       "slots": [],
@@ -3116,7 +3176,7 @@
       "importName": "EmptyState",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/empty-state/empty-state",
       "category": "application",
-      "description": "",
+      "description": "Empty, no-results and error states. EmptyState (size sm|md|lg) > EmptyState.Header (pattern circle|square|grid|grid-check|none) > EmptyState.FeaturedIcon | EmptyState.Illustration | EmptyState.FileTypeIcon, then EmptyState.Content > EmptyState.Title + EmptyState.Description, then EmptyState.Footer with Buttons. Illustrations, file icons and non-default patterns load on demand, so a plain icon state stays light.",
       "props": [
         {
           "name": "size",
@@ -3131,7 +3191,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "EmptyState",
@@ -3147,8 +3213,17 @@
         "EmptyState.Illustration",
         "EmptyState.Title"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Filter-aware no results",
+          "code": "<EmptyState size=\"sm\">\n  <EmptyState.Header>\n    <EmptyState.FeaturedIcon icon={SearchLg} />\n  </EmptyState.Header>\n  <EmptyState.Content>\n    <EmptyState.Title>No campaigns match these filters</EmptyState.Title>\n    <EmptyState.Description>Try a different status or clear the filters.</EmptyState.Description>\n  </EmptyState.Content>\n  <EmptyState.Footer>\n    <Button color=\"secondary\" onClick={clearFilters}>Clear filters</Button>\n    <Button iconLeading={Plus} onClick={create}>Create campaign</Button>\n  </EmptyState.Footer>\n</EmptyState>"
+        }
+      ],
+      "a11y": "Title renders as a heading; keep it short and say what to do next in the description. Put the primary next step (Create, Clear filters, Try again) in the footer.",
+      "doNot": [
+        "Do not leave a list blank or show only 'No data' -- explain why and offer a next step.",
+        "Do not replace a whole page with an error state when only one list failed; render the state inside that list's card and keep its filters."
+      ],
       "docsUrl": "/docs/application/empty-state/empty-state",
       "isExtracted": true
     },
@@ -3217,6 +3292,11 @@
         "FileListItemProgressBar",
         "FileListItemProgressFill",
         "FileUpload",
+        "FileUpload.DropZone",
+        "FileUpload.List",
+        "FileUpload.ListItemProgressBar",
+        "FileUpload.ListItemProgressFill",
+        "FileUpload.Root",
         "FileUploadDropZone"
       ],
       "examples": [],
@@ -3251,20 +3331,49 @@
         },
         {
           "name": "edges",
-          "type": "FlowEdge[] | undefined",
+          "type": "FlowEdge<TEdgeData>[] | undefined",
           "required": false,
-          "description": "Controlled edge array."
+          "description": "Controlled edge array. Each edge may carry its own `data` (e.g. a branch condition), preserved through every update."
         },
         {
           "name": "defaultEdges",
-          "type": "FlowEdge[] | undefined",
+          "type": "FlowEdge<TEdgeData>[] | undefined",
           "required": false,
           "description": "Initial edges for uncontrolled use."
         },
         {
           "name": "onEdgesChange",
-          "type": "((edges: FlowEdge[]) => void) | undefined",
-          "required": false
+          "type": "((edges: FlowEdge<TEdgeData>[]) => void) | undefined",
+          "required": false,
+          "description": "Fired with the full edge array after any change. Connecting two nodes adds the edge here *and*\nfires `onConnect`, so add edges in only one of the two. See `allowSelfLoops`,\n`allowDuplicateEdges` and `createEdgeId` for what a connect creates."
+        },
+        {
+          "name": "allowSelfLoops",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Lets a node connect to itself (drawn as a loop over the card). Refused and announced when false."
+        },
+        {
+          "name": "allowDuplicateEdges",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Allows more than one edge between the same output and input (they fan apart). When false, a\nsecond identical connection is refused and announced; other ports of the same nodes still connect."
+        },
+        {
+          "name": "createEdgeId",
+          "type": "((connection: FlowConnection) => string) | undefined",
+          "required": false,
+          "default": "`e-{source}-{target}-{base36 timestamp}`",
+          "description": "Id for an edge created by connecting."
+        },
+        {
+          "name": "createNodeId",
+          "type": "(() => string) | undefined",
+          "required": false,
+          "default": "`n-{base36 timestamp}-{random}`",
+          "description": "Id for a node created by the toolbar's \"Add node\"."
         },
         {
           "name": "selectedId",
@@ -3289,7 +3398,7 @@
         },
         {
           "name": "onEdgeSelect",
-          "type": "((edge: FlowEdge | null) => void) | undefined",
+          "type": "((edge: FlowEdge<TEdgeData> | null) => void) | undefined",
           "required": false
         },
         {
@@ -3310,7 +3419,7 @@
         },
         {
           "name": "onEdgeDelete",
-          "type": "((edge: FlowEdge) => void) | undefined",
+          "type": "((edge: FlowEdge<TEdgeData>) => void) | undefined",
           "required": false
         },
         {
@@ -3481,6 +3590,12 @@
           "description": "Governs the canvas-level shortcuts (zoom, fit view, escape, delete-selected-edge, run). Per-node editing is governed by `isReadOnly` instead."
         },
         {
+          "name": "fitViewKey",
+          "type": "unknown",
+          "required": false,
+          "description": "The view fits the graph automatically once the container is measured and again the first time\nnodes appear (e.g. after an async load). Change this value to refit on demand -- e.g. pass the\nid of the workflow or revision being shown."
+        },
+        {
           "name": "height",
           "type": "string | number | undefined",
           "required": false,
@@ -3542,6 +3657,10 @@
       ],
       "examples": [
         {
+          "title": "Decision with Yes / No ports and edge data",
+          "code": "<FlowCanvas<unknown, { condition: string }>\n  nodes={[{ id: \"check\", label: \"Opened email?\", role: \"decision\", x: 400, y: 200, outputs: [{ id: \"yes\", label: \"Yes\" }, { id: \"no\", label: \"No\" }] }, ...rest]}\n  edges={[{ id: \"e1\", source: \"check\", sourcePort: \"yes\", target: \"nurture\", data: { condition: \"opened\" } }]}\n  onEdgesChange={setEdges}\n  createEdgeId={({ source, sourcePort, target }) => `${source}.${sourcePort}->${target}`}\n/>"
+        },
+        {
           "title": "Uncontrolled, full chrome",
           "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} />"
         },
@@ -3562,7 +3681,7 @@
           "code": "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} roles={{ validation: { label: \"Validation\", icon: ShieldTick, color: \"success\" } }} />"
         }
       ],
-      "a11y": "The canvas is one tab stop; Tab/Shift+Tab move a roving focus between nodes, arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
+      "a11y": "The canvas is one tab stop; Tab/Shift+Tab move a roving focus through the nodes and then the connections (announced as 'Connection from A (Yes) to B'; Enter selects, Delete removes), arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
       "doNot": [
         "Do not pass a new `nodes`/`edges` array identity on every render if you can avoid it -- memoise external data before handing it to FlowCanvas.",
         "Do not ship a fake execution-order simulator in production code; `status` is controlled display data -- drive it from a real backend/websocket/state machine, the same way the 'Run simulation' example's local fixture hook does.",
@@ -3603,7 +3722,7 @@
       "props": [
         {
           "name": "edge",
-          "type": "FlowEdge",
+          "type": "FlowEdge<unknown>",
           "required": true
         },
         {
@@ -3619,6 +3738,23 @@
         },
         {
           "name": "onSelect",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name, e.g. \"Connection from Start to Review, Yes\"."
+        },
+        {
+          "name": "focusProps",
+          "type": "FlowCanvasFocusItemProps",
+          "required": true,
+          "description": "Roving-focus wiring: edges are reachable with Tab after the nodes."
+        },
+        {
+          "name": "onDelete",
           "type": "() => void",
           "required": true
         }
@@ -3655,7 +3791,7 @@
         },
         {
           "name": "edges",
-          "type": "readonly FlowEdge[]",
+          "type": "readonly FlowEdge<unknown>[]",
           "required": true
         },
         {
@@ -3816,7 +3952,7 @@
         },
         {
           "name": "onConnectStart",
-          "type": "() => void",
+          "type": "(portId: string | undefined) => void",
           "required": true
         },
         {
@@ -4047,6 +4183,92 @@
       "isExtracted": true
     },
     {
+      "id": "application/html-preview/html-preview",
+      "name": "HtmlPreview",
+      "importName": "HtmlPreview",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/html-preview/html-preview",
+      "category": "application",
+      "description": "Sandboxed preview of an HTML document or fragment (email templates, provider previews) in an <iframe srcDoc> with every sandbox restriction on: no scripts, forms, popups or navigation, and no CSS leaking either way. The approved replacement for a raw <iframe>.",
+      "props": [
+        {
+          "name": "html",
+          "type": "string",
+          "required": true,
+          "description": "The HTML document or fragment to render, e.g. an email body. Rendered in a sandboxed frame, isolated from the app."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Accessible name of the frame, e.g. \"Preview of Welcome email (English)\". Required."
+        },
+        {
+          "name": "height",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "Frame height. With `autoHeight`, the initial height until the content is measured."
+        },
+        {
+          "name": "autoHeight",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Grows the frame to fit its content. Measuring needs same-origin access to the frame, which\nthis turns on (`sandbox=\"allow-same-origin\"`); scripts stay blocked, so only use it for HTML\nyou trust not to rely on scripts or forms (e.g. your own email templates)."
+        },
+        {
+          "name": "surface",
+          "type": "enum",
+          "enumValues": [
+            "theme",
+            "white"
+          ],
+          "required": false,
+          "default": "white",
+          "description": "`white` keeps a white page behind the content in both themes (emails are designed on white);\n`theme` uses the app's primary surface."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "height": [
+          "sm",
+          "md",
+          "lg"
+        ],
+        "surface": [
+          "white",
+          "theme"
+        ]
+      },
+      "allowedChildren": "none",
+      "moduleExports": [
+        "HtmlPreview"
+      ],
+      "examples": [
+        {
+          "title": "Email preview",
+          "code": "<HtmlPreview title=\"Preview of Welcome email (English)\" html={template.html} />"
+        },
+        {
+          "title": "Sized to content (trusted HTML)",
+          "code": "<HtmlPreview title=\"Preview\" html={template.html} autoHeight />"
+        }
+      ],
+      "a11y": "`title` is required and becomes the frame's accessible name. The frame is a single tab stop; its content is reachable by assistive tech as a separate document.",
+      "doNot": [
+        "Do not use a raw <iframe> -- use HtmlPreview.",
+        "Do not turn on autoHeight for HTML you don't control; it enables same-origin access so the content can be measured.",
+        "Do not wrap HtmlPreview in a Modal wider than the email (600px is typical); use a Drawer or a Modal size=\"2xl\" for side-by-side previews."
+      ],
+      "docsUrl": "/docs/application/html-preview/html-preview",
+      "isExtracted": true
+    },
+    {
       "id": "application/loading-indicator/loading-indicator",
       "name": "LoadingIndicator",
       "importName": "LoadingIndicator",
@@ -4103,7 +4325,7 @@
       "importName": "Modal",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/modals/modal",
       "category": "application",
-      "description": "",
+      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 480 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer.",
       "props": [
         {
           "name": "size",
@@ -4112,15 +4334,26 @@
             "sm",
             "md",
             "lg",
-            "xl"
+            "xl",
+            "full",
+            "2xl"
           ],
           "required": false,
           "default": "md",
-          "description": "Constrains the dialog panel's max width on `sm`+ viewports. On mobile the\npanel always spans the full available width."
+          "description": "Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 480, lg 600, xl 720,\n2xl 960px, full = the whole overlay). On mobile the panel always spans the full available width."
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md",
+          "lg",
+          "xl",
+          "2xl",
+          "full"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Dialog",
@@ -4131,8 +4364,26 @@
         "ModalHeader",
         "ModalOverlay"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<DialogTrigger>\n  <Button>Edit profile</Button>\n  <ModalOverlay>\n    <Modal>\n      <Dialog>\n        {({ close }) => (\n          <>\n            <ModalHeader title=\"Edit profile\" description=\"Update your details.\" onClose={close} />\n            <ModalBody>{form}</ModalBody>\n            <ModalFooter>\n              <Button color=\"secondary\" onPress={close}>Cancel</Button>\n              <Button onPress={save}>Save</Button>\n            </ModalFooter>\n          </>\n        )}\n      </Dialog>\n    </Modal>\n  </ModalOverlay>\n</DialogTrigger>"
+        },
+        {
+          "title": "Destructive confirmation",
+          "code": "<ModalOverlay isOpen={isOpen} onOpenChange={setIsOpen} isDismissable={!isDeleting}>\n  <Modal size=\"sm\">\n    <Dialog role=\"alertdialog\">\n      {({ close }) => (\n        <>\n          <ModalHeader icon={AlertTriangle} iconColor=\"error\" title=\"Delete campaign\" description=\"This cannot be undone.\" onClose={close} />\n          <ModalFooter>\n            <Button color=\"secondary\" onPress={close}>Cancel</Button>\n            <Button color=\"primary-destructive\" isLoading={isDeleting} onPress={remove}>Delete</Button>\n          </ModalFooter>\n        </>\n      )}\n    </Dialog>\n  </Modal>\n</ModalOverlay>"
+        },
+        {
+          "title": "Wide preview",
+          "code": "<Modal size=\"2xl\">...</Modal>"
+        }
+      ],
+      "a11y": "Focus moves into the dialog on open, Tab is trapped inside, Escape closes it and focus returns to the trigger. ModalHeader's title labels the dialog. Use Dialog role=\"alertdialog\" for confirmations, keep Cancel as the first focusable button, and set ModalOverlay isDismissable={false} while a destructive action is running.",
+      "doNot": [
+        "Do not hand-build a fixed inset-0 overlay -- use ModalOverlay + Modal (focus trap, scroll lock and focus return come with it).",
+        "Do not label the dialog with aria-label when a visible ModalHeader title exists.",
+        "Do not use a Modal wider than xl for reading content; 2xl/full are for previews and comparisons."
+      ],
       "docsUrl": "/docs/application/modals/modal",
       "isExtracted": true
     },
@@ -4257,7 +4508,13 @@
       "variants": {},
       "allowedChildren": "any",
       "moduleExports": [
-        "Pagination"
+        "Pagination",
+        "Pagination.Context",
+        "Pagination.Ellipsis",
+        "Pagination.Item",
+        "Pagination.NextTrigger",
+        "Pagination.PrevTrigger",
+        "Pagination.Root"
       ],
       "examples": [],
       "doNot": [],
@@ -4584,7 +4841,7 @@
       "importName": "Table",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/table/table",
       "category": "application",
-      "description": "",
+      "description": "Data table on React Aria's grid: TableCard.Root > TableCard.Header (title, description, contentTrailing actions, filters row) + Table > Table.Header (Table.Head columns) + Table.Body (Table.Row > Table.Cell). Supports sorting (allowsSorting + sortDescriptor), selection (selectionMode), row actions (onRowAction) and expandable detail rows (Table.Row isDetail with one Table.Cell colSpan).",
       "props": [
         {
           "name": "size",
@@ -4598,7 +4855,12 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Table",
@@ -4608,10 +4870,31 @@
         "Table.Header",
         "Table.Row",
         "TableCard",
+        "TableCard.Header",
+        "TableCard.Root",
         "TableRowActionsDropdown"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Card with actions and filters",
+          "code": "<TableCard.Root>\n  <TableCard.Header title=\"Contacts\" description=\"Last 90 days\" contentTrailing={<Button size=\"sm\">Add contact</Button>} filters={<Input aria-label=\"Search contacts\" placeholder=\"Search\" size=\"sm\" />} />\n  <Table aria-label=\"Contacts\">\n    <Table.Header>\n      <Table.Head id=\"name\" label=\"Name\" isRowHeader />\n      <Table.Head id=\"email\" label=\"Email\" />\n    </Table.Header>\n    <Table.Body items={contacts}>\n      {(contact) => (\n        <Table.Row id={contact.id}>\n          <Table.Cell>{contact.name}</Table.Cell>\n          <Table.Cell>{contact.email}</Table.Cell>\n        </Table.Row>\n      )}\n    </Table.Body>\n  </Table>\n</TableCard.Root>"
+        },
+        {
+          "title": "Rows that read other state",
+          "code": "<Table.Body items={templates} dependencies={[pendingIds, providerStatus]}>\n  {(template) => <Table.Row id={template.id}>...</Table.Row>}\n</Table.Body>"
+        },
+        {
+          "title": "Expandable detail row",
+          "code": "{logs.flatMap((log) => [\n  <Table.Row key={log.id} id={log.id}>...<Table.Cell><Button color=\"link-gray\" aria-expanded={open.has(log.id)} onClick={() => toggle(log.id)}>Details</Button></Table.Cell></Table.Row>,\n  ...(open.has(log.id) ? [<Table.Row key={`${log.id}-detail`} id={`${log.id}-detail`} isDetail><Table.Cell colSpan={4}><CodeBlock code={log.json} /></Table.Cell></Table.Row>] : []),\n])}"
+        }
+      ],
+      "a11y": "Mark one column isRowHeader. Sorting announces aria-sort; rows with onRowAction are keyboard-activatable with Enter. Give every Table an aria-label (or aria-labelledby the card title). Expand/collapse buttons set aria-expanded.",
+      "doNot": [
+        "Do not use a raw <table>, or <tr onClick> rows -- use Table (keyboard access and semantics come with it).",
+        "Do not read state other than the row's item inside dynamic Table.Body rows without listing it in Table.Body dependencies={[...]} -- rows are cached by item identity and will show stale values.",
+        "Do not put search fields or filter selects in TableCard.Header contentTrailing; use the filters slot so the description keeps its width.",
+        "Do not build separate desktop table and mobile card markup; hide non-essential columns by breakpoint instead."
+      ],
       "docsUrl": "/docs/application/table/table",
       "isExtracted": true
     },
@@ -4621,7 +4904,7 @@
       "importName": "Tabs",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/tabs/tabs",
       "category": "application",
-      "description": "",
+      "description": "Tabbed views. Tabs (selectedKey/onSelectionChange or defaultSelectedKey) > Tabs.List (type, size, items) + one Tabs.Panel per tab id. List types: button-brand (default), button-gray, button-border, button-minimal, underline, line.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -4635,8 +4918,17 @@
         "Tabs.List",
         "Tabs.Panel"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Controlled tabs with lazy panels",
+          "code": "<Tabs selectedKey={tab} onSelectionChange={setTab}>\n  <Tabs.List type=\"underline\" items={[{ id: \"overview\", label: \"Overview\" }, { id: \"activity\", label: \"Activity\" }]} />\n  <Tabs.Panel id=\"overview\"><Overview /></Tabs.Panel>\n  <Tabs.Panel id=\"activity\">{tab === \"activity\" && <Activity />}</Tabs.Panel>\n</Tabs>"
+        }
+      ],
+      "a11y": "Renders tablist/tab/tabpanel. Activation is manual: arrow keys move focus between tabs, Enter or Space selects -- this suits panels that load data when shown. Pass keyboardActivation=\"automatic\" to select on arrow. Every Tabs.Panel id must match a tab id.",
+      "doNot": [
+        "Do not build tab bars from Buttons -- they lack tablist semantics and arrow-key navigation.",
+        "Do not cram more than ~5 tabs into a phone-width list; switch to a NativeSelect of sections below md."
+      ],
       "docsUrl": "/docs/application/tabs/tabs",
       "isExtracted": true
     },
@@ -4860,6 +5152,17 @@
           "required": false,
           "default": "false",
           "description": "Whether the avatar should show a focus ring when the parent group is in focus.\nFor example, when the avatar is wrapped inside a link."
+        },
+        {
+          "name": "imageFit",
+          "type": "enum",
+          "enumValues": [
+            "cover",
+            "contain"
+          ],
+          "required": false,
+          "default": "cover",
+          "description": "How the image fills the avatar. `contain` shows the whole image (no cropping) on a neutral\nsurface -- use it for logos and other non-square marks."
         }
       ],
       "slots": [],
@@ -5000,6 +5303,17 @@
           "required": false,
           "default": "false",
           "description": "Whether the avatar should show a focus ring when the parent group is in focus.\nFor example, when the avatar is wrapped inside a link."
+        },
+        {
+          "name": "imageFit",
+          "type": "enum",
+          "enumValues": [
+            "cover",
+            "contain"
+          ],
+          "required": false,
+          "default": "\"cover\"",
+          "description": "How the image fills the avatar. `contain` shows the whole image (no cropping) on a neutral\nsurface -- use it for logos and other non-square marks."
         }
       ],
       "slots": [],
@@ -5127,6 +5441,17 @@
           "required": false,
           "default": "false",
           "description": "Whether the avatar should show a focus ring when the parent group is in focus.\nFor example, when the avatar is wrapped inside a link."
+        },
+        {
+          "name": "imageFit",
+          "type": "enum",
+          "enumValues": [
+            "cover",
+            "contain"
+          ],
+          "required": false,
+          "default": "\"cover\"",
+          "description": "How the image fills the avatar. `contain` shows the whole image (no cropping) on a neutral\nsurface -- use it for logos and other non-square marks."
         }
       ],
       "slots": [],
@@ -5299,7 +5624,7 @@
       "importName": "ButtonGroup",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/button-group/button-group",
       "category": "base",
-      "description": "",
+      "description": "Segmented toggle buttons. ButtonGroup (size sm|md|lg, selectionMode single by default, selectedKeys/onSelectionChange) > ButtonGroupItem (id, iconLeading, iconTrailing, children). Selected text items show a check (showSelectedIndicator, default true) on the active surface.",
       "props": [
         {
           "name": "size",
@@ -5318,17 +5643,39 @@
           "required": false,
           "description": "The CSS [className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className) for the\nelement. A function may be provided to compute the class based on component state.",
           "acceptsClassName": true
+        },
+        {
+          "name": "showSelectedIndicator",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Shows a check before the label of each selected text item (items with their own leading icon,\nand icon-only items, keep their icon). Turn off only when selection is conveyed another way."
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "ButtonGroup",
         "ButtonGroupItem"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Single-select filter",
+          "code": "<ButtonGroup aria-label=\"Status\" selectedKeys={[status]} onSelectionChange={(keys) => setStatus([...keys][0] as Status)}>\n  <ButtonGroupItem id=\"all\">All</ButtonGroupItem>\n  <ButtonGroupItem id=\"running\">Running</ButtonGroupItem>\n  <ButtonGroupItem id=\"failed\">Failed</ButtonGroupItem>\n</ButtonGroup>"
+        }
+      ],
+      "a11y": "Single selection exposes a radiogroup of radios (tests: getByRole(\"radio\")); multiple selection exposes toggle buttons with aria-pressed. Give the group an aria-label. Icon-only items need aria-label.",
+      "doNot": [
+        "Do not use a ButtonGroup for navigation between pages -- use Tabs or links.",
+        "Do not turn showSelectedIndicator off unless selection is shown another way; color alone fails non-color selection cues."
+      ],
       "docsUrl": "/docs/base/button-group/button-group",
       "isExtracted": true
     },
@@ -5856,6 +6203,99 @@
       "isExtracted": true
     },
     {
+      "id": "base/code-block/code-block",
+      "name": "CodeBlock",
+      "importName": "CodeBlock",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/code-block/code-block",
+      "category": "base",
+      "description": "Read-only monospace block for code, JSON payloads, logs and secrets, with an optional caption and copy button. The approved replacement for raw <pre>/<code>.",
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "required": true,
+          "description": "The text to show, verbatim: code, JSON, a log excerpt, an API key."
+        },
+        {
+          "name": "language",
+          "type": "string | undefined",
+          "required": false,
+          "description": "A short caption above the code, e.g. \"JSON\" or \"Request body\". Display only -- there is no syntax highlighting."
+        },
+        {
+          "name": "aria-label",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Accessible name for the scrollable region. Defaults to `language`, then \"Code\"."
+        },
+        {
+          "name": "isWrapped",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Wraps long lines instead of scrolling horizontally. Use for prose-like logs and messages."
+        },
+        {
+          "name": "maxHeight",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "none",
+            "lg"
+          ],
+          "required": false,
+          "default": "none",
+          "description": "Caps the height; longer content scrolls inside the block (keyboard-scrollable)."
+        },
+        {
+          "name": "showCopy",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Shows a copy button."
+        },
+        {
+          "name": "onCopy",
+          "type": "((result: { success: boolean; }) => void) | undefined",
+          "required": false,
+          "description": "Called after a copy attempt, e.g. to show a toast."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "none",
+      "moduleExports": [
+        "CodeBlock"
+      ],
+      "examples": [
+        {
+          "title": "JSON payload",
+          "code": "<CodeBlock language=\"JSON\" code={JSON.stringify(payload, null, 2)} />"
+        },
+        {
+          "title": "Wrapped log line",
+          "code": "<CodeBlock language=\"Log\" isWrapped code={line} />"
+        },
+        {
+          "title": "Long output, capped height",
+          "code": "<CodeBlock language=\"Sync log\" maxHeight=\"md\" code={log} />"
+        },
+        {
+          "title": "Copy with toast feedback",
+          "code": "<CodeBlock code={apiKey} onCopy={({ success }) => (success ? toast.success(\"Copied\") : toast.error(\"Copy failed\"))} />"
+        }
+      ],
+      "a11y": "The copy button has an accessible name and its result is announced in a polite live region. When the content can scroll (long lines, or maxHeight set) the block is a focusable, labelled region so keyboard users can scroll it.",
+      "doNot": [
+        "Do not use a raw <pre> or <code>, or a div with whitespace-pre-wrap, for code or JSON -- use CodeBlock.",
+        "Do not put CodeBlock inside an Alert description (it renders block content); put it in the Alert's children or actions instead.",
+        "Do not rely on the copy icon swap alone for feedback in critical flows; pass onCopy and show a toast when the copy result matters."
+      ],
+      "docsUrl": "/docs/base/code-block/code-block",
+      "isExtracted": true
+    },
+    {
       "id": "base/color-picker/color-area",
       "name": "ColorArea",
       "importName": "ColorArea",
@@ -6141,8 +6581,8 @@
           "name": "shortcut",
           "type": "boolean | undefined",
           "required": false,
-          "default": "true",
-          "description": "Whether to display the ⌘K shortcut hint inside the trigger."
+          "default": "false",
+          "description": "Displays a decorative ⌘K hint inside the trigger. No shortcut is bound by the component, so\nonly turn this on when the app itself focuses the combobox on ⌘K."
         },
         {
           "name": "items",
@@ -6186,6 +6626,24 @@
           "type": "(() => ReactNode) | undefined",
           "required": false,
           "description": "Custom renderer for when the menu has no items. Defaults to a \"No results found\" state, or a loading state while `isLoading` is true."
+        },
+        {
+          "name": "onLoadMore",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Called when the user scrolls near the end of the menu, to fetch the next page of `items`.\nRequires dynamic `items`. Keep a visible fallback (e.g. a \"Load more\" button in `footer`) for\nusers who can't scroll."
+        },
+        {
+          "name": "loadingState",
+          "type": "enum",
+          "enumValues": [
+            "loading",
+            "idle",
+            "loadingMore"
+          ],
+          "required": false,
+          "default": "idle",
+          "description": "`loadingMore` shows a spinner row at the end of the menu while the next page loads (and stops\n`onLoadMore` firing again); `loading` is the same as `isLoading`."
         },
         {
           "name": "hint",
@@ -6411,21 +6869,118 @@
       "isExtracted": true
     },
     {
+      "id": "base/description-list/description-list",
+      "name": "DescriptionList",
+      "importName": "DescriptionList",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/description-list/description-list",
+      "category": "base",
+      "description": "Label/value metadata (record details, settings summaries) rendered as a semantic <dl>. Compound: DescriptionList holds DescriptionList.Item entries, each with a `term` and a value as children. Layouts: stacked or inline; 1-3 responsive columns; optional dividers.",
+      "props": [
+        {
+          "name": "layout",
+          "type": "enum",
+          "enumValues": [
+            "inline",
+            "stacked"
+          ],
+          "required": false,
+          "default": "stacked",
+          "description": "`stacked` puts each term above its value; `inline` puts them side by side from `sm` up\n(term column 160px wide), stacked on phones."
+        },
+        {
+          "name": "columns",
+          "type": "enum",
+          "enumValues": [
+            "1",
+            "2",
+            "3"
+          ],
+          "required": false,
+          "default": "1",
+          "description": "Columns of term/value pairs from `sm` (2) and `lg` (3) up; one column on phones."
+        },
+        {
+          "name": "isDivided",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false",
+          "description": "Draws a divider between rows. Best with `layout=\"inline\"` and one column."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "layout": [
+          "stacked",
+          "inline"
+        ],
+        "columns": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "allowedChildren": [
+        "DescriptionList.Item"
+      ],
+      "moduleExports": [
+        "DescriptionList",
+        "DescriptionList.Item"
+      ],
+      "examples": [
+        {
+          "title": "Record details, two columns",
+          "code": "<DescriptionList columns={2}>\n  <DescriptionList.Item term=\"Sender\">outreach@example.com</DescriptionList.Item>\n  <DescriptionList.Item term=\"Audience\">1,284 contacts</DescriptionList.Item>\n</DescriptionList>"
+        },
+        {
+          "title": "Settings summary, inline with dividers",
+          "code": "<DescriptionList layout=\"inline\" isDivided>\n  <DescriptionList.Item term=\"Throttle\">40 emails / minute</DescriptionList.Item>\n</DescriptionList>"
+        }
+      ],
+      "a11y": "Renders dl/dt/dd, so screen readers announce each value with its term. Empty values render an em dash instead of nothing.",
+      "doNot": [
+        "Do not build label/value pairs from a div grid of Caption + Text -- use DescriptionList so the term/value relationship is exposed.",
+        "Do not put interactive form fields inside -- DescriptionList is for read-only values. Use Form controls for editing."
+      ],
+      "docsUrl": "/docs/base/description-list/description-list",
+      "isExtracted": true
+    },
+    {
       "id": "base/dropdown/dropdown",
       "name": "MenuTrigger",
       "importName": "Dropdown",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/dropdown/dropdown",
       "category": "base",
-      "description": "",
+      "description": "Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, href, and variant=\"destructive\" for delete/remove actions. Menus with selectionMode render checks/radios on items.",
       "props": [],
       "slots": [],
       "variants": {},
       "allowedChildren": "any",
       "moduleExports": [
-        "Dropdown"
+        "Dropdown",
+        "Dropdown.DotsButton",
+        "Dropdown.Item",
+        "Dropdown.Menu",
+        "Dropdown.Popover",
+        "Dropdown.Root",
+        "Dropdown.Section",
+        "Dropdown.SectionHeader",
+        "Dropdown.Separator"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Row actions",
+          "code": "<Dropdown.Root>\n  <Dropdown.DotsButton aria-label={`Actions for ${row.name}`} />\n  <Dropdown.Popover>\n    <Dropdown.Menu onAction={(key) => handle(key)}>\n      <Dropdown.Item id=\"edit\" label=\"Edit\" icon={Edit01} />\n      <Dropdown.Item id=\"duplicate\" label=\"Duplicate\" icon={Copy01} />\n      <Dropdown.Separator />\n      <Dropdown.Item id=\"delete\" label=\"Delete\" icon={Trash01} variant=\"destructive\" />\n    </Dropdown.Menu>\n  </Dropdown.Popover>\n</Dropdown.Root>"
+        },
+        {
+          "title": "Single-choice section",
+          "code": "<Dropdown.Menu>\n  <Dropdown.Section selectionMode=\"single\" selectedKeys={[theme]} onSelectionChange={(keys) => setTheme([...keys][0])}>\n    <Dropdown.SectionHeader>Theme</Dropdown.SectionHeader>\n    <Dropdown.Item id=\"light\" label=\"Light\" />\n    <Dropdown.Item id=\"dark\" label=\"Dark\" />\n  </Dropdown.Section>\n</Dropdown.Menu>"
+        }
+      ],
+      "a11y": "Arrow keys move between items, typeahead jumps, Enter/Space activates, Escape closes and returns focus to the trigger. Give an icon-only trigger a specific name: <Dropdown.DotsButton aria-label=\"Actions for Acme\" /> (defaults to \"Open menu\").",
+      "doNot": [
+        "Do not hand-position a portal menu -- use Dropdown (keyboard navigation and focus return come with it).",
+        "Do not signal a destructive item by color alone and run it immediately; use variant=\"destructive\" and confirm with a dialog."
+      ],
       "docsUrl": "/docs/base/dropdown/dropdown",
       "isExtracted": true
     },
@@ -7724,7 +8279,8 @@
           "name": "shortcut",
           "type": "boolean | undefined",
           "required": false,
-          "default": "true"
+          "default": "false",
+          "description": "Displays a decorative ⌘K hint inside the trigger. No shortcut is bound by the component, so\nonly turn this on when the app itself focuses the combobox on ⌘K."
         },
         {
           "name": "items",
@@ -7928,6 +8484,37 @@
           "required": false,
           "description": "Leading icon rendered in the trigger, before the placeholder / selected count. Matches `Select`'s `icon`.",
           "acceptsIcon": true
+        },
+        {
+          "name": "inputValue",
+          "type": "string | undefined",
+          "required": false,
+          "description": "The search text (controlled). Pair with `onInputChange` and `filter={null}` for server-side search."
+        },
+        {
+          "name": "defaultInputValue",
+          "type": "string | undefined",
+          "required": false,
+          "description": "The initial search text (uncontrolled). Uncontrolled search text is cleared when the popover closes."
+        },
+        {
+          "name": "onInputChange",
+          "type": "((value: string) => void) | undefined",
+          "required": false,
+          "description": "Handler that is called when the search text changes."
+        },
+        {
+          "name": "filter",
+          "type": "((textValue: string, inputValue: string) => boolean) | null | undefined",
+          "required": false,
+          "default": "case- and accent-insensitive \"contains\"",
+          "description": "How items are matched against the search text. Pass `null` to turn local filtering off, e.g.\nwhen `items` already holds the server's results for the current `inputValue`."
+        },
+        {
+          "name": "isLoading",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Shows a loading state in the list (e.g. while server results for the search text are in flight)."
         },
         {
           "name": "hint",
@@ -8306,7 +8893,8 @@
         {
           "name": "items",
           "type": "SelectItemType[] | undefined",
-          "required": false
+          "required": false,
+          "description": "The options. Reactive: replacing the array (e.g. after an async load) updates the menu."
         },
         {
           "name": "popoverClassName",
@@ -8320,8 +8908,33 @@
         },
         {
           "name": "selectedItems",
-          "type": "ListData<SelectItemType>",
-          "required": true
+          "type": "ListData<SelectItemType> | undefined",
+          "required": false,
+          "description": "Selection held in a `useListData` list owned by the caller (the original API). Prefer\n`selectedKeys` / `defaultSelectedKeys` + `onSelectionChange` in new code."
+        },
+        {
+          "name": "selectedKeys",
+          "type": "Key[] | undefined",
+          "required": false,
+          "description": "The selected item ids (controlled). Ignored when `selectedItems` is passed."
+        },
+        {
+          "name": "defaultSelectedKeys",
+          "type": "Key[] | undefined",
+          "required": false,
+          "description": "The initially selected item ids (uncontrolled)."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "((keys: Key[]) => void) | undefined",
+          "required": false,
+          "description": "Called with the full list of selected ids whenever a tag is added or removed."
+        },
+        {
+          "name": "filter",
+          "type": "((textValue: string, inputValue: string) => boolean) | null | undefined",
+          "required": false,
+          "description": "How options are matched against the typed text. Pass `null` to turn local filtering off when\n`items` already holds server results for the current input (listen with `onInputChange`).\nSelected options are always hidden from the menu."
         },
         {
           "name": "icon",
@@ -8435,7 +9048,7 @@
       "importName": "TagAvatar",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/tags/tags",
       "category": "base",
-      "description": "",
+      "description": "Tag chips on React Aria's TagGroup: TagGroup (label, size, selectionMode, onRemove) > TagList (items) > Tag. Removable chips are keyboard reachable (arrow keys between tags, Backspace/Delete removes).",
       "props": [
         {
           "name": "contrastBorder",
@@ -8445,7 +9058,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Tag",
@@ -8453,8 +9072,17 @@
         "TagGroup",
         "TagList"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Removable chips",
+          "code": "<TagGroup label=\"Selected schools\" onRemove={(keys) => setSelected((prev) => prev.filter((s) => !keys.has(s.id)))}>\n  <TagList items={selected}>{(school) => <Tag id={school.id}>{school.name}</Tag>}</TagList>\n</TagGroup>"
+        }
+      ],
+      "a11y": "TagGroup needs a label (visible or aria-label). Prefer TagGroup onRemove={(keys) => ...} over per-Tag callbacks so removal always sees current state.",
+      "doNot": [
+        "Do not show a remove button only on hover -- removable tags must be reachable by keyboard and touch.",
+        "Do not rely on a per-Tag onClose closure that captures list state: TagList caches rendered items, so the closure can be stale (removing one chip can remove all). Use TagGroup onRemove, or read the latest list from a ref."
+      ],
       "docsUrl": "/docs/base/tags/tags",
       "isExtracted": true
     },
@@ -11737,6 +12365,7 @@
     "allowedTailwindPatterns": [
       "^(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
       "^(hover|focus|focus-visible|active|disabled|dark):(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
+      "^(outline-brand|outline-brand-solid|outline-brand-solid_hover|outline-brand_alt|outline-error|outline-error_subtle|outline-primary|outline-secondary|outline-secondary_alt|outline-tertiary|ring-brand|ring-brand-solid|ring-brand-solid_hover|ring-brand_alt|ring-error|ring-error_subtle|ring-primary|ring-secondary|ring-secondary_alt|ring-tertiary)$",
       "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
       "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
       "^-?(m|p)[trblxy]?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",
@@ -11747,9 +12376,10 @@
       "^(min-w|min-h|max-w|max-h)-(0|px|full|screen|dvh|svh|lvh|dvw|svw|none|min|max|fit|3xs|2xs|xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",
       "^rounded(-[tlbr]{1,2})?(-none|-sm|-md|-lg|-xl|-2xl|-3xl|-full)?$",
       "^border(-[trblxy])?(-0|-2|-4|-8)?$",
+      "^border-(solid|dashed|dotted|double|none)$",
       "^divide-(x|y)(-0|-2|-4|-8)?$",
-      "^text-(xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl)$",
-      "^font-(normal|medium|semibold|bold)$",
+      "^text-(xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|display-2xl|display-lg|display-md|display-sm|display-xl|display-xs)$",
+      "^font-(normal|medium|semibold|bold|mono|body|display)$",
       "^leading-(none|tight|snug|normal|relaxed|loose|3|4|5|6|7|8|9|10)$",
       "^tracking-(tighter|tight|normal|wide|wider|widest)$",
       "^(uppercase|lowercase|capitalize|normal-case)$",
@@ -11769,7 +12399,13 @@
       "^z-(0|10|20|30|40|50|auto)$",
       "^whitespace-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)$",
       "^truncate$",
-      "^(text|break)-(left|center|right|justify|ellipsis|clip|all|words|normal)$",
+      "^line-clamp-([1-6]|none)$",
+      "^(text|break)-(left|center|right|justify|ellipsis|clip|all|words|normal|keep)$",
+      "^wrap-(anywhere|break-word|normal)$",
+      "^align-(baseline|top|middle|bottom|text-top|text-bottom)$",
+      "^tabular-nums$",
+      "^(sr-only|not-sr-only)$",
+      "^scrollbar-hide$",
       "^(cursor-pointer|cursor-not-allowed|cursor-default|pointer-events-none|pointer-events-auto)$",
       "^outline(-none|-hidden|-dashed|-dotted|-\\d)?$",
       "^outline-offset-(0|1|2|4|8)$",
@@ -20977,7 +21613,11 @@
       "Import every component from the package specifier given by the registry's importPath, e.g. import { Button } from \"@your-job-search-genius/odyssey-ui/components/base/buttons/button\". Import icons from \"@your-job-search-genius/odyssey-ui/components/foundations/icons\". Code importing from \"@/components/...\" is rejected by validate_jsx.",
       "In the app's global stylesheet, import the library styles: @import \"@your-job-search-genius/odyssey-ui/styles/globals.css\"; (this pulls in Tailwind v4, the design tokens, and typography). Since v1.0.1 the package declares its own @source directives, so Tailwind scans the package's classes automatically; only if pinned to 1.0.0 add @source \"../node_modules/@your-job-search-genius/odyssey-ui\"; (path relative to the CSS file) manually. Since v1.0.2 the Tailwind plugins the stylesheet loads (@tailwindcss/typography, tailwindcss-react-aria-components, tailwindcss-animate) are dependencies of the package; if pinned to <=1.0.1, install those three packages in the app manually to fix \"Can't resolve\" errors from the @plugin directives.",
       "The package ships TypeScript source, and that source resolves its own internals through the \"@/\" alias. Map that alias to the installed package in the consuming app: tsconfig \"paths\": { \"@/*\": [\"./node_modules/@your-job-search-genius/odyssey-ui/*\"] } plus the equivalent bundler alias (Next.js: also add \"@your-job-search-genius/odyssey-ui\" to transpilePackages). Keep the app's own source on a different alias so the two never collide.",
-      "Vite apps additionally need optimizeDeps configured, because the package's TS source lives in node_modules where Vite's dependency scanner does not look: set optimizeDeps: { exclude: [\"@your-job-search-genius/odyssey-ui\"], include: [\"react-aria-components\", \"react-aria\", \"react-stately\", \"@internationalized/date\"] } in vite.config. Without this, Vite serves react-aria's ESM files unbundled and their imports of CJS-only deps fail in the browser with errors like \"The requested module '/node_modules/use-sync-external-store/shim/index.js' does not provide an export named 'useSyncExternalStore'\"."
+      "Vite apps additionally need optimizeDeps configured, because the package's TS source lives in node_modules where Vite's dependency scanner does not look: set optimizeDeps: { exclude: [\"@your-job-search-genius/odyssey-ui\"], include: [\"react-aria-components\", \"react-aria\", \"react-stately\", \"@internationalized/date\"] } in vite.config. Without this, Vite serves react-aria's ESM files unbundled and their imports of CJS-only deps fail in the browser with errors like \"The requested module '/node_modules/use-sync-external-store/shim/index.js' does not provide an export named 'useSyncExternalStore'\". Prefix those entries with the package (\"@your-job-search-genius/odyssey-ui > react-aria-components\") when the app does not depend on them directly.",
+      "Vite apps that already use \"@/\" for their own src/ must resolve \"@/\" per importer instead of with resolve.alias (Vite applies aliases before plugins, so an alias would send the package's own \"@/\" imports to src/). Add an enforce:\"pre\" plugin: const odysseyRoot = fs.realpathSync(path.dirname(require.resolve(\"@your-job-search-genius/odyssey-ui/package.json\"))); resolveId(source, importer, options) { if (!source.startsWith(\"@/\")) return null; const root = importer?.split(\"?\")[0].startsWith(odysseyRoot) ? odysseyRoot : srcRoot; return this.resolve(`${root}/${source.slice(2)}`, importer, { ...options, skipSelf: true }); }. Also set resolve.dedupe: [\"react\", \"react-dom\"]. The installation docs page has the complete vite.config.",
+      "Fonts: the theme's --font-body / --font-display use var(--font-inter, \"Inter\"), but the package does not ship or load Inter. Load it in the app (Vite/plain HTML: a Google Fonts <link> for Inter 400/500/600/700 in index.html; Next.js: next/font/google Inter with variable \"--font-inter\" on <html>). Without it the UI silently falls back to system fonts.",
+      "Dark mode: the library ships no provider. Toggle the \"dark-mode\" class on <html> (document.documentElement.classList.toggle(\"dark-mode\", isDark)); every token switches automatically and the theme sets CSS color-scheme so native controls follow. To avoid a light flash, apply the class from a small inline script in <head> before first paint (read a stored choice, else matchMedia(\"(prefers-color-scheme: dark)\")). Next.js + next-themes: attribute=\"class\" value={{ dark: \"dark-mode\" }}.",
+      "App setup providers: mount <Toaster /> (from @your-job-search-genius/odyssey-ui/components/application/alerts/alert) once near the root to show toast() notifications, and wrap the app in react-aria-components' <RouterProvider navigate={...} useHref={...}> so library links (Button href, SidebarLayout items) navigate client-side. RouterProvider and I18nProvider are the only react-aria-components imports validate_jsx accepts."
     ],
     "styleRules": [
       "className may only use Tailwind utility classes that resolve to a design token (see get_tokens) -- spacing, color, radius, typography, layout.",
@@ -20993,6 +21633,8 @@
       "Compound components must respect their documented parent/child nesting (e.g. Select.Item only inside Select / Select.ComboBox).",
       "Icons must come from search_icons / get_tokens results only.",
       "App shells: wrap page content in SidebarLayout (@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar) -- it is the only sidebar navigation component and owns the page's <main> landmark (one per page, never nested). Top-bar navigation uses HeaderNavigationBase (@your-job-search-genius/odyssey-ui/components/application/header-navigation/header-navigation). Never assemble a sidebar or mobile nav from <aside>/<nav>/div primitives.",
+      "Code, JSON and logs go in CodeBlock (not <pre>/<code>); label/value metadata goes in DescriptionList (not a div grid or <dl>); untrusted or email HTML goes in HtmlPreview (never a raw <iframe>).",
+      "These rules bind consuming apps. The library's own source uses a few internals (fractional spacing such as w-58.25, scrollbar styling) that consumers should not copy -- reach for the component instead.",
       "Call validate_jsx before presenting generated code as final."
     ],
     "uxPreamble": [
@@ -21074,7 +21716,7 @@
           "KEY-07: A visible focus indicator on every focusable element. Never remove it (outline-none) unless an equally visible replacement is provided; the library components ship compliant focus rings -- do not override them. Ring spec: 2px solid with >= 3:1 contrast against both the component and adjacent background, offset 2px, applied on :focus-visible. Source: WCAG 2.2 SC 2.4.7 (AA). Verify: every control shows a clear ring on keyboard focus.",
           "KEY-08: Focus appearance target (AAA where practical): indicator area at least a 2 CSS px thick perimeter of the control, with >= 3:1 contrast between focused and unfocused states. Source: WCAG 2.2 SC 2.4.13. Verify: measure ring thickness and state-change contrast.",
           "KEY-09: Focus must not be entirely hidden by author content when received (see ZOOM-05). Source: WCAG 2.2 SC 2.4.11 (AA); target 2.4.12 (AAA). Verify: tab through with sticky chrome present; the focused element stays visible.",
-          "KEY-10: Provide a \"Skip to main content\" link as the first focusable element, targeting the <main> landmark (use Button with href=\"#main-content\" and a link color variant, visually hidden until focused). Source: WCAG 2.2 SC 2.4.1 (A). Verify: one Tab from page load reveals a working skip link.",
+          "KEY-10: Provide a \"Skip to main content\" link as the first focusable element, targeting the <main> landmark (SidebarLayout renders one for you; otherwise use Button with href=\"#main-content\", a link color variant and className=\"sr-only focus-visible:not-sr-only\", which validate_jsx accepts). Source: WCAG 2.2 SC 2.4.1 (A). Verify: one Tab from page load reveals a working skip link.",
           "KEY-11: Composite widgets (menus, tabs, listboxes, grids, toolbars, trees) are a single Tab stop and use arrow keys internally (roving tabindex, or aria-activedescendant where DOM focus must stay on an input). The library widgets already implement this -- pick the real widget component instead of composing one from primitives. Source: WAI-ARIA APG. Verify: Tab reaches the widget once; arrows navigate within.",
           "KEY-12: After dynamic content changes, manage focus deliberately. On item deletion, move focus to the next item, or the previous if last, or the list container if empty. On client-side route change, move focus to the new page's h1 or main (tabindex=\"-1\") and update document.title. Verify: delete a row and change routes; focus lands correctly and the title updates.",
           "KEY-13 Dialog: Tab/Shift+Tab cycle within; Escape closes; focus returns to the trigger.",
@@ -21230,6 +21872,6 @@
         ]
       }
     ],
-    "version": "3.1.0"
+    "version": "3.2.0"
   }
 }

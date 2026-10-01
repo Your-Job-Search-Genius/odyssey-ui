@@ -108,11 +108,52 @@ pnpm add @tailwindcss/typography tailwindcss-react-aria-components tailwindcss-a
 
 </Callout>
 
+### Fonts
+
+The theme's `--font-body` and `--font-display` use `var(--font-inter, "Inter")`, but the package
+does not ship or load Inter. Load it yourself, or the UI silently falls back to system fonts:
+
+```html title="index.html (Vite / plain HTML)"
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+```
+
+```tsx title="app/layout.tsx (Next.js)"
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
+<html lang="en" className={inter.variable}>
+    ...
+</html>;
+```
+
 ### Dark mode
 
-The library ships no theme provider. Dark mode is a plain CSS class: put `dark-mode` on a root
-element (usually `<html>`) and every design token flips. With `next-themes`, map its class
-values so it applies the library's class directly:
+The library ships no theme provider. Dark mode is a plain CSS class: put `dark-mode` on
+`<html>` and every design token flips. The theme also sets CSS `color-scheme` (`light` by
+default, `dark` under `.dark-mode`), so native scrollbars, date inputs and `<select>` popups
+follow along.
+
+```ts
+document.documentElement.classList.toggle("dark-mode", isDark);
+```
+
+To avoid a flash of the light theme, apply the class before first paint with a small inline
+script in `<head>` -- a stored choice first, otherwise the OS preference:
+
+```html title="index.html"
+<script>
+    (function () {
+        var stored = localStorage.getItem("theme"); // "light" | "dark" | null (= follow the OS)
+        var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark-mode", dark);
+    })();
+</script>
+```
+
+With `next-themes`, map its class values so it applies the library's class directly:
 
 ```tsx
 <ThemeProvider attribute="class" value={{ light: "light-mode", dark: "dark-mode" }}>
@@ -160,6 +201,70 @@ export default defineConfig({
 
 Keep your app's own source on a different alias (e.g. `~/` or `@app/`) so the two never
 collide.
+
+### Vite apps that already use `@/`
+
+If your app's own code already imports through `@/` (pointing at `src/`), a single
+`resolve.alias` can't serve both sides -- and Vite applies aliases before plugins, so an alias
+entry would send the package's own `@/` imports into your `src/`. Resolve `@/` per importer
+with a small plugin instead, and drop the `@` alias:
+
+```ts title="vite.config.ts"
+import react from "@vitejs/plugin-react";
+import fs from "node:fs";
+import { createRequire } from "node:module";
+import path from "node:path";
+import { type Plugin, defineConfig } from "vite";
+
+const require = createRequire(import.meta.url);
+const normalize = (p: string) => p.replace(/\\/g, "/");
+// require.resolve works with hoisted and per-package node_modules layouts alike.
+const odysseyRoot = normalize(fs.realpathSync(path.dirname(require.resolve("@your-job-search-genius/odyssey-ui/package.json"))));
+const srcRoot = normalize(path.resolve(import.meta.dirname, "./src"));
+
+const odysseyAlias = (): Plugin => ({
+    name: "odyssey-ui-alias",
+    enforce: "pre",
+    async resolveId(source, importer, options) {
+        if (!source.startsWith("@/")) return null;
+        const fromOdyssey = importer ? normalize(importer.split("?")[0]).startsWith(odysseyRoot) : false;
+        return this.resolve(`${fromOdyssey ? odysseyRoot : srcRoot}/${source.slice(2)}`, importer, { ...options, skipSelf: true });
+    },
+});
+
+export default defineConfig({
+    plugins: [odysseyAlias(), react()],
+    // One copy of React, or hooks fail with "Cannot read properties of null (reading 'useEffect')".
+    resolve: { dedupe: ["react", "react-dom"] },
+    optimizeDeps: {
+        exclude: ["@your-job-search-genius/odyssey-ui"],
+        // Prefix with the package when your app doesn't depend on these directly.
+        include: [
+            "@your-job-search-genius/odyssey-ui > react-aria-components",
+            "@your-job-search-genius/odyssey-ui > react-aria",
+            "@your-job-search-genius/odyssey-ui > react-stately",
+            "@your-job-search-genius/odyssey-ui > @internationalized/date",
+            "@your-job-search-genius/odyssey-ui > motion/react",
+        ],
+    },
+});
+```
+
+### TypeScript
+
+The package's source is type-checked by your app's `tsc`. Since **v2.1.0** it declares the
+`@types/d3-*` packages its charts need as dependencies, so you no longer add them yourself,
+and it passes `noUnusedLocals`.
+
+## 4b. App-level providers
+
+Mount these once near the root:
+
+- `<Toaster />` from `@your-job-search-genius/odyssey-ui/components/application/alerts/alert`, so
+  `toast()` / `toast.success()` / `toast.error()` calls have somewhere to render.
+- React Aria's `<RouterProvider navigate={...} useHref={...}>`, so library links (`Button href`,
+  `SidebarLayout` items) navigate client-side. It is one of the two `react-aria-components`
+  imports `validate_jsx` accepts (with `I18nProvider`).
 
 ## 5. Import components
 

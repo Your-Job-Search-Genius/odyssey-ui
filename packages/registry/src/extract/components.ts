@@ -160,7 +160,8 @@ function isPascalCase(name: string): boolean {
 
 /**
  * Syntactic scan of a component file for its PascalCase runtime exports and
- * the compound members assigned onto them (`Table.Row = TableRow`). docgen
+ * the compound members assigned onto them (`Table.Row = TableRow`) or
+ * listed in an exported object literal (`Dropdown = { Item, ... }`). docgen
  * only yields one primary entry per file, so without this, siblings like
  * ModalHeader and members like Table.Row are invisible to validate_jsx.
  */
@@ -193,6 +194,23 @@ export function collectModuleExports(filePath: string): string[] {
         const member = left.name.text;
         if (!isPascalCase(member)) continue;
         for (const exported of exportedAs.get(left.expression.text) ?? []) if (isPascalCase(exported)) names.add(`${exported}.${member}`);
+    }
+
+    // Object-literal namespaces: `export const Dropdown = { Root, Item: DropdownItem, ... }`.
+    for (const stmt of sourceFile.statements) {
+        if (!ts.isVariableStatement(stmt)) continue;
+        for (const decl of stmt.declarationList.declarations) {
+            if (!ts.isIdentifier(decl.name) || !decl.initializer) continue;
+            let init: ts.Expression = decl.initializer;
+            while (ts.isAsExpression(init) || ts.isSatisfiesExpression(init) || ts.isParenthesizedExpression(init)) init = init.expression;
+            if (!ts.isObjectLiteralExpression(init)) continue;
+            for (const prop of init.properties) {
+                if (!(ts.isPropertyAssignment(prop) || ts.isShorthandPropertyAssignment(prop)) || !ts.isIdentifier(prop.name)) continue;
+                const member = prop.name.text;
+                if (!isPascalCase(member)) continue;
+                for (const exported of exportedAs.get(decl.name.text) ?? []) if (isPascalCase(exported)) names.add(`${exported}.${member}`);
+            }
+        }
     }
 
     return [...names].sort();

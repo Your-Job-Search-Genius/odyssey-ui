@@ -4,15 +4,22 @@ import type { KeyboardEvent as ReactKeyboardEvent, RefCallback } from "react";
 import { useCallback, useRef, useState } from "react";
 
 export interface UseFlowCanvasFocusOptions {
-    /** Node ids in visual/DOM order. Determines Tab/Shift+Tab traversal order. */
+    /**
+     * Focusable item keys in traversal order: every node id, then every edge as `edgeFocusKey(id)`.
+     * Determines Tab/Shift+Tab order.
+     */
     nodeIds: readonly string[];
 }
 
+/** Roving-focus key for an edge, kept apart from node ids. */
+export const edgeFocusKey = (edgeId: string) => `edge:${edgeId}`;
+
 export interface FlowCanvasFocusItemProps {
     tabIndex: 0 | -1;
-    ref: RefCallback<HTMLElement>;
+    /** Nodes are HTML cards; edges are SVG paths. */
+    ref: RefCallback<HTMLElement | SVGElement>;
     onFocus: () => void;
-    onKeyDown: (event: ReactKeyboardEvent<HTMLElement>) => void;
+    onKeyDown: (event: ReactKeyboardEvent<Element>) => void;
 }
 
 export interface UseFlowCanvasFocusResult {
@@ -23,15 +30,15 @@ export interface UseFlowCanvasFocusResult {
 }
 
 /**
- * Roving tabindex over the canvas's nodes: the canvas is one tab stop from the
- * surrounding page's perspective (only the current node has `tabIndex={0}`), and
- * Tab/Shift+Tab while a node is focused moves to the next/previous node instead of
- * leaving the canvas -- modeled on `charts/use-chart-focus.ts`, but keyed on Tab
+ * Roving tabindex over the canvas's nodes and then its edges: the canvas is one tab
+ * stop from the surrounding page's perspective (only the current item has
+ * `tabIndex={0}`), and Tab/Shift+Tab while an item is focused moves to the next/previous
+ * one instead of leaving the canvas -- modeled on `charts/use-chart-focus.ts`, but keyed on Tab
  * rather than the arrow keys, since arrow keys reposition the focused node here.
  */
 export function useFlowCanvasFocus({ nodeIds }: UseFlowCanvasFocusOptions): UseFlowCanvasFocusResult {
     const [tabbableId, setTabbableId] = useState<string | null>(nodeIds[0] ?? null);
-    const elementsRef = useRef(new Map<string, HTMLElement>());
+    const elementsRef = useRef(new Map<string, HTMLElement | SVGElement>());
 
     const effectiveTabbableId = tabbableId && nodeIds.includes(tabbableId) ? tabbableId : (nodeIds[0] ?? null);
 

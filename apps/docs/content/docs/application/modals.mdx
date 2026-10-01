@@ -1,6 +1,6 @@
 ---
 title: Modals
-description: TODO -- one sentence describing Modals's primary use case.
+description: Overlay dialogs for focused tasks and confirmations.
 ---
 
 ## Overview
@@ -15,7 +15,31 @@ import { DialogTrigger } from "@/components/application/modals/modal";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<DialogTrigger>
+    <Button>Edit profile</Button>
+    <ModalOverlay>
+        <Modal size="md">
+            <Dialog>
+                {({ close }) => (
+                    <>
+                        <ModalHeader title="Edit profile" description="Update your details." onClose={close} />
+                        <ModalBody>{form}</ModalBody>
+                        <ModalFooter>
+                            <Button color="secondary" onPress={close}>
+                                Cancel
+                            </Button>
+                            <Button onPress={save}>Save</Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </Dialog>
+        </Modal>
+    </ModalOverlay>
+</DialogTrigger>
+```
+
+`size` sets the max width from `sm` up: `sm` 400px, `md` 480px (default), `lg` 600px, `xl` 720px, `2xl` 960px (previews, comparisons) and `full` (the whole overlay). On phones the panel always spans the screen.
 
 ## Props
 
@@ -43,7 +67,10 @@ import { DialogTrigger } from "@/components/application/modals/modal";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Focus moves into the dialog on open, <kbd>Tab</kbd> stays inside, <kbd>Esc</kbd> closes it, and focus returns to the trigger.
+- `ModalHeader`'s title labels the dialog -- don't add a separate `aria-label`.
+- For confirmations use `<Dialog role="alertdialog">`, keep Cancel first, and set `isDismissable={false}` on the overlay while the action runs.
+- A combobox can be the dialog's first field: its menu opens on click, typing or <kbd>Alt</kbd>+<kbd>↓</kbd>, not when it merely receives focus.
 
 ## Related
 

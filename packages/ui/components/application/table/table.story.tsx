@@ -141,3 +141,9 @@ TableOffline.parameters = {
         desktop: "12201-545323",
     },
 };
+
+export const TableExpandableRows = () => <Tables.TableExpandableRows />;
+TableExpandableRows.storyName = "Expandable rows";
+
+export const TableCardWithFilters = () => <Tables.TableCardWithFilters />;
+TableCardWithFilters.storyName = "Header with filters row";

@@ -9,12 +9,29 @@ import type { ChartProps } from "./chart";
 import { Chart, useChartContext, useChartTooltip } from "./chart";
 import { ChartAxisBottom, ChartAxisLeft, ChartCrosshair, ChartFocusRing, ChartGrid, ChartLabel } from "./chart-primitives";
 import type { ChartSeries, ChartTooltipData } from "./chart-types";
-import { estimateTextWidth, evenlySpacedIndices, fitLabel, formatCompact, formatNumber, lerp, seriesColor, stagger, toLabel, toNumber } from "./chart-utils";
+import {
+    MISSING_VALUE_LABEL,
+    estimateTextWidth,
+    evenlySpacedIndices,
+    fitLabel,
+    formatCompact,
+    formatNumber,
+    isMissingValue,
+    lerp,
+    seriesColor,
+    stagger,
+    toLabel,
+    toNumber,
+} from "./chart-utils";
 import { useChartFocus } from "./use-chart-focus";
 import { useChartTransition, usePreviousDistinct } from "./use-chart-motion";
 
 export interface LineChartProps<T extends object> extends Omit<ChartProps, "children" | "table" | "legend" | "hiddenKeys" | "onLegendToggle" | "isEmpty"> {
-    /** One datum per x position, in display order. Memoise it: a new array identity replays the transition. */
+    /**
+     * One datum per x position, in display order. Memoise it: a new array identity replays the transition.
+     * A `null` / `undefined` series value is a gap: "line" and "area" break the path there (no marker,
+     * "—" in the tooltip and table); "stacked-area" treats it as 0.
+     */
     data: T[];
     /** The property that labels each x position (a string, number or Date). */
     xKey: Extract<keyof T, string>;
@@ -97,7 +114,10 @@ export const LineChart = <T extends object>({
     const table = useMemo(
         () => ({
             columns: [String(xKey), ...series.map((s) => s.name ?? s.key)],
-            rows: data.map((datum, index) => [formatX(datum, index), ...series.map((s) => valueFormatter(toNumber(datum[s.key])))]),
+            rows: data.map((datum, index) => [
+                formatX(datum, index),
+                ...series.map((s) => (isMissingValue(datum[s.key]) ? MISSING_VALUE_LABEL : valueFormatter(toNumber(datum[s.key])))),
+            ]),
         }),
         [data, series, xKey, formatX, valueFormatter],
     );
@@ -105,9 +125,12 @@ export const LineChart = <T extends object>({
     const autoDescription = useMemo(() => {
         if (data.length === 0 || series.length === 0) return "No data.";
         const first = series[0];
-        const values = data.map((d) => toNumber(d[first.key]));
-        const peakIndex = values.indexOf(Math.max(...values));
-        return `${series.length} series across ${data.length} points. ${first.name ?? first.key} ranges from ${valueFormatter(Math.min(...values))} to ${valueFormatter(Math.max(...values))}, peaking at ${formatX(data[peakIndex], peakIndex)}.`;
+        const values = data.map((d) => (isMissingValue(d[first.key]) ? Number.NEGATIVE_INFINITY : toNumber(d[first.key])));
+        const present = values.filter(Number.isFinite);
+        if (present.length === 0) return `${series.length} series across ${data.length} points, with no values for ${first.name ?? first.key}.`;
+        const peakIndex = values.indexOf(Math.max(...present));
+        const gapNote = present.length < values.length ? ` ${values.length - present.length} points have no value.` : "";
+        return `${series.length} series across ${data.length} points. ${first.name ?? first.key} ranges from ${valueFormatter(Math.min(...present))} to ${valueFormatter(Math.max(...present))}, peaking at ${formatX(data[peakIndex], peakIndex)}.${gapNote}`;
     }, [data, series, valueFormatter, formatX]);
 
     const shouldShowLegend = showLegend ?? series.length > 1;
@@ -208,6 +231,15 @@ const LineChartPlot = <T extends object>({
         return { current: compute(data), previous: isUpdate && previousData ? compute(previousData) : null };
     }, [data, previousData, isUpdate, visible, variant]);
 
+    // Missing values (null, undefined, NaN) are gaps in "line" and "area": the path breaks there and no
+    // marker is drawn. Stacked areas need a value at every point, so there a gap still counts as 0.
+    const gaps = useMemo(() => visible.map((s) => data.map((d) => variant !== "stacked-area" && isMissingValue(d[s.key]))), [visible, data, variant]);
+    const formatPoint = useCallback(
+        (si: number, i: number) =>
+            gaps[si]?.[i] ? MISSING_VALUE_LABEL : valueFormatter(stacks.current[si][i][1] - (variant === "stacked-area" ? stacks.current[si][i][0] : 0)),
+        [gaps, stacks, valueFormatter, variant],
+    );
+
     const values = useMemo(
         () =>
             stacks.current.map((layer, si) =>
@@ -280,12 +312,12 @@ const LineChartPlot = <T extends object>({
             title: formatX(data[current.col], current.col),
             rows: visible.map((s, si) => ({
                 name: s.name,
-                value: valueFormatter(stacks.current[si][current.col][1] - (variant === "stacked-area" ? stacks.current[si][current.col][0] : 0)),
+                value: formatPoint(si, current.col),
                 color: s.color,
                 isActive: si === current.row,
             })),
         };
-    }, [current, data, values, visible, stacks, margin.left, margin.top, xOf, y, formatX, valueFormatter, variant]);
+    }, [current, data, values, visible, margin.left, margin.top, xOf, y, formatX, formatPoint]);
     useChartTooltip(tooltip);
 
     const handlePointerMove = useCallback(
@@ -320,7 +352,7 @@ const LineChartPlot = <T extends object>({
     // Resolve end-label collisions by pushing labels apart vertically.
     const endLabelPositions = useMemo(() => {
         if (!showEndLabels) return [];
-        const items = visible.map((s, si) => ({ si, y: y(values[si]?.at(-1)?.[1] ?? 0) })).sort((a, b) => a.y - b.y);
+        const items = visible.map((_, si) => ({ si, y: y(values[si]?.at(-1)?.[1] ?? 0) })).sort((a, b) => a.y - b.y);
         for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < 14) items[i].y = items[i - 1].y + 14;
         return items;
     }, [showEndLabels, visible, values, y]);
@@ -363,12 +395,19 @@ const LineChartPlot = <T extends object>({
                     <g key={s.key} role="group" aria-label={s.name}>
                         {variant !== "line" && (
                             <path
-                                d={areaGen(values[si]) ?? undefined}
+                                d={areaGen.defined((_, i) => !gaps[si]?.[i])(values[si]) ?? undefined}
                                 fill={variant === "area" ? `url(#${id}-${s.key}-fill)` : s.color}
                                 fillOpacity={variant === "area" ? 1 : 0.14}
                             />
                         )}
-                        <path d={lineGen(values[si]) ?? undefined} fill="none" stroke={s.color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+                        <path
+                            d={lineGen.defined((_, i) => !gaps[si]?.[i])(values[si]) ?? undefined}
+                            fill="none"
+                            stroke={s.color}
+                            strokeWidth={2}
+                            strokeLinejoin="round"
+                            strokeLinecap="round"
+                        />
                     </g>
                 ))}
             </g>
@@ -392,9 +431,10 @@ const LineChartPlot = <T extends object>({
                         const cx = xOf(i);
                         const cy = y(point[1]);
                         const isCurrent = focus.isCurrent(si, i);
-                        const isVisible = showDots || isCurrent;
+                        const isGap = !!gaps[si]?.[i];
+                        const isVisible = !isGap && (showDots || isCurrent);
                         const appear = isUpdate ? 1 : stagger(progress, i, data.length, 0.6);
-                        const label = `${formatX(data[i], i)}, ${s.name}, ${valueFormatter(stacks.current[si][i][1] - (variant === "stacked-area" ? stacks.current[si][i][0] : 0))}`;
+                        const label = `${formatX(data[i], i)}, ${s.name}, ${isGap ? "no value" : formatPoint(si, i)}`;
                         return (
                             <g key={i} {...focus.getItemProps(si, i, label)}>
                                 <circle cx={cx} cy={cy} r={12} fill="transparent" />

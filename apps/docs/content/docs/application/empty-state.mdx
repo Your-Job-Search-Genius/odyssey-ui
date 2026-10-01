@@ -1,6 +1,6 @@
 ---
 title: Empty State
-description: TODO -- one sentence describing Empty State's primary use case.
+description: Empty, no-results and error states with a clear next step.
 ---
 
 ## Overview
@@ -15,7 +15,25 @@ import { EmptyState } from "@/components/application/empty-state/empty-state";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<EmptyState size="sm">
+    <EmptyState.Header>
+        <EmptyState.FeaturedIcon icon={SearchLg} />
+    </EmptyState.Header>
+    <EmptyState.Content>
+        <EmptyState.Title>No campaigns match these filters</EmptyState.Title>
+        <EmptyState.Description>Try a different status or clear the filters.</EmptyState.Description>
+    </EmptyState.Content>
+    <EmptyState.Footer>
+        <Button color="secondary" onClick={clearFilters}>
+            Clear filters
+        </Button>
+        <Button iconLeading={Plus}>Create campaign</Button>
+    </EmptyState.Footer>
+</EmptyState>
+```
+
+Illustrations, file-type icons and the non-default background patterns load on demand, so an empty state with a featured icon doesn't pull hundreds of kilobytes of SVG into your main bundle.
 
 ## Props
 

@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { extractComponents } from "../src/extract/components.js";
+import { collectModuleExports, extractComponents } from "../src/extract/components.js";
 
 const UI_ROOT = path.join(import.meta.dirname, "..", "..", "ui");
 
@@ -80,5 +80,13 @@ describe("extractComponents", () => {
         const { components } = await resultPromise;
         const ids = components.map((c) => c.id);
         expect(new Set(ids).size).toBe(ids.length);
+    });
+});
+
+describe("collectModuleExports", () => {
+    it("records members of an exported object-literal namespace (Dropdown = { Item, ... })", () => {
+        const exports = collectModuleExports(path.join(UI_ROOT, "components/base/dropdown/dropdown.tsx"));
+        expect(exports).toContain("Dropdown.Item");
+        expect(exports).toContain("Dropdown.Root");
     });
 });

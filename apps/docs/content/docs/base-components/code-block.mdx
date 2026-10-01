@@ -1,0 +1,53 @@
+---
+title: Code Block
+description: A read-only monospace block for code, JSON payloads and logs, with an optional caption and copy button.
+---
+
+## Overview
+
+`CodeBlock` shows text verbatim in the monospace font: API payloads, audit-log diffs, sync logs, generated keys. It is the approved replacement for a raw `<pre>` / `<code>`, which `validate_jsx` rejects. There is no syntax highlighting; `language` is only a caption.
+
+<ComponentPreview demo="base/code-block/code-block" export="DefaultDemo" />
+
+## Installation
+
+```ts
+import { CodeBlock } from "@/components/base/code-block/code-block";
+```
+
+## Usage
+
+```tsx
+<CodeBlock language="JSON" code={JSON.stringify(payload, null, 2)} />
+
+// Feedback that matters: show a toast on copy.
+<CodeBlock code={apiKey} onCopy={({ success }) => (success ? toast.success("Copied") : toast.error("Copy failed"))} />
+```
+
+## Props
+
+<PropsTable component="base/code-block/code-block" />
+
+## Examples
+
+### Wrapped lines
+
+<ComponentPreview demo="base/code-block/code-block" export="WrappedDemo" />
+
+### Capped height
+
+<ComponentPreview demo="base/code-block/code-block" export="ScrollingDemo" />
+
+### Without caption or copy
+
+<ComponentPreview demo="base/code-block/code-block" export="NoChromeDemo" />
+
+## Accessibility
+
+- The copy button has an accessible name, and the result ("Copied to clipboard") is announced in a polite live region.
+- When the content can scroll (long unwrapped lines, or `maxHeight`), the block is a focusable, labelled region so keyboard users can scroll it. The label defaults to `language`, then "Code"; override it with `aria-label`.
+
+## Related
+
+- [Description List](/docs/base-components/description-list)
+- [Alerts](/docs/application/alerts)

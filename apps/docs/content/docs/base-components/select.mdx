@@ -1,6 +1,6 @@
 ---
 title: Select
-description: TODO -- one sentence describing Select's primary use case.
+description: Dropdown selection fields -- single, searchable, multi-select and tag select.
 ---
 
 ## Overview
@@ -22,7 +22,44 @@ import { TagSelectBase } from "@/components/base/select/tag-select";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Select label="Team member" placeholder="Select member" items={users}>
+    {(item) => (
+        <Select.Item id={item.id} supportingText={item.email}>
+            {item.name}
+        </Select.Item>
+    )}
+</Select>
+```
+
+### MultiSelect with server-side search
+
+`MultiSelect` exposes its search text: control it with `inputValue` / `onInputChange`, pass `filter={null}` so the results you load aren't filtered again, and `isLoading` while a request is in flight. Selection can be controlled (`selectedKeys`) or uncontrolled (`defaultSelectedKeys`); the trigger shows the count either way. <kbd>Esc</kbd> closes the popover and keeps the selection.
+
+```tsx
+<MultiSelect
+    label="Schools"
+    items={results}
+    inputValue={query}
+    onInputChange={setQuery}
+    filter={null}
+    isLoading={isFetching}
+    selectedKeys={selected}
+    onSelectionChange={setSelected}
+>
+    {(item) => <MultiSelect.Item id={item.id}>{item.label}</MultiSelect.Item>}
+</MultiSelect>
+```
+
+### TagSelect with async options
+
+`TagSelect` re-reads `items` whenever the array changes (async loads work), and accepts controlled `selectedKeys` / `onSelectionChange` (`Key[]`) as an alternative to the `useListData` list in `selectedItems`. Selected tags keep their labels even when the current results no longer include them.
+
+```tsx
+<TagSelect label="Tags" items={tagOptions} selectedKeys={tagIds} onSelectionChange={setTagIds}>
+    {(item) => <TagSelect.Item id={item.id}>{item.label}</TagSelect.Item>}
+</TagSelect>
+```
 
 ## Props
 
@@ -146,7 +183,9 @@ import { TagSelectBase } from "@/components/base/select/tag-select";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Always pass `label` -- the placeholder is not an accessible name.
+- `Select.ComboBox`, `ComboBox` and `TagSelect` open their menu on click, on typing, or with <kbd>↓</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> -- not when focus lands on them, so auto-focusing one (or tabbing through a form) never pops a menu over the page. Pass `menuTrigger="focus"` to get the old behaviour. The ⌘K hint (`shortcut`) is decorative and off by default.
+- In `MultiSelect` and `TagSelect`, <kbd>Esc</kbd> closes the menu without clearing the selection.
 
 ## Related
 

@@ -540,9 +540,15 @@
 }
 
 @layer base {
+    /* Native controls (scrollbars, date inputs, <select> popups) follow the active theme. */
+    :root {
+        color-scheme: light;
+    }
+
     /* DARK MODE VARIABLES */
 
     .dark-mode {
+        color-scheme: dark;
         --color-alpha-white: rgb(12 14 18);
         --color-alpha-black: rgb(255 255 255);
 

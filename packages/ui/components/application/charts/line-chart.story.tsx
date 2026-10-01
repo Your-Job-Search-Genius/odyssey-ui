@@ -26,3 +26,5 @@ WithTable.storyName = "With visible table";
 export const LiveUpdate = () => <Demos.LineChartLiveUpdate />;
 LiveUpdate.storyName = "Live update";
 export const Empty = () => <Demos.LineChartEmpty />;
+export const Gaps = () => <Demos.LineChartGaps />;
+Gaps.storyName = "Gaps (null values)";

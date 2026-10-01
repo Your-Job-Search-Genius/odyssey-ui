@@ -62,6 +62,14 @@ export interface BarChartProps<T extends object> extends Omit<ChartProps, "child
     yTicks?: number;
     /** Called when a bar is activated with Enter, Space or a click. */
     onBarSelect?: (info: { datum: T; seriesKey: string; index: number }) => void;
+    /**
+     * `index` gives each category its own series color (slots 1-8 in order), for a single-series
+     * chart where the bars are distinct things (e.g. funnel stages). Category labels stay on the axis,
+     * so color is never the only key. Ignored with more than one series or `mode="diverging"`; past 8
+     * categories the last slot repeats, so fold the tail into an "Other" category.
+     * @default "series"
+     */
+    colorBy?: "series" | "index";
 }
 
 /**
@@ -87,9 +95,11 @@ export const BarChart = <T extends object>({
     yDomain,
     yTicks = 4,
     onBarSelect,
+    colorBy = "series",
     description,
     ...chartProps
 }: BarChartProps<T>) => {
+    const isColorByIndex = colorBy === "index" && series.length === 1 && mode !== "diverging";
     const [hidden, setHidden] = useState<ReadonlySet<string>>(() => new Set());
     const toggle = useCallback((key: string) => {
         setHidden((prev) => {
@@ -107,8 +117,11 @@ export const BarChart = <T extends object>({
     );
 
     const legend = useMemo(
-        () => series.map((s, index) => ({ key: s.key, name: s.name ?? s.key, color: seriesColor(index, s.color), shape: "square" as const })),
-        [series],
+        () =>
+            isColorByIndex
+                ? data.map((datum, index) => ({ key: `category-${index}`, name: formatX(datum, index), color: seriesColor(index), shape: "square" as const }))
+                : series.map((s, index) => ({ key: s.key, name: s.name ?? s.key, color: seriesColor(index, s.color), shape: "square" as const })),
+        [series, isColorByIndex, data, formatX],
     );
 
     const table = useMemo(
@@ -129,6 +142,8 @@ export const BarChart = <T extends object>({
     }, [data, series, formatValue, formatX]);
 
     const shouldShowLegend = showLegend ?? series.length > 1;
+    // Per-category legend entries are a key, not series toggles.
+    const canToggleLegend = shouldShowLegend && !isColorByIndex;
 
     return (
         <Chart
@@ -136,7 +151,7 @@ export const BarChart = <T extends object>({
             description={description ?? autoDescription}
             legend={shouldShowLegend ? legend : undefined}
             hiddenKeys={hidden}
-            onLegendToggle={shouldShowLegend ? toggle : undefined}
+            onLegendToggle={canToggleLegend ? toggle : undefined}
             table={table}
             isEmpty={data.length === 0 || series.length === 0}
         >
@@ -158,6 +173,7 @@ export const BarChart = <T extends object>({
                     yDomain={yDomain}
                     yTicks={yTicks}
                     onBarSelect={onBarSelect}
+                    isColorByIndex={isColorByIndex}
                 />
             )}
         </Chart>
@@ -182,6 +198,7 @@ interface BarChartPlotProps<T extends object> {
     yDomain?: [number, number];
     yTicks: number;
     onBarSelect?: BarChartProps<T>["onBarSelect"];
+    isColorByIndex: boolean;
 }
 
 /** Surface gap between touching marks (grouped neighbours and stacked segments), in px. */
@@ -205,6 +222,7 @@ const BarChartPlot = <T extends object>({
     yDomain,
     yTicks,
     onBarSelect,
+    isColorByIndex,
 }: BarChartPlotProps<T>) => {
     const progress = useChartTransition(data);
     const previousData = usePreviousDistinct(data);
@@ -344,12 +362,12 @@ const BarChartPlot = <T extends object>({
                 return {
                     name: s.name,
                     value: formatValue(isStacked ? v1 - v0 : v1),
-                    color: isDiverging ? divergingColor(v1) : s.color,
+                    color: isDiverging ? divergingColor(v1) : isColorByIndex ? seriesColor(current.col) : s.color,
                     isActive: si === current.row,
                 };
             }),
         };
-    }, [current, data, barRect, margin.left, margin.top, isHorizontal, categoryLabels, visible, stacks, formatValue, isStacked, isDiverging]);
+    }, [current, data, barRect, margin.left, margin.top, isHorizontal, categoryLabels, visible, stacks, formatValue, isStacked, isDiverging, isColorByIndex]);
     useChartTooltip(tooltip);
 
     const categoryTicks = useMemo(() => {
@@ -425,7 +443,7 @@ const BarChartPlot = <T extends object>({
                         const segmentValue = isStacked ? v1 - v0 : v1;
                         const rect = barRect(si, i);
                         const isCurrent = focus.isCurrent(si, i);
-                        const color = isDiverging ? divergingColor(v1) : s.color;
+                        const color = isDiverging ? divergingColor(v1) : isColorByIndex ? seriesColor(i) : s.color;
                         const isRounded = !isStacked || topSegment[i] === si;
                         // Stacked segments leave a 1px surface gap above and below.
                         const inset = isStacked ? 1 : 0;

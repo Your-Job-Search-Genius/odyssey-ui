@@ -1,6 +1,6 @@
 ---
 title: Table
-description: TODO -- one sentence describing Table's primary use case.
+description: Data tables with sorting, selection, row actions, filters and expandable detail rows.
 ---
 
 ## Overview
@@ -15,7 +15,37 @@ import { Table } from "@/components/application/table/table";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<TableCard.Root>
+    <TableCard.Header
+        title="Contacts"
+        description="Everyone who received at least one campaign email in the last 90 days."
+        contentTrailing={<Button size="sm">Add contact</Button>}
+        filters={<Input aria-label="Search contacts" placeholder="Search" size="sm" />}
+    />
+    <Table aria-label="Contacts">
+        <Table.Header>
+            <Table.Head id="name" label="Name" isRowHeader />
+            <Table.Head id="email" label="Email" />
+        </Table.Header>
+        <Table.Body items={contacts} dependencies={[pendingIds]}>
+            {(contact) => (
+                <Table.Row id={contact.id}>
+                    <Table.Cell>{contact.name}</Table.Cell>
+                    <Table.Cell>{pendingIds.has(contact.id) ? "Saving…" : contact.email}</Table.Cell>
+                </Table.Row>
+            )}
+        </Table.Body>
+    </Table>
+</TableCard.Root>
+```
+
+<Callout type="warn">
+    With dynamic `items`, `Table.Body` caches rows by item identity. A cell that reads anything besides its own item (another query, a pending flag, an
+    expanded-row set) won't update when only that changes -- list those values in `dependencies`.
+</Callout>
+
+Put search fields and filter selects in `TableCard.Header`'s `filters` slot (a full-width row); keep `contentTrailing` for compact actions so the description keeps its width.
 
 ## Props
 
@@ -85,9 +115,22 @@ import { Table } from "@/components/application/table/table";
 
 <ComponentPreview demo="application/table/table" export="TableOffline" />
 
+### Expandable rows
+
+Render a `Table.Row isDetail` right after its parent row, with one `Table.Cell` whose `colSpan` covers every column (including the selection column, if any). Detail rows size to their content and skip the selection checkbox.
+
+<ComponentPreview demo="application/table/table" export="TableExpandableRows" />
+
+### Header with filters
+
+<ComponentPreview demo="application/table/table" export="TableCardWithFilters" />
+
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Built on React Aria's grid: arrow keys move between cells, and rows with `onRowAction` activate with <kbd>Enter</kbd>.
+- Mark one column `isRowHeader`, and give every table an `aria-label`.
+- Sortable columns (`allowsSorting` + `sortDescriptor`) announce `aria-sort`.
+- Expand/collapse buttons should set `aria-expanded`.
 
 ## Related
 

@@ -14,6 +14,11 @@ import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
 interface ComboBoxProps extends Omit<AriaComboBoxProps<SelectItemType>, "children" | "items">, RefAttributes<HTMLDivElement>, CommonProps {
+    /**
+     * Displays a decorative ⌘K hint inside the trigger. No shortcut is bound by the component, so
+     * only turn this on when the app itself focuses the combobox on ⌘K.
+     * @default false
+     */
     shortcut?: boolean;
     items?: SelectItemType[];
     popoverClassName?: string;
@@ -78,6 +83,11 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
                 <AriaInput
                     placeholder={placeholder}
+                    // The menu opens on click, typing or Alt/Arrow Down -- not on focus alone, so an
+                    // auto-focused combobox (e.g. a dialog's first field) doesn't cover the form.
+                    onClick={() => {
+                        if (state && !state.isOpen) state.open(null, "manual");
+                    }}
                     className={cx(
                         "z-10 w-full appearance-none bg-transparent text-transparent caret-alpha-black/90 placeholder:text-placeholder focus:outline-hidden disabled:cursor-not-allowed",
                         sizes[size].text,
@@ -107,7 +117,7 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
 export const ComboBox = ({
     placeholder = "Search",
-    shortcut = true,
+    shortcut = false,
     size = "md",
     children,
     items,
@@ -136,7 +146,7 @@ export const ComboBox = ({
 
     return (
         <SelectContext.Provider value={{ size }}>
-            <AriaComboBox menuTrigger="focus" {...otherProps}>
+            <AriaComboBox menuTrigger="input" {...otherProps}>
                 {(state) => (
                     <div className="flex flex-col gap-1.5">
                         {otherProps.label && (

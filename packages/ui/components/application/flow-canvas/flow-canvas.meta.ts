@@ -11,7 +11,7 @@ export const componentMeta = {
         edgeStyle: ["smooth", "sketchy"],
         speed: ["slow", "normal", "fast"],
     },
-    a11y: "The canvas is one tab stop; Tab/Shift+Tab move a roving focus between nodes, arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
+    a11y: "The canvas is one tab stop; Tab/Shift+Tab move a roving focus through the nodes and then the connections (announced as 'Connection from A (Yes) to B'; Enter selects, Delete removes), arrow keys nudge the focused node's position (Shift for a larger step), Delete/Backspace removes the selection, Escape clears it, +/-/0 zoom and fit the view. Every mutating action is announced via a polite live region. Role and status are never color-only -- an icon and text label always pair with the color. Ambient motion respects prefers-reduced-motion.",
     doNot: [
         "Do not pass a new `nodes`/`edges` array identity on every render if you can avoid it -- memoise external data before handing it to FlowCanvas.",
         "Do not ship a fake execution-order simulator in production code; `status` is controlled display data -- drive it from a real backend/websocket/state machine, the same way the 'Run simulation' example's local fixture hook does.",
@@ -21,6 +21,10 @@ export const componentMeta = {
         "Do not use the read-only summary (`isReadOnly` with every chrome flag off) when the canvas should stay editable. Hide the top toolbar and right inspector with `showToolbar={false}` and `showInspector={false}` instead.",
     ],
     examples: [
+        {
+            title: "Decision with Yes / No ports and edge data",
+            code: '<FlowCanvas<unknown, { condition: string }>\n  nodes={[{ id: "check", label: "Opened email?", role: "decision", x: 400, y: 200, outputs: [{ id: "yes", label: "Yes" }, { id: "no", label: "No" }] }, ...rest]}\n  edges={[{ id: "e1", source: "check", sourcePort: "yes", target: "nurture", data: { condition: "opened" } }]}\n  onEdgesChange={setEdges}\n  createEdgeId={({ source, sourcePort, target }) => `${source}.${sourcePort}->${target}`}\n/>',
+        },
         {
             title: "Uncontrolled, full chrome",
             code: "<FlowCanvas defaultNodes={nodes} defaultEdges={edges} />",

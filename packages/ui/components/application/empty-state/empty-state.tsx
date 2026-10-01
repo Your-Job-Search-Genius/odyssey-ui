@@ -1,14 +1,22 @@
 "use client";
 
 import type { ComponentProps, ComponentPropsWithRef, ReactNode } from "react";
-import { Children, createContext, isValidElement, useContext } from "react";
+import { Children, Suspense, createContext, isValidElement, lazy, useContext } from "react";
 import { FeaturedIcon as FeaturedIconbase } from "@/components/foundations/featured-icon/featured-icon";
-import { FileIcon } from "@/components/foundations/file-icons/file-icon";
+import type { FileIcon } from "@/components/foundations/file-icons/file-icon";
 import { SearchLg } from "@/components/foundations/icons";
 import type { BackgroundPatternProps } from "@/components/shared-assets/background-patterns";
-import { BackgroundPattern } from "@/components/shared-assets/background-patterns";
-import { Illustration as Illustrations } from "@/components/shared-assets/illustrations";
+import { Circle } from "@/components/shared-assets/background-patterns/circle";
+import type { Illustration as Illustrations } from "@/components/shared-assets/illustrations";
 import { cx } from "@/utils/cx";
+
+// The illustrations (~95 KB of SVG source), the non-default background patterns (grid-check alone is
+// ~140 KB) and the 150+ file-type icons are loaded only when an empty state actually renders one, so
+// importing EmptyState for a plain icon + text state doesn't ship them. The default `circle` pattern
+// is small and stays static so the common case never flashes.
+const LazyIllustration = lazy(() => import("@/components/shared-assets/illustrations").then((m) => ({ default: m.Illustration })));
+const LazyBackgroundPattern = lazy(() => import("@/components/shared-assets/background-patterns").then((m) => ({ default: m.BackgroundPattern })));
+const LazyFileIcon = lazy(() => import("@/components/foundations/file-icons/file-icon").then((m) => ({ default: m.FileIcon })));
 
 interface RootContextProps {
     size?: "sm" | "md" | "lg";
@@ -36,13 +44,15 @@ const Illustration = ({ type = "cloud", color = "gray", size = "lg", ...props }:
     const { size: rootSize } = useContext(RootContext);
 
     return (
-        <Illustrations
-            role="img"
-            {...props}
-            {...{ type, color }}
-            size={rootSize === "sm" ? "sm" : rootSize === "md" ? "md" : size}
-            className={cx("z-10", props.className)}
-        />
+        <Suspense fallback={null}>
+            <LazyIllustration
+                role="img"
+                {...props}
+                {...{ type, color }}
+                size={rootSize === "sm" ? "sm" : rootSize === "md" ? "md" : size}
+                className={cx("z-10", props.className)}
+            />
+        </Suspense>
     );
 };
 
@@ -54,7 +64,9 @@ interface FileTypeIconProps extends ComponentPropsWithRef<"div"> {
 const FileTypeIcon = ({ type = "folder", theme = "solid", ...props }: FileTypeIconProps) => {
     return (
         <div {...props} className={cx("relative z-10 flex rounded-full bg-linear-to-b from-neutral-50 to-neutral-200 p-8", props.className)}>
-            <FileIcon type={type} variant={theme} className="size-10 drop-shadow-sm" />
+            <Suspense fallback={<div className="size-10" />}>
+                <LazyFileIcon type={type} variant={theme} className="size-10 drop-shadow-sm" />
+            </Suspense>
         </div>
     );
 };
@@ -74,8 +86,11 @@ const Header = ({ pattern = "circle", patternSize = "md", ...props }: HeaderProp
             {...props}
             className={cx("relative mb-4", (size === "md" || size === "lg") && "mb-5", hasIllustration && size === "lg" && "mb-6!", props.className)}
         >
-            {pattern !== "none" && (
-                <BackgroundPattern size={patternSize} pattern={pattern} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            {pattern === "circle" && <Circle size={patternSize} className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />}
+            {pattern !== "none" && pattern !== "circle" && (
+                <Suspense fallback={null}>
+                    <LazyBackgroundPattern size={patternSize} pattern={pattern} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                </Suspense>
             )}
             {props.children}
         </div>

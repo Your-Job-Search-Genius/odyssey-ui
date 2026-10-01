@@ -85,6 +85,12 @@ Bars morph to the new heights instead of re-entering.
 
 <ComponentPreview demo="application/charts/bar-chart" export="BarChartLiveUpdate" />
 
+### Color by category
+
+`colorBy="index"` gives each bar of a single-series chart its own series color, in slot order -- for bars that are distinct things, such as funnel stages. The axis still names every bar, so color is never the only key. Past 8 categories the last slot repeats; fold the tail into "Other".
+
+<ComponentPreview demo="application/charts/bar-chart" export="BarChartColorByIndex" />
+
 ### Empty
 
 <ComponentPreview demo="application/charts/bar-chart" export="BarChartEmpty" />

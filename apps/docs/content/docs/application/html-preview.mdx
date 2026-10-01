@@ -1,0 +1,49 @@
+---
+title: HTML Preview
+description: A sandboxed preview of an HTML document, such as an email template, isolated from the app's scripts and styles.
+---
+
+## Overview
+
+`HtmlPreview` renders an HTML string in an `<iframe srcDoc>` with every sandbox restriction on: scripts, forms, popups and navigation are blocked, and no CSS crosses the frame boundary in either direction. It is the approved replacement for a raw `<iframe>`.
+
+<ComponentPreview demo="application/html-preview/html-preview" export="DefaultDemo" />
+
+## Installation
+
+```ts
+import { HtmlPreview } from "@/components/application/html-preview/html-preview";
+```
+
+## Usage
+
+```tsx
+<HtmlPreview title={`Preview of ${template.name} (${lang})`} html={template.html} height="lg" />
+```
+
+<Callout type="info">
+    Emails are designed on white, so the frame keeps a white page in dark mode too (`surface="white"`, the default). Use `surface="theme"` for content that
+    follows the app theme.
+</Callout>
+
+## Props
+
+<PropsTable component="application/html-preview/html-preview" />
+
+## Examples
+
+### Auto height
+
+`autoHeight` grows the frame to fit its content. Measuring needs same-origin access to the frame, so it adds `allow-same-origin` to the sandbox (scripts stay blocked). Only use it for HTML you control.
+
+<ComponentPreview demo="application/html-preview/html-preview" export="AutoHeightDemo" />
+
+## Accessibility
+
+- `title` is required and becomes the frame's accessible name -- say what is being previewed.
+- The frame is one tab stop; its content is exposed to assistive tech as a nested document.
+
+## Related
+
+- [Drawer](/docs/application/drawer) -- for full-width previews on phones.
+- [Modals](/docs/application/modals) -- `size="2xl"` fits a 600px email with room to spare.

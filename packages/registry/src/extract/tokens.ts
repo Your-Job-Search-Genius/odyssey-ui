@@ -101,8 +101,19 @@ export function extractTokens({ themeCssPath, claudeMdPath }: ExtractTokensOptio
     const breakpoints: Record<string, string> = {};
     const shadows: string[] = [];
     const animationNames = new Set<string>();
+    // `ring-*` / `outline-*` color utilities resolve through the RING/OUTLINE PROPERTY COLORS
+    // sections (`--ring-color-secondary` -> `ring-secondary`). Those sections are skipped as
+    // catalogue entries below, but their names must still be allowed as classes.
+    const ringOutlineColors = new Set<string>();
+    const textSizes = new Set<string>();
 
     for (const decl of lightDecls) {
+        const ringOutline = /^--(ring|outline)-color-(.+)$/.exec(decl.prop);
+        if (ringOutline) ringOutlineColors.add(`${ringOutline[1]}-${ringOutline[2]}`);
+        // `--text-display-xs` is a size; `--text-xs--line-height` (modifier) and `--text-color-*` (color plumbing) are not.
+        const textSize = /^--text-(?!color-)([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(decl.prop);
+        if (textSize?.[1]) textSizes.add(textSize[1]);
+
         if (SKIPPED_SECTIONS.has(decl.section)) continue;
 
         if (decl.prop.startsWith("--color-")) {
@@ -141,7 +152,14 @@ export function extractTokens({ themeCssPath, claudeMdPath }: ExtractTokensOptio
     // comment) rather than silently omitted.
     const radius: string[] = [];
 
-    const allowedTailwindPatterns = buildAllowedTailwindPatterns({ colors, breakpoints, shadows, radius });
+    const allowedTailwindPatterns = buildAllowedTailwindPatterns({
+        colors,
+        breakpoints,
+        shadows,
+        radius,
+        ringOutlineColors: [...ringOutlineColors].sort(),
+        textSizes: [...textSizes].sort(),
+    });
 
     return {
         colors: colors.sort((a, b) => a.className.localeCompare(b.className)),
@@ -153,7 +171,14 @@ export function extractTokens({ themeCssPath, claudeMdPath }: ExtractTokensOptio
     };
 }
 
-function buildAllowedTailwindPatterns({ colors, shadows }: Pick<TokenSet, "colors" | "breakpoints" | "shadows" | "radius">): string[] {
+interface PatternInputs extends Pick<TokenSet, "colors" | "breakpoints" | "shadows" | "radius"> {
+    /** Full class names from the RING/OUTLINE PROPERTY COLORS sections, e.g. "ring-secondary". */
+    ringOutlineColors: string[];
+    /** Font-size token names from `--text-*`, e.g. "sm", "display-xs". */
+    textSizes: string[];
+}
+
+function buildAllowedTailwindPatterns({ colors, shadows, ringOutlineColors, textSizes }: PatternInputs): string[] {
     // Two different usage shapes, per CLAUDE.md:
     // - text-* / border-* / bg-* tokens are already complete, single-utility
     //   class names (e.g. "text-primary" is used exactly as "text-primary",
@@ -164,11 +189,16 @@ function buildAllowedTailwindPatterns({ colors, shadows }: Pick<TokenSet, "color
     const selfContained = colors.filter((c) => /^(text|border|bg)-/.test(c.className)).map((c) => escapeRegExp(c.className));
     const prefixed = colors.filter((c) => !/^(text|border|bg)-/.test(c.className)).map((c) => escapeRegExp(c.className));
     const shadowNames = shadows.map(escapeRegExp).join("|");
+    // Tailwind's default font-size scale plus every `--text-*` token theme.css defines (display-xs ... display-2xl).
+    const textSizeNames = [...new Set(["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", ...textSizes])].map(escapeRegExp).join("|");
 
     const patterns: string[] = [];
     if (selfContained.length > 0) {
         patterns.push(`^(${selfContained.join("|")})$`);
         patterns.push(`^(hover|focus|focus-visible|active|disabled|dark):(${selfContained.join("|")})$`);
+    }
+    if (ringOutlineColors.length > 0) {
+        patterns.push(`^(${ringOutlineColors.map(escapeRegExp).join("|")})$`);
     }
     if (prefixed.length > 0) {
         patterns.push(`^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(${prefixed.join("|")})$`);
@@ -192,9 +222,10 @@ function buildAllowedTailwindPatterns({ colors, shadows }: Pick<TokenSet, "color
         // Border/divide *width* utilities -- the matching border-*/divide-*
         // color classes are already covered by the color patterns above.
         "^border(-[trblxy])?(-0|-2|-4|-8)?$",
+        "^border-(solid|dashed|dotted|double|none)$",
         "^divide-(x|y)(-0|-2|-4|-8)?$",
-        "^text-(xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl)$",
-        "^font-(normal|medium|semibold|bold)$",
+        `^text-(${textSizeNames})$`,
+        "^font-(normal|medium|semibold|bold|mono|body|display)$",
         "^leading-(none|tight|snug|normal|relaxed|loose|3|4|5|6|7|8|9|10)$",
         "^tracking-(tighter|tight|normal|wide|wider|widest)$",
         "^(uppercase|lowercase|capitalize|normal-case)$",
@@ -218,7 +249,15 @@ function buildAllowedTailwindPatterns({ colors, shadows }: Pick<TokenSet, "color
         "^z-(0|10|20|30|40|50|auto)$",
         "^whitespace-(normal|nowrap|pre|pre-line|pre-wrap|break-spaces)$",
         "^truncate$",
-        "^(text|break)-(left|center|right|justify|ellipsis|clip|all|words|normal)$",
+        "^line-clamp-([1-6]|none)$",
+        "^(text|break)-(left|center|right|justify|ellipsis|clip|all|words|normal|keep)$",
+        "^wrap-(anywhere|break-word|normal)$",
+        "^align-(baseline|top|middle|bottom|text-top|text-bottom)$",
+        "^tabular-nums$",
+        // Accessibility / scrolling helpers used throughout the library itself (skip links,
+        // visually hidden labels, the global `scrollbar-hide` utility in styles/globals.css).
+        "^(sr-only|not-sr-only)$",
+        "^scrollbar-hide$",
         // Interaction / transform / transition -- widely used across
         // components (buttons, spinners, tooltips) for state changes, not
         // arbitrary styling.

@@ -28,3 +28,5 @@ Sketchy.storyName = "Sketchy style";
 export const RunSimulation = () => <Demos.FlowCanvasRunSimulation />;
 RunSimulation.storyName = "Run simulation";
 export const Empty = () => <Demos.FlowCanvasEmpty />;
+export const Ports = () => <Demos.FlowCanvasPorts />;
+Ports.storyName = "Named ports, loops and edge data";

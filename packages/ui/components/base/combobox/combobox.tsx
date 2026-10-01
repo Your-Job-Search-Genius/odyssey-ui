@@ -4,10 +4,12 @@ import type { FC, FocusEventHandler, PointerEventHandler, ReactNode, Ref, RefAtt
 import { isValidElement, useCallback, useContext, useRef, useState } from "react";
 import type { ComboBoxProps as AriaComboBoxProps, GroupProps as AriaGroupProps, ListBoxProps as AriaListBoxProps } from "react-aria-components";
 import {
+    Collection as AriaCollection,
     ComboBox as AriaComboBox,
     Group as AriaGroup,
     Input as AriaInput,
     ListBox as AriaListBox,
+    ListBoxLoadMoreItem as AriaListBoxLoadMoreItem,
     Popover as AriaPopover,
     ComboBoxStateContext,
 } from "react-aria-components";
@@ -24,7 +26,11 @@ import { type ComboBoxCommonProps, ComboBoxContext, type ComboBoxItemType, popov
 export { type ComboBoxCommonProps, type ComboBoxItemType } from "./combobox-shared";
 
 interface ComboBoxProps extends Omit<AriaComboBoxProps<ComboBoxItemType>, "children" | "items">, RefAttributes<HTMLDivElement>, ComboBoxCommonProps {
-    /** Whether to display the ⌘K shortcut hint inside the trigger. */
+    /**
+     * Displays a decorative ⌘K hint inside the trigger. No shortcut is bound by the component, so
+     * only turn this on when the app itself focuses the combobox on ⌘K.
+     * @default false
+     */
     shortcut?: boolean;
     /** The items to render in the menu (for dynamic collections). Omit and pass `ComboBox.Section` / `ComboBox.Item` as static children for grouped menus. */
     items?: ComboBoxItemType[];
@@ -40,6 +46,18 @@ interface ComboBoxProps extends Omit<AriaComboBoxProps<ComboBoxItemType>, "child
     footer?: ReactNode;
     /** Custom renderer for when the menu has no items. Defaults to a "No results found" state, or a loading state while `isLoading` is true. */
     renderEmptyState?: () => ReactNode;
+    /**
+     * Called when the user scrolls near the end of the menu, to fetch the next page of `items`.
+     * Requires dynamic `items`. Keep a visible fallback (e.g. a "Load more" button in `footer`) for
+     * users who can't scroll.
+     */
+    onLoadMore?: () => void;
+    /**
+     * `loadingMore` shows a spinner row at the end of the menu while the next page loads (and stops
+     * `onLoadMore` firing again); `loading` is the same as `isLoading`.
+     * @default "idle"
+     */
+    loadingState?: "idle" | "loading" | "loadingMore";
     children: AriaListBoxProps<ComboBoxItemType>["children"];
 }
 
@@ -108,6 +126,11 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
                 <AriaInput
                     placeholder={placeholder}
+                    // The menu opens on click, typing or Alt/Arrow Down -- not on focus alone, so an
+                    // auto-focused combobox (e.g. a dialog's first field) doesn't cover the form.
+                    onClick={() => {
+                        if (state && !state.isOpen) state.open(null, "manual");
+                    }}
                     className={cx(
                         "z-10 w-full appearance-none bg-transparent text-transparent caret-alpha-black/90 placeholder:text-placeholder focus:outline-hidden disabled:cursor-not-allowed",
                         triggerSizes[size].text,
@@ -137,18 +160,21 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
 const ComboBoxRoot = ({
     placeholder = "Search",
-    shortcut = true,
+    shortcut = false,
     size = "md",
     children,
     items,
     shortcutClassName,
     icon,
-    isLoading,
+    isLoading: isLoadingProp,
     footer,
     renderEmptyState,
+    onLoadMore,
+    loadingState = "idle",
     hideRequiredIndicator,
     ...otherProps
 }: ComboBoxProps) => {
+    const isLoading = isLoadingProp || loadingState === "loading";
     const placeholderRef = useRef<HTMLDivElement>(null);
     const [popoverWidth, setPopoverWidth] = useState("");
 
@@ -171,7 +197,7 @@ const ComboBoxRoot = ({
 
     return (
         <ComboBoxContext.Provider value={{ size }}>
-            <AriaComboBox menuTrigger="focus" {...otherProps}>
+            <AriaComboBox menuTrigger="input" {...otherProps}>
                 {(state) => (
                     <div className="flex flex-col gap-1.5">
                         {otherProps.label && (
@@ -211,11 +237,26 @@ const ComboBoxRoot = ({
                                 )
                             }
                         >
-                            <div className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size])}>
-                                <AriaListBox items={items} renderEmptyState={emptyState} className="size-full outline-hidden">
-                                    {children}
+                            {onLoadMore && items ? (
+                                // The ListBox is the scroll container here: React Aria's load-more sentinel
+                                // watches the collection's own scroll area, not an outer wrapper.
+                                <AriaListBox renderEmptyState={emptyState} className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size])}>
+                                    <AriaCollection items={items}>{children}</AriaCollection>
+                                    <AriaListBoxLoadMoreItem
+                                        onLoadMore={onLoadMore}
+                                        isLoading={loadingState === "loadingMore"}
+                                        className="flex justify-center py-2"
+                                    >
+                                        <ComboBoxLoadingState label="Loading more…" className="flex-row py-1" />
+                                    </AriaListBoxLoadMoreItem>
                                 </AriaListBox>
-                            </div>
+                            ) : (
+                                <div className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size])}>
+                                    <AriaListBox items={items} renderEmptyState={emptyState} className="size-full outline-hidden">
+                                        {children}
+                                    </AriaListBox>
+                                </div>
+                            )}
 
                             {footer}
                         </AriaPopover>

@@ -40,7 +40,31 @@ export interface SidebarMenuItem {
     href?: string;
     /** Called when the item is chosen. */
     onAction?: () => void;
+    /**
+     * Groups consecutive items under a labelled section (e.g. "Theme"). Sections are separated by a
+     * divider; items without a section form an unlabelled group.
+     */
+    section?: string;
+    /**
+     * Marks this item as the current choice in its section. When any item in a section sets this
+     * (true or false), the section becomes a single-choice group: items are announced as
+     * `menuitemradio` with `aria-checked`, and the chosen one shows a check. Use it for settings such
+     * as Light / Dark / System.
+     */
+    isSelected?: boolean;
 }
+
+/** Splits menu items into consecutive runs that share a `section`. */
+export const groupMenuItems = (items: SidebarMenuItem[]) => {
+    const groups: { section?: string; items: SidebarMenuItem[]; isChoice: boolean }[] = [];
+    for (const item of items) {
+        const last = groups.at(-1);
+        if (last && last.section === item.section) last.items.push(item);
+        else groups.push({ section: item.section, items: [item], isChoice: false });
+    }
+    for (const group of groups) group.isChoice = group.items.some((item) => item.isSelected !== undefined);
+    return groups;
+};
 
 export interface SidebarFooterItem {
     /** Label text for the footer row. */

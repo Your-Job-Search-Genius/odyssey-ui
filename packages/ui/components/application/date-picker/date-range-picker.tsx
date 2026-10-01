@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { endOfMonth, endOfWeek, getLocalTimeZone, startOfMonth, startOfWeek, today } from "@internationalized/date";
 import { useControlledState } from "@react-stately/utils";
 import { useDateFormatter } from "react-aria";
@@ -12,19 +12,15 @@ import { Calendar as CalendarIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { RangeCalendar, RangePresetButton } from "./range-calendar";
 
-const now = today(getLocalTimeZone());
-
-const highlightedDates = [today(getLocalTimeZone())];
-
 interface DateRangePickerProps extends AriaDateRangePickerProps<DateValue> {
     size?: ButtonProps["size"];
     /** The function to call when the apply button is clicked. */
     onApply?: () => void;
-    /** The function to call when the cancel button is clicked. */
+    /** The function to call when the cancel button is clicked. Cancel also restores the range the picker had when it opened. */
     onCancel?: () => void;
 }
 
-export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onApply, onCancel, size = "sm", ...props }: DateRangePickerProps) => {
+export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onApply, onCancel, onOpenChange, size = "sm", ...props }: DateRangePickerProps) => {
     const { locale } = useLocale();
     const formatter = useDateFormatter({
         month: "short",
@@ -33,6 +29,11 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
     });
     const [value, setValue] = useControlledState(valueProp, defaultValue || null, onChange);
     const [focusedValue, setFocusedValue] = useState<DateValue | null>(null);
+    // Calendar clicks and presets commit immediately; remember the range at open so Cancel can undo them.
+    const valueAtOpen = useRef(value);
+    // Per component (not module load), so "today" and the presets are right after midnight and under SSR.
+    const now = useMemo(() => today(getLocalTimeZone()), []);
+    const highlightedDates = useMemo(() => [now], [now]);
 
     const formattedStartDate = value?.start ? formatter.format(value.start.toDate(getLocalTimeZone())) : "Select date";
     const formattedEndDate = value?.end ? formatter.format(value.end.toDate(getLocalTimeZone())) : "Select date";
@@ -73,11 +74,21 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                 },
             },
         }),
-        [locale],
+        [locale, now],
     );
 
     return (
-        <AriaDateRangePicker aria-label="Date range picker" shouldCloseOnSelect={false} {...props} value={value} onChange={setValue}>
+        <AriaDateRangePicker
+            aria-label="Date range picker"
+            shouldCloseOnSelect={false}
+            {...props}
+            value={value}
+            onChange={setValue}
+            onOpenChange={(isOpen) => {
+                if (isOpen) valueAtOpen.current = value;
+                onOpenChange?.(isOpen);
+            }}
+        >
             <AriaGroup>
                 <Button size={size} color="secondary" iconLeading={CalendarIcon}>
                     {!value ? <span className="text-placeholder">Select dates</span> : `${formattedStartDate} – ${formattedEndDate}`}
@@ -135,6 +146,11 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                                             size="sm"
                                             color="secondary"
                                             onClick={() => {
+                                                const before = valueAtOpen.current;
+                                                const isChanged =
+                                                    value?.start?.toString() !== before?.start?.toString() ||
+                                                    value?.end?.toString() !== before?.end?.toString();
+                                                if (isChanged) setValue(before);
                                                 onCancel?.();
                                                 close();
                                             }}

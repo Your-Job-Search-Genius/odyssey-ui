@@ -4,6 +4,7 @@ import { cx } from "@/utils/cx";
 import { useFlowCanvasContext } from "./flow-canvas-context";
 import type { FlowEdge, FlowPoint } from "./flow-canvas-types";
 import { edgeStatusOf } from "./flow-canvas-utils";
+import type { FlowCanvasFocusItemProps } from "./use-flow-canvas-focus";
 
 export interface FlowCanvasEdgePathProps {
     edge: FlowEdge;
@@ -11,10 +12,15 @@ export interface FlowCanvasEdgePathProps {
     d: string;
     isSelected: boolean;
     onSelect: () => void;
+    /** Accessible name, e.g. "Connection from Start to Review, Yes". */
+    label: string;
+    /** Roving-focus wiring: edges are reachable with Tab after the nodes. */
+    focusProps: FlowCanvasFocusItemProps;
+    onDelete: () => void;
 }
 
 /** One edge: an invisible wide hit-stroke for easy click targeting, the visible stroke, and (unless paused/reduced-motion/muted/traversed) ambient travel dots. */
-export const FlowCanvasEdgePath = ({ edge, d, isSelected, onSelect }: FlowCanvasEdgePathProps) => {
+export const FlowCanvasEdgePath = ({ edge, d, isSelected, onSelect, label, focusProps, onDelete }: FlowCanvasEdgePathProps) => {
     const context = useFlowCanvasContext();
     const status = edgeStatusOf(edge.status);
     const isActiveVisual = isSelected || status === "active";
@@ -24,11 +30,33 @@ export const FlowCanvasEdgePath = ({ edge, d, isSelected, onSelect }: FlowCanvas
     return (
         <g className={cx(status === "muted" && "opacity-35")}>
             <path
+                ref={focusProps.ref}
                 d={d}
                 fill="none"
                 stroke="transparent"
                 strokeWidth={18}
-                className={cx("pointer-events-auto", !context.isReadOnly && "cursor-pointer")}
+                strokeLinecap="round"
+                tabIndex={focusProps.tabIndex}
+                role="button"
+                aria-label={label}
+                aria-pressed={isSelected}
+                data-flow-edge-id={edge.id}
+                onFocus={focusProps.onFocus}
+                onKeyDown={(event) => {
+                    focusProps.onKeyDown(event);
+                    if (event.defaultPrevented) return;
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        onSelect();
+                    } else if ((event.key === "Delete" || event.key === "Backspace") && !context.isReadOnly) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        onDelete();
+                    }
+                }}
+                // The wide transparent hit stroke doubles as the keyboard focus indicator.
+                className={cx("pointer-events-auto outline-none focus-visible:stroke-focus-ring/40", !context.isReadOnly && "cursor-pointer")}
                 onPointerDown={(event) => {
                     event.stopPropagation();
                     onSelect();

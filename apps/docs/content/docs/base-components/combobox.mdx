@@ -1,6 +1,6 @@
 ---
 title: Combobox
-description: TODO -- one sentence describing Combobox's primary use case.
+description: A searchable single-select field with async loading and infinite scroll.
 ---
 
 ## Overview
@@ -88,9 +88,17 @@ import { ComboBoxContext } from "@/components/base/combobox/combobox-shared";
 
 <ComponentPreview demo="base/combobox/combobox" export="AsyncServerSyncDebouncedDemo" />
 
+### Load more (infinite scroll)
+
+Pass `onLoadMore` and `loadingState` (e.g. from React Aria's `useAsyncList`) to fetch the next page when the menu is scrolled near its end. Keep a visible "Load more" button in `footer` for users who can't scroll.
+
+<ComponentPreview demo="base/combobox/combobox" export="LoadMoreDemo" />
+
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- Follows the ARIA combobox pattern: type to filter, arrow keys move through options, <kbd>Enter</kbd> selects, <kbd>Esc</kbd> closes.
+- The menu opens on click, on typing, or with <kbd>↓</kbd> / <kbd>Alt</kbd>+<kbd>↓</kbd> -- not when the field merely receives focus, so tabbing through a form or auto-focusing a dialog's first field never covers the page. `menuTrigger="focus"` restores open-on-focus.
+- The ⌘K hint (`shortcut`) is decorative and off by default; only enable it when your app actually focuses the combobox on ⌘K.
 
 ## Related
 

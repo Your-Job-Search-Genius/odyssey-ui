@@ -1,6 +1,6 @@
 ---
 title: Avatar
-description: TODO -- one sentence describing Avatar's primary use case.
+description: User and organisation images with initials, icon and status fallbacks.
 ---
 
 ## Overview
@@ -17,7 +17,12 @@ import { AvatarProfilePhoto } from "@/components/base/avatar/avatar-profile-phot
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Avatar src={user.avatarUrl} alt={user.name} initials="OR" size="md" />
+
+// Logos and other non-square marks: show the whole image instead of cropping it.
+<Avatar src={school.logoUrl} alt={school.name} imageFit="contain" />
+```
 
 ## Props
 

@@ -1,6 +1,6 @@
 ---
 title: Badges
-description: TODO -- one sentence describing Badges's primary use case.
+description: Small status and category labels.
 ---
 
 ## Overview
@@ -16,7 +16,13 @@ import { Badge } from "@/components/base/badges/badges";
 
 ## Usage
 
-{/* TODO: minimal usage snippet. */}
+```tsx
+<Badge color="brand" size="md">New</Badge>
+<BadgeWithDot color="success" type="pill-color">Active</BadgeWithDot>
+
+// "modern" badges sit on the neutral surface; a color tints the label (and dot/icon).
+<Badge type="modern" color="error">Bounced</Badge>
+```
 
 ## Props
 

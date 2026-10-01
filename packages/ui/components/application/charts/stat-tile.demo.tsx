@@ -1,6 +1,7 @@
 "use client";
 
 import { StatTile, StatTileGroup } from "@/components/application/charts/stat-tile";
+import { Send01, SlashCircle01 } from "@/components/foundations/icons";
 
 const views = [30, 34, 31, 40, 44, 42, 51, 56, 54, 63, 66, 72];
 const applications = [18, 22, 20, 26, 24, 31, 29, 33, 36, 35, 41, 44];
@@ -28,4 +29,24 @@ export const StatTileSizes = () => (
         <StatTile size="md" label="Interviews" value={13} delta={{ value: "+4", direction: "up" }} />
         <StatTile size="lg" label="Interviews" value={13} delta={{ value: "0", direction: "flat", caption: "vs last week" }} />
     </div>
+);
+
+/** Decorative icon before the label, and supporting text under the value. */
+export const StatTileWithIconAndDescription = () => (
+    <StatTileGroup columns={2}>
+        <StatTile
+            label="Emails sent"
+            icon={Send01}
+            value={12840}
+            description="Across 12 active campaigns"
+            delta={{ value: "+6.2%", direction: "up", caption: "vs last week" }}
+        />
+        <StatTile
+            label="New blocks"
+            icon={SlashCircle01}
+            value={14}
+            description="Bounces and spam reports"
+            delta={{ value: "+3", direction: "up", isPositive: false, caption: "vs last week" }}
+        />
+    </StatTileGroup>
 );

@@ -55,6 +55,12 @@ A sparkline in the delta color under the number.
 
 <ComponentPreview demo="application/charts/stat-tile" export="StatTileSizes" />
 
+### Icon and description
+
+`icon` adds a decorative icon before the label; `description` adds supporting text under the value and is announced as the tile's description.
+
+<ComponentPreview demo="application/charts/stat-tile" export="StatTileWithIconAndDescription" />
+
 ## Accessibility
 
 A stat tile is a `group` named by its label; the value and delta are plain text, so they are read in order. The delta always carries an arrow icon and a sign in addition to color. Numeric values count up on entry unless the reader prefers reduced motion.
