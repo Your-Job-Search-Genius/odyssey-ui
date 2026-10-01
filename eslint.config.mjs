@@ -28,6 +28,9 @@ export default [
                 ecmaFeatures: {
                     jsx: true,
                 },
+                // Automatic JSX runtime: JSX must not count as a reference to a `React` binding,
+                // or an unused `import React` is never reported.
+                jsxPragma: null,
             },
         },
         plugins: {
@@ -68,6 +71,9 @@ export default [
                 },
             ],
             "react/react-in-jsx-scope": "off",
+            // The automatic JSX runtime is in use, so JSX does not count as a use of a default `React`
+            // import. With this rule on, `unused-imports/no-unused-imports` could never flag one.
+            "react/jsx-uses-react": "off",
             "react/display-name": "off",
             "react/jsx-key": "warn",
             "react/prop-types": "off",

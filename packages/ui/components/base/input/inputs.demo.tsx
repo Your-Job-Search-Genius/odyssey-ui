@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import React from "react";
 import { Button } from "@/components/base/buttons/button";
 import { Input, InputBase, TextField } from "@/components/base/input/input";
 import { InputFile } from "@/components/base/input/input-file";

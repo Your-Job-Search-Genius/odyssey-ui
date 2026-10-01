@@ -18,11 +18,13 @@ const styles = sortCx({
         sm: { root: "gap-2 p-3", icon: "mt-0.5 size-4", title: "text-sm font-medium", description: "text-sm" },
         md: { root: "gap-3 p-4", icon: "mt-0.5 size-5", title: "text-sm font-semibold", description: "text-sm" },
     },
+    // In dark mode the `bg-*-secondary` tokens become solid 600 fills, which swallow the description
+    // and icon. Dark mode therefore switches to the subtle `bg-*-primary` (950) surfaces; light is unchanged.
     colors: {
-        info: { root: "bg-brand-secondary", icon: "text-fg-brand-primary" },
-        success: { root: "bg-success-secondary", icon: "text-fg-success-primary" },
-        warning: { root: "bg-warning-secondary", icon: "text-fg-warning-primary" },
-        error: { root: "bg-error-secondary", icon: "text-fg-error-primary" },
+        info: { root: "bg-brand-secondary dark:bg-brand-primary_alt", icon: "text-fg-brand-primary" },
+        success: { root: "bg-success-secondary dark:bg-success-primary", icon: "text-fg-success-primary" },
+        warning: { root: "bg-warning-secondary dark:bg-warning-primary", icon: "text-fg-warning-primary" },
+        error: { root: "bg-error-secondary dark:bg-error-primary", icon: "text-fg-error-primary" },
     },
 });
 
@@ -96,8 +98,8 @@ export const Alert = ({
             )}
 
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-                {title && <p className={cx(styles.common.title, styles.sizes[size].title)}>{title}</p>}
-                {description && <p className={cx(styles.common.description, styles.sizes[size].description)}>{description}</p>}
+                {title && <div className={cx(styles.common.title, styles.sizes[size].title)}>{title}</div>}
+                {description && <div className={cx(styles.common.description, styles.sizes[size].description)}>{description}</div>}
                 {children}
                 {actions && <div className="mt-1 flex flex-wrap items-center gap-3">{actions}</div>}
             </div>
@@ -130,10 +132,10 @@ export interface ToastOptions {
      */
     duration?: number;
     /**
-     * Moves keyboard focus to the toast's dismiss button as soon as it mounts. Set to `false` for
-     * toasts triggered by background events (e.g. a websocket push) that shouldn't interrupt
-     * whatever the user is currently doing.
-     * @default true
+     * Moves keyboard focus to the toast's dismiss button as soon as it mounts. Off by default so a
+     * routine confirmation ("Saved") never pulls focus away from the task in progress; turn it on
+     * for a toast whose actions the user is expected to act on right away.
+     * @default false
      */
     autoFocus?: boolean;
 }
@@ -166,7 +168,7 @@ const pushToast = (color: ToastColor, title: ReactNode, options: Omit<ToastOptio
     idCounter += 1;
     const id = options.id ?? `toast-${idCounter}`;
     const duration = options.duration ?? 5000;
-    const autoFocus = options.autoFocus ?? true;
+    const autoFocus = options.autoFocus ?? false;
     // Replace rather than duplicate if an explicit id is reused (e.g. a "loading" -> "success" transition).
     toasts = [...toasts.filter((item) => item.id !== id), { ...options, id, color, title, duration, autoFocus }];
     emit();
@@ -220,8 +222,14 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
             }}
             onHoverStart={() => setIsPaused(true)}
             onHoverEnd={() => setIsPaused(false)}
-            onFocus={() => setIsPaused(true)}
-            onBlur={() => setIsPaused(false)}
+            // Pause while the user is reading or tabbing through the toast. Focus that arrives without
+            // :focus-visible (e.g. `autoFocus` on mount) doesn't count, or the toast would never time out.
+            onFocus={(event) => {
+                if (event.target instanceof HTMLElement && event.target.matches(":focus-visible")) setIsPaused(true);
+            }}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsPaused(false);
+            }}
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 100, scale: 0.95 }}
@@ -239,8 +247,8 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
             )}
 
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-                {item.title && <p className="text-sm font-semibold text-primary">{item.title}</p>}
-                {item.description && <p className="text-sm text-tertiary">{item.description}</p>}
+                {item.title && <div className="text-sm font-semibold text-primary">{item.title}</div>}
+                {item.description && <div className="text-sm text-tertiary">{item.description}</div>}
                 {item.actions && <div className="mt-1 flex flex-wrap items-center gap-3">{item.actions}</div>}
             </div>
 

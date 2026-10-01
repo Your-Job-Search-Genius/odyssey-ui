@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, FC, HTMLAttributes, ReactNode } from "react";
-import React, { cloneElement, createContext, isValidElement, useCallback, useContext, useEffect, useState } from "react";
+import { cloneElement, createContext, isValidElement, useCallback, useContext, useEffect, useState } from "react";
 
 type PaginationPage = {
     /** The type of the pagination item. */
