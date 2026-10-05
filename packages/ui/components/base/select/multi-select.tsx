@@ -278,7 +278,7 @@ const MultiSelectRoot = ({
 
                             <ChevronDown
                                 aria-hidden="true"
-                                className={cx("ml-auto shrink-0 text-fg-quaternary", size === "lg" ? "size-5" : "size-4 stroke-[2.25px]")}
+                                className={cx("ml-auto shrink-0 text-fg-quaternary transition duration-100 ease-linear in-aria-expanded:rotate-180", size === "lg" ? "size-5" : "size-4 stroke-[2.25px]")}
                             />
                         </span>
                     </AriaButton>

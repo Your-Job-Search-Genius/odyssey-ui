@@ -8,7 +8,7 @@ import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { Popover } from "@/components/base/select/popover";
 import { type CommonProps, SelectContext, type SelectItemType, sizes } from "@/components/base/select/select-shared";
-import { SearchLg } from "@/components/foundations/icons";
+import { ChevronDown, SearchLg } from "@/components/foundations/icons";
 import { useResizeObserver } from "@/hooks/use-resize-observer";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
@@ -94,6 +94,17 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
                     )}
                 />
             </div>
+
+            {!shortcut && (
+                <ChevronDown
+                    aria-hidden="true"
+                    className={cx(
+                        "pointer-events-none shrink-0 text-fg-quaternary transition duration-100 ease-linear",
+                        size === "lg" ? "size-5" : "size-4 stroke-[2.25px]",
+                        state?.isOpen && "rotate-180",
+                    )}
+                />
+            )}
 
             {shortcut && (
                 <div

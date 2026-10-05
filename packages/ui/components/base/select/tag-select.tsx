@@ -14,7 +14,7 @@ import { Label } from "@/components/base/input/label";
 import { Popover } from "@/components/base/select/popover";
 import { SelectContext, type SelectItemType, sizes } from "@/components/base/select/select-shared";
 import { TagCloseX } from "@/components/base/tags/base-components/tag-close-x";
-import { SearchLg } from "@/components/foundations/icons";
+import { ChevronDown, SearchLg } from "@/components/foundations/icons";
 import { useResizeObserver } from "@/hooks/use-resize-observer";
 import { cx } from "@/utils/cx";
 import { SelectItem } from "./select-item";
@@ -376,6 +376,7 @@ export const TagSelectTagsValue = ({
     ...otherProps
 }: TagSelectValueProps) => {
     const tagSelectContext = useContext(TagSelectContext);
+    const comboBoxState = useContext(ComboBoxStateContext);
 
     const selectedItemsCount = tagSelectContext.selectedKeys.length;
 
@@ -411,6 +412,14 @@ export const TagSelectTagsValue = ({
                             placeholder={placeholder}
                         />
                     </FocusScope>
+                    <ChevronDown
+                        aria-hidden="true"
+                        className={cx(
+                            "pointer-events-none ml-2 shrink-0 self-center text-fg-quaternary transition duration-100 ease-linear",
+                            size === "lg" ? "size-5" : "size-4 stroke-[2.25px]",
+                            comboBoxState?.isOpen && "rotate-180",
+                        )}
+                    />
                 </>
             )}
         </AriaGroup>
