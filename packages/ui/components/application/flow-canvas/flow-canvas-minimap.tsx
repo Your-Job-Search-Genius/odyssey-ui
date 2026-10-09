@@ -53,9 +53,8 @@ export const FlowCanvasMinimap = <TData,>({ nodes, viewport, containerSize, onNa
         <svg
             ref={svgRef}
             viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`}
-            role="button"
-            tabIndex={-1}
-            aria-label="Minimap. Click to navigate the canvas."
+            // Pointer-only shortcut; keyboard users pan/zoom from the canvas itself.
+            aria-hidden="true"
             className="size-full cursor-pointer"
             onPointerDown={(event) => navigateTo(event.clientX, event.clientY)}
         >

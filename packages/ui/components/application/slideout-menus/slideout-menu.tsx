@@ -51,7 +51,7 @@ interface DialogProps extends AriaDialogProps, RefAttributes<HTMLElement> {}
 export const Dialog = (props: DialogProps) => (
     <AriaDialog
         role="dialog"
-        aria-label="Slideout menu"
+        // No default aria-label: React Aria names the dialog from a `<Heading slot="title">`, else the trigger.
         {...props}
         className={cx(
             "relative flex size-full flex-col items-start gap-6 overflow-y-auto bg-primary ring-1 ring-secondary_alt outline-hidden",
@@ -64,14 +64,17 @@ Dialog.displayName = "Dialog";
 interface SlideoutMenuProps extends Omit<AriaModalOverlayProps, "children">, RefAttributes<HTMLDivElement> {
     children: ReactNode | ((children: AriaModalRenderProps & { close: () => void }) => ReactNode);
     dialogClassName?: string;
+    /** Names the dialog when it has no `<Heading slot="title">`. */
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
 }
 
-const Menu = ({ children, dialogClassName, ...props }: SlideoutMenuProps) => {
+const Menu = ({ children, dialogClassName, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledby, ...props }: SlideoutMenuProps) => {
     return (
         <ModalOverlay {...props}>
             <Modal className={(state) => cx(typeof props.className === "function" ? props.className(state) : props.className)}>
                 {(state) => (
-                    <Dialog className={dialogClassName}>
+                    <Dialog className={dialogClassName} aria-label={ariaLabel} aria-labelledby={ariaLabelledby}>
                         {({ close }) => {
                             return typeof children === "function" ? children({ ...state, close }) : children;
                         }}
@@ -83,8 +86,8 @@ const Menu = ({ children, dialogClassName, ...props }: SlideoutMenuProps) => {
 };
 Menu.displayName = "SlideoutMenu";
 
-const Content = ({ role = "main", ...props }: ComponentPropsWithRef<"div">) => {
-    return <div role={role} {...props} className={cx("flex size-full flex-col gap-6 overflow-y-auto overscroll-auto px-4 md:px-6", props.className)} />;
+const Content = (props: ComponentPropsWithRef<"div">) => {
+    return <div {...props} className={cx("flex size-full flex-col gap-6 overflow-y-auto overscroll-auto px-4 md:px-6", props.className)} />;
 };
 Content.displayName = "SlideoutContent";
 
@@ -94,7 +97,8 @@ interface SlideoutHeaderProps extends ComponentPropsWithRef<"header"> {
 
 const Header = ({ className, children, onClose, ...props }: SlideoutHeaderProps) => {
     return (
-        <header {...props} className={cx("relative z-1 w-full px-4 pt-6 md:px-6", className)}>
+        // role="none": inside a portal a bare <header>/<footer> becomes a page-level banner/contentinfo landmark.
+        <header role="none" {...props} className={cx("relative z-1 w-full px-4 pt-6 md:px-6", className)}>
             {children}
             <CloseButton size="sm" className="absolute top-3 right-3 shrink-0" onClick={onClose} />
         </header>
@@ -103,7 +107,7 @@ const Header = ({ className, children, onClose, ...props }: SlideoutHeaderProps)
 Header.displayName = "SlideoutHeader";
 
 const Footer = (props: ComponentPropsWithRef<"footer">) => {
-    return <footer {...props} className={cx("w-full p-4 shadow-[inset_0px_1px_0px_0px] shadow-border-secondary md:px-6", props.className)} />;
+    return <footer role="none" {...props} className={cx("w-full p-4 shadow-[inset_0px_1px_0px_0px] shadow-border-secondary md:px-6", props.className)} />;
 };
 Footer.displayName = "SlideoutFooter";
 

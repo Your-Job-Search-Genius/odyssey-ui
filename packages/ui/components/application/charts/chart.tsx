@@ -137,7 +137,6 @@ export const Chart = ({
     return (
         <ChartContext.Provider value={context}>
             <figure
-                role="figure"
                 aria-label={label}
                 aria-describedby={description ? descriptionId : undefined}
                 className={cx("relative flex w-full min-w-0 flex-col gap-3", className)}

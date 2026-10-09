@@ -60,6 +60,8 @@ export const RangePresetButton = ({ value, className, children, ...props }: Rang
 
     return (
         <button
+            type="button"
+            aria-pressed={isSelected}
             {...props}
             className={cx(
                 "cursor-pointer rounded-md px-3 py-2 text-left text-sm font-medium text-white outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2",
@@ -124,7 +126,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                 }}
             >
                 <div className="flex flex-col gap-3 px-6 py-5 md:gap-2">
-                    <header className={cx("relative flex items-center", visibleDurationMonths > 1 ? "justify-start" : "justify-between")}>
+                    <div className={cx("relative flex items-center", visibleDurationMonths > 1 ? "justify-start" : "justify-between")}>
                         <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
 
                         <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-fg-secondary">
@@ -132,7 +134,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                         </h2>
 
                         {visibleDurationMonths === 1 && <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />}
-                    </header>
+                    </div>
 
                     {!isDesktop && (
                         <div className="flex items-center gap-2 md:hidden">
@@ -168,13 +170,13 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
 
                 {visibleDurationMonths > 1 && (
                     <div className="flex flex-col gap-3 border-l border-secondary px-6 py-5">
-                        <header className="relative flex items-center justify-end">
+                        <div className="relative flex items-center justify-end">
                             <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-fg-secondary">
                                 <RangeCalendarTitle part="end" />
                             </h2>
 
                             <Button slot="next" iconLeading={ChevronRight} size="sm" color="tertiary" className="size-8" />
-                        </header>
+                        </div>
 
                         <AriaCalendarGrid weekdayStyle="short" offset={{ months: 1 }} className="w-max">
                             <AriaCalendarGridHeader>

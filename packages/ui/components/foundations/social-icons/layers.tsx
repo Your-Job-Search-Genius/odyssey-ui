@@ -6,7 +6,7 @@ interface Props extends SVGProps<SVGSVGElement> {
 
 const Layers = ({ size = 24, ...props }: Props) => {
     return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
+        <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
             <g clipPath="url(#clip0_7441_94320)">
                 <path
                     opacity="0.2"

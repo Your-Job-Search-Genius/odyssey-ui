@@ -1,7 +1,7 @@
 "use client";
 
 import type { Key, KeyboardEvent, ReactNode } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useId, useRef, useState } from "react";
 import { HintText } from "@/components/base/input/hint-text";
 import { InputBase } from "@/components/base/input/input";
 import { Label } from "@/components/base/input/label";
@@ -86,6 +86,10 @@ export const InputTagsOuter = ({
     const nextId = () => `tag-${idCounter.current++}`;
 
     const [inputValue, setInputValue] = useState("");
+    // Screen-reader-only feedback when a tag is rejected (duplicate, limit, failed validation).
+    const [rejection, setRejection] = useState("");
+    const inputId = useId();
+    const hintId = useId();
 
     const [internalEntries, setInternalEntries] = useState<TagEntry[]>(() => (defaultValue ?? []).map((label) => ({ id: nextId(), label })));
 
@@ -123,9 +127,16 @@ export const InputTagsOuter = ({
         (text: string) => {
             const trimmed = text.trim();
             if (!trimmed) return false;
-            if (!allowDuplicates && tags.includes(trimmed)) return false;
-            if (maxTags && tags.length >= maxTags) return false;
-            if (validate && !validate(trimmed)) return false;
+            const reason =
+                !allowDuplicates && tags.includes(trimmed)
+                    ? `${trimmed} is already added`
+                    : maxTags && tags.length >= maxTags
+                      ? `Maximum of ${maxTags} tags reached`
+                      : validate && !validate(trimmed)
+                        ? `${trimmed} is not valid`
+                        : "";
+            setRejection(reason);
+            if (reason) return false;
 
             const newEntry: TagEntry = { id: nextId(), label: trimmed };
             const newEntries = [...entries, newEntry];
@@ -177,7 +188,11 @@ export const InputTagsOuter = ({
     return (
         <div className={cx("flex flex-col", size === "sm" ? "gap-1.5" : "gap-2", className)}>
             <div className="flex flex-col gap-1.5">
-                {label && <Label isRequired={hideRequiredIndicator ? false : isRequired}>{label}</Label>}
+                {label && (
+                    <Label htmlFor={inputId} isRequired={hideRequiredIndicator ? false : isRequired}>
+                        {label}
+                    </Label>
+                )}
 
                 <InputBase
                     size={size}
@@ -185,8 +200,16 @@ export const InputTagsOuter = ({
                     placeholder={placeholder}
                     isInvalid={isInvalid}
                     isDisabled={isDisabled}
+                    id={inputId}
+                    isRequired={isRequired}
+                    aria-label={!label ? placeholder : undefined}
+                    aria-invalid={isInvalid || undefined}
+                    aria-describedby={hint && tags.length === 0 ? hintId : undefined}
                     value={inputValue}
-                    onChange={(e) => setInputValue(e.currentTarget.value)}
+                    onChange={(e) => {
+                        setInputValue(e.currentTarget.value);
+                        setRejection("");
+                    }}
                     onKeyDown={handleInputKeyDown}
                 />
             </div>
@@ -203,8 +226,12 @@ export const InputTagsOuter = ({
                 </TagGroup>
             )}
 
+            <span role="status" className="sr-only">
+                {rejection}
+            </span>
+
             {hint && tags.length === 0 && (
-                <HintText isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
+                <HintText id={hintId} isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
                     {hint}
                 </HintText>
             )}

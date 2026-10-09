@@ -24,9 +24,14 @@ const kalam = localFont({
     variable: "--font-kalam",
 });
 
+// Docs-chrome fonts for the "Spatial Layers" theme (app/spatial.css). Library previews keep
+// Inter via --font-inter. Self-hosted for the same reason as Inter.
+const nunitoSans = localFont({ src: "./fonts/nunito-sans-latin-variable.woff2", weight: "200 1000", variable: "--font-docs" });
+const jetbrainsMono = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2", weight: "100 800", variable: "--font-docs-mono" });
+
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang="en" className={`${inter.variable} ${kalam.variable}`} suppressHydrationWarning>
+        <html lang="en" className={`${inter.variable} ${kalam.variable} ${nunitoSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
             <head>
                 {/* Sets .light-mode/.dark-mode on <html> before hydration so the
                     library's semantic color tokens (text-primary, bg-secondary, ...)
@@ -34,14 +39,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                     inside <PreviewFrame>. See lib/theme-class-script.ts. */}
                 <script dangerouslySetInnerHTML={{ __html: themeClassScript }} />
             </head>
-            <body className="flex min-h-screen flex-col">
+            <body className="sp-page flex min-h-screen flex-col">
                 {/* Static client-side search against the build-time index served
                     from /api/search (see app/api/search/route.ts). The api URL is
                     prefixed explicitly because GitHub Pages project sites serve
                     the app under a base path. */}
                 <RootProvider search={{ options: { type: "static", api: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/search` } }}>
                     <ThemeClassSync />
-                    {children}
+                    {/* sp-chrome scopes the site focus ring (styles/spatial-base.css); portaled library
+                        overlays mount on <body>, outside it, and keep their own focus styles. */}
+                    <div className="sp-chrome contents">
+                        <a className="sp-skip" href="#main-content">
+                            Skip to content
+                        </a>
+                        {children}
+                    </div>
                 </RootProvider>
             </body>
         </html>

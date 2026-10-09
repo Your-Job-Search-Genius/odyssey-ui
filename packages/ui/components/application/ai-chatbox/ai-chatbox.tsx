@@ -244,6 +244,7 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
     const reduced = useReducedMotion() ?? false;
     const logId = useId();
     const menuId = useId();
+    const titleId = useId();
     const [isMobile, setIsMobile] = useState(false);
     useEffect(() => {
         const mq = window.matchMedia("(max-width: 640px)");
@@ -540,6 +541,9 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                         "relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-secondary_alt bg-primary/80 shadow-lg backdrop-blur-md",
                         isMobileSheet ? "rounded-t-2xl" : "rounded-xl",
                     )}
+                    // The floating widget traps focus and closes on Escape, so expose it as a dialog.
+                    role={isFloating ? "dialog" : undefined}
+                    aria-labelledby={isFloating ? titleId : undefined}
                     onKeyDown={onSurfaceKeyDown}
                     initial={surfaceInitial}
                     animate={surfaceAnimate}
@@ -551,7 +555,7 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                         className="pointer-events-none absolute inset-x-[14%] top-0 z-2 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
                     />
 
-                    <header
+                    <div
                         className={cx(
                             "relative flex h-13 shrink-0 items-center gap-[0.65rem] border-b border-secondary_alt px-[0.9rem] py-[0.7rem]",
                             isMobileSheet && "h-auto pt-4",
@@ -569,7 +573,9 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                             </span>
                         )}
                         <span className="flex min-w-0 flex-col leading-tight">
-                            <b className="text-sm font-semibold text-primary">{title}</b>
+                            <b id={titleId} className="text-sm font-semibold text-primary">
+                                {title}
+                            </b>
                             <span className="inline-flex items-center gap-[0.35rem] text-[0.68rem] text-tertiary">
                                 <i className="size-1.5 shrink-0 rounded-full bg-fg-success-secondary" aria-hidden="true" />
                                 {isTyping ? "typing…" : status}
@@ -593,7 +599,7 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                         >
                             <ChevronIcon />
                         </button>
-                    </header>
+                    </div>
 
                     <div className={cx("flex min-h-0 flex-1 flex-col", isCollapsed && collapsedAs === "bar" && "invisible")}>
                         <div
@@ -626,7 +632,7 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                                         {m.content}
                                     </div>
                                     {m.artifacts && m.artifacts.length > 0 && (
-                                        <div className="flex w-[min(20rem,100%)] flex-col gap-[0.35rem]" aria-label="Attached resources">
+                                        <div className="flex w-[min(20rem,100%)] flex-col gap-[0.35rem]" role="group" aria-label="Attached resources">
                                             {m.artifacts.map((a, i) => renderArtifact(a, i, "card"))}
                                         </div>
                                     )}
@@ -637,9 +643,9 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                                     className="flex shrink-0 items-center gap-[0.28rem] self-start rounded-xl rounded-bl-[0.35rem] border border-secondary bg-primary px-[0.75rem] py-[0.62rem]"
                                     {...rise}
                                     transition={reduced ? { duration: 0 } : glassSpring}
-                                    aria-label="Assistant is typing"
                                     role="status"
                                 >
+                                    <span className="sr-only">Assistant is typing</span>
                                     {[0, 1, 2].map((i) => (
                                         <motion.i
                                             key={i}
@@ -655,6 +661,7 @@ export const AIChatbox = forwardRef<HTMLDivElement, AIChatboxProps>(function AIC
                         {hasArtifacts && artifactsLayout === "chips" && (
                             <div
                                 className="flex shrink-0 [scrollbar-width:none] gap-[0.4rem] overflow-x-auto border-t border-secondary_alt px-[0.8rem] py-2 [&::-webkit-scrollbar]:hidden"
+                                role="group"
                                 aria-label="Resources"
                             >
                                 {artifacts.map((a, i) => renderArtifact(a, i, "chip"))}

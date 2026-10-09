@@ -68,9 +68,9 @@ interface RatingStarsProps extends HTMLAttributes<HTMLDivElement> {
 
 export const RatingStars = ({ rating = 5, stars = 5, starClassName, ...props }: RatingStarsProps) => {
     return (
-        <div {...props} className={cx("flex", props.className)}>
+        <div role="img" aria-label={`${rating} out of ${stars} stars`} {...props} className={cx("flex", props.className)}>
             {Array.from({ length: stars }).map((_, index) => (
-                <StarIcon key={index} progress={getStarProgress(index, rating, stars)} className={starClassName} />
+                <StarIcon key={index} aria-hidden="true" progress={getStarProgress(index, rating, stars)} className={starClassName} />
             ))}
         </div>
     );

@@ -308,7 +308,7 @@ const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, 
                             size === "sm" ? "px-1 py-0.75" : "py-0.5 pr-1 pl-1.25",
                         )}
                     >
-                        <Avatar size="xs" alt={value?.label} src={value?.avatarUrl} className="size-4" />
+                        <Avatar size="xs" alt="" src={value?.avatarUrl} className="size-4" />
 
                         <p
                             className={cx(
@@ -323,6 +323,7 @@ const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, 
                             size={size === "sm" ? "sm" : "md"}
                             isDisabled={isDisabled}
                             className="ml-0.75"
+                            aria-label={`Remove ${value.label}`}
                             // For workaround, onKeyDown is added to the button
                             onKeyDown={(event) => handleTagKeyDown(event, value.id)}
                             onPress={() => tagSelectContext.onRemove(new Set([value.id]))}

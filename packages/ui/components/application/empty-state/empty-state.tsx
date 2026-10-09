@@ -46,7 +46,8 @@ const Illustration = ({ type = "cloud", color = "gray", size = "lg", ...props }:
     return (
         <Suspense fallback={null}>
             <LazyIllustration
-                role="img"
+                // Decorative: the empty state's title/description carry the meaning.
+                aria-hidden="true"
                 {...props}
                 {...{ type, color }}
                 size={rootSize === "sm" ? "sm" : rootSize === "md" ? "md" : size}

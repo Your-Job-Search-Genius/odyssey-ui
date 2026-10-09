@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactNode, useMemo, useState } from "react";
-import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
 import { playgroundRegistry } from "~/lib/playground-registry";
 import type { PlaygroundSchema } from "~/lib/playground-types";
 import { PlaygroundControlField } from "./playground-control-field";
@@ -72,14 +71,20 @@ export function ComponentPlayground({ playground }: ComponentPlaygroundProps) {
     const snippet = useMemo(() => generateSnippet(schema, values), [schema, values]);
 
     return (
-        <div className="not-prose my-6 overflow-hidden rounded-xl border border-secondary">
-            <PreviewFrame variant="embedded">
+        <div className="not-prose">
+            {/* The live snippet is the frame's Code tab (and what Copy copies). */}
+            <PreviewFrame code={snippet} label={`${schema.componentName} playground`}>
                 <PreviewErrorBoundary label={playground}>
                     {schema.childrenProp ? <Live {...liveProps}>{childrenValue as ReactNode}</Live> : <Live {...liveProps} />}
                 </PreviewErrorBoundary>
             </PreviewFrame>
 
-            <div className="flex flex-wrap items-end gap-5 border-t border-secondary bg-secondary p-5">
+            {/* sp-demo: these controls are library components, so they keep only their own focus styles. */}
+            <section
+                className="sp-glass sp-demo"
+                aria-label={`${schema.componentName} props`}
+                style={{ marginTop: -8, marginBottom: 24, padding: 20, borderRadius: 24, display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 20 }}
+            >
                 {schema.controls.map((control) => (
                     <PlaygroundControlField
                         key={control.prop}
@@ -88,13 +93,7 @@ export function ComponentPlayground({ playground }: ComponentPlaygroundProps) {
                         onChange={(value) => setValue(control.prop, value)}
                     />
                 ))}
-            </div>
-
-            <div className="border-t border-secondary">
-                <CodeBlock className="my-0 rounded-none border-none">
-                    <Pre>{snippet}</Pre>
-                </CodeBlock>
-            </div>
+            </section>
         </div>
     );
 }

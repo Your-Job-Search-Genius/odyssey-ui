@@ -47,30 +47,48 @@ export function PropsTable({ component, name }: PropsTableProps) {
     }
 
     return (
-        <div className="my-6 overflow-x-auto rounded-xl border border-secondary">
-            <table className="w-full border-collapse text-sm">
-                <thead>
-                    <tr className="border-b border-secondary bg-secondary text-left">
-                        <th className="px-4 py-2.5 font-semibold text-secondary">Prop</th>
-                        <th className="px-4 py-2.5 font-semibold text-secondary">Type</th>
-                        <th className="px-4 py-2.5 font-semibold text-secondary">Default</th>
-                        <th className="px-4 py-2.5 font-semibold text-secondary">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.map((prop) => (
-                        <tr key={prop.name} className="border-b border-secondary last:border-none">
-                            <td className="px-4 py-2.5 align-top font-mono text-xs text-primary">
-                                {prop.name}
-                                {prop.required && <span className="ml-1 text-error-primary">*</span>}
-                            </td>
-                            <td className="max-w-72 px-4 py-2.5 align-top font-mono text-xs text-brand-secondary">{formatType(prop)}</td>
-                            <td className="px-4 py-2.5 align-top font-mono text-xs text-tertiary">{formatDefault(prop) ?? "—"}</td>
-                            <td className="px-4 py-2.5 align-top text-tertiary">{prop.description || "—"}</td>
+        <section
+            className="sp-glass sp-rise not-prose"
+            aria-label={`${doc.displayName} props`}
+            style={{ padding: "8px 0 4px", borderRadius: 24, margin: "20px 0" }}
+        >
+            <div style={{ overflowX: "auto", padding: "0 8px" }}>
+                <table className="sp-table sp-ptable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Prop</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Default</th>
+                            <th scope="col">Description</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {props.map((prop) => (
+                            <tr key={prop.name}>
+                                <td>
+                                    <span className="sp-mono" style={{ fontWeight: 500 }}>
+                                        {prop.name}
+                                    </span>
+                                    {prop.required && (
+                                        <span style={{ marginLeft: 4, color: "var(--sp-brand)" }} aria-label="required">
+                                            *
+                                        </span>
+                                    )}
+                                </td>
+                                <td>
+                                    <span className="sp-chip sp-mono">{formatType(prop)}</span>
+                                </td>
+                                <td>
+                                    <span className="sp-mono" style={{ color: "var(--sp-muted)" }}>
+                                        {formatDefault(prop) ?? "—"}
+                                    </span>
+                                </td>
+                                <td style={{ color: "var(--sp-muted)" }}>{prop.description || "—"}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </section>
     );
 }

@@ -69,6 +69,15 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
         if (!api) return;
 
         setScrollSnaps(api.scrollSnapList());
+
+        // Slides can't know their own index, so name them "N of M" here (on init and reInit),
+        // leaving any consumer-supplied aria-label alone.
+        const slides = api.slideNodes();
+        slides.forEach((slide, i) => {
+            if (slide.hasAttribute("aria-label") && !slide.hasAttribute("data-auto-label")) return;
+            slide.setAttribute("aria-label", `${i + 1} of ${slides.length}`);
+            slide.setAttribute("data-auto-label", "");
+        });
     }, []);
 
     const onSelect = useCallback((api: CarouselApi) => {
@@ -136,8 +145,19 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
                 scrollSnaps,
             }}
         >
-            <div onKeyDownCapture={handleKeyDown} className={cx("relative", className)} role="region" aria-roledescription="carousel" {...props}>
+            <div
+                onKeyDownCapture={handleKeyDown}
+                className={cx("relative", className)}
+                role="region"
+                aria-roledescription="carousel"
+                aria-label="Carousel"
+                {...props}
+            >
                 {children}
+                {/* Announces slide changes; silenced while an autoplay plugin is running so it doesn't chatter. */}
+                <div aria-live={plugins?.some((plugin) => plugin.name === "autoplay") ? "off" : "polite"} aria-atomic="true" className="sr-only">
+                    {scrollSnaps.length > 0 && `Slide ${selectedIndex + 1} of ${scrollSnaps.length}`}
+                </div>
             </div>
         </CarouselContext.Provider>
     );
@@ -256,7 +276,7 @@ const CarouselIndicator = ({ index, isSelected = false, children, asChild, class
     };
     const computedClassName = typeof className === "function" ? className({ isSelected }) : className;
 
-    const defaultAriaLabel = "Go to slide" + (index + 1);
+    const defaultAriaLabel = `Go to slide ${index + 1}`;
 
     // If the children is a render prop, we need to pass the necessary props to the render prop.
     if (typeof children === "function") {
@@ -291,10 +311,18 @@ const CarouselIndicatorGroup = ({ children, ...props }: CarouselIndicatorGroupPr
 
     // If the children is a render prop, we need to pass the index to the render prop.
     if (typeof children === "function") {
-        return <nav {...props}>{scrollSnaps.map((index) => children({ index }))}</nav>;
+        return (
+            <div role="group" aria-label="Slides" {...props}>
+                {scrollSnaps.map((index) => children({ index }))}
+            </div>
+        );
     }
 
-    return <nav {...props}>{children}</nav>;
+    return (
+        <div role="group" aria-label="Slides" {...props}>
+            {children}
+        </div>
+    );
 };
 
 export const Carousel = {

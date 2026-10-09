@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, type Ref, createContext, useContext } from "react";
+import { type ReactNode, type Ref, createContext, useContext, useId } from "react";
 import {
     Radio as AriaRadio,
     RadioGroup as AriaRadioGroup,
@@ -53,6 +53,9 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
     const context = useContext(RadioGroupContext);
 
     size = context?.size ?? size;
+    // The <label> wraps both texts; point name at the label and description at the hint so the hint isn't read as part of the name.
+    const labelId = useId();
+    const hintId = useId();
 
     const sizes = {
         sm: {
@@ -71,6 +74,8 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
 
     return (
         <AriaRadio
+            aria-labelledby={label && hint ? labelId : undefined}
+            aria-describedby={hint ? hintId : undefined}
             {...ariaRadioProps}
             className={(state) =>
                 cx(
@@ -92,9 +97,13 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
                     />
                     {(label || hint) && (
                         <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
-                            {label && <p className={cx("text-secondary select-none", sizes[size].label)}>{label}</p>}
+                            {label && (
+                                <p id={labelId} className={cx("text-secondary select-none", sizes[size].label)}>
+                                    {label}
+                                </p>
+                            )}
                             {hint && (
-                                <span className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
+                                <span id={hintId} className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
                                     {hint}
                                 </span>
                             )}

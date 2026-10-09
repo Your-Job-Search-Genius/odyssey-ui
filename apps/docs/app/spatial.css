@@ -1,0 +1,147 @@
+/*
+ * "Spatial Layers" docs theme (approved direction C). Docs chrome only:
+ * overrides Fumadocs' --color-fd-* variables and adds a few utilities.
+ * The library's own tokens (packages/ui/styles/theme.css) are untouched,
+ * and PreviewFrame resets the font to the library's --font-body, so live
+ * previews still render components exactly as shipped.
+ *
+ * Contrast (WCAG 2.2 AA): light #1b1838 / #4a4766 on #f4f4fc = 15:1 / 8:1,
+ * #563bdb on white = 6.6:1; dark #e9e8f7 / #a9a6c9 on #0f0d24 = 15:1 / 8:1,
+ * #b2b5f8 on #0f0d24 = 9.6:1.
+ */
+:root {
+    --color-fd-background: #f4f4fc;
+    --color-fd-foreground: #1b1838;
+    --color-fd-muted: #ecebf8;
+    --color-fd-muted-foreground: #4a4766;
+    --color-fd-popover: rgb(255 255 255 / 0.92);
+    --color-fd-popover-foreground: #1b1838;
+    --color-fd-card: rgb(255 255 255 / 0.66);
+    --color-fd-card-foreground: #1b1838;
+    --color-fd-border: #e1e0f2;
+    --color-fd-primary: #563bdb;
+    --color-fd-primary-foreground: #ffffff;
+    --color-fd-secondary: #ecebf8;
+    --color-fd-secondary-foreground: #1b1838;
+    --color-fd-accent: rgb(86 59 219 / 0.08);
+    --color-fd-accent-foreground: #441cbf;
+    --color-fd-ring: #563bdb;
+    --spatial-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --spatial-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 24px 48px -24px rgb(38 8 117 / 0.22), 0 2px 8px rgb(38 8 117 / 0.06);
+    --spatial-glass: rgb(255 255 255 / 0.66);
+    --spatial-glass-border: rgb(255 255 255 / 0.95);
+    --spatial-orb-1: rgb(140 139 246 / 0.35);
+    --spatial-orb-2: rgb(255 196 160 / 0.35);
+}
+
+.dark {
+    --color-fd-background: #0f0d24;
+    --color-fd-foreground: #e9e8f7;
+    --color-fd-muted: #1a1736;
+    --color-fd-muted-foreground: #a9a6c9;
+    --color-fd-popover: rgb(26 23 54 / 0.94);
+    --color-fd-popover-foreground: #e9e8f7;
+    --color-fd-card: rgb(27 24 56 / 0.6);
+    --color-fd-card-foreground: #e9e8f7;
+    --color-fd-border: rgb(178 181 248 / 0.14);
+    --color-fd-primary: #b2b5f8;
+    --color-fd-primary-foreground: #130445;
+    --color-fd-secondary: #1a1736;
+    --color-fd-secondary-foreground: #e9e8f7;
+    --color-fd-accent: rgb(178 181 248 / 0.1);
+    --color-fd-accent-foreground: #d3d6fa;
+    --color-fd-ring: #8c8bf6;
+    --spatial-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 24px 48px -24px rgb(0 0 0 / 0.6);
+    --spatial-glass: rgb(27 24 56 / 0.6);
+    --spatial-glass-border: rgb(178 181 248 / 0.14);
+    --spatial-orb-1: rgb(110 98 239 / 0.28);
+    --spatial-orb-2: rgb(255 160 120 / 0.12);
+}
+
+code,
+pre,
+kbd {
+    font-family: var(--font-docs-mono), ui-monospace, monospace;
+}
+
+@utility glass {
+    background: var(--spatial-glass);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--spatial-glass-border);
+    box-shadow: var(--spatial-shadow);
+}
+
+@utility ease-spring {
+    transition-timing-function: var(--spatial-spring);
+}
+
+/* Fumadocs chrome as glass layers over the tinted ground. */
+#nd-sidebar,
+#nd-nav,
+#nd-toc {
+    background: var(--spatial-glass);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+@keyframes spatial-rise {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes spatial-orbit {
+    0%,
+    100% {
+        transform: rotateX(14deg) rotateY(-20deg) rotateZ(2deg);
+    }
+    50% {
+        transform: rotateX(10deg) rotateY(-12deg) rotateZ(0deg);
+    }
+}
+@keyframes spatial-drift {
+    0%,
+    100% {
+        transform: translate3d(0, 0, var(--z, 0));
+    }
+    50% {
+        transform: translate3d(0, -16px, var(--z, 0));
+    }
+}
+@keyframes spatial-stack-in {
+    from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(-35deg);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@utility animate-rise {
+    animation: spatial-rise 0.9s var(--spatial-spring) both;
+}
+@utility animate-orbit {
+    animation: spatial-orbit 18s ease-in-out infinite;
+}
+@utility animate-drift {
+    animation: spatial-drift 7s ease-in-out infinite;
+}
+@utility animate-stack-in {
+    animation: spatial-stack-in 0.9s var(--spatial-spring) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

@@ -102,7 +102,7 @@ export const SelectItem = ({
                     )}
 
                     {avatarUrl ? (
-                        <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt={label} className={cx(size === "sm" && "size-5")} />
+                        <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt="" className={cx(size === "sm" && "size-5")} />
                     ) : isReactComponent(Icon) ? (
                         <Icon data-icon aria-hidden="true" />
                     ) : isValidElement(Icon) ? (

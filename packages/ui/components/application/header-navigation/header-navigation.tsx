@@ -175,7 +175,7 @@ export const HeaderNavigationBase = ({
                             </a>
                         </div>
 
-                        <nav>
+                        <nav aria-label="Primary">
                             <ul className="flex items-center gap-0.5">
                                 {items.map((item) => (
                                     <li key={item.label}>
@@ -203,7 +203,7 @@ export const HeaderNavigationBase = ({
                             </div>
                         ) : (
                             <div className={cx("flex h-16 w-full max-w-container items-center gap-8 px-8", centered ? "justify-center" : "justify-between")}>
-                                <nav>
+                                <nav aria-label="Secondary">
                                     <ul className={cx("flex items-center gap-0.5", centered && "justify-center")}>
                                         {activeSubNavItems.map((item) => (
                                             <li key={item.label}>

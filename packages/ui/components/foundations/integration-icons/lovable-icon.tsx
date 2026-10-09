@@ -5,7 +5,7 @@ import type { SVGProps } from "react";
 const LovableIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { grayscale?: boolean }) => {
     if (grayscale) {
         return (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
                 <g clipPath="url(#clip0_12464_573798)">
                     <path
                         fillRule="evenodd"
@@ -24,7 +24,7 @@ const LovableIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { graysc
     }
 
     return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
             <g clipPath="url(#clip0_12464_573784)">
                 <mask id="mask0_12464_573784" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="3" y="2" width="15" height="15">
                     <path

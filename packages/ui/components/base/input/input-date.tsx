@@ -145,6 +145,7 @@ export const InputDateBase = ({
             {tooltip && (
                 <Tooltip title={tooltip} placement="top">
                     <TooltipTrigger
+                        aria-label={tooltip}
                         className={cx(
                             "absolute cursor-pointer text-fg-quaternary transition duration-200 group-invalid/input:hidden hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover",
                             sizes[inputSize].iconTrailing,

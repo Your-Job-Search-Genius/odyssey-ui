@@ -5,7 +5,7 @@ import type { SVGProps } from "react";
 const NextjsIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { grayscale?: boolean }) => {
     if (grayscale) {
         return (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
                 <g clipPath="url(#clip0_nextjs_gray)">
                     <path
                         d="M19.2813 20.8035L6.42272 4.2403H4V15.7555H5.93818V6.70167L17.7598 21.9755C18.2933 21.6185 18.8014 21.2267 19.2813 20.8035Z"
@@ -31,7 +31,7 @@ const NextjsIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { graysca
     }
 
     return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
             <g clipPath="url(#clip0_nextjs)">
                 <path
                     d="M19.2813 20.8035L6.42272 4.2403H4V15.7555H5.93818V6.70167L17.7598 21.9755C18.2933 21.6185 18.8014 21.2267 19.2813 20.8035Z"

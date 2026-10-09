@@ -1,0 +1,163 @@
+/* "Spatial Layers" page styles: home (ported from the approved mockup). */
+.sp-home-rise {
+    animation: sp-home-rise 0.9s var(--sp-spring) both;
+}
+@keyframes sp-home-rise {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.sp-stage {
+    perspective: 1600px;
+    position: relative;
+    height: 540px;
+}
+.sp-plane {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(14deg) rotateY(-20deg) rotateZ(2deg);
+    animation: sp-orbit 18s ease-in-out infinite;
+}
+@keyframes sp-orbit {
+    0%,
+    100% {
+        transform: rotateX(14deg) rotateY(-20deg) rotateZ(2deg);
+    }
+    50% {
+        transform: rotateX(10deg) rotateY(-12deg) rotateZ(0deg);
+    }
+}
+.sp-float {
+    position: absolute;
+    transform-style: preserve-3d;
+    animation: sp-drift 7s ease-in-out infinite;
+}
+@keyframes sp-drift {
+    0%,
+    100% {
+        transform: translate3d(0, 0, var(--z));
+    }
+    50% {
+        transform: translate3d(0, -16px, var(--z));
+    }
+}
+
+.sp-cat {
+    transition:
+        transform 0.5s var(--sp-spring),
+        box-shadow 0.3s;
+    text-decoration: none;
+    color: var(--sp-ink);
+}
+.sp-cat:hover {
+    transform: translateY(-6px) rotateX(4deg);
+    color: var(--sp-ink);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.9),
+        0 36px 60px -28px rgb(38 8 117 / 0.35);
+}
+
+.sp-step {
+    animation:
+        sp-stack-in 0.9s var(--sp-spring) both,
+        sp-glow 6s ease-in-out infinite;
+}
+@keyframes sp-stack-in {
+    from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(-35deg);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes sp-glow {
+    0%,
+    14% {
+        border-color: var(--sp-brand-soft);
+        box-shadow:
+            0 0 0 4px rgb(140 139 246 / 0.18),
+            0 24px 48px -24px rgb(38 8 117 / 0.3);
+    }
+    22%,
+    100% {
+        border-color: var(--sp-glass-border);
+    }
+}
+
+.sp-bar {
+    transform-origin: bottom;
+    animation: sp-grow 2.4s var(--sp-spring) infinite alternate;
+}
+@keyframes sp-grow {
+    from {
+        transform: scaleY(0.35);
+    }
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.sp-switch {
+    width: 52px;
+    height: 30px;
+    border-radius: 999px;
+    border: 0;
+    padding: 3px;
+    cursor: pointer;
+    display: flex;
+    transition: background 0.3s;
+}
+.sp-knob {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+    transition: transform 0.45s var(--sp-spring);
+}
+
+/* Status pills in the decorative showcase: literal light tints, deepened in dark mode. */
+.sp-pill-success {
+    background: #dcfae6;
+    color: #067647;
+}
+.sp-pill-warning {
+    background: #fef0c7;
+    color: #93370d;
+}
+.dark .sp-pill-success {
+    background: rgb(7 118 71 / 0.25);
+    color: #75e0a7;
+}
+.dark .sp-pill-warning {
+    background: rgb(147 55 13 / 0.3);
+    color: #fec84b;
+}
+
+@media (max-width: 900px) {
+    .sp-stage {
+        height: auto;
+    }
+    .sp-plane {
+        position: static;
+        transform: none;
+        animation: none;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .sp-float {
+        position: static;
+        animation: none;
+        transform: none !important;
+    }
+}

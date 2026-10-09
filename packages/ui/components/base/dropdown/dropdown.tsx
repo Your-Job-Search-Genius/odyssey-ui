@@ -120,7 +120,7 @@ const DropdownItem = ({
 
                     {avatarUrl && (
                         <div className="mr-2 flex size-4 items-center justify-center">
-                            <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt={label} className="size-5" />
+                            <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt="" className="size-5" />
                         </div>
                     )}
 

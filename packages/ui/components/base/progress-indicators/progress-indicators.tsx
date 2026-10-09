@@ -30,20 +30,39 @@ export interface ProgressBarProps {
      * It receives the raw value and the calculated percentage.
      */
     valueFormatter?: (value: number, valueInPercentage: number) => string | number;
+    /**
+     * Accessible name of the progress bar.
+     * @default "Progress"
+     */
+    "aria-label"?: string;
+    /** Id(s) of the element(s) that label the progress bar; takes precedence over `aria-label`. */
+    "aria-labelledby"?: string;
 }
 
 /**
  * A basic progress bar component.
  */
-export const ProgressBarBase = ({ value, min = 0, max = 100, className, progressClassName }: ProgressBarProps) => {
+export const ProgressBarBase = ({
+    value,
+    min = 0,
+    max = 100,
+    className,
+    progressClassName,
+    valueFormatter,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledby,
+}: ProgressBarProps) => {
     const percentage = ((value - min) * 100) / (max - min);
 
     return (
         <div
             role="progressbar"
+            aria-label={ariaLabelledby ? undefined : (ariaLabel ?? "Progress")}
+            aria-labelledby={ariaLabelledby}
             aria-valuenow={value}
             aria-valuemin={min}
             aria-valuemax={max}
+            aria-valuetext={String(valueFormatter ? valueFormatter(value, percentage) : `${percentage.toFixed(0)}%`)}
             className={cx("h-2 w-full overflow-hidden rounded-md bg-quaternary", className)}
         >
             <div
@@ -71,11 +90,23 @@ export interface ProgressIndicatorWithTextProps extends ProgressBarProps {
 /**
  * A progress bar component that displays the value text in various configurable layouts.
  */
-export const ProgressBar = ({ value, min = 0, max = 100, valueFormatter, labelPosition, className, progressClassName }: ProgressIndicatorWithTextProps) => {
+export const ProgressBar = ({
+    value,
+    min = 0,
+    max = 100,
+    valueFormatter,
+    labelPosition,
+    className,
+    progressClassName,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledby,
+}: ProgressIndicatorWithTextProps) => {
     const percentage = ((value - min) * 100) / (max - min);
     const formattedValue = valueFormatter ? valueFormatter(value, percentage) : `${percentage.toFixed(0)}%`; // Default to rounded percentage
 
-    const baseProgressBar = <ProgressBarBase min={min} max={max} value={value} className={className} progressClassName={progressClassName} />;
+    const baseProgressBar = (
+        <ProgressBarBase {...{ min, max, value, valueFormatter, className, progressClassName }} aria-label={ariaLabel} aria-labelledby={ariaLabelledby} />
+    );
 
     switch (labelPosition) {
         case "right":

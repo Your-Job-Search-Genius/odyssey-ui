@@ -1,9 +1,7 @@
 import type { ComponentType } from "react";
-import { highlight } from "fumadocs-core/highlight";
-import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { demoRegistry } from "~/lib/demo-registry";
 import { getDemoSource } from "~/lib/demo-sources";
+import { isRenderableDemo, previewHref } from "~/lib/preview-href";
 import { PreviewErrorBoundary } from "./preview-error-boundary";
 import { PreviewFrame } from "./preview-frame";
 
@@ -25,7 +23,7 @@ interface ComponentPreviewProps {
  * apps/docs/scripts/sync-content.ts, so there is zero drift between what
  * is documented and what the component actually does.
  */
-export async function ComponentPreview({ demo, export: exportName, align = "center", contain = false }: ComponentPreviewProps) {
+export function ComponentPreview({ demo, export: exportName, align = "center", contain = false }: ComponentPreviewProps) {
     const module = demoRegistry[demo];
     if (!module) {
         throw new Error(`[ComponentPreview] unknown demo id "${demo}". Run \`pnpm run docs:sync\` and check components/**/*.demo.tsx.`);
@@ -36,37 +34,17 @@ export async function ComponentPreview({ demo, export: exportName, align = "cent
         throw new Error(`[ComponentPreview] demo "${demo}" has no export "${exportName}".`);
     }
 
-    const code = getDemoSource(demo, exportName);
-    const highlighted = code
-        ? await highlight(code, {
-              lang: "tsx",
-              themes: { light: "github-light", dark: "github-dark" },
-              components: {
-                  pre: (props) => (
-                      <CodeBlock {...props}>
-                          <Pre>{props.children}</Pre>
-                      </CodeBlock>
-                  ),
-              },
-          })
-        : null;
-
     return (
-        <Tabs items={["Preview", "Code"]} className="my-6">
-            <Tab value="Preview">
-                <PreviewFrame align={align} contain={contain}>
-                    <PreviewErrorBoundary label={`${demo}#${exportName}`}>
-                        <Demo />
-                    </PreviewErrorBoundary>
-                </PreviewFrame>
-            </Tab>
-            <Tab value="Code">
-                {highlighted ?? (
-                    <p className="text-sm text-tertiary">
-                        Source unavailable -- run <code>pnpm run docs:sync</code>.
-                    </p>
-                )}
-            </Tab>
-        </Tabs>
+        <PreviewFrame
+            align={align}
+            contain={contain}
+            standaloneHref={isRenderableDemo(Demo) ? previewHref(demo, exportName) : undefined}
+            code={getDemoSource(demo, exportName)}
+            label={`${demo.split("/").pop()}.demo.tsx · ${exportName}`}
+        >
+            <PreviewErrorBoundary label={`${demo}#${exportName}`}>
+                <Demo />
+            </PreviewErrorBoundary>
+        </PreviewFrame>
     );
 }

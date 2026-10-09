@@ -112,6 +112,7 @@ export const InputFile = ({
                     />
                     {isLoading && (
                         <svg
+                            aria-hidden="true"
                             fill="none"
                             viewBox="0 0 16 16"
                             className="pointer-events-none absolute top-1/2 right-3 z-20 size-4 -translate-y-1/2 text-fg-quaternary"
@@ -128,6 +129,10 @@ export const InputFile = ({
                             />
                         </svg>
                     )}
+                    {/* Always mounted so screen readers announce upload/selection changes. */}
+                    <span role="status" className="sr-only">
+                        {isLoading ? "Uploading" : fileNames && `Selected ${fileNames}`}
+                    </span>
                 </div>
             </InputGroup>
 

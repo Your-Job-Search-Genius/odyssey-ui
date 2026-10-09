@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { type ReactNode, useId } from "react";
 import type { SwitchProps as AriaSwitchProps } from "react-aria-components";
 import { Switch as AriaSwitch } from "react-aria-components";
 import { cx } from "@/utils/cx";
@@ -98,8 +98,13 @@ interface ToggleProps extends AriaSwitchProps {
 }
 
 export const Toggle = ({ label, hint, className, size = "sm", slim, ...ariaSwitchProps }: ToggleProps) => {
+    // The <label> wraps both texts; point name at the label and description at the hint so the hint isn't read as part of the name.
+    const labelId = useId();
+    const hintId = useId();
     return (
         <AriaSwitch
+            aria-labelledby={label && hint ? labelId : undefined}
+            aria-describedby={hint ? hintId : undefined}
             {...ariaSwitchProps}
             className={(state) =>
                 cx(
@@ -125,9 +130,13 @@ export const Toggle = ({ label, hint, className, size = "sm", slim, ...ariaSwitc
 
                     {(label || hint) && (
                         <div className={cx("flex min-w-0 flex-col", styles[size].textWrapper)}>
-                            {label && <p className={cx("text-secondary select-none", styles[size].label)}>{label}</p>}
+                            {label && (
+                                <p id={labelId} className={cx("text-secondary select-none", styles[size].label)}>
+                                    {label}
+                                </p>
+                            )}
                             {hint && (
-                                <span className={cx("text-tertiary", styles[size].hint)} onClick={(event) => event.stopPropagation()}>
+                                <span id={hintId} className={cx("text-tertiary", styles[size].hint)} onClick={(event) => event.stopPropagation()}>
                                     {hint}
                                 </span>
                             )}

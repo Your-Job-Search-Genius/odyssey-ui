@@ -117,17 +117,18 @@ proxy with auth in front if that ever changes.
 
 ## Tools
 
-| Tool                  | Purpose                                                                         |
-| --------------------- | ------------------------------------------------------------------------------- |
-| `get_rules`           | Hard constraints, as markdown. Call first.                                      |
-| `list_components`     | Cheap listing, optional category/query filter.                                  |
-| `get_component`       | Full entry for one component (props, slots, examples, doNot, a11y).             |
-| `search_components`   | Natural-language intent -> ranked matches. Keyword-based, no LLM.               |
-| `get_tokens`          | Design tokens, optionally scoped to one group.                                  |
-| `search_icons`        | Icon lookup. Returns `{ found: false, suggestions }` rather than inventing one. |
-| `validate_jsx`        | The enforcement mechanism -- see below. Call last.                              |
-| `suggest_composition` | Rule-based recipe for a natural-language intent.                                |
-| `get_example`         | Curated example code for one component.                                         |
+| Tool                  | Purpose                                                                                                                                     |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get_rules`           | Hard constraints, as markdown. Call first.                                                                                                  |
+| `plan_ui_task`        | Call before writing UI: routed guideline checklists (Color contrast + NVDA always), candidate components, plan template, completion record. |
+| `list_components`     | Cheap listing, optional category/query filter.                                                                                              |
+| `get_component`       | Full entry for one component (props, slots, examples, doNot, a11y).                                                                         |
+| `search_components`   | Natural-language intent -> ranked matches. Keyword-based, no LLM.                                                                           |
+| `get_tokens`          | Design tokens, optionally scoped to one group.                                                                                              |
+| `search_icons`        | Icon lookup. Returns `{ found: false, suggestions }` rather than inventing one.                                                             |
+| `validate_jsx`        | The enforcement mechanism -- see below. Call last.                                                                                          |
+| `suggest_composition` | Rule-based recipe for a natural-language intent.                                                                                            |
+| `get_example`         | Curated example code for one component.                                                                                                     |
 
 Also exposes `ds://registry`, `ds://rules`, `ds://tokens`, and
 `ds://component/<name>` as MCP resources, and a `build-ui` prompt that

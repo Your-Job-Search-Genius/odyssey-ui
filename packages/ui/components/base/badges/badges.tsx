@@ -333,7 +333,7 @@ export const BadgeWithImage = <T extends BadgeTypes>(props: BadgeWithImageProps<
 
     return (
         <span className={cx(colors.common, sizes[type][size], colors.styles[color].root)}>
-            <img src={imgSrc} className="size-4 max-w-none rounded-full" alt="Badge image" />
+            <img src={imgSrc} className="size-4 max-w-none rounded-full" alt="" />
             {children}
         </span>
     );
@@ -382,7 +382,7 @@ export const BadgeWithButton = <T extends BadgeTypes>(props: BadgeWithButtonProp
             {children}
             <button
                 type="button"
-                aria-label={buttonLabel}
+                aria-label={buttonLabel ?? (typeof children === "string" ? `Remove ${children}` : "Remove")}
                 onClick={props.onButtonClick}
                 className={cx(
                     "flex cursor-pointer items-center justify-center p-0.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2",
@@ -405,7 +405,7 @@ interface BadgeIconProps<T extends BadgeTypes> {
 }
 
 export const BadgeIcon = <T extends BadgeTypes>(props: BadgeIconProps<T>) => {
-    const { size = "md", color = "gray", type = "pill-color", icon: Icon } = props;
+    const { size = "md", color = "gray", type = "pill-color", icon: Icon, children } = props;
 
     const colors = withPillTypes[type];
 
@@ -430,6 +430,8 @@ export const BadgeIcon = <T extends BadgeTypes>(props: BadgeIconProps<T>) => {
     return (
         <span className={cx(colors.common, sizes[type][size], colors.styles[color].root)}>
             <Icon className={cx("size-3 stroke-[3px]", colors.styles[color].addon)} />
+            {/* The icon is decorative; `children` is its text alternative. */}
+            {children && <span className="sr-only">{children}</span>}
         </span>
     );
 };

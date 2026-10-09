@@ -74,7 +74,7 @@ export const ComboBoxItem = ({
                     )}
                 >
                     {avatarUrl ? (
-                        <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt={label} className={cx("mt-0.5", size === "sm" && "size-5")} />
+                        <Avatar aria-hidden="true" size="xs" src={avatarUrl} alt="" className={cx("mt-0.5", size === "sm" && "size-5")} />
                     ) : isReactComponent(Icon) ? (
                         <Icon data-icon aria-hidden="true" />
                     ) : isValidElement(Icon) ? (
@@ -87,7 +87,12 @@ export const ComboBoxItem = ({
                                 {label || (typeof children === "function" ? children(state) : children)}
                             </AriaText>
 
-                            {supportingText && !description && <span className={cx("truncate text-tertiary", itemSizes[size].text)}>{supportingText}</span>}
+                            {/* Only rendered without `description`, so it can take the option's description slot. */}
+                            {supportingText && !description && (
+                                <AriaText slot="description" className={cx("truncate text-tertiary", itemSizes[size].text)}>
+                                    {supportingText}
+                                </AriaText>
+                            )}
 
                             {badgeLabel && (
                                 <Badge size="sm" color={badgeColor} className="ml-auto shrink-0">

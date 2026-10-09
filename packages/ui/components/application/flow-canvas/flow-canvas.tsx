@@ -592,7 +592,8 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
                         ref={containerRef}
                         tabIndex={0}
                         role="application"
-                        aria-label="Flow diagram canvas. Tab through the nodes and then the connections, Enter to select, arrow keys to move the focused node, Delete to remove the focused item, Escape to deselect."
+                        aria-label="Flow diagram"
+                        aria-describedby={`${instanceId}-instructions`}
                         onPointerDown={handleCanvasPointerDown}
                         onPointerMove={handleCanvasPointerMove}
                         onPointerUp={handleCanvasPointerUp}
@@ -601,6 +602,10 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
                         style={{ height: typeof height === "number" ? `${height}px` : height, touchAction: "none" }}
                         className="relative w-full shrink-0 overflow-hidden rounded-2xl border border-secondary bg-secondary shadow-xl outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring lg:min-w-0 lg:flex-1"
                     >
+                        <span id={`${instanceId}-instructions`} className="sr-only">
+                            Tab through the nodes and then the connections, Enter to select, arrow keys to move the focused node, Delete to remove the focused
+                            item, Escape to deselect.
+                        </span>
                         <FlowCanvasBlobs />
 
                         <svg className="pointer-events-none absolute inset-0 size-full overflow-hidden">
@@ -772,10 +777,11 @@ export const FlowCanvas = <TData = unknown, TEdgeData = unknown>({
                                 />
                             </div>
                         )}
+                    </div>
 
-                        <div aria-live="polite" aria-atomic="true" className="sr-only">
-                            {announcement}
-                        </div>
+                    {/* Outside the role="application" surface so NVDA announces it regardless of mode. */}
+                    <div aria-live="polite" aria-atomic="true" className="sr-only">
+                        {announcement}
                     </div>
 
                     {showInspector && (
