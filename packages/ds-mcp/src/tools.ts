@@ -13,6 +13,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ComponentEntry, ComponentExample, IconEntry, Registry, TokenSet } from "@your-job-search-genius/ds-registry";
 import { z } from "zod";
+import { POST_BUILD_STEPS, planUiTask } from "./plan-ui-task.js";
 import type { RegistryHolder } from "./registry-holder.js";
 import { validateJsx } from "./validator.js";
 
@@ -111,7 +112,7 @@ export function rulesToMarkdown(registry: Registry): string {
         "",
         'These rules govern UI generated in apps that consume the published package. They do not apply to development inside the odyssey-ui monorepo itself, where the repo\'s CLAUDE.md governs (library source necessarily uses native elements, the "@/" alias, and internal dependencies).',
         "",
-        "Call this tool first in any UI-building task. Call validate_jsx last, before presenting generated code as final.",
+        "Call this tool first in any UI-building task, then plan_ui_task with the user's request (it returns the checklists to follow). Call validate_jsx last, then type-check/build, then return the completion record.",
         "",
         "## Allowed primitives",
         rules.allowedPrimitives.map((p) => `\`${p}\``).join(", "),
@@ -279,6 +280,20 @@ export function registerTools(server: McpServer, registryHolder: RegistryHolder)
     );
 
     server.registerTool(
+        "plan_ui_task",
+        {
+            title: "Plan a UI task",
+            description:
+                "Call this BEFORE writing any UI. Given the user's request (e.g. 'a login page'), returns the mandatory workflow, the rule categories that apply (always including Color contrast and Screen readers (NVDA)), candidate library components, a plan template to fill in, the full rules, and a completion-record table to return at the end.",
+            inputSchema: {
+                intent: z.string().describe("The user's UI request, verbatim or summarized."),
+                categories: z.array(z.string()).optional().describe("Extra guideline category ids or names to include."),
+            },
+        },
+        async ({ intent, categories }) => text(planUiTask(registryHolder.get(), intent, categories)),
+    );
+
+    server.registerTool(
         "list_components",
         {
             title: "List components",
@@ -343,7 +358,7 @@ export function registerTools(server: McpServer, registryHolder: RegistryHolder)
                 "Validates a piece of TSX against every hard constraint (approved components/primitives only, token-backed classes only, no inline styles, correct compound nesting, ...). Call before presenting generated code as final.",
             inputSchema: { code: z.string(), strict: z.boolean().optional() },
         },
-        async ({ code, strict }) => text(validateJsx(code, registryHolder.get(), { strict })),
+        async ({ code, strict }) => text({ ...validateJsx(code, registryHolder.get(), { strict }), nextSteps: POST_BUILD_STEPS }),
     );
 
     server.registerTool(

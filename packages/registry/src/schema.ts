@@ -199,6 +199,38 @@ export const RuleSetSchema = z.object({
 });
 export type RuleSet = z.infer<typeof RuleSetSchema>;
 
+/** One category of the UI agent guidelines (packages/registry/src/policy/ui-agent-guidelines.md). */
+export const GuidelineCategorySchema = z.object({
+    /** Slug of the category name, e.g. "screen-readers-nvda". */
+    id: z.string(),
+    /** Name as written in the category index, e.g. "Screen readers (NVDA)". */
+    name: z.string(),
+    /** Full section heading. */
+    title: z.string(),
+    appliesWhen: z.string(),
+    /** The section verbatim, heading included. */
+    markdown: z.string(),
+});
+export type GuidelineCategory = z.infer<typeof GuidelineCategorySchema>;
+
+export const GuidelinesSchema = z.object({
+    /** Every non-category section (policy, workflow, defaults, routing, verification) verbatim. */
+    preamble: z.string(),
+    categories: z.array(GuidelineCategorySchema),
+    /** Category ids included in every UI task. */
+    mandatory: z.array(z.string()),
+    /** Keyword -> category routing used by ds-mcp's plan_ui_task. */
+    routes: z.array(z.object({ keywords: z.array(z.string()), categories: z.array(z.string()) })),
+});
+export type Guidelines = z.infer<typeof GuidelinesSchema>;
+
+export function slugifyCategory(name: string): string {
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+}
+
 export const RegistrySchema = z.object({
     version: z.string(),
     generatedAt: z.string(),
@@ -211,5 +243,6 @@ export const RegistrySchema = z.object({
     tokens: TokenSetSchema,
     icons: z.array(IconEntrySchema),
     rules: RuleSetSchema,
+    guidelines: GuidelinesSchema,
 });
 export type Registry = z.infer<typeof RegistrySchema>;

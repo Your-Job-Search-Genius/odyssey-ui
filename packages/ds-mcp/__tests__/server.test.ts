@@ -38,7 +38,7 @@ function textOf(result: Awaited<ReturnType<Client["callTool"]>>): string {
 }
 
 describe("MCP server: tools", () => {
-    it("lists all 9 tools", async () => {
+    it("lists all 10 tools", async () => {
         const { tools } = await client.listTools();
         expect(tools.map((t) => t.name).sort()).toEqual(
             [
@@ -47,12 +47,22 @@ describe("MCP server: tools", () => {
                 "get_rules",
                 "get_tokens",
                 "list_components",
+                "plan_ui_task",
                 "search_components",
                 "search_icons",
                 "suggest_composition",
                 "validate_jsx",
             ].sort(),
         );
+    });
+
+    it("advertises the mandatory workflow in server instructions", () => {
+        expect(client.getInstructions()).toContain("plan_ui_task");
+    });
+
+    it("validate_jsx returns post-build next steps", async () => {
+        const result = await client.callTool({ name: "validate_jsx", arguments: { code: "<div />" } });
+        expect(JSON.parse(textOf(result)).nextSteps.join(" ")).toContain("completion record");
     });
 
     it("get_rules returns markdown mentioning the allowed primitives", async () => {

@@ -9,7 +9,7 @@ import type { RuleSet } from "../schema.js";
 import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "../schema.js";
 import { buildUxPreamble, buildUxSections } from "./ux-rules.js";
 
-export const RULE_SET_VERSION = "3.2.0";
+export const RULE_SET_VERSION = "4.0.0";
 
 export function buildRuleSet(): RuleSet {
     return {

@@ -13,6 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { extractComponents } from "./extract/components.js";
+import { loadGuidelines } from "./extract/guidelines.js";
 import { defaultIconsIndexPath, extractIcons } from "./extract/icons.js";
 import { buildRuleSet } from "./extract/rules.js";
 import { defaultThemeCssPath, extractTokens } from "./extract/tokens.js";
@@ -69,6 +70,7 @@ async function main() {
         tokens,
         icons,
         rules,
+        guidelines: loadGuidelines(),
     };
 
     const parsed = RegistrySchema.safeParse(registry);

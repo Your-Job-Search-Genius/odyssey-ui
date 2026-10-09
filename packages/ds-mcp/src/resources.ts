@@ -33,6 +33,16 @@ export function registerResources(server: McpServer, registryHolder: RegistryHol
     );
 
     server.registerResource(
+        "guidelines",
+        "ds://guidelines",
+        { title: "UI agent guidelines", description: "The full UI design and implementation policy, including the NVDA checklist.", mimeType: "text/markdown" },
+        async (uri) => {
+            const g = registryHolder.get().guidelines;
+            return { contents: [{ uri: uri.href, mimeType: "text/markdown", text: [g.preamble, ...g.categories.map((c) => c.markdown)].join("\n\n") }] };
+        },
+    );
+
+    server.registerResource(
         "tokens",
         "ds://tokens",
         {

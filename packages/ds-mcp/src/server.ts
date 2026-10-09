@@ -16,7 +16,22 @@ import { registerResources } from "./resources.js";
 import { registerTools } from "./tools.js";
 
 export const SERVER_NAME = "writesea-ds-mcp";
-export const SERVER_VERSION = "0.3.0";
+export const SERVER_VERSION = "0.4.0";
+
+/**
+ * Sent to clients at initialize; most MCP clients put this in the agent's
+ * system prompt. It is the strongest lever an MCP server has to make the
+ * guidelines workflow the default path (it cannot technically force it).
+ */
+export const SERVER_INSTRUCTIONS = [
+    "Writesea Odyssey design system. For ANY request that produces UI (page, screen, form, component, layout), this workflow is mandatory:",
+    "1. Call get_rules, then plan_ui_task with the user's request. Fill in its plan before writing code.",
+    "2. Discover components with list_components / search_components / get_component; use only library components and icons. Never invent components, props, or icons.",
+    "3. Build with the plan's rules in view (Color contrast and Screen readers (NVDA) always apply).",
+    "4. Re-check every rule ID in the plan's completion record; fix failures.",
+    "5. Call validate_jsx, then run the project's type-check/build and fix errors.",
+    "6. Finish with the filled completion record. Anything not actually verified is Not verified, never Pass.",
+].join("\n");
 
 /**
  * Loads the registry to serve. If DS_REGISTRY_URL is set, fetches and
@@ -72,7 +87,7 @@ export function warnOnLibraryVersionMismatch(registry: Registry, cwd: string = p
  */
 export function createServer(registryOrHolder: Registry | RegistryHolder): McpServer {
     const registryHolder = toRegistryHolder(registryOrHolder);
-    const server = new McpServer({ name: SERVER_NAME, version: SERVER_VERSION });
+    const server = new McpServer({ name: SERVER_NAME, version: SERVER_VERSION }, { instructions: SERVER_INSTRUCTIONS });
     registerTools(server, registryHolder);
     registerResources(server, registryHolder);
     registerPrompts(server);
