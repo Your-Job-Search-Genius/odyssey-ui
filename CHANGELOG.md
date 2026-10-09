@@ -3,6 +3,36 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 2.3.0 · ds-registry 0.4.0 · ds-mcp 0.4.0
+
+The MCP server now drives agents through a guidelines workflow (plan, checklists, build, re-check, validate), every component was audited for the NVDA screen reader, and the docs site moved to the "Spatial Layers" design. Behaviour changes are listed first.
+
+### Behaviour changes
+
+- **`Drawer`, `SlideoutMenu` and `BottomSheet` no longer carry a fixed name** ("Drawer", "Slideout menu", "Bottom sheet"). They are named by their `Heading slot="title"`, or by the trigger; pass the new `aria-label` / `aria-labelledby` props when there is neither. Their `Content` no longer defaults to `role="main"`, and `Header` / `Footer` no longer create banner / contentinfo landmarks.
+- **`PaginationButtonGroup` is no longer a radio group.** Pages are plain buttons with `aria-current="page"`; the ellipsis is text. Visuals are unchanged.
+- **Loading `Button`s keep their label in the accessible name** (the text fades with `opacity-0` instead of `invisible`), and the spinner is a named progress bar.
+- **`Slider`'s default value format** reads the same in the visible output and in `aria-valuetext` ("50%", not "5,000%"). Custom `formatOptions` are unchanged.
+- **`Checkbox`, `Radio` and `Toggle` hints are descriptions**, no longer part of the accessible name.
+- **Brand, payment, social and integration icons default to `aria-hidden="true"`.** Pass `aria-hidden={false}` with `role="img"` and `aria-label` for a meaningful icon.
+- **ds-registry rule set 4.0.0:** the standing UX rules `FORM-*` and `STATE-*` are now `FIELD-*` and `ISTATE-*` (the UI agent guidelines own `FORM-*` / `STATE-*`). Rules that prescribed fixed pixel values, breakpoints or durations now give direction instead.
+
+### Accessibility (NVDA audit)
+
+76 findings across `base`, `application` and `foundations`; 69 fixed, 2 partly fixed, 2 deferred. Highlights: named icon-only controls (input help tooltips, table header help, social buttons, tag and badge remove buttons); linked labels, hints and errors (`InputTags`, `MultiSelect`, `ColorPicker`, file upload); announced async feedback (tag rejection, upload status, combobox loading, loading indicator, carousel slide changes); `aria-current` / `aria-pressed` state (header nav, pagination, account switcher, cards, calendar presets); avatars default to `alt=""`; rating stars read "N out of M stars". Details, deferrals and a manual NVDA script: `docs/superpowers/reports/2026-10-09-nvda-audit.md`. A real NVDA walkthrough is still outstanding.
+
+### New
+
+- **ds-mcp `plan_ui_task`**: call before writing UI. It routes the request to the guideline categories that apply (Color contrast and Screen readers (NVDA) always), lists candidate components, and returns a plan template, the rules, and a completion record to fill in.
+- **Server `instructions`** state the mandatory workflow; `validate_jsx` returns `nextSteps` (re-check, compile, completion record); new resource `ds://guidelines`; the `build-ui` prompt follows the new sequence.
+- **ds-registry `guidelines`**: the UI agent guidelines (`src/policy/ui-agent-guidelines.md`, including the new Screen readers (NVDA) category SR-01..SR-12) parsed into categories, the mandatory list and keyword routes.
+- New optional props from the audit: `Slider` `label`, progress indicators `aria-label` / `aria-labelledby`, overlay `aria-label` / `aria-labelledby`.
+
+### Docs site
+
+- "Spatial Layers" design across home, docs, component pages, MCP / agent rules and playground; light/dark switch in the navbar, which every component viewer follows.
+- Component viewers: Fullscreen, Open in new tab (a chrome-free `/preview/...` page), Copy, Preview/Code, and wide components scale to fit instead of scrolling.
+
 ## odyssey-ui 2.1.0 · ds-registry 0.3.0 · ds-mcp 0.3.0 · eslint-plugin-ds 0.1.3
 
 Fixes the issues logged while migrating the CRM client onto odyssey-ui 2.0.0 (IDs refer to that
