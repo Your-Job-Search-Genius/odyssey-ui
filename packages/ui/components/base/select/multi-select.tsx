@@ -17,12 +17,14 @@ import {
 } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { ComboBoxLoadingState } from "@/components/base/combobox/combobox-parts";
+import { SHEET_LIST } from "@/components/base/combobox/combobox-shared";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import { ChevronDown, SearchLg } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 import { SelectItem } from "./select-item";
 import { type CommonProps, SelectContext, type SelectItemType, sizes } from "./select-shared";
 
@@ -307,10 +309,13 @@ const MultiSelectRoot = ({
                                 state.isExiting &&
                                     "duration-100 ease-in animate-out fade-out placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
                                 popoverClassName,
+                                SHEET_POPOVER,
+                                // The list scrolls between the pinned search field and footer, not the sheet itself.
+                                "max-md:overflow-hidden!",
                             )
                         }
                     >
-                        <AriaDialog className="outline-hidden">
+                        <AriaDialog className="outline-hidden max-md:flex max-md:min-h-0 max-md:flex-1 max-md:flex-col">
                             <AriaAutocomplete
                                 filter={filter === null ? undefined : (filter ?? contains)}
                                 inputValue={searchValue}
@@ -353,7 +358,7 @@ const MultiSelectRoot = ({
                                             />
                                         )
                                     }
-                                    className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size])}
+                                    className={cx("overflow-y-auto py-1 outline-hidden", popoverMaxHeights[size], SHEET_LIST)}
                                 >
                                     {children}
                                 </AriaListBox>

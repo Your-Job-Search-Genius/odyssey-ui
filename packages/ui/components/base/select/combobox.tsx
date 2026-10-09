@@ -5,11 +5,15 @@ import { isValidElement, useCallback, useContext, useRef, useState } from "react
 import type { ComboBoxProps as AriaComboBoxProps, GroupProps as AriaGroupProps, ListBoxProps as AriaListBoxProps } from "react-aria-components";
 import { ComboBox as AriaComboBox, Group as AriaGroup, Input as AriaInput, ListBox as AriaListBox, ComboBoxStateContext } from "react-aria-components";
 import { ComboBoxChevron } from "@/components/base/combobox/combobox-chevron";
+import { ComboBoxEmptyState } from "@/components/base/combobox/combobox-parts";
+import { sheetListBoxProps } from "@/components/base/combobox/combobox-shared";
+import { ComboBoxSheetSearch } from "@/components/base/combobox/combobox-sheet-search";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { Popover } from "@/components/base/select/popover";
 import { type CommonProps, SelectContext, type SelectItemType, sizes } from "@/components/base/select/select-shared";
 import { SearchLg } from "@/components/foundations/icons";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { useResizeObserver } from "@/hooks/use-resize-observer";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
@@ -35,12 +39,14 @@ interface ComboBoxValueProps extends AriaGroupProps {
     placeholder?: string;
     shortcutClassName?: string;
     icon?: FC | ReactNode;
+    /** Mobile bottom-sheet mode: the trigger only opens the sheet; typing happens in the sheet's search field. */
+    isSheet?: boolean;
     onFocus?: FocusEventHandler;
     onPointerEnter?: PointerEventHandler;
     ref?: Ref<HTMLDivElement>;
 }
 
-const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: IconProp, ref, ...otherProps }: ComboBoxValueProps) => {
+const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: IconProp, isSheet, ref, ...otherProps }: ComboBoxValueProps) => {
     const state = useContext(ComboBoxStateContext);
 
     const value = state?.selectedItem?.value || null;
@@ -84,6 +90,8 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
 
                 <AriaInput
                     placeholder={placeholder}
+                    // Mobile: tapping opens the bottom sheet (onClick below) instead of raising the keyboard here.
+                    readOnly={isSheet || undefined}
                     // The menu opens on click, typing or Alt/Arrow Down -- not on focus alone, so an
                     // auto-focused combobox (e.g. a dialog's first field) doesn't cover the form.
                     onClick={() => {
@@ -131,6 +139,8 @@ export const ComboBox = ({
 }: ComboBoxProps) => {
     const placeholderRef = useRef<HTMLDivElement>(null);
     const [popoverWidth, setPopoverWidth] = useState("");
+    // Below md the menu is a bottom sheet with its own search field (see ComboBoxSheetSearch).
+    const isSheet = !useBreakpoint("md");
 
     // Resize observer for popover width
     const onResize = useCallback(() => {
@@ -149,7 +159,12 @@ export const ComboBox = ({
 
     return (
         <SelectContext.Provider value={{ size }}>
-            <AriaComboBox menuTrigger="input" {...otherProps}>
+            <AriaComboBox
+                menuTrigger="input"
+                {...otherProps}
+                // The sheet stays open on zero matches so its search field and "No results" state remain visible.
+                allowsEmptyCollection={isSheet || otherProps.allowsEmptyCollection}
+            >
                 {(state) => (
                     <div className="flex flex-col gap-1.5">
                         {otherProps.label && (
@@ -164,6 +179,7 @@ export const ComboBox = ({
                             shortcut={shortcut}
                             shortcutClassName={shortcutClassName}
                             icon={icon}
+                            isSheet={isSheet}
                             size={size}
                             // This is a workaround to correctly calculating the trigger width
                             // while using ResizeObserver wasn't 100% reliable.
@@ -171,8 +187,22 @@ export const ComboBox = ({
                             onPointerEnter={onResize}
                         />
 
-                        <Popover size={size} triggerRef={placeholderRef} style={{ width: popoverWidth }} className={otherProps.popoverClassName}>
-                            <AriaListBox items={items} className="size-full outline-hidden">
+                        <Popover
+                            size={size}
+                            triggerRef={placeholderRef}
+                            style={{ width: popoverWidth }}
+                            className={otherProps.popoverClassName}
+                            // Mobile sheet: modal (backdrop, focus trap, no close when the soft keyboard scrolls the page).
+                            isNonModal={isSheet ? false : undefined}
+                            aria-label={isSheet ? (typeof otherProps.label === "string" ? otherProps.label : "Options") : undefined}
+                        >
+                            {isSheet && <ComboBoxSheetSearch size={size} placeholder={placeholder} triggerRef={placeholderRef} />}
+                            <AriaListBox
+                                {...sheetListBoxProps(isSheet)}
+                                renderEmptyState={isSheet ? () => <ComboBoxEmptyState /> : undefined}
+                                items={items}
+                                className="size-full outline-hidden"
+                            >
                                 {children}
                             </AriaListBox>
                         </Popover>
