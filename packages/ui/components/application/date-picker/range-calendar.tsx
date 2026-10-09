@@ -125,7 +125,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                     months: visibleDurationMonths,
                 }}
             >
-                <div className="flex flex-col gap-3 px-6 py-5 md:gap-2">
+                <div className="flex flex-col gap-3 px-6 py-5 max-md:px-4 md:gap-2">
                     <div className={cx("relative flex items-center", visibleDurationMonths > 1 ? "justify-start" : "justify-between")}>
                         <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
 
@@ -137,15 +137,15 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                     </div>
 
                     {!isDesktop && (
-                        <div className="flex items-center gap-2 md:hidden">
-                            <InputDateBase slot="start" size="sm" className="flex-1" />
-                            <div className="text-md text-quaternary">–</div>
-                            <InputDateBase slot="end" size="sm" className="flex-1" />
+                        // Stacked: two date(-time) fields side by side are wider than a phone or a 400%-zoomed window.
+                        <div className="flex flex-col gap-2 md:hidden">
+                            <InputDateBase slot="start" size="sm" />
+                            <InputDateBase slot="end" size="sm" />
                         </div>
                     )}
 
                     {(showPresetsOnDesktop || !isDesktop) && presets && (
-                        <div className="mt-1 flex justify-between gap-3 px-2">
+                        <div className="mt-1 flex flex-wrap justify-between gap-x-3 gap-y-1 px-2">
                             {Object.values(presets).map((preset) => (
                                 <MobilePresetButton key={preset.label} value={preset.value}>
                                     {preset.label}
@@ -154,7 +154,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                         </div>
                     )}
 
-                    <AriaCalendarGrid weekdayStyle="short" className="w-max">
+                    <AriaCalendarGrid weekdayStyle="short" className="w-max max-md:mx-auto">
                         <AriaCalendarGridHeader>
                             {(day) => (
                                 <AriaCalendarHeaderCell className="border-b-4 border-transparent p-0">

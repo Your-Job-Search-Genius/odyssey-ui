@@ -10,6 +10,7 @@ import { Button, type ButtonProps } from "@/components/base/buttons/button";
 import { InputDateBase } from "@/components/base/input/input-date";
 import { Calendar as CalendarIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 import { RangeCalendar, RangePresetButton } from "./range-calendar";
 
 interface DateRangePickerProps extends AriaDateRangePickerProps<DateValue> {
@@ -110,10 +111,15 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                             "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                         isExiting &&
                             "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
+                        // Bottom sheet below md; the dialog drops its own card styling there.
+                        SHEET_POPOVER,
                     )
                 }
             >
-                <AriaDialog aria-label="Date range picker" className="flex rounded-2xl bg-primary shadow-xl ring ring-secondary_alt focus:outline-hidden">
+                <AriaDialog
+                    aria-label="Date range picker"
+                    className="flex rounded-2xl bg-primary shadow-xl ring ring-secondary_alt focus:outline-hidden max-md:w-full max-md:rounded-none max-md:shadow-none max-md:ring-0"
+                >
                     {({ close }) => (
                         <>
                             <div className="hidden w-38 flex-col gap-0.5 border-r border-solid border-secondary p-3 lg:flex">
@@ -130,7 +136,7 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                                     </RangePresetButton>
                                 ))}
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col max-md:w-full">
                                 <RangeCalendar
                                     focusedValue={focusedValue}
                                     onFocusChange={setFocusedValue}
@@ -141,7 +147,7 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                                         lastYear: presets.lastYear,
                                     }}
                                 />
-                                <div className="flex justify-between gap-3 border-t border-secondary p-4">
+                                <div className="flex justify-between gap-3 border-t border-secondary p-4 max-md:sticky max-md:bottom-0 max-md:bg-primary">
                                     <div className="hidden items-center gap-2 md:flex">
                                         <InputDateBase slot="start" size="sm" />
                                         <div className="text-md text-quaternary">–</div>

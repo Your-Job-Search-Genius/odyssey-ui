@@ -1,6 +1,5 @@
 "use client";
 
-import { SubmenuTrigger } from "react-aria-components";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 
 export const DropdownIconSimple = () => (
@@ -22,7 +21,7 @@ export const DropdownIconSimple = () => (
                 </Dropdown.Section>
                 <Dropdown.Separator />
                 <Dropdown.Section>
-                    <SubmenuTrigger>
+                    <Dropdown.SubmenuTrigger>
                         <Dropdown.Item>View details</Dropdown.Item>
                         <Dropdown.Popover placement="right top" offset={-6} className="w-50">
                             <Dropdown.Menu>
@@ -31,7 +30,7 @@ export const DropdownIconSimple = () => (
                                 <Dropdown.Item>Archive</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown.Popover>
-                    </SubmenuTrigger>
+                    </Dropdown.SubmenuTrigger>
                 </Dropdown.Section>
             </Dropdown.Menu>
         </Dropdown.Popover>

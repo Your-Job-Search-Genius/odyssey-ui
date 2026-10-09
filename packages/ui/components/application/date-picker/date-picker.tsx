@@ -9,6 +9,7 @@ import { DatePicker as AriaDatePicker, Dialog as AriaDialog, Group as AriaGroup,
 import { Button, type ButtonProps } from "@/components/base/buttons/button";
 import { Calendar as CalendarIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 import { Calendar } from "./calendar";
 
 interface DatePickerProps extends AriaDatePickerProps<DateValue> {
@@ -61,16 +62,21 @@ export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, 
                             "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                         isExiting &&
                             "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
+                        // Bottom sheet below md; the dialog drops its own card styling there.
+                        SHEET_POPOVER,
                     )
                 }
             >
-                <AriaDialog aria-label="Date picker" className="rounded-2xl bg-primary shadow-xl ring ring-secondary_alt">
+                <AriaDialog
+                    aria-label="Date picker"
+                    className="rounded-2xl bg-primary shadow-xl ring ring-secondary_alt max-md:w-full max-md:rounded-none max-md:shadow-none max-md:ring-0"
+                >
                     {({ close }) => (
                         <>
-                            <div className="flex px-6 py-5">
+                            <div className="flex px-6 py-5 max-md:justify-center max-md:px-4">
                                 <Calendar highlightedDates={highlightedDates} />
                             </div>
-                            <div className="grid grid-cols-2 gap-3 border-t border-secondary p-4">
+                            <div className="grid grid-cols-2 gap-3 border-t border-secondary p-4 max-md:sticky max-md:bottom-0 max-md:bg-primary">
                                 <Button
                                     size="md"
                                     color="secondary"

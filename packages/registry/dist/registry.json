@@ -1,6 +1,6 @@
 {
-  "version": "2.3.1",
-  "generatedAt": "library@2.3.1+components:147+tokens:269+icons:1179",
+  "version": "2.4.0",
+  "generatedAt": "library@2.4.0+components:148+tokens:269+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -6935,11 +6935,60 @@
       "variants": {},
       "allowedChildren": "any",
       "moduleExports": [
-        "ComboBoxContext"
+        "ComboBoxContext",
+        "SHEET_LIST"
       ],
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/combobox/combobox-shared",
+      "isExtracted": true
+    },
+    {
+      "id": "base/combobox/combobox-sheet-search",
+      "name": "ComboBoxSheetSearch",
+      "importName": "ComboBoxSheetSearch",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/combobox/combobox-sheet-search",
+      "category": "base",
+      "description": "The search field at the top of a combobox's mobile bottom sheet. On mobile the sheet is modal, so typing\nmoves from the trigger into this field; it edits the combobox's own input value, so the combobox's\nfiltering, `onInputChange` and `onLoadMore` keep working unchanged.\n\nA native input on purpose: React Aria's `Input` would pick up the combobox's input context, and\n`SearchField` clears the value on Escape (which would clear a single selection).",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "required": true
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Search",
+          "description": "Accessible name of the search field, e.g. \"Search team members\"."
+        },
+        {
+          "name": "triggerRef",
+          "type": "RefObject<HTMLElement | null> | undefined",
+          "required": false,
+          "description": "The combobox's trigger (the element wrapping its input); focus returns to its input when the sheet closes."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBoxSheetSearch"
+      ],
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/combobox/combobox-sheet-search",
       "isExtracted": true
     },
     {
@@ -7038,7 +7087,8 @@
         "Dropdown.Root",
         "Dropdown.Section",
         "Dropdown.SectionHeader",
-        "Dropdown.Separator"
+        "Dropdown.Separator",
+        "Dropdown.SubmenuTrigger"
       ],
       "examples": [
         {

@@ -3,6 +3,23 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 2.4.0 · ds-registry 0.5.0 · ds-mcp 0.5.0
+
+Selects, comboboxes, dropdowns, menus, the account switcher, date pickers and the color picker open as a **bottom sheet on mobile** (below the `md` breakpoint) -- which also covers desktop browsers at high zoom (400% on a 1920px screen is a 480px viewport). Desktop is unchanged.
+
+### Behaviour changes
+
+- **Popovers become bottom sheets below `md`**: `Select`, `MultiSelect`, `ComboBox`, `Select.ComboBox`, `TagSelect`, every `Dropdown` (incl. table row actions, breadcrumbs overflow and sidebar footer menus), the header navigation account switcher, `DatePicker`, `DateRangePicker` and `ColorPicker`. The sheet is full width (capped and centered on small tablets), up to 85% of the viewport height, dims the page, and closes on backdrop tap, Escape or choosing an option. It is still React Aria's popover underneath, so focus trapping/restore, naming and keyboard behaviour are unchanged.
+- **Comboboxes on mobile** open a sheet with its own search field at the top (focused on open); tapping the field no longer raises the keyboard on the trigger. Arrow Down moves from the search field into the list, the sheet stays open on zero matches with a "No results" state, and focus returns to the field when it closes.
+- **Dropdown submenus on mobile** open as a second sheet stacked on top, with a **Back** row to return one level; hover no longer opens submenus below `md`. Use the new `Dropdown.SubmenuTrigger` (all built-in dropdown variants do).
+- **`DateRangePicker` on mobile** stacks the start/end fields and wraps the presets so it fits 320px.
+- **`useBreakpoint`** returns `true` (desktop) on the server and the first client render, then the real value -- no more hydration mismatches -- and uses rem breakpoints like Tailwind.
+
+### New
+
+- `utils/sheet-popover.ts` (`SHEET_POPOVER`): append to any React Aria `Popover` className to get the same mobile bottom sheet.
+- `Dropdown.SubmenuTrigger`, `ComboBoxSheetSearch`.
+
 ## odyssey-ui 2.3.1 · ds-registry 0.4.1 · ds-mcp 0.4.1
 
 ### Fixes

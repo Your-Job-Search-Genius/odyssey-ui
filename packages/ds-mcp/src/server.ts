@@ -16,7 +16,7 @@ import { registerResources } from "./resources.js";
 import { registerTools } from "./tools.js";
 
 export const SERVER_NAME = "writesea-ds-mcp";
-export const SERVER_VERSION = "0.4.1";
+export const SERVER_VERSION = "0.5.0";
 
 /**
  * Sent to clients at initialize; most MCP clients put this in the agent's
