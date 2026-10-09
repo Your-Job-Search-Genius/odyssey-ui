@@ -66,6 +66,7 @@ export const FlowCanvasToolbar = ({
             <span className="text-xs font-medium text-quaternary">Edges</span>
             <ButtonGroup
                 size="sm"
+                aria-label="Edge style"
                 disallowEmptySelection
                 selectedKeys={[edgeStyle]}
                 onSelectionChange={(keys) => onEdgeStyleChange(pickKey(keys) ?? edgeStyle)}
@@ -89,7 +90,13 @@ export const FlowCanvasToolbar = ({
                 aria-label={isPlaying ? "Pause ambient flow" : "Play ambient flow"}
                 onClick={() => onPlayingChange(!isPlaying)}
             />
-            <ButtonGroup size="sm" disallowEmptySelection selectedKeys={[speed]} onSelectionChange={(keys) => onSpeedChange(pickKey(keys) ?? speed)}>
+            <ButtonGroup
+                size="sm"
+                aria-label="Flow speed"
+                disallowEmptySelection
+                selectedKeys={[speed]}
+                onSelectionChange={(keys) => onSpeedChange(pickKey(keys) ?? speed)}
+            >
                 <ButtonGroupItem id="slow">Slow</ButtonGroupItem>
                 <ButtonGroupItem id="normal">Normal</ButtonGroupItem>
                 <ButtonGroupItem id="fast">Fast</ButtonGroupItem>

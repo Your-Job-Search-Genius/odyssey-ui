@@ -6,7 +6,7 @@ const ReplitIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { graysca
     const fillClass = grayscale ? "fill-fg-quaternary" : "fill-[#FD5402]";
 
     return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
             <path
                 d="M10.0346 7.17324H4.4375C3.88634 7.17324 3.44922 6.73427 3.44922 6.20191V2.97035C3.44922 2.42865 3.89585 1.99902 4.4375 1.99902H9.04631C9.59746 1.99902 10.0346 2.43799 10.0346 2.97035V7.17324Z"
                 className={fillClass}

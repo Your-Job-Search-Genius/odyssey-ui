@@ -81,6 +81,7 @@ const NavAccountMenu = ({
 
     return (
         <AriaDialog
+            aria-label="Account menu"
             {...dialogProps}
             ref={dialogRef}
             className={cx("w-66 rounded-xl bg-secondary_alt shadow-lg ring ring-secondary_alt outline-hidden", className)}
@@ -98,6 +99,8 @@ const NavAccountMenu = ({
                         {placeholderAccounts.map((account) => (
                             <button
                                 key={account.id}
+                                type="button"
+                                aria-pressed={account.id === selectedAccountId}
                                 className={cx(
                                     "relative w-full cursor-pointer rounded-md px-2 py-1.5 text-left outline-focus-ring transition duration-100 ease-linear hover:bg-primary_hover focus:z-10 focus-visible:outline-2 focus-visible:outline-offset-2",
                                     account.id === selectedAccountId && "bg-primary_hover",
@@ -189,6 +192,7 @@ export const NavAccountCard = ({
 
             <AriaDialogTrigger>
                 <AriaButton
+                    aria-label="Switch account"
                     className={cx(
                         "absolute top-2 right-2 flex cursor-pointer items-center justify-center rounded-md p-1.5 text-fg-quaternary transition duration-100 ease-linear hover:bg-primary_hover hover:text-fg-quaternary_hover pressed:bg-primary_hover pressed:text-fg-quaternary_hover",
                         FOCUS_RING,

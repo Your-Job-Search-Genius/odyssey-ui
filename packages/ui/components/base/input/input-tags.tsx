@@ -1,7 +1,7 @@
 "use client";
 
 import type { Key, KeyboardEvent, ReactNode } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useId, useRef, useState } from "react";
 import { Group as AriaGroup, Input as AriaInput } from "react-aria-components";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
@@ -90,6 +90,10 @@ export const InputTags = ({
     const inputRef = useRef<HTMLInputElement>(null);
     const tagGroupRef = useRef<HTMLDivElement>(null);
     const [inputValue, setInputValue] = useState("");
+    // Screen-reader-only feedback when a tag is rejected (duplicate, limit, failed validation).
+    const [rejection, setRejection] = useState("");
+    const inputId = useId();
+    const hintId = useId();
 
     const [internalEntries, setInternalEntries] = useState<TagEntry[]>(() => (defaultValue ?? []).map((label) => ({ id: nextId(), label })));
 
@@ -131,9 +135,16 @@ export const InputTags = ({
         (text: string) => {
             const trimmed = text.trim();
             if (!trimmed) return false;
-            if (!allowDuplicates && tags.includes(trimmed)) return false;
-            if (maxTags && tags.length >= maxTags) return false;
-            if (validate && !validate(trimmed)) return false;
+            const reason =
+                !allowDuplicates && tags.includes(trimmed)
+                    ? `${trimmed} is already added`
+                    : maxTags && tags.length >= maxTags
+                      ? `Maximum of ${maxTags} tags reached`
+                      : validate && !validate(trimmed)
+                        ? `${trimmed} is not valid`
+                        : "";
+            setRejection(reason);
+            if (reason) return false;
 
             const newEntry: TagEntry = { id: nextId(), label: trimmed };
             const newEntries = [...entries, newEntry];
@@ -239,7 +250,11 @@ export const InputTags = ({
 
     return (
         <div className={cx("flex flex-col gap-1.5", className)}>
-            {label && <Label isRequired={hideRequiredIndicator ? false : isRequired}>{label}</Label>}
+            {label && (
+                <Label htmlFor={inputId} isRequired={hideRequiredIndicator ? false : isRequired}>
+                    {label}
+                </Label>
+            )}
 
             <AriaGroup
                 isDisabled={isDisabled}
@@ -279,11 +294,19 @@ export const InputTags = ({
                             <div className="relative flex min-w-[20%] flex-1 flex-row items-center">
                                 <AriaInput
                                     ref={inputRef}
+                                    id={inputId}
                                     type="text"
                                     value={inputValue}
                                     disabled={isDisabled}
+                                    required={isRequired}
+                                    aria-label={!label ? placeholder : undefined}
+                                    aria-invalid={isInvalid || undefined}
+                                    aria-describedby={hint ? hintId : undefined}
                                     placeholder={isEmpty ? placeholder : undefined}
-                                    onChange={(e) => setInputValue(e.target.value)}
+                                    onChange={(e) => {
+                                        setInputValue(e.target.value);
+                                        setRejection("");
+                                    }}
                                     onKeyDown={handleInputKeyDown}
                                     className="w-full flex-[1_0_0] appearance-none bg-transparent text-ellipsis text-primary caret-alpha-black/90 outline-hidden placeholder:text-placeholder focus:outline-hidden disabled:cursor-not-allowed"
                                 />
@@ -293,6 +316,7 @@ export const InputTags = ({
                         {tooltip && (
                             <Tooltip title={tooltip} placement="top">
                                 <TooltipTrigger
+                                    aria-label={tooltip}
                                     className={cx(
                                         "absolute cursor-pointer text-fg-quaternary transition duration-100 ease-linear group-invalid/input:hidden hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover",
                                         sizes[size].iconTrailing,
@@ -313,8 +337,12 @@ export const InputTags = ({
                 )}
             </AriaGroup>
 
+            <span role="status" className="sr-only">
+                {rejection}
+            </span>
+
             {hint && (
-                <HintText isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
+                <HintText id={hintId} isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
                     {hint}
                 </HintText>
             )}

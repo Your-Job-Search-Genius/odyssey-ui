@@ -132,6 +132,8 @@ const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoa
         <>
             {content}
             {isSelected && <SelectedIndicator />}
+            {/* The button variant reports selection via `aria-pressed` instead. */}
+            {isSelected && !("onPress" in props) && <span className="sr-only">Selected</span>}
             {isLoading && <span className="sr-only">Loading</span>}
         </>
     );
@@ -164,6 +166,7 @@ const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoa
                     type={type || "button"}
                     onPress={onPress}
                     isDisabled={isDisabled}
+                    aria-pressed={isSelected}
                     aria-busy={isLoading || undefined}
                     className={({ isHovered, isFocusVisible }) =>
                         cardRootClassName({ size, elevation, isSelected, isDisabled, isInteractive: true, isHovered, isFocusVisible, className })

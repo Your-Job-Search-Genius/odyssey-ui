@@ -113,6 +113,11 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
                 <SearchLg data-icon className="pointer-events-none" aria-hidden="true" />
             )}
 
+            {/* Always mounted so the loading state is announced when it starts. */}
+            <span role="status" className="sr-only">
+                {isLoading ? "Loading" : ""}
+            </span>
+
             <div className="relative flex w-full items-center">
                 {inputValue && (
                     <span

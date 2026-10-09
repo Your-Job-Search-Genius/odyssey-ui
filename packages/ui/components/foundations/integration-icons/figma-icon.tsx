@@ -5,7 +5,7 @@ import type { SVGProps } from "react";
 const FigmaIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { grayscale?: boolean }) => {
     if (grayscale) {
         return (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
                 <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -17,7 +17,7 @@ const FigmaIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { grayscal
     }
 
     return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
             <path
                 d="M7.3337 17.9999C8.80572 17.9999 10.0004 16.8053 10.0004 15.3333V12.6666H7.3337C5.86169 12.6666 4.66699 13.8613 4.66699 15.3333C4.66699 16.8053 5.86169 17.9999 7.3337 17.9999Z"
                 fill="#24CB71"

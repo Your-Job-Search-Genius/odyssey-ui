@@ -1,8 +1,14 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { type ReactNode, useContext, useId } from "react";
 import type { Color } from "react-aria-components";
-import { Button as AriaButton, ColorPicker as AriaColorPicker, DialogTrigger as AriaDialogTrigger, Popover as AriaPopover } from "react-aria-components";
+import {
+    Button as AriaButton,
+    ColorPicker as AriaColorPicker,
+    ColorPickerStateContext as AriaColorPickerStateContext,
+    DialogTrigger as AriaDialogTrigger,
+    Popover as AriaPopover,
+} from "react-aria-components";
 import { ColorArea } from "@/components/base/color-picker/color-area";
 import { ColorField } from "@/components/base/color-picker/color-field";
 import { ColorSlider } from "@/components/base/color-picker/color-slider";
@@ -30,6 +36,13 @@ export interface ColorPickerProps {
     className?: string;
 }
 
+/** Screen-reader-only current value, since the swatch is hidden from assistive tech. */
+const ColorPickerValue = () => {
+    const state = useContext(AriaColorPickerStateContext);
+
+    return state ? <span className="sr-only">{`, ${state.color.toString("hex")}`}</span> : null;
+};
+
 /**
  * A ColorPicker synchronizes a color value between multiple nested color
  * components. The trigger opens a popover containing a `ColorArea`, hue and
@@ -37,12 +50,15 @@ export interface ColorPickerProps {
  * `children` you provide instead.
  */
 export const ColorPicker = ({ label = "Color", hint, value, defaultValue, onChange, isDisabled, children, className }: ColorPickerProps) => {
+    const hintId = useId();
+
     return (
         <div className="flex w-max flex-col gap-1.5">
             <AriaColorPicker value={value} defaultValue={value ? undefined : (defaultValue ?? "#7F56D9")} onChange={onChange}>
                 <AriaDialogTrigger>
                     <AriaButton
                         isDisabled={isDisabled}
+                        aria-describedby={hint ? hintId : undefined}
                         className={({ isFocusVisible, isPressed }) =>
                             cx(
                                 "flex cursor-pointer items-center gap-2 rounded-lg bg-primary py-2 pr-3 pl-2.5 shadow-xs ring-1 ring-primary transition-shadow duration-100 ease-linear ring-inset",
@@ -64,6 +80,7 @@ export const ColorPicker = ({ label = "Color", hint, value, defaultValue, onChan
                             <ColorSwatch className="size-5 rounded" />
                         </span>
                         <span className="text-sm font-medium text-secondary">{label}</span>
+                        <ColorPickerValue />
                         <ChevronDown className="size-4 text-fg-quaternary" aria-hidden="true" />
                     </AriaButton>
 
@@ -101,7 +118,7 @@ export const ColorPicker = ({ label = "Color", hint, value, defaultValue, onChan
                 </AriaDialogTrigger>
             </AriaColorPicker>
 
-            {hint && <HintText>{hint}</HintText>}
+            {hint && <HintText id={hintId}>{hint}</HintText>}
         </div>
     );
 };

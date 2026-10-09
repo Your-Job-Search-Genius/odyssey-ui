@@ -101,9 +101,12 @@ export const SocialButton: {
 
     const Logo = logos[social];
 
+    const socialNames = { google: "Google", facebook: "Facebook", apple: "Apple", twitter: "Twitter", figma: "Figma", dribble: "Dribbble" };
+
     const commonChildren = (
         <>
             <Logo
+                aria-hidden="true"
                 className={cx(
                     styles.common.icon,
                     styles.sizes[size].icon,
@@ -128,6 +131,8 @@ export const SocialButton: {
 
     const commonProps = {
         "data-icon-only": isIconOnly ? true : undefined,
+        // Icon-only buttons fall back to the network's name; a consumer `aria-label` still wins.
+        "aria-label": isIconOnly ? socialNames[social] : undefined,
         ...props,
         isDisabled: isButtonDisabled,
         className: cx(styles.common.root, styles.sizes[size].root, colorStyles.root, className),

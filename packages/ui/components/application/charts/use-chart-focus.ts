@@ -22,9 +22,9 @@ export interface UseChartFocusOptions {
 export interface ChartItemProps {
     ref: (element: SVGElement | null) => void;
     tabIndex: number;
-    role: "img";
+    role: "img" | "button";
     "aria-label": string;
-    "aria-roledescription": string;
+    "aria-roledescription"?: string;
     "data-chart-item": string;
     "data-current": true | undefined;
     onFocus: (event: FocusEvent<SVGElement>) => void;
@@ -111,9 +111,10 @@ export function useChartFocus(options: UseChartFocusOptions): ChartFocus {
                     else elements.current.delete(key);
                 },
                 tabIndex: isTabbable ? 0 : -1,
-                role: "img",
+                // Actionable marks are buttons; a roledescription would replace "button" in NVDA's output, so it's dropped.
+                role: onSelect ? "button" : "img",
                 "aria-label": label,
-                "aria-roledescription": roleDescription,
+                "aria-roledescription": onSelect ? undefined : roleDescription,
                 "data-chart-item": key,
                 "data-current": isCurrentItem || undefined,
                 onFocus: () => {

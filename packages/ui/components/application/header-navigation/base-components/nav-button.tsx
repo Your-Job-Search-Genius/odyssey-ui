@@ -52,6 +52,7 @@ export const NavButton = ({
                 <a
                     href={href}
                     aria-label={label}
+                    aria-current={current ? "page" : undefined}
                     onClick={onClick}
                     className={cx(
                         "group/item relative flex w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-primary transition duration-100 ease-linear select-none",

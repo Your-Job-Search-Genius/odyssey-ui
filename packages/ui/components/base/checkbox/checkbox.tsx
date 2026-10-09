@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode, Ref } from "react";
+import { type ReactNode, type Ref, useId } from "react";
 import { Checkbox as AriaCheckbox, type CheckboxProps as AriaCheckboxProps } from "react-aria-components";
 import { cx } from "@/utils/cx";
 
@@ -64,6 +64,9 @@ interface CheckboxProps extends AriaCheckboxProps {
 }
 
 export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxProps }: CheckboxProps) => {
+    // The <label> wraps both texts; point name at the label and description at the hint so the hint isn't read as part of the name.
+    const labelId = useId();
+    const hintId = useId();
     const sizes = {
         sm: {
             root: "gap-2",
@@ -81,6 +84,8 @@ export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxP
 
     return (
         <AriaCheckbox
+            aria-labelledby={label && hint ? labelId : undefined}
+            aria-describedby={hint ? hintId : undefined}
             {...ariaCheckboxProps}
             className={(state) =>
                 cx(
@@ -103,9 +108,13 @@ export const Checkbox = ({ label, hint, size = "sm", className, ...ariaCheckboxP
                     />
                     {(label || hint) && (
                         <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
-                            {label && <p className={cx("text-secondary select-none", sizes[size].label)}>{label}</p>}
+                            {label && (
+                                <p id={labelId} className={cx("text-secondary select-none", sizes[size].label)}>
+                                    {label}
+                                </p>
+                            )}
                             {hint && (
-                                <span className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
+                                <span id={hintId} className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
                                     {hint}
                                 </span>
                             )}

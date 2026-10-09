@@ -34,10 +34,12 @@ export interface SeparatorProps extends AriaSeparatorProps {
 export const Separator = ({ orientation = "horizontal", children, className, ...props }: SeparatorProps) => {
     // Labeled variant: two line segments with text in the middle. Rendered manually (rather than
     // via `AriaSeparator`) since the label needs to sit visually inline between two children.
+    // The separator role sits on the first line only: `separator` children are presentational,
+    // so putting it on the wrapper would hide the label text from screen readers.
     if (children && orientation === "horizontal") {
         return (
-            <div role="separator" aria-orientation="horizontal" className={cx("flex w-full items-center gap-3", className)}>
-                <span aria-hidden="true" className="h-px min-w-4 flex-1 bg-border-secondary" />
+            <div className={cx("flex w-full items-center gap-3", className)}>
+                <span role="separator" aria-orientation="horizontal" className="h-px min-w-4 flex-1 bg-border-secondary" />
                 <span className="shrink-0 text-sm font-medium text-tertiary">{children}</span>
                 <span aria-hidden="true" className="h-px min-w-4 flex-1 bg-border-secondary" />
             </div>

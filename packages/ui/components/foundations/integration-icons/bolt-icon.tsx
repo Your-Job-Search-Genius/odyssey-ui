@@ -4,7 +4,7 @@ import type { SVGProps } from "react";
 
 const BoltIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { grayscale?: boolean }) => {
     return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

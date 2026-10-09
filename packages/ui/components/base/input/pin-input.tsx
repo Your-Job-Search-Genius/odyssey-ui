@@ -65,7 +65,7 @@ type GroupProps = ComponentPropsWithRef<typeof OTPInput> & {
 };
 
 const Group = ({ inputClassName, containerClassName, width, maxLength = 4, ...props }: GroupProps) => {
-    const { id, size, disabled } = usePinInputContext();
+    const { id, size, disabled, invalid } = usePinInputContext();
 
     return (
         <OTPInput
@@ -77,6 +77,7 @@ const Group = ({ inputClassName, containerClassName, width, maxLength = 4, ...pr
             aria-label="Enter your pin"
             aria-labelledby={"pin-input-label-" + id}
             aria-describedby={"pin-input-description-" + id}
+            aria-invalid={invalid || undefined}
             containerClassName={cx("flex flex-row", styles[size].group, containerClassName)}
             className={cx("disabled:cursor-not-allowed", inputClassName)}
         />
@@ -93,8 +94,8 @@ const Slot = ({ index, className, ...props }: ComponentPropsWithRef<"div"> & { i
     return (
         <div
             {...props}
-            aria-invalid={invalid}
-            aria-label={"Enter digit " + (index + 1) + " of " + slots.length}
+            // Visual mirror of the single hidden OTP input, which carries name/value/invalid.
+            aria-hidden="true"
             className={cx(
                 "relative flex items-center justify-center rounded-xl bg-primary text-center text-placeholder/40 shadow-xs ring-1 ring-primary transition-[box-shadow,background-color] duration-100 ease-linear ring-inset",
                 styles[size].slot,
@@ -134,7 +135,7 @@ Label.displayName = "Label";
 const Description = (props: ComponentPropsWithRef<typeof HintText>) => {
     const { id, size } = usePinInputContext();
 
-    return <HintText {...props} id={"pin-input-description-" + id} role="description" className={cx(size === "xxxs" && "text-xs")} />;
+    return <HintText {...props} id={"pin-input-description-" + id} className={cx(size === "xxxs" && "text-xs")} />;
 };
 Description.displayName = "Description";
 

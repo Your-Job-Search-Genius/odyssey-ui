@@ -1,13 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
 import type { SliderProps as AriaSliderProps } from "react-aria-components";
-import {
-    Label as AriaLabel,
-    Slider as AriaSlider,
-    SliderOutput as AriaSliderOutput,
-    SliderThumb as AriaSliderThumb,
-    SliderTrack as AriaSliderTrack,
-} from "react-aria-components";
+import { Slider as AriaSlider, SliderOutput as AriaSliderOutput, SliderThumb as AriaSliderThumb, SliderTrack as AriaSliderTrack } from "react-aria-components";
+import { Label } from "@/components/base/input/label";
 import { cx, sortCx } from "@/utils/cx";
 
 const styles = sortCx({
@@ -20,12 +16,16 @@ const styles = sortCx({
 interface SliderProps extends AriaSliderProps {
     labelPosition?: keyof typeof styles;
     labelFormatter?: (value: number) => string;
+    /** Visible label; without it, pass `aria-label` or `aria-labelledby`. */
+    label?: ReactNode;
 }
 
-export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100, labelFormatter, formatOptions, ...rest }: SliderProps) => {
-    // Format thumb value as percentage by default.
+export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100, labelFormatter, formatOptions, label, ...rest }: SliderProps) => {
+    // Format thumb value as percentage by default. A "percent" unit (50 -> "50%") rather than
+    // `style: "percent"` (50 -> "5,000%") keeps the announced aria-valuetext equal to the visible text.
     const defaultFormatOptions: Intl.NumberFormatOptions = {
-        style: "percent",
+        style: "unit",
+        unit: "percent",
         maximumFractionDigits: 0,
     };
 
@@ -36,7 +36,7 @@ export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100
             formatOptions={formatOptions ?? defaultFormatOptions}
             className={(renderProps) => cx("w-full", typeof rest.className === "function" ? rest.className(renderProps) : rest.className)}
         >
-            <AriaLabel />
+            {label && <Label>{label}</Label>}
             <AriaSliderTrack className="relative h-6 w-full">
                 {({ state: { values, getThumbValue, getThumbPercent, getFormattedValue } }) => {
                     const left = values.length === 1 ? 0 : getThumbPercent(0);
@@ -66,7 +66,9 @@ export const Slider = ({ labelPosition = "default", minValue = 0, maxValue = 100
                                         }
                                     >
                                         <AriaSliderOutput className={cx("whitespace-nowrap", styles[labelPosition])}>
-                                            {labelFormatter ? labelFormatter(getThumbValue(index)) : getFormattedValue(getThumbValue(index) / 100)}
+                                            {labelFormatter
+                                                ? labelFormatter(getThumbValue(index))
+                                                : getFormattedValue(formatOptions ? getThumbValue(index) / 100 : getThumbValue(index))}
                                         </AriaSliderOutput>
                                     </AriaSliderThumb>
                                 );

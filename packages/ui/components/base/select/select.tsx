@@ -66,7 +66,7 @@ const SelectValue = ({ isOpen, isFocused, isDisabled, size, placeholder, icon, r
                     return (
                         <>
                             {selectedItem?.avatarUrl ? (
-                                <Avatar size="xs" src={selectedItem.avatarUrl} alt={selectedItem.label} className={cx(size === "sm" && "size-5")} />
+                                <Avatar size="xs" src={selectedItem.avatarUrl} alt="" className={cx(size === "sm" && "size-5")} />
                             ) : isReactComponent(Icon) ? (
                                 <Icon data-icon aria-hidden="true" />
                             ) : isValidElement(Icon) ? (

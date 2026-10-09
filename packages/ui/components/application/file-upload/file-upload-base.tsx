@@ -216,19 +216,29 @@ export const FileUploadDropZone = ({
                         id={id}
                         type="file"
                         className="peer sr-only"
+                        // The visible button below opens the picker; keep a single tab stop.
+                        tabIndex={-1}
+                        aria-invalid={isInvalid || undefined}
+                        aria-describedby={`${id}-hint`}
                         disabled={isDisabled}
                         accept={accept}
                         multiple={allowsMultiple}
                         onChange={handleInputFileChange}
                     />
                     <label htmlFor={id} className="flex cursor-pointer">
-                        <Button color="link-color" size="md" isDisabled={isDisabled} onClick={() => inputRef.current?.click()}>
+                        <Button color="link-color" size="md" isDisabled={isDisabled} aria-describedby={`${id}-hint`} onClick={() => inputRef.current?.click()}>
                             Click to upload <span className="md:hidden">and attach files</span>
                         </Button>
                     </label>
                     <span className="text-sm max-md:hidden">or drag and drop</span>
                 </div>
-                <p className={cx("text-xs transition duration-100 ease-linear", isInvalid && "text-error-primary")}>
+                {/* Remounts as an alert when files are rejected so the hint is announced, not just recolored. */}
+                <p
+                    key={isInvalid ? "invalid" : "valid"}
+                    id={`${id}-hint`}
+                    role={isInvalid ? "alert" : undefined}
+                    className={cx("text-xs transition duration-100 ease-linear", isInvalid && "text-error-primary")}
+                >
                     {hint || "SVG, PNG, JPG or GIF (max. 800x400px)"}
                 </p>
             </div>
@@ -282,7 +292,7 @@ export const FileListItemProgressBar = ({ name, size, progress, failed, type, fi
 
                             <hr className="h-3 w-px rounded-t-full rounded-b-full border-none bg-border-primary" />
 
-                            <div className="flex items-center gap-1">
+                            <div aria-live="polite" className="flex items-center gap-1">
                                 {isComplete && <CheckCircle className="size-4 stroke-[2.5px] text-fg-success-primary" />}
                                 {isComplete && <p className="text-sm font-medium text-success-primary">Complete</p>}
 
@@ -300,7 +310,7 @@ export const FileListItemProgressBar = ({ name, size, progress, failed, type, fi
 
                 {!failed && (
                     <div className="mt-1 w-full">
-                        <ProgressBar labelPosition="right" max={100} min={0} value={progress} />
+                        <ProgressBar labelPosition="right" max={100} min={0} value={progress} aria-label={`Uploading ${name}`} />
                     </div>
                 )}
 
@@ -324,6 +334,7 @@ export const FileListItemProgressFill = ({ name, size, progress, failed, type, f
                 style={{ transform: `translateX(-${100 - progress}%)` }}
                 className={cx("absolute inset-0 size-full bg-secondary transition duration-75 ease-linear", isComplete && "opacity-0")}
                 role="progressbar"
+                aria-label={`Uploading ${name}`}
                 aria-valuenow={progress}
                 aria-valuemin={0}
                 aria-valuemax={100}
@@ -344,7 +355,9 @@ export const FileListItemProgressFill = ({ name, size, progress, failed, type, f
                         <p className="truncate text-sm font-medium text-secondary">{name}</p>
 
                         <div className="mt-0.5 flex items-center gap-2">
-                            <p className="text-sm text-tertiary">{failed ? "Upload failed, please try again" : getReadableFileSize(size)}</p>
+                            <p aria-live="polite" className="text-sm text-tertiary">
+                                {failed ? "Upload failed, please try again" : getReadableFileSize(size)}
+                            </p>
 
                             {!failed && (
                                 <>

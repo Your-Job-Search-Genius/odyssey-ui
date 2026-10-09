@@ -6,7 +6,7 @@ interface Props extends SVGProps<SVGSVGElement> {
 
 const Clubhouse = ({ size = 24, ...props }: Props) => {
     return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
+        <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
             <path
                 d="M1.74167 17.875C0.783333 17.875 0 18.6583 0 19.6167C0 20.575 0.783333 21.3583 1.74167 21.3583C2.7 21.3583 3.48333 20.575 3.48333 19.6167C3.48333 18.6583 2.70833 17.875 1.74167 17.875Z"
                 fill="currentColor"

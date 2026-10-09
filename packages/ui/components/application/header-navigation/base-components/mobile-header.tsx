@@ -42,22 +42,24 @@ export const MobileNavigationHeader = ({ children }: PropsWithChildren) => {
                 }
             >
                 {({ state }) => (
-                    <>
-                        <AriaButton
-                            aria-label="Close navigation menu"
-                            onPress={() => state.close()}
-                            className={cx(
-                                "fixed top-2.5 right-3 flex cursor-pointer items-center justify-center rounded-lg p-2 text-fg-white/70 hover:bg-white/10 hover:text-fg-white",
-                                FOCUS_RING,
-                            )}
-                        >
-                            <CloseIcon className="size-6" />
-                        </AriaButton>
-
-                        <AriaModal className="w-full max-w-74 cursor-auto will-change-transform">
-                            <AriaDialog className="h-dvh outline-hidden focus:outline-hidden">{children}</AriaDialog>
-                        </AriaModal>
-                    </>
+                    // `will-change-transform` is gone from the modal so the close button's `fixed` position still
+                    // resolves against the (backdrop-filtered) overlay, i.e. the viewport, now that it lives inside.
+                    <AriaModal className="w-full max-w-74 cursor-auto">
+                        <AriaDialog aria-label="Navigation menu" className="h-dvh outline-hidden focus:outline-hidden">
+                            {/* Inside the dialog: anything outside the modal is hidden from AT and outside its focus scope. */}
+                            <AriaButton
+                                aria-label="Close navigation menu"
+                                onPress={() => state.close()}
+                                className={cx(
+                                    "fixed top-2.5 right-3 flex cursor-pointer items-center justify-center rounded-lg p-2 text-fg-white/70 hover:bg-white/10 hover:text-fg-white",
+                                    FOCUS_RING,
+                                )}
+                            >
+                                <CloseIcon className="size-6" />
+                            </AriaButton>
+                            {children}
+                        </AriaDialog>
+                    </AriaModal>
                 )}
             </AriaModalOverlay>
         </AriaDialogTrigger>

@@ -63,7 +63,8 @@ export const BottomSheetPanel = ({ size = "md", ...props }: BottomSheetPanelProp
 BottomSheetPanel.displayName = "BottomSheetPanel";
 
 export const BottomSheetDialog = (props: AriaDialogProps) => (
-    <AriaDialog role="dialog" aria-label="Bottom sheet" {...props} className={cx("flex max-h-[inherit] w-full flex-col outline-hidden", props.className)} />
+    // No default aria-label: React Aria names the dialog from a `<Heading slot="title">`, else the trigger.
+    <AriaDialog role="dialog" {...props} className={cx("flex max-h-[inherit] w-full flex-col outline-hidden", props.className)} />
 );
 BottomSheetDialog.displayName = "BottomSheetDialog";
 
@@ -112,9 +113,8 @@ const DragLayer = ({ close, children }: DragLayerProps) => {
 
 interface BottomSheetContentProps extends ComponentPropsWithRef<"div"> {}
 
-const Content = ({ role = "main", className, ...props }: BottomSheetContentProps) => (
+const Content = ({ className, ...props }: BottomSheetContentProps) => (
     <div
-        role={role}
         {...props}
         className={cx(
             "flex w-full flex-col gap-6 overflow-y-auto overscroll-contain px-4 pb-(--sheet-safe-b) md:px-6",
@@ -139,7 +139,8 @@ interface BottomSheetHeaderProps extends ComponentPropsWithRef<"header"> {
 }
 
 const Header = ({ className, children, onClose, showCloseButton = true, autoFocus = true, ...props }: BottomSheetHeaderProps) => (
-    <header {...props} className={cx("relative z-1 w-full px-4 pb-4 md:px-6", className)}>
+    // role="none": inside a portal a bare <header>/<footer> becomes a page-level banner/contentinfo landmark.
+    <header role="none" {...props} className={cx("relative z-1 w-full px-4 pb-4 md:px-6", className)}>
         {children}
         {showCloseButton && <CloseButton size="sm" autoFocus={autoFocus} className="absolute top-0 right-3 shrink-0" onClick={onClose} />}
     </header>
@@ -148,6 +149,7 @@ Header.displayName = "BottomSheetHeader";
 
 const Footer = (props: ComponentPropsWithRef<"footer">) => (
     <footer
+        role="none"
         {...props}
         className={cx(
             "w-full p-4 pb-(--sheet-safe-b) shadow-[inset_0px_1px_0px_0px] shadow-border-secondary md:px-6",
@@ -164,14 +166,25 @@ export interface BottomSheetProps extends Omit<AriaModalOverlayProps, "children"
     size?: BottomSheetSize;
     dialogClassName?: string;
     panelClassName?: string;
+    /** Names the dialog when it has no `<Heading slot="title">`. */
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
 }
 
-const BottomSheetRoot = ({ children, size = "md", dialogClassName, panelClassName, ...props }: BottomSheetProps) => {
+const BottomSheetRoot = ({
+    children,
+    size = "md",
+    dialogClassName,
+    panelClassName,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledby,
+    ...props
+}: BottomSheetProps) => {
     return (
         <BottomSheetOverlay {...props}>
             <BottomSheetPanel size={size} className={panelClassName}>
                 {(state) => (
-                    <BottomSheetDialog className={dialogClassName}>
+                    <BottomSheetDialog className={dialogClassName} aria-label={ariaLabel} aria-labelledby={ariaLabelledby}>
                         {({ close }) => <DragLayer close={close}>{typeof children === "function" ? children({ ...state, close }) : children}</DragLayer>}
                     </BottomSheetDialog>
                 )}

@@ -1,10 +1,11 @@
 "use client";
 
-import { ButtonGroup, ButtonGroupItem } from "@/components/base/button-group/button-group";
+import type { ButtonHTMLAttributes, FC } from "react";
+import { styles as buttonGroupStyles } from "@/components/base/button-group/button-group";
 import { Button } from "@/components/base/buttons/button";
 import { InputBase } from "@/components/base/input/input";
 import { Select } from "@/components/base/select/select";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronLeftDouble, ChevronRight, ChevronRightDouble } from "@/components/foundations/icons";
+import { ArrowLeft, ArrowRight, Check, ChevronLeft, ChevronLeftDouble, ChevronRight, ChevronRightDouble } from "@/components/foundations/icons";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cx } from "@/utils/cx";
 import type { PaginationRootProps } from "./pagination-base";
@@ -315,6 +316,46 @@ interface PaginationButtonGroupProps extends Partial<Omit<PaginationRootProps, "
     align?: "left" | "center" | "right";
 }
 
+type GroupButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+    isSelected?: boolean;
+    /** Injected by `Pagination.PrevTrigger`/`NextTrigger`; `disabled` already carries it, so it's dropped here. */
+    isDisabled?: boolean;
+    iconLeading?: FC<{ className?: string }>;
+    iconTrailing?: FC<{ className?: string }>;
+};
+
+/**
+ * The `ButtonGroupItem` look on plain buttons. `ButtonGroup` is a single-select radiogroup, which would
+ * expose prev/next/ellipsis as radios and the current page as "not checked"; pages keep `aria-current`.
+ */
+const GroupButton = ({
+    isSelected,
+    isDisabled: _isDisabled,
+    iconLeading: IconLeading,
+    iconTrailing: IconTrailing,
+    className,
+    children,
+    ...props
+}: GroupButtonProps) => {
+    const iconClassName = cx(buttonGroupStyles.common.icon, buttonGroupStyles.sizes.sm.icon);
+
+    return (
+        <button
+            type="button"
+            {...props}
+            data-selected={isSelected || undefined}
+            data-icon-only={(IconLeading || IconTrailing) && !children ? true : undefined}
+            data-icon-leading={IconLeading ? true : undefined}
+            className={cx(buttonGroupStyles.common.root, buttonGroupStyles.sizes.sm.root, className)}
+        >
+            {isSelected && <Check aria-hidden="true" className={cx(iconClassName, "-ml-0.5 size-4 stroke-[2.5px]")} />}
+            {IconLeading && <IconLeading className={iconClassName} />}
+            {children}
+            {IconTrailing && <IconTrailing className={iconClassName} />}
+        </button>
+    );
+};
+
 export const PaginationButtonGroup = ({ align = "left", page = 1, total = 10, ...props }: PaginationButtonGroupProps) => {
     const isDesktop = useBreakpoint("md");
 
@@ -330,31 +371,37 @@ export const PaginationButtonGroup = ({ align = "left", page = 1, total = 10, ..
             <Pagination.Root {...props} page={page} total={total}>
                 <Pagination.Context>
                     {({ pages }) => (
-                        <ButtonGroup size="sm">
+                        <div className="relative z-0 inline-flex w-max -space-x-px rounded-lg shadow-xs">
                             <Pagination.PrevTrigger asChild>
-                                <ButtonGroupItem iconLeading={ArrowLeft}>{isDesktop ? "Previous" : undefined}</ButtonGroupItem>
+                                <GroupButton iconLeading={ArrowLeft}>{isDesktop ? "Previous" : undefined}</GroupButton>
                             </Pagination.PrevTrigger>
 
                             {pages.map((page, index) =>
                                 page.type === "page" ? (
                                     <Pagination.Item key={index} {...page} asChild>
-                                        <ButtonGroupItem isSelected={page.isCurrent} className="size-9 items-center justify-center">
+                                        <GroupButton isSelected={page.isCurrent} className="size-9 items-center justify-center">
                                             {page.value}
-                                        </ButtonGroupItem>
+                                        </GroupButton>
                                     </Pagination.Item>
                                 ) : (
                                     <Pagination.Ellipsis key={index}>
-                                        <ButtonGroupItem className="pointer-events-none size-9 items-center justify-center rounded-none!">
+                                        <span
+                                            className={cx(
+                                                buttonGroupStyles.common.root,
+                                                buttonGroupStyles.sizes.sm.root,
+                                                "pointer-events-none size-9 items-center justify-center rounded-none!",
+                                            )}
+                                        >
                                             &#8230;
-                                        </ButtonGroupItem>
+                                        </span>
                                     </Pagination.Ellipsis>
                                 ),
                             )}
 
                             <Pagination.NextTrigger asChild>
-                                <ButtonGroupItem iconTrailing={ArrowRight}>{isDesktop ? "Next" : undefined}</ButtonGroupItem>
+                                <GroupButton iconTrailing={ArrowRight}>{isDesktop ? "Next" : undefined}</GroupButton>
                             </Pagination.NextTrigger>
-                        </ButtonGroup>
+                        </div>
                     )}
                 </Pagination.Context>
             </Pagination.Root>

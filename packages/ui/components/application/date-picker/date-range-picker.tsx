@@ -90,7 +90,13 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
             }}
         >
             <AriaGroup>
-                <Button size={size} color="secondary" iconLeading={CalendarIcon}>
+                {/* React Aria labels the trigger "Calendar" by default, hiding the chosen range from screen readers. */}
+                <Button
+                    size={size}
+                    color="secondary"
+                    iconLeading={CalendarIcon}
+                    aria-label={value ? `${formattedStartDate} – ${formattedEndDate}` : "Choose dates"}
+                >
                     {!value ? <span className="text-placeholder">Select dates</span> : `${formattedStartDate} – ${formattedEndDate}`}
                 </Button>
             </AriaGroup>

@@ -1,7 +1,7 @@
 "use client";
 
 import type { FC, ReactNode, RefAttributes } from "react";
-import { isValidElement, useCallback, useRef, useState } from "react";
+import { isValidElement, useCallback, useId, useRef, useState } from "react";
 import { useControlledState } from "@react-stately/utils";
 import { useFilter } from "react-aria";
 import type { Selection } from "react-aria-components";
@@ -211,6 +211,10 @@ const MultiSelectRoot = ({
     const [selection, setSelection] = useControlledState<Selection>(selectedKeys, defaultSelectedKeys ?? new Set(), onSelectionChange);
 
     const triggerRef = useRef<HTMLButtonElement>(null);
+    // The trigger is a plain button, so link the label (name + current value) and hint by hand.
+    const labelId = useId();
+    const valueId = useId();
+    const hintId = useId();
     const [popoverWidth, setPopoverWidth] = useState("");
 
     const onResize = useCallback(() => {
@@ -233,7 +237,7 @@ const MultiSelectRoot = ({
         <SelectContext.Provider value={{ size }}>
             <div className={cx("flex flex-col gap-1.5", className)}>
                 {label && (
-                    <Label isRequired={hideRequiredIndicator ? false : isRequired} isInvalid={isInvalid} tooltip={tooltip}>
+                    <Label id={labelId} isRequired={hideRequiredIndicator ? false : isRequired} isInvalid={isInvalid} tooltip={tooltip}>
                         {label}
                     </Label>
                 )}
@@ -247,6 +251,8 @@ const MultiSelectRoot = ({
                     <AriaButton
                         ref={triggerRef}
                         isDisabled={isDisabled}
+                        aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
+                        aria-describedby={hint ? hintId : undefined}
                         onClick={onResize}
                         className={(state) =>
                             cx(
@@ -266,14 +272,16 @@ const MultiSelectRoot = ({
                             {isReactComponent(Icon) ? <Icon data-icon aria-hidden="true" /> : isValidElement(Icon) ? Icon : null}
 
                             {hasSelection ? (
-                                <span className={cx("flex items-center", sizes[size].textContainer)}>
+                                <span id={valueId} className={cx("flex items-center", sizes[size].textContainer)}>
                                     <span className={cx("font-medium text-primary", sizes[size].text)}>
                                         {selectedCountFormatter ? selectedCountFormatter(selectedCount) : `${selectedCount} selected`}
                                     </span>
                                     {supportingText && <span className={cx("text-tertiary", sizes[size].text)}>{supportingText}</span>}
                                 </span>
                             ) : (
-                                <span className={cx("text-placeholder", sizes[size].text)}>{placeholder}</span>
+                                <span id={valueId} className={cx("text-placeholder", sizes[size].text)}>
+                                    {placeholder}
+                                </span>
                             )}
 
                             <ChevronDown
@@ -357,7 +365,7 @@ const MultiSelectRoot = ({
                 </AriaDialogTrigger>
 
                 {hint && (
-                    <HintText isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
+                    <HintText id={hintId} isInvalid={isInvalid} className={cx(size === "sm" && "text-xs")}>
                         {hint}
                     </HintText>
                 )}

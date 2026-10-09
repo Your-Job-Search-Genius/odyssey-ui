@@ -87,6 +87,7 @@ export const StatTile = ({ label, value, valueFormatter = formatNumber, delta, t
             {delta && (
                 <p className={cx("flex items-center gap-1 text-sm font-medium", deltaTone)}>
                     <DeltaIcon data-icon aria-hidden="true" className="size-3 shrink-0" />
+                    <span className="sr-only">{delta.direction === "up" ? "Increased" : delta.direction === "down" ? "Decreased" : "No change"}</span>
                     <span>{delta.value}</span>
                     {delta.caption && <span className="font-normal text-quaternary">{delta.caption}</span>}
                 </p>

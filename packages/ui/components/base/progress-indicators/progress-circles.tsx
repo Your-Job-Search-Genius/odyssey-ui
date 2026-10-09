@@ -51,6 +51,7 @@ const sizes = sortCx({
 
 export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valueFormatter }: ProgressBarProps) => {
     const percentage = Math.round(((value - min) * 100) / (max - min));
+    const valueText = valueFormatter ? valueFormatter(value, percentage) : `${percentage}%`;
 
     const sizeConfig = sizes[size];
 
@@ -68,7 +69,15 @@ export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valu
 
     return (
         <div className="flex flex-col items-center gap-0.5">
-            <div role="progressbar" aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} className="relative flex w-max items-center justify-center">
+            <div
+                role="progressbar"
+                aria-label={label ?? "Progress"}
+                aria-valuenow={value}
+                aria-valuemin={min}
+                aria-valuemax={max}
+                aria-valuetext={String(valueText)}
+                className="relative flex w-max items-center justify-center"
+            >
                 <svg className="-rotate-90" width={width} height={height} viewBox={viewBox}>
                     {/* Background circle */}
                     <circle
@@ -100,10 +109,10 @@ export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valu
                 {label && size !== "xxs" ? (
                     <div className="absolute text-center">
                         <div className={labelClass}>{label}</div>
-                        <div className={valueClass}>{valueFormatter ? valueFormatter(value, percentage) : `${percentage}%`}</div>
+                        <div className={valueClass}>{valueText}</div>
                     </div>
                 ) : (
-                    <span className={clx(textPosition, valueClass)}>{valueFormatter ? valueFormatter(value, percentage) : `${percentage}%`}</span>
+                    <span className={clx(textPosition, valueClass)}>{valueText}</span>
                 )}
             </div>
 
@@ -114,6 +123,7 @@ export const ProgressBarCircle = ({ value, min = 0, max = 100, size, label, valu
 
 export const ProgressBarHalfCircle = ({ value, min = 0, max = 100, size, label, valueFormatter }: ProgressBarProps) => {
     const percentage = Math.round(((value - min) * 100) / (max - min));
+    const valueText = valueFormatter ? valueFormatter(value, percentage) : `${percentage}%`;
 
     const sizeConfig = sizes[size];
 
@@ -129,7 +139,15 @@ export const ProgressBarHalfCircle = ({ value, min = 0, max = 100, size, label, 
 
     return (
         <div className="flex flex-col items-center gap-0.5">
-            <div role="progressbar" aria-valuenow={value} aria-valuemin={min} aria-valuemax={max} className="relative flex w-max items-center justify-center">
+            <div
+                role="progressbar"
+                aria-label={label ?? "Progress"}
+                aria-valuenow={value}
+                aria-valuemin={min}
+                aria-valuemax={max}
+                aria-valuetext={String(valueText)}
+                className="relative flex w-max items-center justify-center"
+            >
                 <svg width={width} height={height} viewBox={viewBox}>
                     {/* Background half-circle */}
                     <circle
@@ -163,10 +181,10 @@ export const ProgressBarHalfCircle = ({ value, min = 0, max = 100, size, label, 
                 {label && size !== "xxs" ? (
                     <div className={halfCircleTextPosition}>
                         <div className={labelClass}>{label}</div>
-                        <div className={valueClass}>{valueFormatter ? valueFormatter(value, percentage) : `${percentage}%`}</div>
+                        <div className={valueClass}>{valueText}</div>
                     </div>
                 ) : (
-                    <span className={clx(halfCircleTextPosition, valueClass)}>{valueFormatter ? valueFormatter(value, percentage) : `${percentage}%`}</span>
+                    <span className={clx(halfCircleTextPosition, valueClass)}>{valueText}</span>
                 )}
             </div>
 

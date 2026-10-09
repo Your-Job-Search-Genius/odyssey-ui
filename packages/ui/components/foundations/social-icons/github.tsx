@@ -6,7 +6,7 @@ interface Props extends SVGProps<SVGSVGElement> {
 
 const GitHub = ({ size = 24, ...props }: Props) => {
     return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
+        <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

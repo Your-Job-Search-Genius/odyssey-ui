@@ -6,7 +6,7 @@ const ReactIcon = ({ grayscale, ...props }: SVGProps<SVGSVGElement> & { grayscal
     const fillClass = grayscale ? "fill-fg-quaternary" : "fill-[#23B2E7]";
 
     return (
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
             <path
                 d="M11.5718 10.0002C11.5718 10.8693 10.8673 11.5738 9.99821 11.5738C9.12914 11.5738 8.42462 10.8693 8.42462 10.0002C8.42462 9.13113 9.12914 8.42661 9.99821 8.42661C10.8673 8.42661 11.5718 9.13113 11.5718 10.0002Z"
                 className={fillClass}

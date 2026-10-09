@@ -6,7 +6,7 @@ interface Props extends SVGProps<SVGSVGElement> {
 
 const Discord = ({ size = 24, ...props }: Props) => {
     return (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
+        <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
             <path
                 d="M7.50197 13.0057C7.50197 14.0114 8.28047 14.8343 9.14548 14.8343C10.0105 14.8343 10.789 14.0114 10.789 13.0057C10.789 12 10.0105 11.1771 9.14548 11.1771C8.28047 11.1771 7.50197 12 7.50197 13.0057Z"
                 fill="currentColor"

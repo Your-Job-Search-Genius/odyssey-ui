@@ -102,7 +102,7 @@ interface DrawerDialogProps extends AriaDialogProps, RefAttributes<HTMLElement> 
 export const DrawerDialog = ({ placement = "right", className, ...props }: DrawerDialogProps) => (
     <AriaDialog
         role="dialog"
-        aria-label="Drawer"
+        // No default aria-label: React Aria names the dialog from a `<Heading slot="title">`, else the trigger.
         {...props}
         className={cx(
             "relative flex size-full flex-col overflow-y-auto bg-primary ring-1 ring-secondary_alt outline-hidden",
@@ -116,8 +116,8 @@ DrawerDialog.displayName = "DrawerDialog";
 
 interface DrawerContentProps extends ComponentPropsWithRef<"div"> {}
 
-const Content = ({ role = "main", className, ...props }: DrawerContentProps) => (
-    <div role={role} {...props} className={cx("flex size-full flex-col gap-6 overflow-y-auto overscroll-contain px-4 md:px-6", className)} />
+const Content = ({ className, ...props }: DrawerContentProps) => (
+    <div {...props} className={cx("flex size-full flex-col gap-6 overflow-y-auto overscroll-contain px-4 md:px-6", className)} />
 );
 Content.displayName = "DrawerContent";
 
@@ -134,7 +134,8 @@ interface DrawerHeaderProps extends ComponentPropsWithRef<"header"> {
 }
 
 const Header = ({ className, children, onClose, showCloseButton = true, autoFocus = true, ...props }: DrawerHeaderProps) => (
-    <header {...props} className={cx("relative z-1 w-full px-4 pt-6 md:px-6", className)}>
+    // role="none": inside a portal a bare <header>/<footer> becomes a page-level banner/contentinfo landmark.
+    <header role="none" {...props} className={cx("relative z-1 w-full px-4 pt-6 md:px-6", className)}>
         {children}
         {showCloseButton && <CloseButton size="sm" autoFocus={autoFocus} className="absolute top-3 right-3 shrink-0" onClick={onClose} />}
     </header>
@@ -142,7 +143,7 @@ const Header = ({ className, children, onClose, showCloseButton = true, autoFocu
 Header.displayName = "DrawerHeader";
 
 const Footer = (props: ComponentPropsWithRef<"footer">) => (
-    <footer {...props} className={cx("w-full p-4 shadow-[inset_0px_1px_0px_0px] shadow-border-secondary md:px-6", props.className)} />
+    <footer role="none" {...props} className={cx("w-full p-4 shadow-[inset_0px_1px_0px_0px] shadow-border-secondary md:px-6", props.className)} />
 );
 Footer.displayName = "DrawerFooter";
 
@@ -154,14 +155,26 @@ export interface DrawerProps extends Omit<AriaModalOverlayProps, "children">, Re
     size?: DrawerSize;
     dialogClassName?: string;
     panelClassName?: string;
+    /** Names the dialog when it has no `<Heading slot="title">`. */
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
 }
 
-const DrawerRoot = ({ children, placement = "right", size = "md", dialogClassName, panelClassName, ...props }: DrawerProps) => {
+const DrawerRoot = ({
+    children,
+    placement = "right",
+    size = "md",
+    dialogClassName,
+    panelClassName,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledby,
+    ...props
+}: DrawerProps) => {
     return (
         <DrawerOverlay placement={placement} {...props}>
             <DrawerPanel placement={placement} size={size} className={panelClassName}>
                 {(state) => (
-                    <DrawerDialog placement={placement} className={dialogClassName}>
+                    <DrawerDialog placement={placement} className={dialogClassName} aria-label={ariaLabel} aria-labelledby={ariaLabelledby}>
                         {({ close }) => (typeof children === "function" ? children({ ...state, close }) : children)}
                     </DrawerDialog>
                 )}

@@ -113,7 +113,8 @@ export const Avatar = ({
                     data-avatar-img
                     className={cx("size-full", imageFit === "contain" ? "bg-primary object-contain p-[8%]" : "object-cover")}
                     src={src}
-                    alt={alt}
+                    // Decorative by default: the person's name is normally rendered next to the avatar.
+                    alt={alt ?? ""}
                     onError={() => setIsFailed(true)}
                 />
             );

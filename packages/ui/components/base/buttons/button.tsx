@@ -3,7 +3,7 @@
 import type { FC, ReactElement, ReactNode } from "react";
 import { isValidElement } from "react";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
-import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
+import { Button as AriaButton, Link as AriaLink, ProgressBar as AriaProgressBar } from "react-aria-components";
 import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
@@ -203,27 +203,30 @@ export const Button: {
             {isValidElement(IconLeading) && IconLeading}
             {isReactComponent(IconLeading) && <IconLeading data-icon="leading" className={styles.common.icon} />}
 
+            {/* The progress bar picks up the id React Aria's `isPending` appends to the button's name. */}
             {loading && (
-                <svg
-                    fill="none"
+                <AriaProgressBar
+                    isIndeterminate
+                    aria-label="Loading"
                     data-icon="loading"
-                    viewBox="0 0 20 20"
                     className={cx(styles.common.icon, !showTextWhileLoading && "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}
                 >
-                    {/* Background circle */}
-                    <circle className="stroke-current opacity-30" cx="10" cy="10" r="8" fill="none" strokeWidth="2" />
-                    {/* Spinning circle */}
-                    <circle
-                        className="origin-center animate-spin stroke-current"
-                        cx="10"
-                        cy="10"
-                        r="8"
-                        fill="none"
-                        strokeWidth="2"
-                        strokeDasharray="12.5 50"
-                        strokeLinecap="round"
-                    />
-                </svg>
+                    <svg fill="none" viewBox="0 0 20 20" className="block size-full">
+                        {/* Background circle */}
+                        <circle className="stroke-current opacity-30" cx="10" cy="10" r="8" fill="none" strokeWidth="2" />
+                        {/* Spinning circle */}
+                        <circle
+                            className="origin-center animate-spin stroke-current"
+                            cx="10"
+                            cy="10"
+                            r="8"
+                            fill="none"
+                            strokeWidth="2"
+                            strokeDasharray="12.5 50"
+                            strokeLinecap="round"
+                        />
+                    </svg>
+                </AriaProgressBar>
             )}
 
             {children && (
@@ -250,7 +253,8 @@ export const Button: {
             isLinkType && styles.sizes[size].linkRoot,
             (loading || (href && (disabled || loading))) && "pointer-events-none",
             // If in `loading` state, hide everything except the loading icon (and text if `showTextWhileLoading` is true).
-            loading && (showTextWhileLoading ? "[&>*:not([data-icon=loading]):not([data-text])]:hidden" : "[&>*:not([data-icon=loading])]:invisible"),
+            // `opacity-0` (not `invisible`) keeps the text in the accessible name.
+            loading && (showTextWhileLoading ? "[&>*:not([data-icon=loading]):not([data-text])]:hidden" : "[&>*:not([data-icon=loading])]:opacity-0"),
             className,
         ),
         children: commonChildren,

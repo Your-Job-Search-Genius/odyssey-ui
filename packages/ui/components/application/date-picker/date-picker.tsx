@@ -46,7 +46,8 @@ export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, 
             }}
         >
             <AriaGroup>
-                <Button size={size} color="secondary" iconLeading={CalendarIcon}>
+                {/* React Aria labels the trigger "Calendar" by default, hiding the chosen date from screen readers. */}
+                <Button size={size} color="secondary" iconLeading={CalendarIcon} aria-label={value ? formattedDate : "Choose date"}>
                     {formattedDate}
                 </Button>
             </AriaGroup>
