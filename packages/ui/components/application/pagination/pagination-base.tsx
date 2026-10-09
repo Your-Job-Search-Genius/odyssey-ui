@@ -2,6 +2,7 @@
 
 import type { CSSProperties, FC, HTMLAttributes, ReactNode } from "react";
 import { cloneElement, createContext, isValidElement, useCallback, useContext, useEffect, useState } from "react";
+import { useFocusNextWhenDisabled } from "@/hooks/use-focus-next-when-disabled";
 
 type PaginationPage = {
     /** The type of the pagination item. */
@@ -218,6 +219,8 @@ const Trigger: FC<TriggerProps> = ({ children, style, className, asChild = false
     const { currentPage, total, onPageChange } = context;
 
     const isDisabled = direction === "prev" ? currentPage <= 1 : currentPage >= total;
+    // Library Buttons passed as children handle this themselves; this covers the plain fallback <button>.
+    const focusRef = useFocusNextWhenDisabled<HTMLButtonElement>();
 
     const handleClick = () => {
         if (isDisabled) return;
@@ -248,7 +251,14 @@ const Trigger: FC<TriggerProps> = ({ children, style, className, asChild = false
     }
 
     return (
-        <button aria-label={ariaLabel || defaultAriaLabel} onClick={handleClick} disabled={isDisabled} style={style} className={computedClassName}>
+        <button
+            ref={focusRef}
+            aria-label={ariaLabel || defaultAriaLabel}
+            onClick={handleClick}
+            disabled={isDisabled}
+            style={style}
+            className={computedClassName}
+        >
             {children}
         </button>
     );

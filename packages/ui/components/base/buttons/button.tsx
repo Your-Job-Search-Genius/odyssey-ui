@@ -1,9 +1,11 @@
 "use client";
 
-import type { FC, ReactElement, ReactNode } from "react";
-import { isValidElement } from "react";
+import type { FC, ReactElement, ReactNode, Ref, RefCallback } from "react";
+import { isValidElement, useMemo } from "react";
+import { mergeRefs } from "@react-aria/utils";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink, ProgressBar as AriaProgressBar } from "react-aria-components";
+import { useFocusNextWhenDisabled } from "@/hooks/use-focus-next-when-disabled";
 import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
@@ -191,6 +193,11 @@ export const Button: {
     ...props
 }) => {
     const href = "href" in props ? props.href : undefined;
+    // Becoming disabled while focused (e.g. pagination's Previous on page 1) moves focus on instead of dropping it.
+    const focusRef = useFocusNextWhenDisabled<HTMLElement>();
+    const consumerRef = (props as { ref?: Ref<HTMLElement> }).ref;
+    // mergeRefs returns a callback ref; typed as one so it fits both the <button> and <a> variants.
+    const ref = useMemo(() => mergeRefs(focusRef, consumerRef) as RefCallback<HTMLElement>, [focusRef, consumerRef]);
 
     const isIcon = (IconLeading || IconTrailing) && !children;
     const isLinkType = ["link-gray", "link-color", "link-destructive"].includes(color);
@@ -245,6 +252,7 @@ export const Button: {
         "data-loading": loading ? true : undefined,
         "data-icon-only": isIcon ? true : undefined,
         ...props,
+        ref,
         isDisabled: disabled,
         className: cx(
             styles.common.root,

@@ -1,12 +1,14 @@
 "use client";
 
-import { type ComponentType, type HTMLAttributes, type ReactNode, type Ref, createContext, useContext, useState } from "react";
+import { type ComponentType, type HTMLAttributes, type ReactNode, type Ref, createContext, useContext, useMemo, useState } from "react";
+import { mergeRefs } from "@react-aria/utils";
 import type { InputProps as AriaInputProps, TextFieldProps as AriaTextFieldProps } from "react-aria-components";
 import { Button as AriaButton, Group as AriaGroup, Input as AriaInput, TextField as AriaTextField } from "react-aria-components";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { Eye, EyeOff, HelpCircle, InfoCircle } from "@/components/foundations/icons";
+import { useFocusNextWhenDisabled } from "@/hooks/use-focus-next-when-disabled";
 import { cx, sortCx } from "@/utils/cx";
 
 export interface InputBaseProps extends Omit<AriaInputProps, "size"> {
@@ -60,6 +62,9 @@ export const InputBase = ({
     ...inputProps
 }: InputBaseProps) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    // Becoming disabled while focused moves focus on instead of dropping it to <body>.
+    const focusRef = useFocusNextWhenDisabled<HTMLInputElement>();
+    const inputRef = useMemo(() => mergeRefs(focusRef, ref), [focusRef, ref]);
 
     // Check if the input has a leading icon or tooltip
     const hasTrailingIcon = tooltip || isInvalid;
@@ -126,7 +131,7 @@ export const InputBase = ({
             {/* Input field */}
             <AriaInput
                 {...(inputProps as AriaInputProps)}
-                ref={ref}
+                ref={inputRef}
                 required={isRequired}
                 type={type === "password" && isPasswordVisible ? "text" : type}
                 placeholder={placeholder}

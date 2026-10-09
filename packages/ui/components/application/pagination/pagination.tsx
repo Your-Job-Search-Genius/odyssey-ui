@@ -5,7 +5,7 @@ import { styles as buttonGroupStyles } from "@/components/base/button-group/butt
 import { Button } from "@/components/base/buttons/button";
 import { InputBase } from "@/components/base/input/input";
 import { Select } from "@/components/base/select/select";
-import { ArrowLeft, ArrowRight, Check, ChevronLeft, ChevronLeftDouble, ChevronRight, ChevronRightDouble } from "@/components/foundations/icons";
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronLeftDouble, ChevronRight, ChevronRightDouble } from "@/components/foundations/icons";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cx } from "@/utils/cx";
 import type { PaginationRootProps } from "./pagination-base";
@@ -47,7 +47,7 @@ interface MobilePaginationProps {
 
 const MobilePagination = ({ page = 1, total = 10, className, onPageChange }: MobilePaginationProps) => {
     return (
-        <nav aria-label="Pagination" className={cx("flex items-center justify-between md:hidden", className)}>
+        <nav aria-label="Pagination" className={cx("flex items-center justify-between gap-3 md:hidden", className)}>
             <Button
                 aria-label="Go to previous page"
                 iconLeading={ArrowLeft}
@@ -327,6 +327,8 @@ type GroupButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 /**
  * The `ButtonGroupItem` look on plain buttons. `ButtonGroup` is a single-select radiogroup, which would
  * expose prev/next/ellipsis as radios and the current page as "not checked"; pages keep `aria-current`.
+ * No selected check mark: page cells are fixed squares with no room for it (it was squeezed to 0px and
+ * pushed the number off-center); the current page is shown by `data-selected` styling + `aria-current`.
  */
 const GroupButton = ({
     isSelected,
@@ -348,7 +350,6 @@ const GroupButton = ({
             data-icon-leading={IconLeading ? true : undefined}
             className={cx(buttonGroupStyles.common.root, buttonGroupStyles.sizes.sm.root, className)}
         >
-            {isSelected && <Check aria-hidden="true" className={cx(iconClassName, "-ml-0.5 size-4 stroke-[2.5px]")} />}
             {IconLeading && <IconLeading className={iconClassName} />}
             {children}
             {IconTrailing && <IconTrailing className={iconClassName} />}

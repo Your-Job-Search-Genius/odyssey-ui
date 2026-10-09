@@ -1,11 +1,13 @@
 "use client";
 
-import type { FC, ReactElement, ReactNode, RefAttributes } from "react";
-import { isValidElement } from "react";
+import type { FC, ReactElement, ReactNode, Ref, RefAttributes, RefCallback } from "react";
+import { isValidElement, useMemo } from "react";
+import { mergeRefs } from "@react-aria/utils";
 import type { Placement } from "react-aria";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { Tooltip } from "@/components/base/tooltip/tooltip";
+import { useFocusNextWhenDisabled } from "@/hooks/use-focus-next-when-disabled";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
@@ -55,9 +57,15 @@ export const ButtonUtility: {
     (props: LinkProps): ReactElement<LinkProps>;
     (props: ButtonProps): ReactElement<ButtonProps>;
 } = ({ tooltip, className, isDisabled, icon: Icon, size = "sm", color = "secondary", tooltipPlacement = "top", ...props }) => {
+    // Becoming disabled while focused moves focus on instead of dropping it to <body>.
+    const focusRef = useFocusNextWhenDisabled<HTMLElement>();
+    const consumerRef = (props as { ref?: Ref<HTMLElement> }).ref;
+    // mergeRefs returns a callback ref; typed as one so it fits both the <button> and <a> variants.
+    const ref = useMemo(() => mergeRefs(focusRef, consumerRef) as RefCallback<HTMLElement>, [focusRef, consumerRef]);
     const commonProps = {
         "aria-label": tooltip,
         ...props,
+        ref,
         isDisabled,
         className: cx(
             "group relative inline-flex h-max cursor-pointer items-center justify-center rounded-md p-1.5 outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
