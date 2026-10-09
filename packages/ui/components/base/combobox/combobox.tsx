@@ -15,10 +15,11 @@ import {
 } from "react-aria-components";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
-import { ChevronDown, SearchLg } from "@/components/foundations/icons";
+import { SearchLg } from "@/components/foundations/icons";
 import { useResizeObserver } from "@/hooks/use-resize-observer";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
+import { ComboBoxChevron } from "./combobox-chevron";
 import { ComboBoxItem } from "./combobox-item";
 import { ComboBoxEmptyState, ComboBoxFooter, ComboBoxLoadingState, ComboBoxSection } from "./combobox-parts";
 import { type ComboBoxCommonProps, ComboBoxContext, type ComboBoxItemType, popoverMaxHeights, triggerSizes } from "./combobox-shared";
@@ -143,16 +144,7 @@ const ComboBoxValue = ({ size, shortcut, placeholder, shortcutClassName, icon: I
                 />
             </div>
 
-            {!shortcut && (
-                <ChevronDown
-                    aria-hidden="true"
-                    className={cx(
-                        "pointer-events-none shrink-0 text-fg-quaternary transition duration-100 ease-linear",
-                        size === "lg" ? "size-5" : "size-4 stroke-[2.25px]",
-                        state?.isOpen && "rotate-180",
-                    )}
-                />
-            )}
+            {!shortcut && <ComboBoxChevron size={size} isOpen={state?.isOpen} />}
 
             {shortcut && (
                 <div
