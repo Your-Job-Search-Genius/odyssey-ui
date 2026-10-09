@@ -1,6 +1,6 @@
 {
-  "version": "2.3.0",
-  "generatedAt": "library@2.3.0+components:146+tokens:269+icons:1179",
+  "version": "2.3.1",
+  "generatedAt": "library@2.3.1+components:147+tokens:269+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -6736,6 +6736,47 @@
       "examples": [],
       "doNot": [],
       "docsUrl": "/docs/base/combobox/combobox",
+      "isExtracted": true
+    },
+    {
+      "id": "base/combobox/combobox-chevron",
+      "name": "ComboBoxChevron",
+      "importName": "ComboBoxChevron",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/combobox/combobox-chevron",
+      "category": "base",
+      "description": "The open/closed chevron of a combobox, as a real button. Inside a React Aria\nComboBox it picks up the toggle behaviour and accessible name (\"Show\nsuggestions\") from ButtonContext; pressing it opens the list and moves focus\nto the input (first option highlighted from the keyboard). React Aria keeps\nthis button out of the tab order by default; it is made a tab stop here.",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "required": true
+        },
+        {
+          "name": "isOpen",
+          "type": "boolean | undefined",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ComboBoxChevron"
+      ],
+      "examples": [],
+      "doNot": [],
+      "docsUrl": "/docs/base/combobox/combobox-chevron",
       "isExtracted": true
     },
     {

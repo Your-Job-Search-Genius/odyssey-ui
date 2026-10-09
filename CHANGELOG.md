@@ -3,6 +3,13 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 2.3.1 · ds-registry 0.4.1 · ds-mcp 0.4.1
+
+### Fixes
+
+- **Combobox chevrons are real buttons** (`ComboBox`, `Select.ComboBox`, `TagSelect`). Clicking the chevron opens the list; it is a keyboard tab stop named "Show suggestions" (plus the field label), and Enter / Space opens the list and moves focus to the input with the first option highlighted. React Aria keeps this button out of the tab order by default; it is now included.
+- **Focus is no longer lost when a focused control becomes disabled.** `Button`, `ButtonUtility`, `Input` and pagination's fallback button move focus to the next focusable element (or the previous one if there is no next) instead of letting it fall to `<body>` -- e.g. pressing Previous on page 2 of `Pagination` now lands on page 1's button. Shared hook: `hooks/use-focus-next-when-disabled.ts`.
+
 ## odyssey-ui 2.3.0 · ds-registry 0.4.0 · ds-mcp 0.4.0
 
 The MCP server now drives agents through a guidelines workflow (plan, checklists, build, re-check, validate), every component was audited for the NVDA screen reader, and the docs site moved to the "Spatial Layers" design. Behaviour changes are listed first.
