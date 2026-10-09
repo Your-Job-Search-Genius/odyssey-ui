@@ -9,6 +9,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 - **Combobox chevrons are real buttons** (`ComboBox`, `Select.ComboBox`, `TagSelect`). Clicking the chevron opens the list; it is a keyboard tab stop named "Show suggestions" (plus the field label), and Enter / Space opens the list and moves focus to the input with the first option highlighted. React Aria keeps this button out of the tab order by default; it is now included.
 - **Focus is no longer lost when a focused control becomes disabled.** `Button`, `ButtonUtility`, `Input` and pagination's fallback button move focus to the next focusable element (or the previous one if there is no next) instead of letting it fall to `<body>` -- e.g. pressing Previous on page 2 of `Pagination` now lands on page 1's button. Shared hook: `hooks/use-focus-next-when-disabled.ts`.
+- **Pagination at high zoom / narrow widths (400%, 320px reflow).** `PaginationButtonGroup` page cells no longer render the selected check mark, which had no room in the fixed square cell (it was squeezed to 0px and pushed the number off-center); the current page is still shown by its selected styling and `aria-current`. The mobile row of `PaginationCardMinimal` gets a minimum gap, so the arrow buttons no longer touch "Page N of M".
 
 ## odyssey-ui 2.3.0 · ds-registry 0.4.0 · ds-mcp 0.4.0
 
