@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+/* Fumadocs chrome colors, fonts, and motion: the "Spatial Layers" docs theme. */
+@import "./spatial.css";
+@import "./styles/spatial-base.css";
+@import "./styles/spatial-home.css";
+@import "./styles/spatial-docs.css";
+@import "./styles/spatial-mcp.css";
+@import "./styles/spatial-playground.css";
 
 /*
  * Reuse the component library's real design tokens verbatim (never
@@ -56,7 +63,8 @@
 
 html,
 body {
-    font-family: var(--font-body);
+    /* Docs chrome uses the theme font; previews set their own via the library's --font-body. */
+    font-family: var(--font-docs), var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-variant-ligatures: contextual;
@@ -90,19 +98,6 @@ input[type="search"]::-webkit-search-cancel-button {
 .recharts-surface g,
 .recharts-surface path {
     outline: none;
-}
-
-/*
- * Make Fumadocs' own chrome (active nav item, links, search highlight)
- * read as "Writesea Odyssey brand," using the library's real brand
- * scale, while every live-rendered component preview continues to use
- * the library's real semantic classes untouched.
- */
-@theme {
-    --color-fd-primary: var(--color-brand-600);
-}
-.dark {
-    --color-fd-primary: var(--color-brand-400);
 }
 
 html {

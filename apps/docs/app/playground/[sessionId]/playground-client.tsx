@@ -11,12 +11,13 @@
  * agent puts INTO the tree, not how this page is built).
  */
 import { useEffect, useRef, useState } from "react";
-import type { UITree } from "@your-job-search-genius/ui-tree";
+import type { UINode, UITree } from "@your-job-search-genius/ui-tree";
+import Link from "next/link";
+import { LogoMark } from "~/components/site/site-header";
+import { SiteOrbs } from "~/components/site/site-orbs";
+import { ThemeSwitch } from "~/components/site/theme-switch";
 import type { PlaygroundMessage, PlaygroundSession } from "~/lib/playground/types";
-import { Badge } from "@/components/base/badges/badges";
-import { Button } from "@/components/base/buttons/button";
-import { TextArea } from "@/components/base/textarea/textarea";
-import { RefreshCw01 } from "@/components/foundations/icons";
+import { cx } from "@/utils/cx";
 
 interface VersionSummary {
     version: number;
@@ -46,6 +47,25 @@ function emptyTree(): UITree {
     return { rootId: "root", nodes: { root: { id: "root", kind: "primitive", tag: "div", className: [], children: [] } } };
 }
 
+function nodeLabel(node: UINode): string {
+    if (node.kind === "component" || node.kind === "icon") return node.name;
+    if (node.kind === "primitive") return node.tag;
+    return `"${node.value.length > 24 ? `${node.value.slice(0, 24)}…` : node.value}"`;
+}
+
+/** Depth-first rows for the "Tree" panel (the mockup's component tree, fed by the real UITree). */
+function flattenTree(tree: UITree): { id: string; label: string; depth: number }[] {
+    const rows: { id: string; label: string; depth: number }[] = [];
+    const visit = (id: string, depth: number) => {
+        const node = tree.nodes[id];
+        if (!node) return;
+        rows.push({ id, label: nodeLabel(node), depth });
+        if ("children" in node) node.children.forEach((child) => visit(child, depth + 1));
+    };
+    visit(tree.rootId, 0);
+    return rows;
+}
+
 export function PlaygroundClient({ sessionId, initialSession, initialMessages, initialTree, initialVersions, ruleSetVersion }: PlaygroundClientProps) {
     const [messages, setMessages] = useState<PlaygroundMessage[]>(initialMessages);
     const [tree, setTree] = useState<UITree>(initialTree.nodes && Object.keys(initialTree.nodes).length > 0 ? initialTree : emptyTree());
@@ -59,6 +79,7 @@ export function PlaygroundClient({ sessionId, initialSession, initialMessages, i
     const [retryText, setRetryText] = useState<string | undefined>();
     const [showCode, setShowCode] = useState(false);
     const [code, setCode] = useState<string | undefined>();
+    const [copied, setCopied] = useState(false);
 
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -202,137 +223,278 @@ export function PlaygroundClient({ sessionId, initialSession, initialMessages, i
     async function handleCopyCode() {
         const response = await fetch(`/api/playground/sessions/${sessionId}/export`);
         await navigator.clipboard.writeText(await response.text());
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     }
 
+    const selectedNode = selectedNodeId ? tree.nodes[selectedNodeId] : undefined;
+    const latestVersion = versions.at(-1)?.version;
+
     return (
-        <div className="flex h-screen flex-col">
-            <header className="flex items-center justify-between border-b border-secondary px-4 py-2.5">
-                <span className="text-sm font-semibold text-primary">Playground</span>
-                <div className="flex items-center gap-2">
-                    <Button size="sm" color="secondary" onPress={() => (showCode ? setShowCode(false) : void handleShowCode())}>
+        <div style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <SiteOrbs orbs={[{ size: 480, color: "var(--sp-orb-1)", opacity: 0.6, position: { top: -160, left: "35%" } }]} />
+
+            <header style={{ position: "relative", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 16px", padding: "14px 20px" }}>
+                <Link
+                    href="/"
+                    style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "var(--sp-ink)", fontWeight: 800, fontSize: 18 }}
+                >
+                    <LogoMark />
+                    Odyssey
+                </Link>
+                <span style={{ fontSize: 15, color: "var(--sp-subtle)" }}>/ Playground</span>
+                <nav aria-label="Primary" style={{ display: "flex", flexWrap: "wrap", gap: 4, marginLeft: "auto" }}>
+                    <Link className="sp-btn sp-btn-ghost" href="/docs/getting-started/introduction">
+                        Docs
+                    </Link>
+                    <Link className="sp-btn sp-btn-ghost" href="/agent-rules">
+                        MCP
+                    </Link>
+                    <button
+                        type="button"
+                        className="sp-btn sp-btn-ghost"
+                        aria-pressed={showCode}
+                        onClick={() => (showCode ? setShowCode(false) : void handleShowCode())}
+                    >
                         {showCode ? "Canvas" : "Code"}
-                    </Button>
-                    <Button size="sm" color="secondary" onPress={handleCopyCode}>
-                        Copy code
-                    </Button>
-                    <Button size="sm" color="secondary" href={`/api/playground/sessions/${sessionId}/export`}>
+                    </button>
+                    <a className="sp-btn sp-btn-ghost" href={`/api/playground/sessions/${sessionId}/export`}>
                         Download .tsx
-                    </Button>
-                    <Button size="sm" color="link-gray" href="/playground" iconLeading={RefreshCw01}>
+                    </a>
+                    <a className="sp-btn sp-btn-ghost" href="/playground">
                         New session
-                    </Button>
-                </div>
+                    </a>
+                    <ThemeSwitch />
+                    <button type="button" className="sp-btn sp-btn-primary" onClick={() => void handleCopyCode()}>
+                        {copied ? "Code copied" : "Copy code"}
+                    </button>
+                </nav>
             </header>
 
-            <div className="flex min-h-0 flex-1">
-                <section className="flex w-96 flex-col border-r border-secondary">
-                    <div className="flex-1 space-y-3 overflow-y-auto p-4">
-                        {messages.length === 0 && (
-                            <p className="text-sm text-tertiary">Describe the UI you want to build. Try &quot;a login form with email and password&quot;.</p>
-                        )}
-                        {messages.map((m) => (
-                            <div
-                                key={m._id}
-                                className={
-                                    m.role === "user"
-                                        ? "ml-auto max-w-[85%] rounded-lg bg-brand-solid px-3 py-2 text-sm text-white"
-                                        : "max-w-[85%] rounded-lg bg-secondary px-3 py-2 text-sm text-primary"
-                                }
-                            >
-                                {m.content}
-                            </div>
-                        ))}
-                        {toolActivity.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5">
-                                {toolActivity.map((name, i) => (
-                                    <Badge key={`${name}-${i}`} size="sm" color="gray">
-                                        {name}
-                                    </Badge>
-                                ))}
-                            </div>
-                        )}
-                        {error && (
-                            <div className="flex items-center justify-between gap-2 rounded-lg bg-error-secondary px-3 py-2">
-                                <p className="text-sm text-error-primary">{error}</p>
-                                {retryText && (
-                                    <Button size="xs" color="link-color" onPress={() => void sendMessage(retryText)}>
-                                        Retry
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                        <div ref={messagesEndRef} />
-                    </div>
-                    <div className="flex items-end gap-2 border-t border-secondary p-3">
-                        <TextArea
-                            className="flex-1"
-                            rows={2}
-                            placeholder="Describe the UI you want..."
+            <main
+                id="main-content"
+                style={{ position: "relative", flex: 1, display: "flex", flexWrap: "wrap", gap: 16, padding: "0 16px 16px", alignItems: "stretch" }}
+            >
+                {/* Left: prompt, conversation, tree, status */}
+                <aside
+                    className="sp-glass sp-rise"
+                    aria-label="Prompt"
+                    style={{ flex: "1 1 260px", maxWidth: 320, padding: 18, borderRadius: 22, display: "flex", flexDirection: "column", gap: 18 }}
+                >
+                    <form
+                        style={{ display: "grid", gap: 8 }}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            void sendMessage();
+                        }}
+                    >
+                        <label htmlFor="pg-prompt" className="sp-pg-label">
+                            Describe UI
+                        </label>
+                        <textarea
+                            id="pg-prompt"
+                            className="sp-pg-textarea"
+                            rows={3}
+                            placeholder="A login card with email, password and a remember-me checkbox"
                             value={input}
-                            onChange={setInput}
+                            onChange={(e) => setInput(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" && !e.shiftKey) {
                                     e.preventDefault();
                                     void sendMessage();
                                 }
                             }}
-                            isDisabled={isStreaming}
+                            disabled={isStreaming}
                         />
-                        <Button size="md" onPress={() => void sendMessage()} isDisabled={isStreaming || !input.trim()} isLoading={isStreaming}>
-                            Send
-                        </Button>
+                        <button
+                            type="submit"
+                            className="sp-btn sp-btn-primary"
+                            style={{ width: "100%" }}
+                            disabled={isStreaming || !input.trim()}
+                            aria-busy={isStreaming}
+                        >
+                            {isStreaming ? "Generating…" : "Generate with MCP"}
+                        </button>
+                    </form>
+
+                    <div>
+                        <div className="sp-pg-label" style={{ marginBottom: 8 }}>
+                            Conversation
+                        </div>
+                        <div style={{ display: "grid", gap: 8, maxHeight: 280, overflowY: "auto" }}>
+                            {messages.length === 0 && (
+                                <p style={{ margin: 0, fontSize: 13, color: "var(--sp-subtle)" }}>Try &quot;a login form with email and password&quot;.</p>
+                            )}
+                            {messages.map((m) => (
+                                <div key={m._id} className={m.role === "user" ? "sp-pg-msg sp-pg-msg-user" : "sp-pg-msg"}>
+                                    {m.content}
+                                </div>
+                            ))}
+                            {toolActivity.length > 0 && (
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                                    {toolActivity.map((name, i) => (
+                                        <span key={`${name}-${i}`} className="sp-chip sp-mono">
+                                            {name}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                            <div ref={messagesEndRef} />
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="sp-pg-label" style={{ marginBottom: 8 }}>
+                            Tree
+                        </div>
+                        <nav className="sp-pg-tree sp-mono" aria-label="Component tree">
+                            {flattenTree(tree).map((row) => (
+                                <button
+                                    key={row.id}
+                                    type="button"
+                                    aria-current={row.id === selectedNodeId ? "true" : undefined}
+                                    style={{ paddingLeft: 10 + row.depth * 16 }}
+                                    onClick={() => setSelectedNodeId(row.id)}
+                                >
+                                    {row.label}
+                                </button>
+                            ))}
+                        </nav>
+                    </div>
+
+                    {/* Always mounted so screen readers announce changes (SR-04). */}
+                    <div
+                        role={error ? "alert" : "status"}
+                        className={cx(
+                            "sp-pg-status",
+                            error ? "sp-pg-status-error" : isStreaming ? "sp-pg-status-busy" : latestVersion ? "sp-pg-status-ok" : "",
+                        )}
+                        style={{ marginTop: "auto" }}
+                    >
+                        {error ? (
+                            <>
+                                <span style={{ flex: 1 }}>{error}</span>
+                                {retryText && (
+                                    <button type="button" className="sp-pg-pill" style={{ minHeight: 32 }} onClick={() => void sendMessage(retryText)}>
+                                        Retry
+                                    </button>
+                                )}
+                            </>
+                        ) : isStreaming ? (
+                            "Generating with the MCP…"
+                        ) : latestVersion ? (
+                            <>
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2.5"
+                                    strokeLinecap="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="m5 12 5 5 9-10" />
+                                </svg>
+                                Canvas at v{latestVersion}
+                            </>
+                        ) : (
+                            "Ready"
+                        )}
+                    </div>
+                </aside>
+
+                {/* Center: live canvas. ponytail: mockup's floating bob is left off the real canvas -- it would move click targets while selecting nodes. */}
+                <section
+                    className="sp-glass sp-pg-canvas sp-rise"
+                    aria-label="Live canvas"
+                    style={{ flex: "999 1 420px", minWidth: 0, minHeight: 560, borderRadius: 22, display: "flex", padding: 32, animationDelay: ".08s" }}
+                >
+                    <div
+                        style={{
+                            flex: 1,
+                            minHeight: 496,
+                            background: "var(--sp-surface)",
+                            borderRadius: 22,
+                            overflow: "hidden",
+                            boxShadow: "0 40px 80px -36px rgb(38 8 117 / 0.4), 0 2px 8px rgb(38 8 117 / 0.06)",
+                        }}
+                    >
+                        {showCode ? (
+                            <pre className="sp-code sp-mono" style={{ height: "100%", borderRadius: 0 }}>
+                                <code>{code ?? "Loading..."}</code>
+                            </pre>
+                        ) : (
+                            <iframe
+                                ref={iframeRef}
+                                src="/playground/preview"
+                                title="Canvas preview"
+                                style={{ display: "block", width: "100%", height: "100%", minHeight: 496, border: 0 }}
+                                onLoad={postTreeToPreview}
+                            />
+                        )}
                     </div>
                 </section>
 
-                <section className="min-w-0 flex-1 bg-secondary">
-                    {showCode ? (
-                        <pre className="h-full overflow-auto p-4 text-xs text-primary">
-                            <code>{code ?? "Loading..."}</code>
-                        </pre>
-                    ) : (
-                        <iframe
-                            ref={iframeRef}
-                            src="/playground/preview"
-                            title="Canvas preview"
-                            className="h-full w-full border-0 bg-primary"
-                            onLoad={postTreeToPreview}
-                        />
-                    )}
-                </section>
-
-                <aside className="w-72 border-l border-secondary p-4">
-                    <h2 className="text-sm font-semibold text-primary">Inspector</h2>
-                    {selectedNodeId ? (
-                        <div className="mt-3 space-y-2 text-sm">
-                            <p className="text-tertiary">
-                                Selected: <span className="font-mono text-primary">{selectedNodeId}</span>
-                            </p>
-                            <pre className="overflow-auto rounded-lg bg-secondary p-2 text-xs text-primary">
-                                {JSON.stringify(tree.nodes[selectedNodeId], null, 2)}
+                {/* Right: inspector + history, styled as the mockup's props panel */}
+                <aside
+                    className="sp-glass sp-rise"
+                    aria-label="Inspector"
+                    style={{
+                        flex: "1 1 260px",
+                        maxWidth: 320,
+                        padding: 18,
+                        borderRadius: 22,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 22,
+                        animationDelay: ".16s",
+                    }}
+                >
+                    <div>
+                        <div className="sp-mono" style={{ fontSize: 13, color: "var(--sp-brand-ink)" }}>
+                            {selectedNode ? nodeLabel(selectedNode) : "Inspector"}
+                        </div>
+                        <div style={{ fontSize: 13, color: "var(--sp-subtle)", marginTop: 2 }}>
+                            {selectedNodeId ?? "Click a node in the canvas or tree to inspect it."}
+                        </div>
+                    </div>
+                    {selectedNode && (
+                        <div>
+                            <div className="sp-pg-label" style={{ marginBottom: 10 }}>
+                                {selectedNode.kind === "component" ? "props" : "node"}
+                            </div>
+                            <pre className="sp-pg-json sp-mono">
+                                {JSON.stringify(selectedNode.kind === "component" ? selectedNode.props : selectedNode, null, 2)}
                             </pre>
                         </div>
-                    ) : (
-                        <p className="mt-3 text-sm text-tertiary">Click a node in the canvas to inspect it.</p>
                     )}
-
-                    <h2 className="mt-6 text-sm font-semibold text-primary">History</h2>
-                    <ul className="mt-3 space-y-1.5">
-                        {versions.map((v) => (
-                            <li key={v.version} className="flex items-center justify-between text-sm">
-                                <span className="truncate text-tertiary">
-                                    v{v.version}
-                                    {v.summary ? `: ${v.summary}` : ""}
-                                </span>
-                                <Button size="xs" color="link-gray" onPress={() => void handleRevert(v.version)}>
-                                    Revert
-                                </Button>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <p className="mt-6 text-xs text-quaternary">Rules v{ruleSetVersion}</p>
+                    <div role="group" aria-labelledby="pg-history-label">
+                        <div id="pg-history-label" className="sp-pg-label" style={{ marginBottom: 10 }}>
+                            History
+                        </div>
+                        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 6 }}>
+                            {versions.map((v) => (
+                                <li key={v.version} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, fontSize: 14 }}>
+                                    <span style={{ color: "var(--sp-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        v{v.version}
+                                        {v.summary ? `: ${v.summary}` : ""}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className="sp-pg-pill"
+                                        aria-label={`Revert to v${v.version}`}
+                                        onClick={() => void handleRevert(v.version)}
+                                    >
+                                        Revert
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <p style={{ margin: "auto 0 0", fontSize: 12, color: "var(--sp-subtle)" }}>Rules v{ruleSetVersion}</p>
                 </aside>
-            </div>
+            </main>
         </div>
     );
 }

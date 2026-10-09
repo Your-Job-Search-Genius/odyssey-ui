@@ -1,0 +1,317 @@
+/*
+ * "Spatial Layers" (approved direction C) -- shared base, ported 1:1 from
+ * the approved mockup's styles. Every class is prefixed `sp-` so it never
+ * collides with Fumadocs or library classes. Colors are variables: light
+ * values are the mockup's exact hexes; `.dark` maps the same roles to a
+ * deep-indigo palette (the mockup shows light only).
+ */
+:root {
+    --sp-ground: #f4f4fc;
+    --sp-ink: #1b1838;
+    --sp-muted: #4a4766;
+    --sp-subtle: #5e5b7a;
+    --sp-line: #e1e0f2;
+    --sp-line-soft: #ecebf7;
+    --sp-brand: #563bdb;
+    --sp-brand-ink: #441cbf;
+    --sp-brand-soft: #8c8bf6;
+    --sp-brand-pale: #b2b5f8;
+    --sp-tint: #e8eafd;
+    --sp-tint-soft: #f3f4ff;
+    --sp-tint-line: #d3d6fa;
+    --sp-surface: #ffffff;
+    --sp-ghost: rgb(255 255 255 / 0.85);
+    --sp-wash: rgb(27 24 56 / 0.04);
+    --sp-wash-strong: rgb(27 24 56 / 0.05);
+    --sp-hover: rgb(86 59 219 / 0.08);
+    --sp-glass: rgb(255 255 255 / 0.66);
+    --sp-glass-border: rgb(255 255 255 / 0.95);
+    --sp-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 24px 48px -24px rgb(38 8 117 / 0.22), 0 2px 8px rgb(38 8 117 / 0.06);
+    --sp-code-bg: #1b1838;
+    --sp-code-ink: #e8eafd;
+    --sp-orb-1: #d3d6fa;
+    --sp-orb-2: #fde3d3;
+    --sp-orb-3: #e8eafd;
+    --sp-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dark {
+    --sp-ground: #0f0d24;
+    --sp-ink: #e9e8f7;
+    --sp-muted: #b4b1d3;
+    --sp-subtle: #a9a6c9;
+    --sp-line: rgb(178 181 248 / 0.16);
+    --sp-line-soft: rgb(178 181 248 / 0.1);
+    --sp-brand: #8c8bf6;
+    --sp-brand-ink: #b2b5f8;
+    --sp-brand-soft: #6e62ef;
+    --sp-brand-pale: #563bdb;
+    --sp-tint: rgb(140 139 246 / 0.16);
+    --sp-tint-soft: rgb(140 139 246 / 0.1);
+    --sp-tint-line: rgb(140 139 246 / 0.3);
+    --sp-surface: #1a1736;
+    --sp-ghost: rgb(27 24 56 / 0.85);
+    --sp-wash: rgb(233 232 247 / 0.05);
+    --sp-wash-strong: rgb(233 232 247 / 0.07);
+    --sp-hover: rgb(140 139 246 / 0.12);
+    --sp-glass: rgb(27 24 56 / 0.62);
+    --sp-glass-border: rgb(178 181 248 / 0.14);
+    --sp-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 24px 48px -24px rgb(0 0 0 / 0.6), 0 2px 8px rgb(0 0 0 / 0.3);
+    --sp-code-bg: #0a0819;
+    --sp-orb-1: #2a2470;
+    --sp-orb-2: #3a1f3a;
+    --sp-orb-3: #1f1b4d;
+}
+
+/* Page ground + type, applied by the root layout's <body>. */
+.sp-page {
+    background: var(--sp-ground);
+    color: var(--sp-ink);
+    font-family: var(--font-docs), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+/*
+ * Site chrome focus ring (mockup value). Opt-in: only inside .sp-chrome (the
+ * root layout's content wrapper) and never inside .sp-demo. Library components
+ * -- in previews or in overlays portaled to <body> -- keep only their own focus
+ * styles; a second, offset ring would double up and get cropped by overflow.
+ */
+.sp-chrome :focus-visible:not(:where(.sp-demo, .sp-demo *)) {
+    outline: 2px solid var(--sp-brand);
+    outline-offset: 3px;
+}
+/* Inside scrolling site containers (the sticky sidebar clips on both axes once it scrolls)
+   the ring is drawn inset, so it can never be cropped. */
+.sp-chrome :where(.sp-side, .sp-toc, .sp-table-wrap) :focus-visible:not(:where(.sp-demo, .sp-demo *)) {
+    outline-offset: -2px;
+}
+.sp-mono {
+    font-family: var(--font-docs-mono), ui-monospace, monospace;
+}
+
+.sp-glass {
+    background: var(--sp-glass);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--sp-glass-border);
+    box-shadow: var(--sp-glass-shadow);
+    border-radius: 24px;
+}
+
+.sp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 14px;
+    font:
+        700 15px/1 var(--font-docs),
+        sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    transition:
+        transform 0.45s var(--sp-spring),
+        box-shadow 0.2s;
+}
+.sp-btn-primary {
+    background: var(--sp-brand);
+    color: #fff;
+    box-shadow: 0 10px 24px -10px rgb(86 59 219 / 0.7);
+}
+.dark .sp-btn-primary {
+    background: #563bdb;
+}
+.sp-btn-primary:hover {
+    color: #fff;
+    transform: translateY(-3px);
+}
+.sp-btn-ghost {
+    background: var(--sp-ghost);
+    color: var(--sp-ink);
+    border: 1px solid var(--sp-line);
+}
+.sp-btn-ghost:hover {
+    color: var(--sp-ink);
+    transform: translateY(-3px);
+}
+
+.sp-navlink {
+    color: var(--sp-muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    transition: background 0.2s;
+}
+.sp-navlink:hover {
+    color: var(--sp-ink);
+    background: var(--sp-hover);
+}
+.sp-navlink[aria-current="page"] {
+    color: var(--sp-brand-ink);
+    background: var(--sp-hover);
+}
+
+.sp-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+}
+
+.sp-rise {
+    animation: sp-rise 0.9s var(--sp-spring) both;
+}
+@keyframes sp-rise {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.sp-code {
+    background: var(--sp-code-bg);
+    color: var(--sp-code-ink);
+    border-radius: 16px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 0;
+    white-space: pre;
+}
+.sp-copy {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    background: rgb(255 255 255 / 0.08);
+    color: #e8eafd;
+    font:
+        600 13px var(--font-docs),
+        sans-serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+.sp-copy:hover {
+    background: rgb(255 255 255 / 0.16);
+}
+
+.sp-seg {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 4px;
+    border-radius: 14px;
+    background: var(--sp-wash-strong);
+}
+.sp-seg button {
+    min-height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    font:
+        700 14px var(--font-docs),
+        sans-serif;
+    color: var(--sp-muted);
+    cursor: pointer;
+    transition:
+        background 0.25s,
+        box-shadow 0.25s;
+}
+.sp-seg button[aria-selected="true"],
+.sp-seg button[aria-pressed="true"] {
+    background: var(--sp-surface);
+    color: var(--sp-ink);
+    box-shadow: 0 2px 8px rgb(38 8 117 / 0.12);
+}
+
+.sp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.sp-table th {
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sp-subtle);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--sp-line);
+}
+.sp-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--sp-line-soft);
+    vertical-align: top;
+    color: var(--sp-ink);
+}
+.sp-table tr:last-child td {
+    border-bottom: 0;
+}
+.sp-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 7px;
+    background: var(--sp-tint-soft);
+    color: var(--sp-brand-ink);
+    font-size: 12.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sp-page *,
+    .sp-page *::before,
+    .sp-page *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .sp-hide-sm {
+        display: none !important;
+    }
+}
+
+/* Where a library component renders: undo everything inherited from the docs
+   chrome (article size, line height, muted color) so components look exactly
+   as shipped, using the library's own defaults. */
+.sp-demo {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--color-text-primary);
+}
+
+/* Skip link: first tab stop on every page, visible only while focused. */
+.sp-skip {
+    position: absolute;
+    left: 16px;
+    top: -100px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: var(--sp-surface);
+    color: var(--sp-ink);
+    font-weight: 700;
+    box-shadow: var(--sp-glass-shadow);
+}
+.sp-skip:focus {
+    top: 16px;
+}

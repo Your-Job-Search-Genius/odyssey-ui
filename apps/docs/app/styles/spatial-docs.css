@@ -1,0 +1,363 @@
+/* "Spatial Layers" page styles: docs (ported from the approved c-start / c-component mockups). */
+
+/* Sidebar (.side) */
+.sp-side a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--sp-muted);
+    text-decoration: none;
+    transition:
+        background 0.2s,
+        transform 0.35s var(--sp-spring);
+}
+.sp-side a:hover {
+    background: rgb(86 59 219 / 0.07);
+    color: var(--sp-ink);
+    transform: translateX(3px);
+}
+.dark .sp-side a:hover {
+    background: var(--sp-hover);
+}
+.sp-side a.on {
+    background: #563bdb;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 8px 18px -10px rgb(86 59 219 / 0.8);
+}
+.sp-side h3 {
+    margin: 18px 0 6px;
+    padding: 0 12px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sp-subtle);
+}
+.sp-side ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.sp-side .sp-side-nested {
+    padding-left: 12px;
+}
+
+/* The real page tree is far longer than the mockup's sample list, so on wide
+   screens the sidebar and TOC stay in view instead of scrolling away. */
+@media (min-width: 900px) {
+    .sp-side {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+    .sp-toc-col {
+        position: sticky;
+        top: 20px;
+    }
+}
+
+/* On this page (.toc) */
+.sp-toc a {
+    display: block;
+    padding: 6px 0 6px 14px;
+    border-left: 2px solid var(--sp-line);
+    font-size: 14px;
+    color: var(--sp-muted);
+    text-decoration: none;
+}
+.sp-toc a.on {
+    border-left-color: var(--sp-brand);
+    color: var(--sp-brand-ink);
+    font-weight: 700;
+}
+@media (max-width: 1100px) {
+    .sp-toc-col {
+        display: none !important;
+    }
+}
+
+/* Preview toolbar (.tool) */
+.sp-tool {
+    min-height: 40px;
+    min-width: 40px;
+    padding: 0 12px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--sp-muted);
+    font:
+        700 14px var(--font-docs),
+        sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        background 0.2s,
+        transform 0.4s var(--sp-spring);
+}
+.sp-tool:hover {
+    background: var(--sp-hover);
+    color: var(--sp-ink);
+    transform: translateY(-2px);
+}
+.sp-tool[aria-pressed="true"] {
+    color: var(--sp-brand-ink);
+    background: var(--sp-hover);
+}
+
+.sp-pop {
+    animation: sp-pop 0.5s var(--sp-spring) both;
+}
+@keyframes sp-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Preview canvas colors (mockup pvBg / pvBorder), driven by the preview's own light/dark toggle. */
+.sp-pv {
+    background: #ffffff;
+    border: 1px solid #ecebf7;
+    transition: background 0.4s;
+}
+.sp-pv.dark-mode {
+    background: #13112a;
+    border-color: #2c2950;
+}
+.sp-preview:fullscreen {
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    background: #ffffff;
+}
+.sp-preview:fullscreen:has(.sp-pv.dark-mode) {
+    background: #13112a;
+}
+
+/* Props table (.ptable) */
+.sp-ptable {
+    min-width: 640px;
+}
+
+/* Code blocks: always the mockup's dark .code surface, so token colors use
+   the dark syntax theme in both site themes. */
+.sp-codeblock {
+    position: relative;
+    margin: 20px 0;
+}
+.sp-codeblock .sp-code {
+    padding-right: 104px;
+}
+.sp-codeblock .sp-code span {
+    color: var(--shiki-dark, inherit) !important;
+    background: transparent !important;
+}
+.sp-code-title {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 12.5px;
+    color: var(--sp-subtle);
+}
+
+/* Info box (mockup) and its variants. */
+.sp-callout {
+    margin: 24px 0;
+    display: flex;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: var(--sp-tint-soft);
+    border: 1px solid var(--sp-tint-line);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--sp-ink);
+}
+.sp-callout > svg {
+    flex: none;
+    margin-top: 1px;
+    color: var(--sp-brand);
+}
+.sp-callout > div > :first-child {
+    margin-top: 0;
+}
+.sp-callout > div > :last-child {
+    margin-bottom: 0;
+}
+.sp-callout-warn {
+    background: #fffaeb;
+    border-color: #fedf89;
+}
+.sp-callout-warn > svg {
+    color: #b54708;
+}
+.sp-callout-error {
+    background: #fef3f2;
+    border-color: #fecdca;
+}
+.sp-callout-error > svg {
+    color: #d92d20;
+}
+.sp-callout-success {
+    background: #ecfdf3;
+    border-color: #abefc6;
+}
+.sp-callout-success > svg {
+    color: #067647;
+}
+.dark .sp-callout-warn {
+    background: rgb(247 144 9 / 0.1);
+    border-color: rgb(247 144 9 / 0.35);
+}
+.dark .sp-callout-warn > svg {
+    color: #fdb022;
+}
+.dark .sp-callout-error {
+    background: rgb(240 68 56 / 0.1);
+    border-color: rgb(240 68 56 / 0.35);
+}
+.dark .sp-callout-error > svg {
+    color: #f97066;
+}
+.dark .sp-callout-success {
+    background: rgb(23 178 106 / 0.1);
+    border-color: rgb(23 178 106 / 0.35);
+}
+.dark .sp-callout-success > svg {
+    color: #47cd89;
+}
+
+/* Tabs inside articles use the mockup's segmented control. */
+.sp-tabs {
+    margin: 20px 0;
+}
+.sp-tabs .sp-seg [role="tab"] {
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    font:
+        700 14px var(--font-docs),
+        sans-serif;
+    color: var(--sp-muted);
+    cursor: pointer;
+    outline: none;
+    transition:
+        background 0.25s,
+        box-shadow 0.25s;
+}
+.sp-tabs .sp-seg [role="tab"][data-selected] {
+    background: var(--sp-surface);
+    color: var(--sp-ink);
+    box-shadow: 0 2px 8px rgb(38 8 117 / 0.12);
+}
+.sp-tabs .sp-seg [role="tab"][data-focus-visible] {
+    outline: 2px solid var(--sp-brand);
+    outline-offset: 2px;
+}
+.sp-tabs [role="tabpanel"] > .sp-codeblock:first-child {
+    margin-top: 12px;
+}
+
+/* Article content (MDX). Mirrors the mockup's article typography. Every element rule
+   stops at .sp-preview so live library components are never restyled by the article. */
+.sp-prose {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--sp-muted);
+}
+.sp-prose > :first-child:not(:where(.sp-preview *)) {
+    margin-top: 0;
+}
+.sp-prose h2:not(:where(.sp-preview *)) {
+    margin: 40px 0 6px;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--sp-ink);
+    scroll-margin-top: 24px;
+}
+.sp-prose h3:not(:where(.sp-preview *)) {
+    margin: 28px 0 6px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--sp-ink);
+    scroll-margin-top: 24px;
+}
+.sp-prose h4:not(:where(.sp-preview *)) {
+    margin: 20px 0 6px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--sp-ink);
+}
+.sp-prose h2 a:not(:where(.sp-preview *)),
+.sp-prose h3 a:not(:where(.sp-preview *)),
+.sp-prose h4 a:not(:where(.sp-preview *)) {
+    color: inherit;
+    text-decoration: none;
+}
+.sp-prose p:not(:where(.sp-preview *)),
+.sp-prose ul:not(:where(.sp-preview *)),
+.sp-prose ol:not(:where(.sp-preview *)) {
+    margin: 6px 0 14px;
+}
+.sp-prose ul:not(:where(.sp-preview *)),
+.sp-prose ol:not(:where(.sp-preview *)) {
+    padding-left: 22px;
+}
+.sp-prose li:not(:where(.sp-preview *)) {
+    margin: 4px 0;
+}
+.sp-prose strong:not(:where(.sp-preview *)) {
+    color: var(--sp-ink);
+}
+/* Only plain content links; classed links (toolbar tools, cards) keep their own colors. */
+.sp-prose a:not([class]):not(:where(.sp-preview *)) {
+    color: var(--sp-brand);
+}
+.sp-prose a:not([class]):hover:not(:where(.sp-preview *)) {
+    color: var(--sp-brand-ink);
+}
+.sp-prose :not(pre) > code:not(:where(.sp-preview *)) {
+    font-family: var(--font-docs-mono), ui-monospace, monospace;
+    font-size: 0.86em;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: var(--sp-tint-soft);
+    color: var(--sp-brand-ink);
+}
+.sp-prose hr:not(:where(.sp-preview *)) {
+    border: 0;
+    border-top: 1px solid var(--sp-line);
+    margin: 32px 0;
+}
+.sp-prose blockquote:not(:where(.sp-preview *)) {
+    margin: 20px 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--sp-line);
+}
+.sp-table-wrap {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+.sp-prose img:not(:where(.sp-preview *)) {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Component pages stack glass sections like the mockup's main grid. */
+.sp-prose-component h2:not(:where(.sp-preview *)) {
+    margin-top: 32px;
+}

@@ -1,0 +1,143 @@
+/* "Spatial Layers" page styles: playground (ported from the approved mockup). */
+
+.sp-pg-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sp-subtle);
+}
+
+.sp-pg-textarea {
+    width: 100%;
+    resize: vertical;
+    border-radius: 14px;
+    border: 1px solid var(--sp-tint-line);
+    background: var(--sp-surface);
+    padding: 12px;
+    font:
+        15px/1.5 var(--font-docs),
+        sans-serif;
+    color: var(--sp-ink);
+}
+.sp-pg-textarea::placeholder {
+    color: var(--sp-subtle);
+}
+
+.sp-pg-tree {
+    font-size: 13px;
+}
+.sp-pg-tree button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    font: inherit;
+    color: var(--sp-muted);
+    text-align: left;
+    cursor: pointer;
+}
+.sp-pg-tree button:hover {
+    background: var(--sp-hover);
+    color: var(--sp-ink);
+}
+.sp-pg-tree button[aria-current="true"] {
+    background: var(--sp-tint);
+    color: var(--sp-brand-ink);
+    font-weight: 700;
+}
+
+.sp-pg-pill {
+    min-height: 40px;
+    min-width: 44px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid var(--sp-line);
+    background: var(--sp-surface);
+    color: var(--sp-muted);
+    font:
+        700 14px var(--font-docs),
+        sans-serif;
+    cursor: pointer;
+    transition:
+        background 0.25s,
+        color 0.25s,
+        transform 0.4s var(--sp-spring);
+}
+.sp-pg-pill:hover {
+    transform: translateY(-2px);
+}
+
+.sp-pg-canvas {
+    background-image: radial-gradient(rgb(86 59 219 / 0.16) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+
+.sp-pg-msg {
+    max-width: 85%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--sp-line);
+    background: var(--sp-surface);
+    color: var(--sp-ink);
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+/* Literal brand fill (not --sp-brand) so white text keeps >= 4.5:1 in dark mode too. */
+.sp-pg-msg-user {
+    margin-left: auto;
+    border-color: transparent;
+    background: #563bdb;
+    color: #fff;
+}
+
+.sp-pg-json {
+    margin: 0;
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--sp-code-bg);
+    color: var(--sp-code-ink);
+    font-size: 12.5px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-height: 320px;
+    overflow: auto;
+}
+
+.sp-pg-status {
+    padding: 12px;
+    border-radius: 14px;
+    background: var(--sp-tint-soft);
+    color: var(--sp-muted);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.sp-pg-status-busy {
+    background: var(--sp-tint);
+    color: var(--sp-brand-ink);
+}
+.sp-pg-status-ok {
+    background: #dcfae6;
+    color: #085d3a;
+}
+.sp-pg-status-error {
+    background: #fee4e2;
+    color: #b42318;
+}
+.dark .sp-pg-status-ok {
+    background: rgb(23 178 106 / 0.16);
+    color: #75e0a7;
+}
+.dark .sp-pg-status-error {
+    background: rgb(217 45 32 / 0.18);
+    color: #fda29b;
+}

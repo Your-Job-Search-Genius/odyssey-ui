@@ -61,5 +61,5 @@ export default function PreviewPage() {
         return <div className="flex h-screen items-center justify-center text-sm text-tertiary">Waiting for a canvas to preview...</div>;
     }
 
-    return <div className="min-h-screen bg-primary p-6">{renderTree(tree, { componentMap, iconMap })}</div>;
+    return <div className="sp-demo min-h-screen bg-primary p-6">{renderTree(tree, { componentMap, iconMap })}</div>;
 }

@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import { HomeLayout } from "fumadocs-ui/layouts/home";
-import { baseOptions } from "~/lib/layout.shared";
 
+/** Home and agent-rules pages render the "Spatial Layers" SiteHeader/SiteFooter themselves (components/site). */
 export default function Layout({ children }: { children: ReactNode }) {
-    return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
+    return children;
 }

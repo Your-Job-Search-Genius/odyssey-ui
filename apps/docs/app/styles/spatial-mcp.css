@@ -1,0 +1,153 @@
+/* "Spatial Layers" page styles: mcp (ported from the approved c-mcp mockup). */
+
+/* React Aria tabs inside .sp-seg (the mockup's segmented buttons). */
+.sp-seg-tab {
+    min-height: 40px;
+    padding: 0 18px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    font:
+        700 14px var(--font-docs),
+        sans-serif;
+    color: var(--sp-muted);
+    cursor: pointer;
+    outline: none;
+    transition:
+        background 0.25s,
+        box-shadow 0.25s;
+}
+.sp-seg-tab[data-selected] {
+    background: var(--sp-surface);
+    color: var(--sp-ink);
+    box-shadow: 0 2px 8px rgb(38 8 117 / 0.12);
+}
+.sp-seg-tab[data-focus-visible] {
+    outline: 2px solid var(--sp-brand);
+    outline-offset: 2px;
+}
+
+.sp-stack {
+    perspective: 1100px;
+}
+.sp-card {
+    animation:
+        sp-stack-in 1s var(--sp-spring) both,
+        sp-card-glow 7.2s ease-in-out infinite;
+}
+@keyframes sp-stack-in {
+    from {
+        opacity: 0;
+        transform: translateY(-60px) rotateX(40deg) scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes sp-card-glow {
+    0%,
+    13% {
+        border-color: var(--sp-brand-soft);
+        box-shadow:
+            0 0 0 4px rgb(140 139 246 / 0.2),
+            0 28px 48px -24px rgb(38 8 117 / 0.35);
+        transform: translateY(-4px);
+    }
+    20%,
+    100% {
+        border-color: var(--sp-glass-border);
+        transform: none;
+    }
+}
+.sp-track {
+    position: absolute;
+    left: 27px;
+    top: 28px;
+    bottom: 28px;
+    width: 2px;
+    background: var(--sp-line);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.sp-track span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 30%;
+    background: var(--sp-brand);
+    border-radius: 2px;
+    animation: sp-travel 7.2s linear infinite;
+}
+@keyframes sp-travel {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(340%);
+    }
+}
+
+.sp-rule {
+    transition:
+        transform 0.5s var(--sp-spring),
+        box-shadow 0.3s;
+}
+.sp-rule:hover {
+    transform: translateY(-5px);
+}
+
+.sp-rtable {
+    min-width: 720px;
+}
+
+.sp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+/* Status colors: literal (semantic), each pair >= 4.5:1 in both themes. */
+.sp-badge-pass {
+    background: #dcfae6;
+    color: #085d3a;
+}
+.sp-badge-na {
+    background: #ecebf7;
+    color: #3d3a5c;
+}
+.sp-badge-nv {
+    background: #fef0c7;
+    color: #7a2e0e;
+}
+.dark .sp-badge-pass {
+    background: rgb(23 178 106 / 0.16);
+    color: #75e0a7;
+}
+.dark .sp-badge-na {
+    background: rgb(178 181 248 / 0.12);
+    color: #d3d6fa;
+}
+.dark .sp-badge-nv {
+    background: rgb(247 144 9 / 0.16);
+    color: #fec84b;
+}
+
+/* Rule-category tags: brand for mandatory, neutral for conditional. */
+.sp-tag-always {
+    color: var(--sp-brand-ink);
+    background: var(--sp-tint);
+}
+.sp-tag-when {
+    color: #3d3a5c;
+    background: #ecebf7;
+}
+.dark .sp-tag-when {
+    color: #d3d6fa;
+    background: rgb(178 181 248 / 0.12);
+}

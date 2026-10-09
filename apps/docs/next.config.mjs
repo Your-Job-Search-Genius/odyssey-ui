@@ -27,6 +27,9 @@ const config = {
     // on GitHub Pages project sites.
     env: {
         NEXT_PUBLIC_BASE_PATH: basePath,
+        // Nav shows the Playground link only where the playground route exists
+        // (feature flag on, and not the static export that deletes it).
+        NEXT_PUBLIC_PLAYGROUND_ENABLED: process.env.PLAYGROUND_ENABLED === "true" && !isStaticExport ? "true" : "",
     },
     ...(isStaticExport
         ? {
