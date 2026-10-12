@@ -156,7 +156,7 @@ export const ModalBody = ({ className, ...props }: ComponentPropsWithRef<"div">)
     <div {...props} className={cx("flex flex-col gap-4 px-4 py-4 text-sm text-tertiary sm:px-6", className)} />
 );
 
-/** Action row for a `Modal`/`Dialog` pair. Stacks full-width on mobile, right-aligned row on `sm`+. */
+/** Action row for a `Modal`/`Dialog` pair. Right-aligned, content-width buttons; wraps when they don't fit. */
 export const ModalFooter = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
-    <div {...props} className={cx("flex flex-col-reverse gap-3 px-4 pt-6 pb-4 sm:flex-row sm:px-6 sm:pb-6 sm:[&>*]:flex-1", className)} />
+    <div {...props} className={cx("flex flex-wrap justify-end gap-3 px-4 pt-6 pb-4 sm:px-6 sm:pb-6", className)} />
 );

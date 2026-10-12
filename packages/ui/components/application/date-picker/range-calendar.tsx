@@ -125,7 +125,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                     months: visibleDurationMonths,
                 }}
             >
-                <div className="flex flex-col gap-3 px-6 py-5 md:gap-2">
+                <div className="flex flex-col gap-3 px-4 py-5 sm:px-6 md:gap-2">
                     <div className={cx("relative flex items-center", visibleDurationMonths > 1 ? "justify-start" : "justify-between")}>
                         <Button slot="previous" iconLeading={ChevronLeft} size="sm" color="tertiary" className="size-8" />
 
@@ -137,15 +137,15 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                     </div>
 
                     {!isDesktop && (
-                        <div className="flex items-center gap-2 md:hidden">
-                            <InputDateBase slot="start" size="sm" className="flex-1" />
-                            <div className="text-md text-quaternary">–</div>
-                            <InputDateBase slot="end" size="sm" className="flex-1" />
+                        // Stacked: two date-time inputs side by side are wider than a phone-sized calendar.
+                        <div className="grid gap-2 md:hidden">
+                            <InputDateBase slot="start" size="sm" />
+                            <InputDateBase slot="end" size="sm" />
                         </div>
                     )}
 
                     {(showPresetsOnDesktop || !isDesktop) && presets && (
-                        <div className="mt-1 flex justify-between gap-3 px-2">
+                        <div className="mt-1 flex flex-wrap justify-between gap-x-3 gap-y-1 px-2">
                             {Object.values(presets).map((preset) => (
                                 <MobilePresetButton key={preset.label} value={preset.value}>
                                     {preset.label}
@@ -158,7 +158,9 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                         <AriaCalendarGridHeader>
                             {(day) => (
                                 <AriaCalendarHeaderCell className="border-b-4 border-transparent p-0">
-                                    <div className="flex size-10 items-center justify-center text-sm font-medium text-secondary">{day.slice(0, 2)}</div>
+                                    <div className="flex size-9 items-center justify-center text-sm font-medium text-secondary sm:size-10">
+                                        {day.slice(0, 2)}
+                                    </div>
                                 </AriaCalendarHeaderCell>
                             )}
                         </AriaCalendarGridHeader>
@@ -169,7 +171,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                 </div>
 
                 {visibleDurationMonths > 1 && (
-                    <div className="flex flex-col gap-3 border-l border-secondary px-6 py-5">
+                    <div className="flex flex-col gap-3 border-l border-secondary px-4 py-5 sm:px-6 md:gap-2">
                         <div className="relative flex items-center justify-end">
                             <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-fg-secondary">
                                 <RangeCalendarTitle part="end" />
@@ -182,7 +184,9 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                             <AriaCalendarGridHeader>
                                 {(day) => (
                                     <AriaCalendarHeaderCell className="border-b-4 border-transparent p-0">
-                                        <div className="flex size-10 items-center justify-center text-sm font-medium text-secondary">{day.slice(0, 2)}</div>
+                                        <div className="flex size-9 items-center justify-center text-sm font-medium text-secondary sm:size-10">
+                                            {day.slice(0, 2)}
+                                        </div>
                                     </AriaCalendarHeaderCell>
                                 )}
                             </AriaCalendarGridHeader>

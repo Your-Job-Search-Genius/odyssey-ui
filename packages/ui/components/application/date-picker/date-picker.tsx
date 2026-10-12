@@ -53,10 +53,10 @@ export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, 
             </AriaGroup>
             <AriaPopover
                 offset={8}
-                placement="bottom right"
+                placement="bottom end"
                 className={({ isEntering, isExiting }) =>
                     cx(
-                        "origin-(--trigger-anchor-point) will-change-transform",
+                        "max-w-[calc(100vw-24px)] origin-(--trigger-anchor-point) overflow-auto rounded-2xl bg-primary shadow-xl ring ring-secondary_alt outline-hidden will-change-transform",
                         isEntering &&
                             "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                         isExiting &&
@@ -64,10 +64,10 @@ export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, 
                     )
                 }
             >
-                <AriaDialog aria-label="Date picker" className="rounded-2xl bg-primary shadow-xl ring ring-secondary_alt">
+                <AriaDialog aria-label="Date picker" className="outline-hidden">
                     {({ close }) => (
                         <>
-                            <div className="flex px-6 py-5">
+                            <div className="flex px-4 py-5 sm:px-6">
                                 <Calendar highlightedDates={highlightedDates} />
                             </div>
                             <div className="grid grid-cols-2 gap-3 border-t border-secondary p-4">

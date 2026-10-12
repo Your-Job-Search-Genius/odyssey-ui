@@ -235,7 +235,7 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 100, scale: 0.95 }}
             transition={shouldReduceMotion ? { duration: 0.15 } : { type: "spring", stiffness: 500, damping: 40 }}
             className={cx(
-                "pointer-events-auto flex w-full items-start gap-3 rounded-xl bg-primary p-4 pr-11 shadow-lg ring-1 ring-secondary_alt",
+                "pointer-events-auto relative flex w-full items-start gap-3 rounded-xl bg-primary p-4 pr-11 shadow-lg ring-1 ring-secondary_alt",
                 !shouldReduceMotion && "cursor-grab active:cursor-grabbing",
             )}
         >
