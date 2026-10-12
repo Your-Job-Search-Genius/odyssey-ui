@@ -3,6 +3,14 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 2.3.2
+
+### Fixes
+
+- **`ModalFooter` buttons keep their natural width.** They are right-aligned on every viewport and wrap when they don't fit, instead of stretching to fill the row (and stacking full-width on phones).
+- **`DatePicker` / `DateRangePicker` fit small screens.** The popover is capped to the viewport width and scrolls when React Aria limits its height (e.g. a trigger near the bottom of a short screen), instead of spilling off-screen. On phones the range start/end inputs stack, presets wrap, padding is tighter and day cells are 36px, so a month fits a 320px viewport. Placement is `bottom end` (RTL-aware). The two months of the desktop range calendar now line up.
+- **Toast close button stays inside the toast.** The card was missing `relative`, so once the entry animation finished the dismiss button jumped to the corner of the whole toast stack.
+
 ## odyssey-ui 2.3.1 · ds-registry 0.4.1 · ds-mcp 0.4.1
 
 ### Fixes
