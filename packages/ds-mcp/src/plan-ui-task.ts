@@ -13,6 +13,7 @@ export const POST_BUILD_STEPS = [
     "Re-check every rule ID in the completion record from plan_ui_task against what you built; fix each Fail and re-run validate_jsx.",
     "Run the project's type-check/build (e.g. tsc --noEmit or the app's build script) and fix errors before finishing.",
     "Return the filled completion record (Rule ID | Applicability | Result | Evidence | Remaining action). Anything not actually checked -- e.g. no real NVDA run -- is Not verified, never Pass.",
+    'If you hit any UI issue (missing component/prop/icon/token, component bug, a11y gap, rule conflict, MCP/package mismatch, setup problem, any workaround), list them for the user and ask permission to log them in the consuming project\'s docs/ui-issues.md. Only if the user says yes: create it if missing, append only, one entry per issue. If they decline, do not write the file. Report "UI issues: none", "logged", or "not logged (user declined)".',
 ];
 
 function escapeRegExp(s: string): string {
@@ -62,6 +63,7 @@ export function planUiTask(registry: Registry, intent: string, extra: string[] =
         "4. Re-check every rule ID in section 4 against the result; fix Fail items.",
         "5. Call validate_jsx, then run the project's type-check/build and fix errors.",
         "6. Finish with the completion record from section 4. Unverified items are Not verified, never Pass.",
+        "7. If you hit any UI issue (missing component/prop/icon/token, component bug, a11y gap, rule conflict, MCP/package mismatch, setup problem, any workaround), list them for the user and ask permission to log them in the consuming project's docs/ui-issues.md. Only if the user says yes: create it if missing, append only, one entry per issue. If they decline, do not write the file.",
         "",
         "## 1. Selected rule categories",
         ...categories.map((c) => `- **${c.name}** (\`${c.id}\`) -- ${c.appliesWhen}`),

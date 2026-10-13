@@ -41,6 +41,6 @@ describe("ux rules merged with guidelines", () => {
     it("has an NVDA blocker and no prescribed breakpoint pixel values", () => {
         expect(all).toContain("CHK-B9");
         expect(all).not.toContain("Mobile: 0-599px");
-        expect(rules.version).toBe("4.0.0");
+        expect(rules.version).toBe("4.1.0");
     });
 });

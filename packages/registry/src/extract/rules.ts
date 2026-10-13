@@ -9,7 +9,7 @@ import type { RuleSet } from "../schema.js";
 import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "../schema.js";
 import { buildUxPreamble, buildUxSections } from "./ux-rules.js";
 
-export const RULE_SET_VERSION = "4.0.0";
+export const RULE_SET_VERSION = "4.1.0";
 
 export function buildRuleSet(): RuleSet {
     return {
@@ -48,6 +48,7 @@ export function buildRuleSet(): RuleSet {
             "Code, JSON and logs go in CodeBlock (not <pre>/<code>); label/value metadata goes in DescriptionList (not a div grid or <dl>); untrusted or email HTML goes in HtmlPreview (never a raw <iframe>).",
             "These rules bind consuming apps. The library's own source uses a few internals (fractional spacing such as w-58.25, scrollbar styling) that consumers should not copy -- reach for the component instead.",
             "Call validate_jsx before presenting generated code as final.",
+            'If you hit any UI issue (missing component/prop/icon/token, component bug, a11y gap, rule conflict, MCP/package mismatch, setup problem, any workaround), list them for the user and ask permission to log them in the consuming project\'s docs/ui-issues.md. Only if the user says yes: create it if missing, append only, one entry per issue. If they decline, do not write the file. Record "UI issues: none", "logged", or "not logged (user declined)" in the completion record.',
         ],
         uxPreamble: buildUxPreamble(),
         uxSections: buildUxSections(),

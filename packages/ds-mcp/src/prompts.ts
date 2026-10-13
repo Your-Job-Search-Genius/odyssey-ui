@@ -32,6 +32,7 @@ export function registerPrompts(server: McpServer) {
                             '5. Compose the UI from approved components and the allowed HTML primitives only, styled with token-backed Tailwind classes (see get_tokens). Import every component and icon from the @your-job-search-genius/odyssey-ui package specifier reported by get_component\'s importPath -- never from a local "@/" alias.',
                             "6. If something is genuinely missing from the library, say so explicitly and offer the closest available alternative -- never invent a component, prop, or icon.",
                             "7. Re-check every rule ID in the plan's completion record, call validate_jsx (fix and repeat until clean), run the project's type-check/build, and finish with the filled completion record. Unverified items are Not verified, never Pass.",
+                            "8. If you hit any UI issue (missing component/prop/icon/token, component bug, a11y gap, rule conflict, MCP/package mismatch, setup problem, any workaround), list them for the user and ask permission to log them in the consuming project's docs/ui-issues.md. Only if the user says yes: create it if missing, append only, one entry per issue. If they decline, do not write the file.",
                         ].join("\n"),
                     },
                 },
