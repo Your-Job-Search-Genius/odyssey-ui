@@ -3,6 +3,29 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 2.4.0 · ds-registry 0.5.0 · ds-mcp 0.5.0
+
+Foundations, `Button`, `Modal`, `Accordion` and `Tooltip` now follow the YJSG client app's design. Behaviour changes are listed first.
+
+### Behaviour changes
+
+- **Font is Geist, not Inter.** `--font-body` / `--font-display` use `var(--font-geist, "Geist")`. Apps must load Geist (Google Fonts, or `next/font/google` `Geist` with variable `--font-geist`); without it the UI falls back to system fonts.
+- **Light-mode text and border colors.** `text-primary` `#10244F`, `text-secondary` `#3F4E72`, `text-tertiary` `#535862`, `text-quaternary` / `text-placeholder` `#717680`, `border-secondary` `#EAEDEF`, `focus-ring` brand-600. Dark mode is unchanged.
+- **`Button` sizes and look.** 12px radius; heights 24 / 32 / 40 / 48 / 64px for `xs`-`xl` (`md` 16px text with a 120px min width, `lg` 18px text, `xl` 150px min width); flat (no skeuomorphic shadow, inner border or press scale); focus outline 3px offset. `secondary` / `tertiary` use `text-primary` with a `bg-quaternary` hover. The default size is still `sm`.
+- **`Modal`.** Centered on every viewport (no bottom-pinned panel on phones), 16px radius, `md` max width 456px (was 480px), lighter brand-tinted overlay with a 5px blur, `shadow-lg`, 24px horizontal padding on every viewport.
+- **`Accordion` `className` sizes the whole accordion.** It now sits on the outer wrapper (which is `w-full`), so width utilities such as `max-w-md` hold whether items are open or closed.
+- **`Tooltip`.** Medium-weight title, `shadow-md`, default `offset` 8px (was 6), sharp arrow, new `--color-tooltip-bg` token (`#101419` in light mode). `SidebarLayout`'s collapsed-nav tooltips show the arrow.
+- **ds-registry rule set 4.2.0.** The font rule names Geist. Rule set 4.1.0 (also new in this release): after a build, agents list any UI issues they hit and ask permission before logging them to the consuming project's `docs/ui-issues.md`.
+
+### New
+
+- **`Accordion` variants** via `variant`: `card` (separate bordered cards), `filled` (rounded cards with a brand-tinted header bar), `badge` (rounded sections with an icon + uppercase label pill header), `issue` (tinted error cards with a +/- toggle) and `suggestion` (compact brand-tinted block). `Accordion.Trigger` takes `badgeColor` (`gray` | `brand` | `error`) for `badge`; `Accordion.Item` takes `isActive` (red border on `issue`). Default `divider` is unchanged.
+
+### Fixes
+
+- **Nested accordions track their own state.** A collapsed item inside an open one no longer shows the open chevron / minus icon, and its panel no longer stays fully opaque while collapsing.
+- **No dark border flash when an `Accordion` item opens.** The header divider of `card` / `filled` items no longer animates in from the text color.
+
 ## odyssey-ui 2.3.2
 
 ### Fixes
