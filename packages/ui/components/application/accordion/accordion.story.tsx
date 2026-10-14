@@ -34,3 +34,12 @@ export const Nested = () => <AccordionDemos.NestedDemo />;
 Nested.storyName = "Nested accordion";
 
 export const Sizes = () => <AccordionDemos.SizesDemo />;
+
+export const Variants = () => <AccordionDemos.VariantsDemo />;
+Variants.storyName = "Variants (divider, card, filled)";
+
+export const Badge = () => <AccordionDemos.BadgeDemo />;
+Badge.storyName = "Badge (cover letter review)";
+
+export const Issue = () => <AccordionDemos.IssueDemo />;
+Issue.storyName = "Issue cards (cover letter review)";

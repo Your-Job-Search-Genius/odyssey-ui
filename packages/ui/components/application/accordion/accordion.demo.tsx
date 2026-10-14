@@ -4,7 +4,8 @@ import { useState } from "react";
 import type { Key } from "react-aria-components";
 import { Accordion } from "@/components/application/accordion/accordion";
 import { Badge } from "@/components/base/badges/badges";
-import { CreditCard01, Lock01, Truck01 } from "@/components/foundations/icons";
+import { Button } from "@/components/base/buttons/button";
+import { AlertCircle, Briefcase01, ChevronRight, Copy01, CreditCard01, Lock01, Star01, Truck01 } from "@/components/foundations/icons";
 
 export const SingleOpenDemo = () => (
     <Accordion defaultExpandedKeys={["shipping"]} className="max-w-md">
@@ -44,7 +45,7 @@ export const ControlledDemo = () => {
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set(["step-1"]));
 
     return (
-        <div className="flex max-w-md flex-col gap-3">
+        <div className="flex w-full max-w-md flex-col gap-3">
             <div className="flex gap-2">
                 <button
                     type="button"
@@ -154,7 +155,7 @@ export const NestedDemo = () => (
 );
 
 export const SizesDemo = () => (
-    <div className="flex max-w-md flex-col gap-8">
+    <div className="flex w-full max-w-md flex-col gap-8">
         <Accordion size="sm" defaultExpandedKeys={["a"]}>
             <Accordion.Item id="a">
                 <Accordion.Trigger>Small size</Accordion.Trigger>
@@ -169,3 +170,113 @@ export const SizesDemo = () => (
         </Accordion>
     </div>
 );
+
+export const VariantsDemo = () => (
+    <div className="flex w-full max-w-md flex-col gap-8">
+        {(["divider", "card", "filled"] as const).map((variant) => (
+            <Accordion key={variant} variant={variant} allowsMultipleExpanded defaultExpandedKeys={["a"]}>
+                <Accordion.Item id="a">
+                    <Accordion.Trigger>Work experience</Accordion.Trigger>
+                    <Accordion.Panel>The {variant} variant, expanded.</Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item id="b">
+                    <Accordion.Trigger>Education</Accordion.Trigger>
+                    <Accordion.Panel>The {variant} variant, second item.</Accordion.Panel>
+                </Accordion.Item>
+            </Accordion>
+        ))}
+    </div>
+);
+
+const ReviewCard = ({ children }: { children: string }) => (
+    <div className="rounded-xl border border-secondary bg-primary p-3 text-sm text-secondary">{children}</div>
+);
+
+export const BadgeDemo = () => (
+    <Accordion variant="badge" allowsMultipleExpanded defaultExpandedKeys={["strength", "fixes"]} className="max-w-md">
+        <Accordion.Item id="strength">
+            <Accordion.Trigger icon={Star01} badgeColor="brand">
+                Strength
+            </Accordion.Trigger>
+            <Accordion.Panel>
+                <ReviewCard>Clear opening that names the role and company.</ReviewCard>
+            </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="fixes">
+            <Accordion.Trigger icon={AlertCircle} badgeColor="error">
+                Important fixes
+            </Accordion.Trigger>
+            <Accordion.Panel>
+                <ReviewCard>Quantify the impact of your last project.</ReviewCard>
+                <ReviewCard>Mention the hiring manager by name.</ReviewCard>
+            </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item id="grammar">
+            <Accordion.Trigger icon={AlertCircle}>Grammar</Accordion.Trigger>
+            <Accordion.Panel>
+                <ReviewCard>No grammar issues found.</ReviewCard>
+            </Accordion.Panel>
+        </Accordion.Item>
+    </Accordion>
+);
+
+const ReviewIssueBody = ({ problem, suggestion }: { problem: string; suggestion: string }) => (
+    <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col items-start gap-3 rounded-[10px] bg-tertiary px-3 py-2.5">
+            <p className="text-sm font-semibold text-primary">Problem</p>
+            <p className="text-sm font-medium text-primary">{problem}</p>
+            <Button color="link-gray" size="sm" iconTrailing={ChevronRight}>
+                Why it matters
+            </Button>
+        </div>
+        <Accordion variant="suggestion" defaultExpandedKeys={["suggestion"]}>
+            <Accordion.Item id="suggestion">
+                <Accordion.Trigger>Suggested improvement</Accordion.Trigger>
+                <Accordion.Panel>
+                    <div className="flex flex-col items-start gap-2.5">
+                        <p>{suggestion}</p>
+                        <Button color="tertiary" size="xs" iconLeading={Copy01}>
+                            Copy
+                        </Button>
+                    </div>
+                </Accordion.Panel>
+            </Accordion.Item>
+        </Accordion>
+    </div>
+);
+
+export const IssueDemo = () => {
+    const [active, setActive] = useState<Key>("company");
+
+    return (
+        <Accordion variant="badge" defaultExpandedKeys={["alignment"]} className="max-w-md">
+            <Accordion.Item id="alignment">
+                <Accordion.Trigger icon={Briefcase01} badgeColor="error">
+                    Job alignment
+                </Accordion.Trigger>
+                <Accordion.Panel>
+                    <Accordion variant="issue" defaultExpandedKeys={["company"]} onExpandedChange={(keys) => keys.size && setActive([...keys][0])}>
+                        <Accordion.Item id="company" isActive={active === "company"}>
+                            <Accordion.Trigger>Letter targets wrong company and job</Accordion.Trigger>
+                            <Accordion.Panel>
+                                <ReviewIssueBody
+                                    problem="Your letter applies for Marketing Coordinator at Brightline Solutions. The job description is for Manager Warehouse & Operations at Hellmann Worldwide Logistics."
+                                    suggestion="I am applying for the Manager Warehouse & Operations position at Hellmann Worldwide Logistics."
+                                />
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                        <Accordion.Item id="field" isActive={active === "field"}>
+                            <Accordion.Trigger>Your notes point to a different field than this job</Accordion.Trigger>
+                            <Accordion.Panel>
+                                <ReviewIssueBody
+                                    problem="The qualification you asked to reference in your notes belongs to a different field from the attached job."
+                                    suggestion="Lead with the operations and systems experience that matches this role."
+                                />
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                    </Accordion>
+                </Accordion.Panel>
+            </Accordion.Item>
+        </Accordion>
+    );
+};

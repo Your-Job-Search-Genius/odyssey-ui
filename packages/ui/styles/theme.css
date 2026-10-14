@@ -1,7 +1,7 @@
 @theme {
     /* FONT FAMILY */
-    --font-body: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    --font-display: var(--font-inter, "Inter"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-body: var(--font-geist, "Geist"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-display: var(--font-geist, "Geist"), -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     --font-mono: ui-monospace, "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     /* Used only by FlowCanvas's "sketchy" edge style; loaded via next/font in apps/docs and Storybook (see .storybook/wrapper.tsx). */
     --font-handwritten: var(--font-kalam, "Kalam", cursive);
@@ -298,20 +298,20 @@
     --color-utility-amber-700: var(--color-amber-700);
 
     /* TEXT COLORS */
-    --color-text-primary: var(--color-neutral-900);
-    --color-text-tertiary: var(--color-neutral-600);
+    --color-text-primary: rgb(16 36 79);
+    --color-text-tertiary: rgb(83 88 98);
     --color-text-error-primary: var(--color-red-600);
     --color-text-warning-primary: var(--color-yellow-600);
     --color-text-success-primary: var(--color-green-600);
-    --color-text-secondary: var(--color-neutral-700);
+    --color-text-secondary: rgb(63 78 114);
     --color-text-secondary_hover: var(--color-neutral-800);
     --color-text-tertiary_hover: var(--color-neutral-700);
     --color-text-brand-secondary: var(--color-brand-700);
-    --color-text-placeholder: var(--color-neutral-500);
+    --color-text-placeholder: rgb(113 118 128);
     --color-text-brand-tertiary: var(--color-brand-600);
     --color-text-editor-icon-fg: var(--color-neutral-400);
     --color-text-editor-icon-fg_active: var(--color-neutral-500);
-    --color-text-quaternary: var(--color-neutral-500);
+    --color-text-quaternary: rgb(113 118 128);
     --color-text-brand-primary: var(--color-brand-900);
     --color-text-primary_on-brand: var(--color-white);
     --color-text-secondary_on-brand: var(--color-brand-200);
@@ -323,7 +323,7 @@
 
     /* BORDER COLORS */
     --color-border-primary: var(--color-neutral-300);
-    --color-border-secondary: var(--color-neutral-200);
+    --color-border-secondary: rgb(234 237 239);
     --color-border-secondary_alt: rgb(0 0 0 / 0.1);
     --color-border-tertiary: var(--color-neutral-100);
     --color-border-error: var(--color-red-500);
@@ -391,7 +391,7 @@
     --color-featured-icon-light-fg-success: var(--color-green-600);
     --color-featured-icon-light-fg-warning: var(--color-yellow-600);
     --color-focus-ring-error: var(--color-red-500);
-    --color-focus-ring: var(--color-brand-500);
+    --color-focus-ring: var(--color-brand-600);
     --color-footer-button-fg: var(--color-brand-200);
     --color-footer-button-fg_hover: var(--color-white);
     --color-icon-fg-brand: var(--color-brand-600);
@@ -403,6 +403,7 @@
     --color-toggle-border: var(--color-neutral-300);
     --color-toggle-slim-border_pressed-hover: var(--color-bg-brand-solid_hover);
     --color-toggle-slim-border_pressed: var(--color-bg-brand-solid);
+    --color-tooltip-bg: rgb(16 20 25);
     --color-tooltip-supporting-text: var(--color-neutral-300);
 
     /* BACKGROUND PROPERTY COLORS */
@@ -803,6 +804,7 @@
         --color-toggle-border: var(--color-transparent);
         --color-toggle-slim-border_pressed-hover: var(--color-transparent);
         --color-toggle-slim-border_pressed: var(--color-transparent);
+        --color-tooltip-bg: var(--color-bg-primary-solid);
         --color-tooltip-supporting-text: var(--color-neutral-300);
 
         /* BACKGROUND PROPERTY COLORS */

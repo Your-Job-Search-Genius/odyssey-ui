@@ -110,21 +110,21 @@ pnpm add @tailwindcss/typography tailwindcss-react-aria-components tailwindcss-a
 
 ### Fonts
 
-The theme's `--font-body` and `--font-display` use `var(--font-inter, "Inter")`, but the package
-does not ship or load Inter. Load it yourself, or the UI silently falls back to system fonts:
+The theme's `--font-body` and `--font-display` use `var(--font-geist, "Geist")`, but the package
+does not ship or load Geist. Load it yourself, or the UI silently falls back to system fonts:
 
 ```html title="index.html (Vite / plain HTML)"
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
 ```
 
 ```tsx title="app/layout.tsx (Next.js)"
-import { Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
-<html lang="en" className={inter.variable}>
+<html lang="en" className={geist.variable}>
     ...
 </html>;
 ```

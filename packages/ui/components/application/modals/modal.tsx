@@ -23,7 +23,7 @@ export const ModalOverlay = (props: AriaModalOverlayProps) => {
             {...props}
             className={(state) =>
                 cx(
-                    "fixed inset-0 z-50 flex min-h-dvh w-full items-end justify-center bg-overlay/70 px-4 outline-hidden backdrop-blur-[6px] sm:items-center sm:justify-center sm:px-8",
+                    "fixed inset-0 z-50 flex min-h-dvh w-full items-center justify-center bg-brand-solid/5 px-4 outline-hidden backdrop-blur-[5px] sm:px-8",
                     // Vertical padding
                     "pt-(--modal-pt) pb-(--modal-pb) [--modal-pb:clamp(16px,8vh,64px)] [--modal-pt:16px] sm:[--modal-pb:32px] sm:[--modal-pt:32px]",
                     // Animations
@@ -38,7 +38,7 @@ export const ModalOverlay = (props: AriaModalOverlayProps) => {
 
 const modalSizes = sortCx({
     sm: "sm:max-w-100",
-    md: "sm:max-w-120",
+    md: "sm:max-w-114",
     lg: "sm:max-w-150",
     xl: "sm:max-w-180",
     /** 960px: previews, side-by-side comparisons. */
@@ -49,7 +49,7 @@ const modalSizes = sortCx({
 
 interface ModalProps extends AriaModalOverlayProps {
     /**
-     * Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 480, lg 600, xl 720,
+     * Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 456, lg 600, xl 720,
      * 2xl 960px, full = the whole overlay). On mobile the panel always spans the full available width.
      * @default "md"
      */
@@ -61,7 +61,7 @@ export const Modal = ({ size = "md", ...props }: ModalProps) => (
         {...props}
         className={(state) =>
             cx(
-                "w-full rounded-xl bg-primary align-middle shadow-xl outline-hidden max-sm:overflow-y-auto sm:rounded-2xl",
+                "w-full rounded-2xl bg-primary align-middle shadow-lg outline-hidden max-sm:overflow-y-auto",
                 modalSizes[size],
                 // Max height based on parent's vertical padding
                 "max-h-[calc(var(--visual-viewport-height)-var(--modal-pt)-var(--modal-pb))]",
@@ -128,7 +128,7 @@ export const ModalHeader = ({
     const canClose = overlayState != null || onClose != null;
 
     return (
-        <div {...props} className={cx("relative flex flex-col gap-4 px-4 pt-5 sm:px-6 sm:pt-6", className)}>
+        <div {...props} className={cx("relative flex flex-col gap-4 px-6 pt-5 sm:pt-6", className)}>
             {Icon && <FeaturedIcon icon={Icon} color={iconColor} theme={iconTheme} size="lg" />}
 
             <div className="flex flex-col gap-0.5 pr-8">
@@ -153,10 +153,10 @@ export const ModalHeader = ({
 
 /** Scrollable body region for a `Modal`/`Dialog` pair. Sits between `ModalHeader` and `ModalFooter`. */
 export const ModalBody = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
-    <div {...props} className={cx("flex flex-col gap-4 px-4 py-4 text-sm text-tertiary sm:px-6", className)} />
+    <div {...props} className={cx("flex flex-col gap-4 px-6 py-4 text-sm text-tertiary", className)} />
 );
 
 /** Action row for a `Modal`/`Dialog` pair. Right-aligned, content-width buttons; wraps when they don't fit. */
 export const ModalFooter = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
-    <div {...props} className={cx("flex flex-wrap justify-end gap-3 px-4 pt-6 pb-4 sm:px-6 sm:pb-6", className)} />
+    <div {...props} className={cx("flex flex-wrap justify-end gap-3 px-6 pt-6 pb-4 sm:pb-6", className)} />
 );

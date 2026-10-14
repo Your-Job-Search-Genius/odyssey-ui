@@ -140,7 +140,7 @@ export const SidebarLayout = ({
                                 </span>
                             </div>
 
-                            <Tooltip title={toggleLabel} placement="right" isDisabled={!isCollapsed}>
+                            <Tooltip title={toggleLabel} placement="right" arrow isDisabled={!isCollapsed}>
                                 <AriaButton
                                     aria-label={toggleLabel}
                                     aria-expanded={!isCollapsed}

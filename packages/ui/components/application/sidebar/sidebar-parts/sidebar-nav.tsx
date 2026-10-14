@@ -67,7 +67,7 @@ const NavLinkRow = ({ item, index }: { item: SidebarNavItem; index: number }) =>
     const isActive = activeKey === `${index}`;
 
     return (
-        <Tooltip title={item.label} placement="right" isDisabled={!isCollapsed}>
+        <Tooltip title={item.label} placement="right" arrow isDisabled={!isCollapsed}>
             <AriaLink
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
@@ -89,7 +89,7 @@ const NavGroup = ({ item, index }: { item: SidebarNavItem; index: number }) => {
 
     return (
         <AriaDisclosure id={String(index)} className="group/nav-group">
-            <Tooltip title={item.label} placement="right" isDisabled={!isCollapsed}>
+            <Tooltip title={item.label} placement="right" arrow isDisabled={!isCollapsed}>
                 <AriaButton slot="trigger" className={cx(styles.row.base, isActive ? styles.row.active : styles.row.idle)}>
                     <RowContent
                         item={item}

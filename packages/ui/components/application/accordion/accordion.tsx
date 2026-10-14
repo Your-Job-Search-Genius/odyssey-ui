@@ -12,15 +12,17 @@ import {
     Disclosure as AriaDisclosure,
     DisclosureGroup as AriaDisclosureGroup,
     DisclosurePanel as AriaDisclosurePanel,
+    DisclosureStateContext as AriaDisclosureStateContext,
     Heading as AriaHeading,
 } from "react-aria-components";
-import { ChevronDown } from "@/components/foundations/icons";
+import { ChevronDown, Minus, Plus } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
 type AccordionSize = "sm" | "md";
+type AccordionVariant = "divider" | "card" | "filled" | "badge" | "issue" | "suggestion";
 
-const AccordionSizeContext = createContext<AccordionSize>("md");
+const AccordionContext = createContext<{ size: AccordionSize; variant: AccordionVariant }>({ size: "md", variant: "divider" });
 
 const sizes = sortCx({
     sm: {
@@ -33,9 +35,61 @@ const sizes = sortCx({
     },
 });
 
+const variants = sortCx({
+    divider: {
+        root: "",
+        item: "border-b border-secondary last:border-b-0",
+        trigger: "rounded-md text-secondary hover:text-secondary_hover",
+        panel: "",
+    },
+    /** Separate bordered cards, e.g. repeatable form sections. */
+    card: {
+        root: "gap-4",
+        item: "rounded-lg border border-secondary bg-primary",
+        trigger: "rounded-lg border-secondary p-3 text-secondary hover:bg-secondary aria-expanded:rounded-b-none aria-expanded:border-b",
+        panel: "p-4",
+    },
+    /** Rounded cards with a tinted brand header bar. */
+    filled: {
+        root: "gap-6",
+        item: "overflow-hidden rounded-2xl border border-secondary bg-primary",
+        trigger: "border-secondary bg-brand-primary px-4 py-3 text-md/7 text-primary -outline-offset-2 hover:opacity-80 aria-expanded:border-b",
+        panel: "p-4",
+    },
+    /** Rounded sections whose header is an icon + uppercase label pill (cover letter review panel). */
+    badge: {
+        root: "gap-5",
+        item: "rounded-[20px] border border-secondary bg-primary p-2",
+        trigger: "h-8 rounded-md py-0 pr-2 text-sm font-medium",
+        panel: "flex flex-col gap-1.5 pt-1.5 pb-0",
+    },
+    /** Tinted error cards with a +/- toggle, nested inside a `badge` section. Pair with `Accordion.Item isActive`. */
+    issue: {
+        root: "gap-1.5",
+        item: "overflow-hidden rounded-lg border-2 border-transparent bg-error-primary transition-[border-color] duration-150",
+        trigger: "items-start px-3 py-2.5 text-sm font-medium text-primary -outline-offset-4",
+        panel: "rounded-[10px] bg-primary p-2.5 text-primary",
+    },
+    /** Compact brand-tinted block, e.g. a suggested rewrite inside an `issue` card. */
+    suggestion: {
+        root: "gap-2",
+        item: "rounded-[10px] bg-brand-primary px-2.25 py-1.75",
+        trigger: "py-0.5 text-sm font-semibold text-primary",
+        panel: "px-1 pt-2 pb-1 text-sm font-medium text-primary",
+    },
+});
+
+const badgeColors = sortCx({
+    gray: { pill: "bg-tertiary", icon: "text-fg-quaternary" },
+    brand: { pill: "bg-brand-primary", icon: "text-fg-brand-primary" },
+    error: { pill: "bg-tertiary", icon: "text-fg-error-primary" },
+});
+
 export interface AccordionProps extends Omit<AriaDisclosureGroupProps, "className"> {
     /** @default "md" */
     size?: AccordionSize;
+    /** `divider`: rows split by hairlines. `card`: each item is its own bordered card. `filled`: rounded cards with a tinted header. `badge`: rounded sections with an icon + label pill header. `issue`: tinted error cards with a +/- toggle. `suggestion`: compact brand-tinted block. @default "divider" */
+    variant?: AccordionVariant;
     className?: string;
 }
 
@@ -72,42 +126,55 @@ const useAccordionKeyboardNav = () => {
  * modes via `allowsMultipleExpanded`, and controlled/uncontrolled expansion via
  * `expandedKeys`/`defaultExpandedKeys`/`onExpandedChange`.
  */
-const AccordionRoot = ({ size = "md", className, ...props }: AccordionProps) => {
+const AccordionRoot = ({ size = "md", variant = "divider", className, ...props }: AccordionProps) => {
     const { rootRef, onKeyDown } = useAccordionKeyboardNav();
 
     return (
-        <AccordionSizeContext.Provider value={size}>
-            <div ref={rootRef} onKeyDown={onKeyDown}>
-                <AriaDisclosureGroup {...props} className={cx("flex w-full flex-col", className)} />
+        <AccordionContext.Provider value={{ size, variant }}>
+            {/* `className` sits on this outer element so width utilities (e.g. `max-w-md`) size the whole accordion. */}
+            <div ref={rootRef} onKeyDown={onKeyDown} className={cx("w-full", className)}>
+                <AriaDisclosureGroup {...props} className={cx("flex w-full flex-col", variants[variant].root)} />
             </div>
-        </AccordionSizeContext.Provider>
+        </AccordionContext.Provider>
     );
 };
 
-export interface AccordionItemProps extends AriaDisclosureProps {}
+export interface AccordionItemProps extends AriaDisclosureProps {
+    /** Highlights the item as the current selection (`issue` variant: red border). */
+    isActive?: boolean;
+}
 
 /** A single collapsible section. Nest another `Accordion` inside its `Accordion.Panel` for a sub-accordion. */
-const AccordionItem = ({ className, ...props }: AccordionItemProps) => (
-    <AriaDisclosure
-        {...props}
-        className={(state) =>
-            cx(
-                "group border-b border-secondary last:border-b-0",
-                state.isDisabled && "opacity-50",
-                typeof className === "function" ? className(state) : className,
-            )
-        }
-    />
-);
+const AccordionItem = ({ className, isActive, ...props }: AccordionItemProps) => {
+    const { variant } = useContext(AccordionContext);
+
+    return (
+        <AriaDisclosure
+            {...props}
+            className={(state) =>
+                cx(
+                    "group",
+                    variants[variant].item,
+                    isActive && "border-error",
+                    state.isDisabled && "opacity-50",
+                    typeof className === "function" ? className(state) : className,
+                )
+            }
+        />
+    );
+};
 
 export interface AccordionTriggerProps {
     children?: ReactNode;
     /** Icon rendered before the label. */
     icon?: FC<{ className?: string }>;
+    /** Pill and icon tint for `variant="badge"`; ignored by other variants. @default "gray" */
+    badgeColor?: keyof typeof badgeColors;
 }
 
-const AccordionTrigger = ({ children, icon: Icon }: AccordionTriggerProps) => {
-    const size = useContext(AccordionSizeContext);
+const AccordionTrigger = ({ children, icon: Icon, badgeColor = "gray" }: AccordionTriggerProps) => {
+    const { size, variant } = useContext(AccordionContext);
+    const isBadge = variant === "badge";
 
     return (
         <AriaHeading className="flex">
@@ -116,21 +183,40 @@ const AccordionTrigger = ({ children, icon: Icon }: AccordionTriggerProps) => {
                 data-accordion-trigger
                 className={({ isFocusVisible }) =>
                     cx(
-                        "flex w-full cursor-pointer items-center justify-between rounded-md text-left font-semibold text-secondary outline-focus-ring transition duration-100 ease-linear hover:text-secondary_hover disabled:cursor-not-allowed",
+                        "group/trigger flex w-full cursor-pointer items-center justify-between text-left font-semibold outline-focus-ring transition duration-100 ease-linear disabled:cursor-not-allowed",
                         sizes[size].trigger,
                         isFocusVisible && "outline-2 outline-offset-2",
+                        variants[variant].trigger,
                     )
                 }
             >
-                <span className="flex min-w-0 flex-1 items-center gap-2">
-                    {isReactComponent(Icon) && <Icon aria-hidden="true" data-icon className="size-5 shrink-0 text-fg-quaternary" />}
-                    <span className="truncate">{children}</span>
-                </span>
+                {isBadge ? (
+                    <span className={cx("flex min-w-0 items-center gap-1 rounded-full py-1.5 pr-2.25 pl-1.5", badgeColors[badgeColor].pill)}>
+                        {isReactComponent(Icon) && <Icon aria-hidden="true" data-icon className={cx("size-4.5 shrink-0", badgeColors[badgeColor].icon)} />}
+                        <span className="truncate tracking-[0.98px] text-primary uppercase">{children}</span>
+                    </span>
+                ) : (
+                    <span className="flex min-w-0 flex-1 items-center gap-2">
+                        {isReactComponent(Icon) && <Icon aria-hidden="true" data-icon className="size-5 shrink-0 text-fg-quaternary" />}
+                        <span className={cx(variant !== "issue" && "truncate")}>{children}</span>
+                    </span>
+                )}
 
-                <ChevronDown
-                    aria-hidden="true"
-                    className="size-5 shrink-0 text-fg-quaternary transition-transform duration-200 ease-in-out group-data-expanded:rotate-180"
-                />
+                {variant === "issue" ? (
+                    <>
+                        <Plus aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-fg-primary group-aria-expanded/trigger:hidden" />
+                        <Minus aria-hidden="true" className="mt-0.5 hidden size-4 shrink-0 text-fg-primary group-aria-expanded/trigger:block" />
+                    </>
+                ) : (
+                    <ChevronDown
+                        aria-hidden="true"
+                        className={cx(
+                            "shrink-0 text-fg-quaternary transition-transform duration-200 ease-in-out group-aria-expanded/trigger:rotate-180",
+                            isBadge ? "size-4.5" : "size-5",
+                            variant === "suggestion" && "size-4 text-fg-primary",
+                        )}
+                    />
+                )}
             </AriaButton>
         </AriaHeading>
     );
@@ -149,17 +235,20 @@ export interface AccordionPanelProps extends Omit<AriaDisclosurePanelProps, "cla
  * panel taller rather than scrolling internally (the height settles back to `auto` after opening).
  */
 const AccordionPanel = ({ className, children, ...props }: AccordionPanelProps) => {
-    const size = useContext(AccordionSizeContext);
+    const { size, variant } = useContext(AccordionContext);
+    // This item's own state; a `group-*` variant would also match an expanded ancestor item when nested.
+    const isExpanded = useContext(AriaDisclosureStateContext)?.isExpanded;
 
     return (
         <AriaDisclosurePanel
             {...props}
             className={cx(
-                "h-[var(--disclosure-panel-height)] overflow-hidden opacity-0 transition-[height,opacity] duration-300 ease-in-out group-data-expanded:opacity-100 motion-reduce:transition-none",
+                "h-[var(--disclosure-panel-height)] overflow-hidden opacity-0 transition-[height,opacity] duration-300 ease-in-out motion-reduce:transition-none",
+                isExpanded && "opacity-100",
                 className,
             )}
         >
-            <div className={cx("text-tertiary", sizes[size].panel)}>{children}</div>
+            <div className={cx("text-tertiary", sizes[size].panel, variants[variant].panel)}>{children}</div>
         </AriaDisclosurePanel>
     );
 };

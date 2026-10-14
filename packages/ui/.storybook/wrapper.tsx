@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import localFont from "next/font/local";
 
-// Self-hosted (OFL, latin subset) rather than next/font/google: a Google Fonts fetch at build/dev
+// Self-hosted (OFL) rather than next/font/google: a Google Fonts fetch at build/dev
 // time stalls or fails where outbound requests from Node are blocked, and this keeps Storybook
 // deterministic offline. Same files as apps/docs/app/fonts.
-const inter = localFont({
-    src: "./fonts/inter-latin-variable.woff2",
+const geist = localFont({
+    src: "./fonts/geist-variable.ttf",
     weight: "100 900",
     display: "swap",
-    variable: "--font-inter",
+    variable: "--font-geist",
 });
 
 // Backs the `--font-handwritten` token (styles/theme.css) used only by
@@ -26,7 +26,7 @@ const Wrapper = (Story: any) => {
     // Expose the font variables on <html> too, so the body font and portalled overlays (menus,
     // modals, tooltips) resolve them, not just content inside the story wrapper below.
     useEffect(() => {
-        document.documentElement.classList.add(inter.variable, kalam.variable);
+        document.documentElement.classList.add(geist.variable, kalam.variable);
     }, []);
 
     useEffect(() => {
@@ -68,7 +68,7 @@ const Wrapper = (Story: any) => {
     }, []);
 
     return (
-        <div className={`${inter.variable} ${kalam.variable}`}>
+        <div className={`${geist.variable} ${kalam.variable}`}>
             <Story />
         </div>
     );

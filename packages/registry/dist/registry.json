@@ -1,6 +1,6 @@
 {
   "version": "2.3.2",
-  "generatedAt": "library@2.3.2+components:147+tokens:269+icons:1179",
+  "generatedAt": "library@2.3.2+components:147+tokens:270+icons:1179",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -23,6 +23,21 @@
           ],
           "required": false,
           "default": "md"
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "divider",
+            "card",
+            "filled",
+            "badge",
+            "issue",
+            "suggestion"
+          ],
+          "required": false,
+          "default": "divider",
+          "description": "`divider`: rows split by hairlines. `card`: each item is its own bordered card. `filled`: rounded cards with a tinted header. `badge`: rounded sections with an icon + label pill header. `issue`: tinted error cards with a +/- toggle. `suggestion`: compact brand-tinted block."
         },
         {
           "name": "className",
@@ -210,10 +225,10 @@
           "name": "color",
           "type": "enum",
           "enumValues": [
+            "error",
             "info",
             "success",
-            "warning",
-            "error"
+            "warning"
           ],
           "required": false,
           "default": "info",
@@ -4347,7 +4362,7 @@
       "importName": "Modal",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/modals/modal",
       "category": "application",
-      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 480 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer.",
+      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer.",
       "props": [
         {
           "name": "size",
@@ -4362,7 +4377,7 @@
           ],
           "required": false,
           "default": "md",
-          "description": "Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 480, lg 600, xl 720,\n2xl 960px, full = the whole overlay). On mobile the panel always spans the full available width."
+          "description": "Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 456, lg 600, xl 720,\n2xl 960px, full = the whole overlay). On mobile the panel always spans the full available width."
         }
       ],
       "slots": [],
@@ -5525,11 +5540,11 @@
           "name": "color",
           "type": "enum",
           "enumValues": [
-            "success",
-            "warning",
-            "error",
             "gray",
-            "brand"
+            "brand",
+            "error",
+            "success",
+            "warning"
           ],
           "required": false,
           "default": "brand"
@@ -5612,11 +5627,11 @@
           "name": "color",
           "type": "enum",
           "enumValues": [
-            "success",
-            "warning",
-            "error",
             "gray",
             "brand",
+            "error",
+            "success",
+            "warning",
             "slate",
             "sky",
             "blue",
@@ -6123,9 +6138,9 @@
           "name": "theme",
           "type": "enum",
           "enumValues": [
-            "color",
             "gray",
-            "brand"
+            "brand",
+            "color"
           ],
           "required": false,
           "default": "brand"
@@ -6845,11 +6860,11 @@
           "name": "badgeColor",
           "type": "enum",
           "enumValues": [
-            "success",
-            "warning",
-            "error",
             "gray",
             "brand",
+            "error",
+            "success",
+            "warning",
             "slate",
             "sky",
             "blue",
@@ -9790,11 +9805,11 @@
           "name": "color",
           "type": "enum",
           "enumValues": [
-            "success",
-            "warning",
-            "error",
             "gray",
-            "brand"
+            "brand",
+            "error",
+            "success",
+            "warning"
           ],
           "required": true
         },
@@ -10847,7 +10862,7 @@
       {
         "cssVar": "--color-border-secondary",
         "className": "border-secondary",
-        "value": "var(--color-neutral-200)",
+        "value": "rgb(234 237 239)",
         "darkValue": "var(--color-neutral-800)",
         "usage": "Medium contrast borders. This is the most commonly used border color and is the default for most components (e.g. file uploaders), cards (such as tables), and content dividers."
       },
@@ -11261,7 +11276,8 @@
       {
         "cssVar": "--color-focus-ring",
         "className": "focus-ring",
-        "value": "var(--color-brand-500)",
+        "value": "var(--color-brand-600)",
+        "darkValue": "var(--color-brand-500)",
         "usage": "Component Colors token."
       },
       {
@@ -11384,13 +11400,14 @@
       {
         "cssVar": "--color-text-placeholder",
         "className": "text-placeholder",
-        "value": "var(--color-neutral-500)",
+        "value": "rgb(113 118 128)",
+        "darkValue": "var(--color-neutral-500)",
         "usage": "Default color for placeholder text such as input field placeholders. This can be changed to gray-400, but gray-500 is more accessible because it is higher contrast."
       },
       {
         "cssVar": "--color-text-primary",
         "className": "text-primary",
-        "value": "var(--color-neutral-900)",
+        "value": "rgb(16 36 79)",
         "darkValue": "var(--color-neutral-50)",
         "usage": "Primary text such as page headings."
       },
@@ -11404,7 +11421,7 @@
       {
         "cssVar": "--color-text-quaternary",
         "className": "text-quaternary",
-        "value": "var(--color-neutral-500)",
+        "value": "rgb(113 118 128)",
         "darkValue": "var(--color-neutral-400)",
         "usage": "Quaternary text for more subtle and lower-contrast text, such as footer column headings."
       },
@@ -11418,7 +11435,7 @@
       {
         "cssVar": "--color-text-secondary",
         "className": "text-secondary",
-        "value": "var(--color-neutral-700)",
+        "value": "rgb(63 78 114)",
         "darkValue": "var(--color-neutral-300)",
         "usage": "Secondary text such as labels and section headings."
       },
@@ -11446,7 +11463,7 @@
       {
         "cssVar": "--color-text-tertiary",
         "className": "text-tertiary",
-        "value": "var(--color-neutral-600)",
+        "value": "rgb(83 88 98)",
         "darkValue": "var(--color-neutral-400)",
         "usage": "Tertiary text such as supporting text and paragraph text."
       },
@@ -11490,6 +11507,13 @@
         "className": "toggle-slim-border_pressed-hover",
         "value": "var(--color-bg-brand-solid_hover)",
         "darkValue": "var(--color-transparent)",
+        "usage": "Component Colors token."
+      },
+      {
+        "cssVar": "--color-tooltip-bg",
+        "className": "tooltip-bg",
+        "value": "rgb(16 20 25)",
+        "darkValue": "var(--color-bg-primary-solid)",
         "usage": "Component Colors token."
       },
       {
@@ -12459,8 +12483,8 @@
       "^(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
       "^(hover|focus|focus-visible|active|disabled|dark):(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
       "^(outline-brand|outline-brand-solid|outline-brand-solid_hover|outline-brand_alt|outline-error|outline-error_subtle|outline-primary|outline-secondary|outline-secondary_alt|outline-tertiary|ring-brand|ring-brand-solid|ring-brand-solid_hover|ring-brand_alt|ring-error|ring-error_subtle|ring-primary|ring-secondary|ring-secondary_alt|ring-tertiary)$",
-      "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
-      "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
+      "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-bg|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
+      "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-bg|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
       "^-?(m|p)[trblxy]?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",
       "^m[trblxy]?-auto$",
       "^gap(-x|-y)?-(0|px|0\\.5|1|1\\.5|2|2\\.5|3|3\\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$",
@@ -21708,7 +21732,7 @@
       "The package ships TypeScript source, and that source resolves its own internals through the \"@/\" alias. Map that alias to the installed package in the consuming app: tsconfig \"paths\": { \"@/*\": [\"./node_modules/@your-job-search-genius/odyssey-ui/*\"] } plus the equivalent bundler alias (Next.js: also add \"@your-job-search-genius/odyssey-ui\" to transpilePackages). Keep the app's own source on a different alias so the two never collide.",
       "Vite apps additionally need optimizeDeps configured, because the package's TS source lives in node_modules where Vite's dependency scanner does not look: set optimizeDeps: { exclude: [\"@your-job-search-genius/odyssey-ui\"], include: [\"react-aria-components\", \"react-aria\", \"react-stately\", \"@internationalized/date\"] } in vite.config. Without this, Vite serves react-aria's ESM files unbundled and their imports of CJS-only deps fail in the browser with errors like \"The requested module '/node_modules/use-sync-external-store/shim/index.js' does not provide an export named 'useSyncExternalStore'\". Prefix those entries with the package (\"@your-job-search-genius/odyssey-ui > react-aria-components\") when the app does not depend on them directly.",
       "Vite apps that already use \"@/\" for their own src/ must resolve \"@/\" per importer instead of with resolve.alias (Vite applies aliases before plugins, so an alias would send the package's own \"@/\" imports to src/). Add an enforce:\"pre\" plugin: const odysseyRoot = fs.realpathSync(path.dirname(require.resolve(\"@your-job-search-genius/odyssey-ui/package.json\"))); resolveId(source, importer, options) { if (!source.startsWith(\"@/\")) return null; const root = importer?.split(\"?\")[0].startsWith(odysseyRoot) ? odysseyRoot : srcRoot; return this.resolve(`${root}/${source.slice(2)}`, importer, { ...options, skipSelf: true }); }. Also set resolve.dedupe: [\"react\", \"react-dom\"]. The installation docs page has the complete vite.config.",
-      "Fonts: the theme's --font-body / --font-display use var(--font-inter, \"Inter\"), but the package does not ship or load Inter. Load it in the app (Vite/plain HTML: a Google Fonts <link> for Inter 400/500/600/700 in index.html; Next.js: next/font/google Inter with variable \"--font-inter\" on <html>). Without it the UI silently falls back to system fonts.",
+      "Fonts: the theme's --font-body / --font-display use var(--font-geist, \"Geist\"), but the package does not ship or load Geist. Load it in the app (Vite/plain HTML: a Google Fonts <link> for Geist 400/500/600/700 in index.html; Next.js: next/font/google Geist with variable \"--font-geist\" on <html>). Without it the UI silently falls back to system fonts.",
       "Dark mode: the library ships no provider. Toggle the \"dark-mode\" class on <html> (document.documentElement.classList.toggle(\"dark-mode\", isDark)); every token switches automatically and the theme sets CSS color-scheme so native controls follow. To avoid a light flash, apply the class from a small inline script in <head> before first paint (read a stored choice, else matchMedia(\"(prefers-color-scheme: dark)\")). Next.js + next-themes: attribute=\"class\" value={{ dark: \"dark-mode\" }}.",
       "App setup providers: mount <Toaster /> (from @your-job-search-genius/odyssey-ui/components/application/alerts/alert) once near the root to show toast() notifications, and wrap the app in react-aria-components' <RouterProvider navigate={...} useHref={...}> so library links (Button href, SidebarLayout items) navigate client-side. RouterProvider and I18nProvider are the only react-aria-components imports validate_jsx accepts."
     ],
@@ -21969,7 +21993,7 @@
         ]
       }
     ],
-    "version": "4.1.0"
+    "version": "4.2.0"
   },
   "guidelines": {
     "preamble": "# Writesea Odyssey UI — Agent Design and Implementation Guidelines\n\nThis document defines the design and implementation policy to supply through the Writesea Odyssey UI MCP. It applies to agents producing UI designs, component implementations, and application integrations. Select rules according to the task, use them before building, and verify the result before completion.\n\n## Policy interpretation\n\n- **Required standards and explicit preferences:** Meet applicable accessibility requirements and honor the user's stated technology and feature preferences. The contrast baseline is WCAG 2.2 AA. Passing this checklist alone does not prove complete WCAG conformance.\n- **Flexible design direction:** Typography, spacing, layout, and motion guidance evaluates readability, relationships, usability, and consistency. Do not enforce example pixel values, universal breakpoints, fixed durations, font choices, or component counts.\n- **Conditional features:** A checklist is not permission to add every feature. Sorting, bulk actions, tabs, modal navigation, persistence, offline mode, push, and background synchronization apply only when the task requires or authorizes them.\n- **User instructions:** An explicit user instruction takes precedence over a default preference. Preserve established project decisions unless the user asks to change them. Identify material conflicts rather than silently claiming compliance.\n- **Deliverable-aware verification:** A design can demonstrate composition and documented behavior. Working semantics, request counts, state transitions, rendering cost, storage, and installation require implementation evidence.\n\n## Writesea Odyssey UI MCP integration\n\nSupply this document as an available policy resource or relevant rule content in the MCP integration. The consuming agent must receive the policy before choosing components or generating code. Merely saving this file does not configure or technically enforce the MCP.\n\nWhen Writesea Odyssey UI component metadata, examples, or documentation are available, inspect and reuse the supported components, tokens, and APIs. Do not invent component names, properties, accessibility guarantees, or tool capabilities. Evaluate the assembled interface against the rules even when each individual component comes from the library.\n\nFor a task, expose the shared baseline and applicable category rules rather than treating the checklist as an instruction to implement unrelated features. Where the MCP supports automated validation, map checks to observable evidence. Do not represent guidance-only or untested behavior as an automated pass.\n\n## Required task workflow\n\n1. Understand the user goal, deliverable, supported environments, existing stack, and relevant Writesea Odyssey UI capabilities. Clarify only unresolved information that materially changes the result.\n2. Classify the components, interactions, data flows, and platform capabilities involved. Select all applicable categories before building.\n3. Always include **Color contrast** and **Screen readers (NVDA)** for every UI task. Include shared accessibility, hierarchy, typography, responsive, spacing, and feedback rules wherever applicable.\n4. Record intended structure, states, content, responsive behavior, state ownership, and any applicable cache or motion policy before implementation.\n5. Build with the relevant checklists in view. Reuse suitable existing conventions; preserve the explicit defaults below.\n6. Verify the delivered result against selected rule identifiers. Fix applicable failures and repeat affected checks.\n7. Report completion only with accurate verification coverage. Unverified requirements remain unverified; do not silently turn them into Pass or Not applicable.\n\n## Explicit defaults\n\n- **State management:** Use an external state-management library. If no alternative is specified, default to Redux Toolkit, with React-Redux integration where applicable. This is a product preference rather than a universal claim that all applications require Redux.\n- **Server data:** Use RTK Query with the Redux default where suitable. If TanStack Query is explicitly selected, it can own server-data queries and caching. Do not maintain competing query systems or duplicate authoritative data for the same flow.\n- **API transport:** Prefer Axios where suitable; reuse an existing appropriate transport rather than installing a redundant client. Axios and query libraries have different responsibilities.\n- **Rendering:** Prevent unnecessary renders. Preserve all required UI updates; never promise zero re-renders.\n- **Caching:** Reuse data only where useful and permitted by freshness and lifecycle requirements. No universal cache lifetime or blanket persistence.\n- **PWA:** Offline mode and PWA-specific caching are **off by default**. Enable offline content, service-worker response caches, precaching, offline persistence, queued writes, and background synchronization only when the user explicitly requests or specifies them. A request to build a PWA alone does not authorize those features. This does not automatically disable ordinary HTTP caching or an intentionally configured in-memory query cache.\n\n## Task-to-rule routing\n\nThese examples identify common combinations, not an exhaustive list. Add categories whenever the actual task introduces the corresponding behavior.\n\n| Task | Categories to select in addition to applicable shared rules |\n| --- | --- |\n| Login page | Forms; Login; Buttons and actions; API/state/cache rules for a working implementation |\n| Input form | Forms; Buttons and actions; Feedback and recovery |\n| Dialog, drawer, or sheet | Overlays; Forms if collecting data; Portal integration if rendering outside its ordinary container |\n| Record table | Data tables; Buttons and actions for row actions; Status filters for filtered views |\n| Header, sidebar, or mobile menu | Navigation and menus; Buttons and actions; Overlays if modal |\n| Related content panels | Tabs and related views; Forms if panels contain form sections |\n| All / Active / Archived records | Status filters and content switching; Data tables if tabular; API/cache rules if remotely loaded |\n| Animation or transition | Animation and motion; related component category; reduced-motion and applicable automatic-motion checks |\n| Stateful implementation | State management and code organization; Rendering performance; Caching where relevant |\n| API-backed screen | API requests and integration; Caching and server data; State management; Rendering performance |\n| PWA | Progressive web apps; Navigation; relevant implementation categories; offline/cache checks only when explicitly enabled |\n| Any UI task | Color contrast; Screen readers (NVDA) — always, in addition to the rows above |\n\n## Verification and completion record\n\nFor each applicable rule, record one result:\n\n- **Pass:** Evidence demonstrates the requirement or intended outcome.\n- **Fail:** The result conflicts with an applicable requirement or the guideline's usability objective. Fix it and recheck.\n- **Not applicable:** The behavior does not apply to this task; record why. Optional features that were not requested are not failures.\n- **Not verified:** Evidence is unavailable or the deliverable cannot demonstrate the behavior; record the limitation and remaining check.\n\nUse a compact record such as:\n\n| Rule ID | Applicability / context | Result | Evidence or reason | Remaining action |\n| --- | --- | --- | --- | --- |\n\nRecord the selected categories, explicit feature settings, and relevant environment coverage. Use real measurements where required, including contrast, network behavior, and rendering performance. Distinguish design review from implemented behavior. An installed dependency, a component name, or a screenshot alone is not verification.\n\nApplicable hard requirements must not be reported as satisfied while they fail. Where verification is unavailable, provide an accurate limitation instead of an unconditional completion claim. Do not impose an approval step for routine reversible work already authorized by the user.\n\n## Category index\n\n| Category | Applies when | Current coverage |\n| --- | --- | --- |\n| Forms | Collecting input for a user action | Core structure and interaction checklist |\n| Login | Authenticating an existing user | Login-specific checklist |\n| Responsive design | UI must adapt to viewport size, available height, zoom, and input methods | Detailed behavior-based checklist below |\n| Accessibility | Interactive UI or readable content | Shared baseline checks |\n| Color contrast | Every UI task; all applicable content, controls, themes, and states | Mandatory WCAG 2.2 AA baseline checks below |\n| Screen readers (NVDA) | Every UI task; all interactive and informative content | Mandatory NVDA browse/focus-mode checklist below |\n| Visual hierarchy and consistency | UI layout and presentation | Shared baseline checks |\n| Typography and content | Every UI containing text: titles, headings, subtitles, labels, body, actions, data, and feedback | Role map and behavior-based checklist below |\n| Animation and motion | Any proposed animation, transition, gesture feedback, or moving/auto-updating content | Purpose, behavior, accessibility, and verification guidance below |\n| State management and code organization | Implementing stateful application behavior | User policy: external library, Redux default; ownership and segregation checks below |\n| Rendering performance | State subscriptions, frequent updates, and expensive rendering | Prevent unnecessary work while preserving correct UI updates |\n| Caching and server data | Fetching, reusing, refreshing, or persisting data | Conditional ownership, freshness, and invalidation checklist below |\n| API requests and integration | Implementing reads, writes, API transport, query hooks, and server-data flows | Separate responsibilities, request lifecycle, and verification checklist below |\n| Progressive web apps (PWA) | Installable web experience, service workers, offline behavior, persistent data, and updates | Capability-based lifecycle and verification checklist below |\n| Spacing and layout | Arranging containers, controls, content, or sections | Relationship-based guidance without prescribed values |\n| Overlays: modals and drawers | Temporary dialogs, side panels, or sheets | Behavior-based checklist below |\n| Portal integration | Content rendered outside its ordinary DOM container | Conditional implementation checks below |\n| Data tables | Reading, comparing, finding, or acting on structured records | Behavior-based checklist below |\n| Buttons and actions | Triggering an operation, submitting data, toggling state, or choosing an action | Behavior-based checklist below |\n| Navigation and menus | Moving among destinations, finding location, or switching related views | Behavior-based checklist below |\n| Tabs and related views | Switching among related content panels | Behavior-based checklist below |\n| Status filters and content switching | Narrowing one dataset or changing its presentation | Conditional checklist below |\n| Feedback and recovery | An action can take time, succeed, or fail | Shared baseline checks |\n\n## References for form structure and accessibility\n\n- [MDN: Your first form](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Your_first_form)\n- [W3C WAI: Forms tutorial](https://www.w3.org/WAI/tutorials/forms/)",

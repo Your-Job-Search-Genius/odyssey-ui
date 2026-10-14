@@ -90,7 +90,7 @@ const FooterRow = ({ item }: { item: SidebarFooterItem }) => {
     if (item.menu?.length) {
         return (
             <Dropdown.Root>
-                <Tooltip title={item.label} placement="right" isDisabled={!isCollapsed}>
+                <Tooltip title={item.label} placement="right" arrow isDisabled={!isCollapsed}>
                     <AriaButton className={className}>
                         <RowInner item={item} />
                     </AriaButton>
@@ -101,7 +101,7 @@ const FooterRow = ({ item }: { item: SidebarFooterItem }) => {
     }
 
     return (
-        <Tooltip title={item.label} placement="right" isDisabled={!isCollapsed}>
+        <Tooltip title={item.label} placement="right" arrow isDisabled={!isCollapsed}>
             {item.href ? (
                 <AriaLink href={item.href} className={className}>
                     <RowInner item={item} />

@@ -6,16 +6,16 @@ import { ThemeClassSync } from "~/lib/theme-class-sync";
 import "./global.css";
 
 // Same font-loading setup as .storybook/wrapper.tsx, exposed as the
-// `--font-inter` CSS variable that styles/theme.css already expects. Self-hosted (OFL, latin
-// subset) instead of next/font/google so the build never depends on reaching Google Fonts.
-const inter = localFont({
-    src: "./fonts/inter-latin-variable.woff2",
+// `--font-geist` CSS variable that styles/theme.css already expects. Self-hosted (OFL)
+// instead of next/font/google so the build never depends on reaching Google Fonts.
+const geist = localFont({
+    src: "./fonts/geist-variable.ttf",
     weight: "100 900",
-    variable: "--font-inter",
+    variable: "--font-geist",
 });
 
 // Backs the `--font-handwritten` token (styles/theme.css) used only by
-// FlowCanvas's "sketchy" edge style. Same loading pattern as Inter above.
+// FlowCanvas's "sketchy" edge style. Same loading pattern as Geist above.
 const kalam = localFont({
     src: [
         { path: "./fonts/kalam-latin-400.woff2", weight: "400" },
@@ -25,13 +25,13 @@ const kalam = localFont({
 });
 
 // Docs-chrome fonts for the "Spatial Layers" theme (app/spatial.css). Library previews keep
-// Inter via --font-inter. Self-hosted for the same reason as Inter.
+// Geist via --font-geist. Self-hosted for the same reason as Geist.
 const nunitoSans = localFont({ src: "./fonts/nunito-sans-latin-variable.woff2", weight: "200 1000", variable: "--font-docs" });
 const jetbrainsMono = localFont({ src: "./fonts/jetbrains-mono-latin-variable.woff2", weight: "100 800", variable: "--font-docs-mono" });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang="en" className={`${inter.variable} ${kalam.variable} ${nunitoSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+        <html lang="en" className={`${geist.variable} ${kalam.variable} ${nunitoSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
             <head>
                 {/* Sets .light-mode/.dark-mode on <html> before hydration so the
                     library's semantic color tokens (text-primary, bg-secondary, ...)
