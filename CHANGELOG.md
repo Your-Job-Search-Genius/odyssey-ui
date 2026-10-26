@@ -3,6 +3,12 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 2.4.1
+
+### Fixes
+
+- **`Modal` scrollbar stays inside the panel.** `ModalBody` is now the scroll region, so the header and footer stay pinned and the scrollbar no longer runs along the panel's rounded outer edge. `Modal` clips with `overflow-hidden` instead of adding a second scroll container on phones.
+
 ## odyssey-ui 2.4.0 · ds-registry 0.5.0 · ds-mcp 0.5.0
 
 Foundations, `Button`, `Modal`, `Accordion` and `Tooltip` now follow the YJSG client app's design. Behaviour changes are listed first.

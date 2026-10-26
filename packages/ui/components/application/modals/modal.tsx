@@ -61,7 +61,7 @@ export const Modal = ({ size = "md", ...props }: ModalProps) => (
         {...props}
         className={(state) =>
             cx(
-                "w-full rounded-2xl bg-primary align-middle shadow-lg outline-hidden max-sm:overflow-y-auto",
+                "w-full overflow-hidden rounded-2xl bg-primary align-middle shadow-lg outline-hidden",
                 modalSizes[size],
                 // Max height based on parent's vertical padding
                 "max-h-[calc(var(--visual-viewport-height)-var(--modal-pt)-var(--modal-pb))]",
@@ -153,7 +153,7 @@ export const ModalHeader = ({
 
 /** Scrollable body region for a `Modal`/`Dialog` pair. Sits between `ModalHeader` and `ModalFooter`. */
 export const ModalBody = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
-    <div {...props} className={cx("flex flex-col gap-4 px-6 py-4 text-sm text-tertiary", className)} />
+    <div {...props} className={cx("flex min-h-0 flex-col gap-4 overflow-y-auto px-6 py-4 text-sm text-tertiary", className)} />
 );
 
 /** Action row for a `Modal`/`Dialog` pair. Right-aligned, content-width buttons; wraps when they don't fit. */
