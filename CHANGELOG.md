@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **`Tooltip` no longer flashes when Tab leaves a table.** React Aria collections (`Table`, `GridList`, `ListBox`, ...) are one tab stop: on Tab they move focus to their last tabbable element and let the browser's Tab carry on from there. A tooltip trigger in the last row (e.g. a `ButtonUtility` copy icon) got that focus for an instant, so its tooltip opened and faded out as focus moved on. `Tooltip` now skips an open that happens while a Tab keydown is still being dispatched and hasn't had its default prevented. A normal Tab, arrow-key focus, hover and focus traps (dialogs, which prevent the default) still open tooltips.
 
 ## odyssey-ui 2.4.1
 
