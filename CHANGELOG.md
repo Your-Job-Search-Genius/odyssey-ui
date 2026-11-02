@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **A focused toast gives focus back when it closes.** When a toast that held keyboard focus closed (Dismiss pressed, timed out, swiped or `toast.dismiss()`), its button left the page and focus fell to `<body>`, so keyboard and screen-reader users lost their place (WCAG 2.4.3). The toast now remembers where focus was before it entered the toast (the user tabbing in, or `autoFocus`) and moves focus back there as it starts to close. Toasts that never had focus are unaffected.
 
 ## odyssey-ui 2.4.1
 
