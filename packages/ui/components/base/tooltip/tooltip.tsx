@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { type ReactNode, useRef } from "react";
+import { useControlledState } from "@react-stately/utils";
 import type {
     ButtonProps as AriaButtonProps,
     TooltipProps as AriaTooltipProps,
@@ -8,6 +9,15 @@ import type {
 } from "react-aria-components";
 import { Button as AriaButton, OverlayArrow as AriaOverlayArrow, Tooltip as AriaTooltip, TooltipTrigger as AriaTooltipTrigger } from "react-aria-components";
 import { cx } from "@/utils/cx";
+
+/**
+ * React Aria closes a tooltip when any scrollable parent of its trigger scrolls. Tabbing to a trigger outside the
+ * visible area opens the tooltip on focus, and then the browser scrolls the trigger into view, so keyboard users
+ * lost the tooltip straight away (WCAG 1.4.13). A close that comes from a scroll event within this many ms of a
+ * keyboard-focus open is that scroll, and is ignored. Later scrolls still close the tooltip, because React Aria
+ * doesn't reposition it when a parent scrolls.
+ */
+const FOCUS_SCROLL_GRACE_MS = 100;
 
 interface TooltipProps extends AriaTooltipTriggerComponentProps, Omit<AriaTooltipProps, "children"> {
     /**
@@ -54,8 +64,19 @@ export const Tooltip = ({
     // Set negative cross offset for left and right placement to visually balance the tooltip.
     const calculatedCrossOffset = isTopOrBottomLeft ? -12 : isTopOrBottomRight ? 12 : 0;
 
+    const [open, setOpen] = useControlledState(isOpen, defaultOpen ?? false, onOpenChange);
+    const focusOpenedAt = useRef<number | null>(null);
+    const handleOpenChange = (next: boolean) => {
+        if (next) {
+            focusOpenedAt.current = document.activeElement?.matches(":focus-visible") ? performance.now() : null;
+        } else if (focusOpenedAt.current !== null && window.event?.type === "scroll" && performance.now() - focusOpenedAt.current < FOCUS_SCROLL_GRACE_MS) {
+            return;
+        }
+        setOpen(next);
+    };
+
     return (
-        <AriaTooltipTrigger {...{ trigger, delay, closeDelay, isDisabled, isOpen, defaultOpen, onOpenChange }}>
+        <AriaTooltipTrigger {...{ trigger, delay, closeDelay, isDisabled }} isOpen={open} onOpenChange={handleOpenChange}>
             {children}
 
             <AriaTooltip
