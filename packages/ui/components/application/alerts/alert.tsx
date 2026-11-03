@@ -302,6 +302,10 @@ export const Toaster = ({ position = "bottom-right" }: ToasterProps) => {
             className={cx("pointer-events-none fixed z-[100] flex max-h-dvh w-full max-w-sm flex-col gap-3 overflow-hidden p-4 sm:p-6", positions[position])}
             aria-live="polite"
             aria-atomic="false"
+            // An open Modal makes everything outside it inert. Without this the live region is inert when a
+            // toast fires from a dialog (e.g. a confirm) and comes back in the same update as the toast, so
+            // screen readers never announce it. React Aria leaves top-layer nodes exposed under a modal.
+            data-react-aria-top-layer=""
         >
             <AnimatePresence mode="popLayout">
                 {items.map((item) => (
