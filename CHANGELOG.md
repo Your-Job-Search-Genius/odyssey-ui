@@ -7,6 +7,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ### Fixes
 
+- **Escape on a chart inside a `Modal` closes the modal.** Every chart's marks handled Escape and then stopped it, so it never reached the enclosing dialog. The blur that Escape does sent focus to `<body>`, the dialog's focus trap put it straight back on the mark, and the tooltip reopened. Keyboard users could neither close the dialog nor dismiss the tooltip with Escape. `useChartFocus` still closes the tooltip and drops focus on Escape, then lets the key bubble, so a `Modal` around the chart (or any overlay that closes on Escape) closes with it. Outside an overlay nothing changes. Covers every chart (`LineChart`, `BarChart`, `PieChart` and the rest). Jira: ACMS-4095.
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
 
 ## odyssey-ui 2.4.1
