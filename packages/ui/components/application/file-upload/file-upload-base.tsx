@@ -219,18 +219,28 @@ export const FileUploadDropZone = ({
                         // The visible button below opens the picker; keep a single tab stop.
                         tabIndex={-1}
                         aria-invalid={isInvalid || undefined}
-                        aria-describedby={`${id}-hint`}
+                        aria-describedby={`${id}-drop ${id}-hint`}
                         disabled={isDisabled}
                         accept={accept}
                         multiple={allowsMultiple}
                         onChange={handleInputFileChange}
                     />
                     <label htmlFor={id} className="flex cursor-pointer">
-                        <Button color="link-color" size="md" isDisabled={isDisabled} aria-describedby={`${id}-hint`} onClick={() => inputRef.current?.click()}>
+                        <Button
+                            color="link-color"
+                            size="md"
+                            isDisabled={isDisabled}
+                            aria-describedby={`${id}-drop ${id}-hint`}
+                            onClick={() => inputRef.current?.click()}
+                        >
                             Click to upload <span className="md:hidden">and attach files</span>
                         </Button>
                     </label>
-                    <span className="text-sm max-md:hidden">or drag and drop</span>
+                    {/* Part of the button's description so screen readers hear that files can also be dropped here.
+                        Kept when visually hidden below md: dropping still works at narrow widths (e.g. 400% zoom). */}
+                    <span id={`${id}-drop`} className="text-sm max-md:hidden">
+                        or drag and drop
+                    </span>
                 </div>
                 {/* Remounts as an alert when files are rejected so the hint is announced, not just recolored. */}
                 <p

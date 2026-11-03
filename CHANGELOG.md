@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **`FileUpload.DropZone` tells screen readers that files can be dragged in.** The visible "or drag and drop" text sat beside the "Click to upload" button, outside its name and description, so NVDA read "Click to upload, button" and the hint but never mentioned dropping. The button (and the hidden file input) now list that text in `aria-describedby` ahead of the hint, so focusing the button announces "Click to upload, button, or drag and drop, <hint>". Below `md` the text is visually hidden but stays in the description, because dropping still works there (e.g. at 400% zoom). No visual change.
 
 ## odyssey-ui 2.4.1
 
