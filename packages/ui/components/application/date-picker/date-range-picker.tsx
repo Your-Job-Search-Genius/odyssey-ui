@@ -99,8 +99,6 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
             focusedValue={focusedValue}
             onFocusChange={setFocusedValue}
             highlightedDates={highlightedDates}
-            // The sheet has no presets column, so show the calendar's own preset links there.
-            showPresetsOnDesktop={isSheet}
             presets={{
                 lastWeek: presets.lastWeek,
                 lastMonth: presets.lastMonth,
