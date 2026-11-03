@@ -9,12 +9,18 @@ interface PopoverProps extends AriaPopoverProps, RefAttributes<HTMLElement> {
     size: "sm" | "md" | "lg";
 }
 
+// Height caps (14rem / 16rem / 20rem) go to React Aria as `maxHeight`. A CSS max-height (it had to be
+// !important to beat React Aria's inline style) stopped React Aria shrinking the list to the space left
+// in the viewport, so at 200% zoom the bottom options ran off-screen.
+const maxHeights = { sm: 224, md: 256, lg: 320 };
+
 export const Popover = (props: PopoverProps) => {
     return (
         <AriaPopover
             placement="bottom"
             containerPadding={0}
             offset={4}
+            maxHeight={maxHeights[props.size]}
             {...props}
             className={(state) =>
                 cx(
@@ -24,10 +30,6 @@ export const Popover = (props: PopoverProps) => {
                         "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                     state.isExiting &&
                         "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
-
-                    props.size === "sm" && "max-h-56!",
-                    props.size === "md" && "max-h-64!",
-                    props.size === "lg" && "max-h-80!",
 
                     typeof props.className === "function" ? props.className(state) : props.className,
                 )

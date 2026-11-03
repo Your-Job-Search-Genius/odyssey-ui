@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **`Select` list fits in the window at high zoom.** The list's height cap (`max-h-56!` / `max-h-64!` / `max-h-80!`) was an `!important` CSS rule, which beat the smaller max-height React Aria sets to fit the space left in the viewport. At 200% zoom the list stayed 256px tall and its bottom options ran off-screen, out of reach. The cap is now passed to React Aria as `maxHeight` (224 / 256 / 320px), so the list keeps the same cap when there is room and shrinks and scrolls when there isn't. Covers `Select`, `Select.ComboBox` and `TagSelect`, which share this popover.
 
 ## odyssey-ui 2.4.1
 
