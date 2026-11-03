@@ -7,6 +7,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ### Fixes
 
+- **`BottomSheet` content stays reachable in short windows.** At 300-400% zoom or on a landscape phone the drag handle, header and footer took most of the panel's 85dvh height, so `BottomSheet.Content` (the only part that scrolled) shrank to a sliver and the footer was cut off. Below 30rem (480px) of window height the whole sheet now scrolls as one instead, so every field and the footer's buttons can be scrolled to (WCAG 1.4.10). Taller windows keep the pinned header and footer. This also covers sheets other components open, such as `DateRangePicker` below md.
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
 
 ## odyssey-ui 2.4.1

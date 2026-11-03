@@ -95,7 +95,10 @@ const DragLayer = ({ close, children }: DragLayerProps) => {
             onDragEnd={(_, info) => {
                 if (info.offset.y > DRAG_DISMISS_OFFSET || info.velocity.y > DRAG_DISMISS_VELOCITY) close();
             }}
-            className="flex max-h-[inherit] w-full flex-col"
+            // Short window (landscape phone, 300-400% zoom): the handle, header and footer would take most of
+            // the 85dvh panel and squeeze `BottomSheet.Content` to nothing, so below 30rem tall the whole sheet
+            // scrolls as one instead and every field and footer button can be reached (WCAG 1.4.10).
+            className="flex max-h-[inherit] w-full flex-col [@media(max-height:30rem)]:overflow-y-auto [@media(max-height:30rem)]:overscroll-contain"
         >
             {!shouldReduceMotion && (
                 <div
@@ -119,6 +122,8 @@ const Content = ({ className, ...props }: BottomSheetContentProps) => (
         className={cx(
             "flex w-full flex-col gap-6 overflow-y-auto overscroll-contain px-4 pb-(--sheet-safe-b) md:px-6",
             "[--sheet-safe-b:max(env(safe-area-inset-bottom),16px)]",
+            // Short window: `DragLayer` scrolls instead (see there), so keep the content's full height.
+            "[@media(max-height:30rem)]:shrink-0 [@media(max-height:30rem)]:overflow-visible",
             className,
         )}
     />
