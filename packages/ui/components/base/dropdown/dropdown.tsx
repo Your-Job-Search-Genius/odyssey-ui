@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type RefAttributes, useCallback } from "react";
+import { type FC, type FocusEvent, type RefAttributes, useCallback } from "react";
 import type {
     ButtonProps as AriaButtonProps,
     MenuItemProps as AriaMenuItemProps,
@@ -153,14 +153,31 @@ const DropdownItem = ({
 
 interface DropdownMenuProps<T extends object> extends AriaMenuProps<T> {}
 
+/**
+ * React Aria queues focus for the menu itself before its items exist. On a screen-reader (virtual) open that focus waits
+ * for transitions and then wins over the first item's, so NVDA lands on the menu with no option focused (and arrows can't
+ * reach a lone item). Pass it on to the item React Aria marked focused. Mouse opens have no such item, so they keep it.
+ */
+const focusMenuItem = (event: FocusEvent<HTMLDivElement>) => {
+    // Only the menu itself, not a submenu whose focus event bubbles here through its portal.
+    if (event.target.getAttribute("role") !== "menu" || event.target.parentElement !== event.currentTarget) return;
+    event.target.querySelector<HTMLElement>('[role^="menuitem"][tabindex="0"]')?.focus({ preventScroll: true });
+};
+
 const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
     return (
-        <AriaMenu
-            {...props}
-            className={(state) =>
-                cx("h-min overflow-y-auto py-1 outline-hidden select-none", typeof props.className === "function" ? props.className(state) : props.className)
-            }
-        />
+        // `contents`: the wrapper only listens for focus and adds no box.
+        <div className="contents" onFocus={focusMenuItem}>
+            <AriaMenu
+                {...props}
+                className={(state) =>
+                    cx(
+                        "h-min overflow-y-auto py-1 outline-hidden select-none",
+                        typeof props.className === "function" ? props.className(state) : props.className,
+                    )
+                }
+            />
+        </div>
     );
 };
 

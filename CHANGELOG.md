@@ -7,6 +7,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ### Fixes
 
+- **Screen-reader opens of a `Dropdown` focus its first option.** React Aria queues focus for the menu itself before the items exist. On a screen-reader (virtual) click that focus waits for CSS transitions to end and then wins over the first item's, so NVDA landed on the menu with no option focused, and ArrowDown could not reach a menu's only option. `Dropdown.Menu` now passes focus from the menu to the item React Aria marked focused. Keyboard opens are unchanged; mouse opens still focus the menu with no option highlighted. This needs the popovers' `transition-none` fix too: without it the queued focus never runs at all.
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
 
 ## odyssey-ui 2.4.1
