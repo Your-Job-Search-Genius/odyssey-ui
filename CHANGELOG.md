@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **Underline `Tabs.List` border runs under every tab.** The grey bottom border of a horizontal `type="underline"` list was a pseudo-element as wide as the list's box, and the list was only as wide as its container. When the tabs didn't fit (a scrolling tab row at 400% zoom or in a narrow panel), the tabs past the first screenful had no border under them. The list now has `min-w-max`, so it is at least as wide as its tabs and the border spans all of them. Lists whose tabs fit are unchanged.
 
 ## odyssey-ui 2.4.1
 

@@ -127,10 +127,12 @@ export const TabList = <T extends Orientation>({
 
                         orientation === "vertical" && "w-max flex-col",
 
-                        // Only horizontal tabs with underline type have bottom border
+                        // Only horizontal tabs with underline type have bottom border. `min-w-max` keeps the
+                        // list as wide as its tabs, so the border runs under every tab when they overflow
+                        // (e.g. a scrolling tab row at 400% zoom), not just the first screenful.
                         orientation === "horizontal" &&
                             type === "underline" &&
-                            "relative before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-border-secondary",
+                            "relative min-w-max before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-border-secondary",
 
                         typeof className === "function" ? className(state) : className,
                     )
