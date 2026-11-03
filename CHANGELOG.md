@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **`HtmlPreview` with `autoHeight` is no longer an empty tab stop.** A frame sized to its content never scrolls, and the sandbox blocks scripts and forms, so Tab landed on the frame document itself: no visible focus and nothing to operate (reported as "focus moves to a non web UI element" in a job description modal, ACMS-4100). With `autoHeight` the frame now has `tabIndex={-1}`, so Tab skips it; screen readers still read its content. Fixed-height frames are unchanged and stay focusable so keyboard users can scroll them (WCAG 2.1.1).
 
 ## odyssey-ui 2.4.1
 

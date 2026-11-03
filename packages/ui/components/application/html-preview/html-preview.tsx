@@ -22,7 +22,8 @@ export interface HtmlPreviewProps extends Omit<ComponentPropsWithRef<"div">, "ti
     /**
      * Grows the frame to fit its content. Measuring needs same-origin access to the frame, which
      * this turns on (`sandbox="allow-same-origin"`); scripts stay blocked, so only use it for HTML
-     * you trust not to rely on scripts or forms (e.g. your own email templates).
+     * you trust not to rely on scripts or forms (e.g. your own email templates). The frame then has
+     * nothing to scroll, so it is taken out of the Tab order.
      * @default false
      */
     autoHeight?: boolean;
@@ -69,6 +70,11 @@ export const HtmlPreview = ({ html, title, height = "md", autoHeight = false, su
                 sandbox={autoHeight ? "allow-same-origin" : ""}
                 referrerPolicy="no-referrer"
                 loading="lazy"
+                // A sized-to-content frame never scrolls (its scrolling parent does), and the sandbox blocks
+                // scripts, forms, popups and top navigation, so Tab only lands on the frame document itself,
+                // which shows no focus. Keep it out of the Tab order; screen readers still read the content.
+                // A fixed-height frame stays focusable so keyboard users can scroll it.
+                tabIndex={autoHeight ? -1 : undefined}
                 onLoad={(event) => measure(event.currentTarget)}
                 className={cx("block w-full border-0", measuredHeight === null && styles.heights[height])}
                 style={measuredHeight === null ? undefined : { height: measuredHeight }}

@@ -7,7 +7,7 @@ export const componentMeta = {
         "Sandboxed preview of an HTML document or fragment (email templates, provider previews) in an <iframe srcDoc> with every sandbox restriction on: no scripts, forms, popups or navigation, and no CSS leaking either way. The approved replacement for a raw <iframe>.",
     allowedChildren: "none",
     variants: { height: ["sm", "md", "lg"], surface: ["white", "theme"] },
-    a11y: "`title` is required and becomes the frame's accessible name. The frame is a single tab stop; its content is reachable by assistive tech as a separate document.",
+    a11y: "`title` is required and becomes the frame's accessible name. With a fixed height the frame is a single tab stop (so its content can be scrolled by keyboard); with autoHeight it has nothing to scroll and is left out of the Tab order. Either way its content is reachable by assistive tech as a separate document.",
     doNot: [
         "Do not use a raw <iframe> -- use HtmlPreview.",
         "Do not turn on autoHeight for HTML you don't control; it enables same-origin access so the content can be measured.",
