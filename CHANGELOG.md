@@ -8,6 +8,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.
+- **`DateRangePicker` opens in a bottom sheet below `md` and in short windows.** The calendar popover (about 470px tall on desktop, 540px stacked below `md`) only gets the space between its trigger and the window edge. At 200% zoom that was 155 to 260px, so most of the calendar and the Cancel / Apply buttons were cut off inside a tiny scroll box. Below `md`, or when the window is under 36rem (576px) tall, the calendar now opens in `BottomSheet` (size `xl`): it gets up to 85% of the window height, the calendar scrolls and Cancel / Apply stay pinned at the bottom. The sheet shows the calendar's own Last week / Last month / Last year links instead of the presets column. Larger windows keep the popover unchanged.
 
 ## odyssey-ui 2.4.1
 
