@@ -137,10 +137,12 @@ interface BadgeProps<T extends BadgeTypes> {
     color?: BadgeColor<T>;
     children: ReactNode;
     className?: string;
+    /** Wrap long text (job titles, names, other free text) onto more lines instead of overflowing the container. */
+    wrap?: boolean;
 }
 
 export const Badge = <T extends BadgeTypes>(props: BadgeProps<T>) => {
-    const { type = "pill-color", size = "md", color = "gray", children } = props;
+    const { type = "pill-color", size = "md", color = "gray", wrap = false, children } = props;
     const colors = withPillTypes[type];
 
     const pillSizes = {
@@ -160,7 +162,13 @@ export const Badge = <T extends BadgeTypes>(props: BadgeProps<T>) => {
         [badgeTypes.badgeModern]: badgeSizes,
     };
 
-    return <span className={cx(colors.common, sizes[type][size], colors.styles[color].root, props.className)}>{children}</span>;
+    return (
+        <span
+            className={cx(colors.common, sizes[type][size], colors.styles[color].root, wrap && "max-w-full wrap-anywhere whitespace-normal", props.className)}
+        >
+            {children}
+        </span>
+    );
 };
 
 interface BadgeWithDotProps<T extends BadgeTypes> {
