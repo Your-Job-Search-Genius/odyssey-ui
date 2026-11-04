@@ -1,6 +1,7 @@
 "use client";
 
-import { type ComponentPropsWithRef, type FC, type ReactNode, useContext } from "react";
+import { type ComponentPropsWithRef, type FC, type ReactNode, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { mergeRefs } from "@react-aria/utils";
 import type { DialogProps as AriaDialogProps, ModalOverlayProps as AriaModalOverlayProps } from "react-aria-components";
 import {
     Dialog as AriaDialog,
@@ -151,10 +152,58 @@ export const ModalHeader = ({
     );
 };
 
-/** Scrollable body region for a `Modal`/`Dialog` pair. Sits between `ModalHeader` and `ModalFooter`. */
-export const ModalBody = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
-    <div {...props} className={cx("flex min-h-0 flex-col gap-4 overflow-y-auto px-6 py-4 text-sm text-tertiary", className)} />
-);
+/**
+ * Scrollable body region for a `Modal`/`Dialog` pair. Sits between `ModalHeader` and `ModalFooter`.
+ * While its content overflows it becomes a Tab stop (named after the dialog title), so keyboard users
+ * can scroll it with the arrow and Page keys even when nothing inside is focusable (WCAG 2.1.1).
+ */
+export const ModalBody = ({ className, ref, ...props }: ComponentPropsWithRef<"div">) => {
+    const bodyRef = useRef<HTMLDivElement>(null);
+    const mergedRef = useMemo(() => mergeRefs(bodyRef, ref), [ref]);
+    const [tabIndex, setTabIndex] = useState<0 | -1>();
+    const [dialogLabelledBy, setDialogLabelledBy] = useState<string>();
+
+    useEffect(() => {
+        const body = bodyRef.current;
+        if (!body || typeof ResizeObserver === "undefined") return;
+
+        const measure = () => {
+            // -1 when it stops overflowing while focused: removing tabindex would drop focus out of the dialog.
+            setTabIndex(body.scrollHeight > body.clientHeight ? 0 : body.matches(":focus") ? -1 : undefined);
+            // Reuse whatever names the dialog (its title heading), instead of a second, made-up name.
+            setDialogLabelledBy(body.closest("[role=dialog],[role=alertdialog]")?.getAttribute("aria-labelledby") ?? undefined);
+        };
+        // Watch the body (viewport/zoom changes) and each child (content growing, e.g. an auto-height iframe).
+        const resizeObserver = new ResizeObserver(measure);
+        const observeAll = () => {
+            resizeObserver.disconnect();
+            resizeObserver.observe(body);
+            for (const child of body.children) resizeObserver.observe(child);
+        };
+        const mutationObserver = new MutationObserver(observeAll);
+
+        observeAll();
+        mutationObserver.observe(body, { childList: true });
+
+        return () => {
+            resizeObserver.disconnect();
+            mutationObserver.disconnect();
+        };
+    }, []);
+
+    return (
+        <div
+            tabIndex={tabIndex}
+            {...(tabIndex === 0 && { role: dialogLabelledBy && "region", "aria-labelledby": dialogLabelledBy })}
+            {...props}
+            ref={mergedRef}
+            className={cx(
+                "flex min-h-0 flex-col gap-4 overflow-y-auto px-6 py-4 text-sm text-tertiary outline-focus-ring focus:outline-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid",
+                className,
+            )}
+        />
+    );
+};
 
 /** Action row for a `Modal`/`Dialog` pair. Right-aligned, content-width buttons; wraps when they don't fit. */
 export const ModalFooter = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
