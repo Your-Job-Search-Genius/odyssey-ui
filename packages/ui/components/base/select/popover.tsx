@@ -34,7 +34,7 @@ export const Popover = (props: PopoverProps) => {
 
                     typeof props.className === "function" ? props.className(state) : props.className,
 
-                    // Bottom sheet below md; after the size caps so its max-height wins.
+                    // Bottom sheet below md; its !important max-height beats the inline `maxHeight` above.
                     SHEET_POPOVER,
                 )
             }

@@ -5647,6 +5647,12 @@
           "type": "string | undefined",
           "required": false,
           "acceptsClassName": true
+        },
+        {
+          "name": "wrap",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Wrap long text (job titles, names, other free text) onto more lines instead of overflowing the container."
         }
       ],
       "slots": [],
