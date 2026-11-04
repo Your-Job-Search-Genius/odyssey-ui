@@ -19,6 +19,19 @@ import { cx } from "@/utils/cx";
  */
 const FOCUS_SCROLL_GRACE_MS = 100;
 
+/**
+ * React Aria collections (Table, GridList, ListBox, ...) are a single tab stop. On Tab they move focus to their last
+ * tabbable element and let the browser's Tab carry on from there, so a trigger in the last row got focus for an
+ * instant and its tooltip flashed open and shut. That hop happens while the Tab keydown is still being dispatched
+ * (the browser's own Tab moves focus after dispatch) and without preventDefault (a focus trap prevents it), so an
+ * open requested then is skipped: focus is about to move on.
+ */
+let tabKeyDown: KeyboardEvent | null = null;
+if (typeof window !== "undefined") {
+    window.addEventListener("keydown", (event) => event.key === "Tab" && (tabKeyDown = event), true);
+}
+const isFocusPassingThrough = () => !!tabKeyDown && tabKeyDown.eventPhase !== Event.NONE && !tabKeyDown.defaultPrevented;
+
 interface TooltipProps extends AriaTooltipTriggerComponentProps, Omit<AriaTooltipProps, "children"> {
     /**
      * The title of the tooltip.
@@ -68,6 +81,7 @@ export const Tooltip = ({
     const focusOpenedAt = useRef<number | null>(null);
     const handleOpenChange = (next: boolean) => {
         if (next) {
+            if (isFocusPassingThrough()) return;
             focusOpenedAt.current = document.activeElement?.matches(":focus-visible") ? performance.now() : null;
         } else if (focusOpenedAt.current !== null && window.event?.type === "scroll" && performance.now() - focusOpenedAt.current < FOCUS_SCROLL_GRACE_MS) {
             return;
