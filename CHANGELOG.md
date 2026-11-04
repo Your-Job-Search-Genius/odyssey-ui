@@ -5,6 +5,20 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ## Unreleased
 
+Selects, comboboxes, dropdowns, menus, the account switcher, date pickers and the color picker open as a **bottom sheet on mobile** (below the `md` breakpoint) -- which also covers desktop browsers at high zoom (400% on a 1920px screen is a 480px viewport). Desktop is unchanged.
+
+### Behaviour changes
+
+- **Popovers become bottom sheets below `md`**: `Select`, `MultiSelect`, `ComboBox`, `Select.ComboBox`, `TagSelect`, every `Dropdown` (incl. table row actions, breadcrumbs overflow and sidebar footer menus), the header navigation account switcher, `DatePicker`, `DateRangePicker` and `ColorPicker`. The sheet is full width (capped and centered on small tablets), up to 85% of the viewport height, dims the page, and closes on backdrop tap, Escape or choosing an option. It is still React Aria's popover underneath, so focus trapping/restore, naming and keyboard behaviour are unchanged.
+- **Comboboxes on mobile** open a sheet with its own search field at the top (focused on open); tapping the field no longer raises the keyboard on the trigger. Arrow Down moves from the search field into the list, the sheet stays open on zero matches with a "No results" state, and focus returns to the field when it closes.
+- **Dropdown submenus on mobile** open as a second sheet stacked on top, with a **Back** row to return one level; hover no longer opens submenus below `md`. Use the new `Dropdown.SubmenuTrigger` (all built-in dropdown variants do).
+- **`useBreakpoint`** returns `true` (desktop) on the server and the first client render, then the real value -- no more hydration mismatches -- and uses rem breakpoints like Tailwind.
+
+### New
+
+- `utils/sheet-popover.ts` (`SHEET_POPOVER`): append to any React Aria `Popover` className to get the same mobile bottom sheet.
+- `Dropdown.SubmenuTrigger`, `ComboBoxSheetSearch`.
+
 ### Fixes
 
 - **`Tooltip` stays open when Tab scrolls its trigger into view.** React Aria closes a tooltip when a scrollable parent of its trigger scrolls. When Tab focuses a trigger outside the visible area (common at 200% zoom), the tooltip opens on focus and the browser then scrolls the trigger into view, so the tooltip closed straight away. `Tooltip` now ignores that one scroll: a scroll-caused close within 100ms of opening by keyboard focus. Escape, blur, pressing the trigger and later scrolling still close it (WCAG 1.4.13). This also covers `ButtonUtility` and anything else that renders `Tooltip`.

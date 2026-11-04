@@ -10,12 +10,16 @@ import type { ListData } from "react-stately";
 import { Avatar } from "@/components/base/avatar/avatar";
 import type { IconComponentType } from "@/components/base/badges/badge-types";
 import { ComboBoxChevron } from "@/components/base/combobox/combobox-chevron";
+import { ComboBoxEmptyState } from "@/components/base/combobox/combobox-parts";
+import { sheetListBoxProps } from "@/components/base/combobox/combobox-shared";
+import { ComboBoxSheetSearch } from "@/components/base/combobox/combobox-sheet-search";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { Popover } from "@/components/base/select/popover";
 import { SelectContext, type SelectItemType, sizes } from "@/components/base/select/select-shared";
 import { TagCloseX } from "@/components/base/tags/base-components/tag-close-x";
 import { SearchLg } from "@/components/foundations/icons";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { useResizeObserver } from "@/hooks/use-resize-observer";
 import { cx } from "@/utils/cx";
 import { SelectItem } from "./select-item";
@@ -27,6 +31,8 @@ interface TagSelectValueProps extends AriaGroupProps {
     placeholder?: string;
     shortcutClassName?: string;
     icon?: IconComponentType | null;
+    /** Mobile bottom-sheet mode: the trigger only opens the sheet; typing happens in the sheet's search field. */
+    isSheet?: boolean;
     ref?: RefObject<HTMLDivElement | null>;
     onFocus?: FocusEventHandler;
     onPointerEnter?: PointerEventHandler;
@@ -154,6 +160,8 @@ export const TagSelectBase = ({
 
     const placeholderRef = useRef<HTMLDivElement>(null);
     const [popoverWidth, setPopoverWidth] = useState("");
+    // Below md the menu is a bottom sheet with its own search field (see ComboBoxSheetSearch).
+    const isSheet = !useBreakpoint("md");
 
     // Resize observer for popover width
     const onResize = useCallback(() => {
@@ -205,15 +213,31 @@ export const TagSelectBase = ({
                                 ref={placeholderRef}
                                 placeholder={placeholder}
                                 icon={icon}
+                                isSheet={isSheet}
                                 // This is a workaround to correctly calculating the trigger width
                                 // while using ResizeObserver wasn't 100% reliable.
                                 onFocus={onResize}
                                 onPointerEnter={onResize}
                             />
 
-                            <Popover size={size} triggerRef={placeholderRef} style={{ width: popoverWidth }} className={props?.popoverClassName}>
+                            <Popover
+                                size={size}
+                                triggerRef={placeholderRef}
+                                style={{ width: popoverWidth }}
+                                className={props?.popoverClassName}
+                                // Mobile sheet: modal (backdrop, focus trap, no close when the soft keyboard scrolls the page).
+                                isNonModal={isSheet ? false : undefined}
+                                aria-label={isSheet ? (typeof props.label === "string" ? props.label : "Options") : undefined}
+                            >
+                                {isSheet && <ComboBoxSheetSearch size={size} placeholder={placeholder} triggerRef={placeholderRef} />}
                                 {/* Escape closes the menu; it must never clear the chosen tags. */}
-                                <AriaListBox selectionMode="multiple" escapeKeyBehavior="none" className="size-full outline-hidden">
+                                <AriaListBox
+                                    {...sheetListBoxProps(isSheet)}
+                                    renderEmptyState={isSheet ? () => <ComboBoxEmptyState /> : undefined}
+                                    selectionMode="multiple"
+                                    escapeKeyBehavior="none"
+                                    className="size-full outline-hidden"
+                                >
                                     {children}
                                 </AriaListBox>
                             </Popover>
@@ -231,7 +255,14 @@ export const TagSelectBase = ({
     );
 };
 
-const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, size = "sm" }: Omit<TagSelectProps, "selectedItems" | "children">) => {
+const InnerTagSelect = ({
+    isDisabled,
+    isSheet,
+    shortcut,
+    shortcutClassName,
+    placeholder,
+    size = "sm",
+}: Omit<TagSelectProps, "selectedItems" | "children"> & { isSheet?: boolean }) => {
     const focusManager = useFocusManager();
     const tagSelectContext = useContext(TagSelectContext);
     const comboBoxStateContext = useContext(ComboBoxStateContext);
@@ -335,6 +366,8 @@ const InnerTagSelect = ({ isDisabled, shortcut, shortcutClassName, placeholder, 
             <div className={cx("relative flex min-w-12 flex-1 flex-row items-center", !isSelectionEmpty && "ml-0.5", shortcut && "min-w-[30%]")}>
                 <AriaInput
                     placeholder={placeholder}
+                    // Mobile: tapping opens the bottom sheet instead of raising the keyboard here (Backspace still removes tags).
+                    readOnly={isSheet || undefined}
                     onKeyDown={handleInputKeyDown}
                     onMouseDown={handleInputMouseDown}
                     className={cx(
@@ -373,6 +406,7 @@ export const TagSelectTagsValue = ({
     placeholder,
     shortcutClassName,
     icon: Icon = SearchLg,
+    isSheet,
     // Omit this prop to avoid invalid HTML attribute warning
     isDisabled: _isDisabled,
     ...otherProps
@@ -408,6 +442,7 @@ export const TagSelectTagsValue = ({
                     <FocusScope contain={false} autoFocus={false} restoreFocus={false}>
                         <InnerTagSelect
                             isDisabled={isDisabled}
+                            isSheet={isSheet}
                             size={size}
                             shortcut={shortcut}
                             shortcutClassName={shortcutClassName}

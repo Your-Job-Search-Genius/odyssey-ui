@@ -9,6 +9,7 @@ import { DatePicker as AriaDatePicker, Dialog as AriaDialog, Group as AriaGroup,
 import { Button, type ButtonProps } from "@/components/base/buttons/button";
 import { Calendar as CalendarIcon } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 import { Calendar } from "./calendar";
 
 interface DatePickerProps extends AriaDatePickerProps<DateValue> {
@@ -61,16 +62,19 @@ export const DatePicker = ({ value: valueProp, defaultValue, onChange, onApply, 
                             "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                         isExiting &&
                             "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
+                        // Bottom sheet below md (drops the card ring there).
+                        "max-md:ring-0",
+                        SHEET_POPOVER,
                     )
                 }
             >
-                <AriaDialog aria-label="Date picker" className="outline-hidden">
+                <AriaDialog aria-label="Date picker" className="outline-hidden max-md:w-full">
                     {({ close }) => (
                         <>
-                            <div className="flex px-4 py-5 sm:px-6">
+                            <div className="flex px-4 py-5 max-md:justify-center sm:px-6">
                                 <Calendar highlightedDates={highlightedDates} />
                             </div>
-                            <div className="grid grid-cols-2 gap-3 border-t border-secondary p-4">
+                            <div className="grid grid-cols-2 gap-3 border-t border-secondary p-4 max-md:sticky max-md:bottom-0 max-md:bg-primary">
                                 <Button
                                     size="md"
                                     color="secondary"

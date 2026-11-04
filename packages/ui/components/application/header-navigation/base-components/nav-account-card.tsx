@@ -12,6 +12,7 @@ import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
 import { BookOpen01, ChevronSelectorVertical, LogOut01, Plus, Settings01, User01 } from "@/components/foundations/icons";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 import { FOCUS_RING } from "./nav-rail";
 
 export type NavAccountType = {
@@ -84,7 +85,12 @@ const NavAccountMenu = ({
             aria-label="Account menu"
             {...dialogProps}
             ref={dialogRef}
-            className={cx("w-66 rounded-xl bg-secondary_alt shadow-lg ring ring-secondary_alt outline-hidden", className)}
+            className={cx(
+                "w-66 rounded-xl bg-secondary_alt shadow-lg ring ring-secondary_alt outline-hidden",
+                // Inside the mobile bottom sheet the sheet is the surface; drop the floating-card styling.
+                "max-md:w-full max-md:rounded-none max-md:bg-primary max-md:shadow-none max-md:ring-0",
+                className,
+            )}
         >
             <div className="rounded-xl bg-primary ring-1 ring-secondary">
                 <div className="flex flex-col gap-0.5 py-1.5">
@@ -211,6 +217,8 @@ export const NavAccountCard = ({
                                 "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                             isExiting &&
                                 "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
+                            // Bottom sheet below md.
+                            SHEET_POPOVER,
                         )
                     }
                 >

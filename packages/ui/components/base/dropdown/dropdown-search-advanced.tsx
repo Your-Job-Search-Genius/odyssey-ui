@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Selection } from "react-aria-components";
-import { Autocomplete, SearchField, SubmenuTrigger, useFilter } from "react-aria-components";
+import { Autocomplete, SearchField, useFilter } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 import { ChevronDown, Plus, SearchLg } from "@/components/foundations/icons";
@@ -25,11 +25,11 @@ export const DropdownSearchAdvanced = () => {
 
             <Dropdown.Popover className="w-60">
                 <Autocomplete filter={contains}>
-                    <SearchField className="flex gap-3 border-b border-secondary p-3">
+                    <SearchField className="flex gap-3 border-b border-secondary p-3 max-md:sticky max-md:top-0 max-md:z-10 max-md:bg-primary">
                         <InputBase size="md" placeholder="Search" icon={SearchLg} />
                     </SearchField>
                     <Dropdown.Menu selectionMode="multiple" selectedKeys={selectedUsers} onSelectionChange={setSelectedUsers}>
-                        <SubmenuTrigger>
+                        <Dropdown.SubmenuTrigger>
                             <Dropdown.Item id="writesea-odyssey" textValue="Olivia Rhye" selectionIndicator="checkbox">
                                 Writesea Odyssey
                             </Dropdown.Item>
@@ -65,7 +65,7 @@ export const DropdownSearchAdvanced = () => {
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown.Popover>
-                        </SubmenuTrigger>
+                        </Dropdown.SubmenuTrigger>
 
                         <Dropdown.Item id="shutterframe" textValue="Phoenix Baker" selectionIndicator="checkbox">
                             Shutterframe

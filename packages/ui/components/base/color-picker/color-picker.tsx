@@ -16,6 +16,7 @@ import { ColorSwatch } from "@/components/base/color-picker/color-swatch";
 import { HintText } from "@/components/base/input/hint-text";
 import { ChevronDown } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 
 export interface ColorPickerProps {
     /** Visible label for the trigger button. Also names the control for assistive tech. */
@@ -94,10 +95,13 @@ export const ColorPicker = ({ label = "Color", hint, value, defaultValue, onChan
                                     "duration-150 ease-out animate-in fade-in placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                                 isExiting &&
                                     "duration-100 ease-in animate-out fade-out placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
+                                // Bottom sheet below md.
+                                SHEET_POPOVER,
                             )
                         }
                     >
-                        <div className="flex flex-col gap-4">
+                        {/* In the sheet, keep the controls a comfortable width rather than stretching edge to edge. */}
+                        <div className="flex flex-col gap-4 max-md:mx-auto max-md:w-full max-md:max-w-80">
                             {children ?? (
                                 <>
                                     <ColorArea colorSpace="hsb" xChannel="saturation" yChannel="brightness" className="w-full" aria-label={label} />

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Selection } from "react-aria-components";
-import { Button as AriaButton, SubmenuTrigger } from "react-aria-components";
+import { Button as AriaButton } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
@@ -55,7 +55,7 @@ export const DropdownAvatar = () => {
                         Changelog
                     </Dropdown.Item>
 
-                    <SubmenuTrigger>
+                    <Dropdown.SubmenuTrigger>
                         <Dropdown.Item icon={HelpCircle}>Support</Dropdown.Item>
 
                         <Dropdown.Popover placement="right top" offset={-6}>
@@ -65,7 +65,7 @@ export const DropdownAvatar = () => {
                                 <Dropdown.Item>Send feedback</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown.Popover>
-                    </SubmenuTrigger>
+                    </Dropdown.SubmenuTrigger>
 
                     <Dropdown.Item icon={Container}>API</Dropdown.Item>
                 </Dropdown.Menu>

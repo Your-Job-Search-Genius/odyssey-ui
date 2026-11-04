@@ -4,6 +4,7 @@ import type { RefAttributes } from "react";
 import type { PopoverProps as AriaPopoverProps } from "react-aria-components";
 import { Popover as AriaPopover } from "react-aria-components";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 
 interface PopoverProps extends AriaPopoverProps, RefAttributes<HTMLElement> {
     size: "sm" | "md" | "lg";
@@ -30,6 +31,9 @@ export const Popover = (props: PopoverProps) => {
                     props.size === "lg" && "max-h-80!",
 
                     typeof props.className === "function" ? props.className(state) : props.className,
+
+                    // Bottom sheet below md; after the size caps so its max-height wins.
+                    SHEET_POPOVER,
                 )
             }
         />

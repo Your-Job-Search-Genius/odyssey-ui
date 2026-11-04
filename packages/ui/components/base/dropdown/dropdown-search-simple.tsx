@@ -25,7 +25,7 @@ export const DropdownSearchSimple = () => {
 
             <Dropdown.Popover className="w-60">
                 <Autocomplete filter={contains}>
-                    <SearchField className="flex gap-3 border-b border-secondary p-3">
+                    <SearchField className="flex gap-3 border-b border-secondary p-3 max-md:sticky max-md:top-0 max-md:z-10 max-md:bg-primary">
                         <InputBase size="md" placeholder="Search" icon={SearchLg} />
                     </SearchField>
                     <Dropdown.Menu selectionMode="multiple" selectedKeys={selectedUsers} onSelectionChange={setSelectedUsers}>
