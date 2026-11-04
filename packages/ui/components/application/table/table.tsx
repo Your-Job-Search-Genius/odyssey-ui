@@ -12,6 +12,7 @@ import type {
 } from "react-aria-components";
 import {
     Cell as AriaCell,
+    CheckboxContext as AriaCheckboxContext,
     Collection as AriaCollection,
     Column as AriaColumn,
     Group as AriaGroup,
@@ -19,6 +20,7 @@ import {
     Table as AriaTable,
     TableBody as AriaTableBody,
     TableHeader as AriaTableHeader,
+    useSlottedContext,
     useTableOptions,
 } from "react-aria-components";
 import { Badge } from "@/components/base/badges/badges";
@@ -49,6 +51,31 @@ export const TableRowActionsDropdown = () => (
 );
 
 const TableContext = createContext<{ size: "sm" | "md" }>({ size: "md" });
+
+/**
+ * Wraps the selection checkbox in a toolbar. NVDA drops to browse mode when a checkbox in a grid
+ * cell gets focus, so the arrow keys stop moving between cells; inside a toolbar it stays in focus
+ * mode. The toolbar is named by the row header React Aria already labels the checkbox with (header:
+ * React Aria's "Select All" label).
+ */
+const SelectionToolbar = ({ className, children }: { className: string; children: ReactNode }) => {
+    const checkbox = useSlottedContext(AriaCheckboxContext, "selection");
+    const rowLabelledBy = checkbox?.["aria-labelledby"]
+        ?.split(" ")
+        .filter((id) => id && id !== checkbox.id)
+        .join(" ");
+
+    return (
+        <div
+            role="toolbar"
+            aria-labelledby={rowLabelledBy || undefined}
+            aria-label={rowLabelledBy ? undefined : checkbox?.["aria-label"]}
+            className={className}
+        >
+            {children}
+        </div>
+    );
+};
 
 const TableCardRoot = ({ children, className, size = "md", ...props }: HTMLAttributes<HTMLDivElement> & { size?: "sm" | "md" }) => {
     return (
@@ -156,9 +183,9 @@ const TableHeader = <T extends object>({ columns, children, bordered = true, cla
             {selectionBehavior === "toggle" && (
                 <AriaColumn className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "w-9 md:pl-5" : "w-11 md:pl-6")}>
                     {selectionMode === "multiple" && (
-                        <div className="flex items-start">
+                        <SelectionToolbar className="flex items-start">
                             <Checkbox slot="selection" size="md" />
-                        </div>
+                        </SelectionToolbar>
                     )}
                 </AriaColumn>
             )}
@@ -264,9 +291,9 @@ const TableRow = <T extends object>({
         >
             {selectionBehavior === "toggle" && !isDetail && (
                 <AriaCell className={cx("relative py-2 pr-0 pl-4", size === "sm" ? "md:pl-5" : "md:pl-6")}>
-                    <div className="flex items-end">
+                    <SelectionToolbar className="flex items-end">
                         <Checkbox slot="selection" size="md" />
-                    </div>
+                    </SelectionToolbar>
                 </AriaCell>
             )}
             <AriaCollection items={columns}>{children}</AriaCollection>
