@@ -30,6 +30,8 @@ Selects, comboboxes, dropdowns, menus, the account switcher, date pickers and th
 - **`FileUpload.DropZone` tells screen readers that files can be dragged in.** The visible "or drag and drop" text sat beside the "Click to upload" button, outside its name and description, so NVDA read "Click to upload, button" and the hint but never mentioned dropping. The button (and the hidden file input) now list that text in `aria-describedby` ahead of the hint, so focusing the button announces "Click to upload, button, or drag and drop, <hint>". Below `md` the text is visually hidden but stays in the description, because dropping still works there (e.g. at 400% zoom). No visual change.
 - **`Badge` can wrap long text (new `wrap` prop).** `Badge` is `size-max whitespace-nowrap`, so a long label (a job title, a name) stays on one line and runs out of its container, over whatever sits next to it. `<Badge wrap>` caps the badge at its container's width (`max-w-full`) and wraps the text onto more lines, breaking long unbroken words too. Without `wrap`, nothing changes. Found on the admin app's User Analysis tab, where a long job title overlapped the next column (ACMS-4061).
 
+- **`ModalHeader` close button comes before its children in Tab order.** The close button sits top-right, above anything passed into the header (e.g. `Tabs.List`), but it was rendered after `children` in the DOM. So Tab from the auto-focused close button skipped the header content and jumped into the body, and header tabs were only reachable with Shift+Tab. The close button is now rendered before `children`: Tab goes close button, header content, body (WCAG 2.4.3). No visual change.
+
 ## odyssey-ui 2.4.1
 
 ### Fixes
