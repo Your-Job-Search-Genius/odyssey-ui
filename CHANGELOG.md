@@ -3,7 +3,7 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
-## Unreleased
+## odyssey-ui 3.0.0
 
 Selects, comboboxes, dropdowns, menus, the account switcher, date pickers and the color picker open as a **bottom sheet on mobile** (below the `md` breakpoint) -- which also covers desktop browsers at high zoom (400% on a 1920px screen is a 480px viewport). Desktop is unchanged.
 
