@@ -59,7 +59,8 @@ const samePosition = (a: ChartFocusPosition | null, b: ChartFocusPosition | null
  * The chart is a single tab stop: exactly one mark carries `tabIndex=0`
  * (the last one visited, or the first). Arrow keys move focus between
  * marks, Home/End jump to the ends of a row, Escape drops focus and closes
- * the tooltip, Enter/Space activate. Pointer hover is tracked alongside so a
+ * the tooltip (and still reaches an enclosing dialog, which closes too),
+ * Enter/Space activate. Pointer hover is tracked alongside so a
  * chart can show the same tooltip for both input methods.
  */
 export function useChartFocus(options: UseChartFocusOptions): ChartFocus {
@@ -155,6 +156,11 @@ export function useChartFocus(options: UseChartFocusOptions): ChartFocus {
                         case "Escape":
                             setFocused(null);
                             (event.currentTarget as SVGElement).blur();
+                            // Let Escape bubble so an enclosing Modal (or another overlay that closes on Escape)
+                            // closes too. Swallowing it left a chart inside a dialog with no way out by Escape: the
+                            // blur sent focus to <body>, the dialog's focus trap put it straight back, and the
+                            // tooltip reopened.
+                            handled = false;
                             break;
                         case "Enter":
                         case " ":

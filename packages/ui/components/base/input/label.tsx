@@ -2,7 +2,7 @@
 
 import type { ReactNode, Ref } from "react";
 import type { LabelProps as AriaLabelProps } from "react-aria-components";
-import { Label as AriaLabel } from "react-aria-components";
+import { Label as AriaLabel, ButtonContext } from "react-aria-components";
 import { Tooltip, TooltipTrigger } from "@/components/base/tooltip/tooltip";
 import { HelpCircle } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
@@ -44,18 +44,24 @@ export const Label = ({ isInvalid, isRequired, tooltip, tooltipDescription, clas
             </span>
 
             {tooltip && (
-                <Tooltip title={tooltip} description={tooltipDescription} placement="top">
-                    <TooltipTrigger
-                        // `TooltipTrigger` inherits the disabled state from the parent form field
-                        // but we don't that. We want the tooltip be enabled even if the parent
-                        // field is disabled.
-                        isDisabled={false}
-                        aria-label={tooltip}
-                        className="cursor-pointer text-fg-quaternary transition duration-200 hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover"
-                    >
-                        <HelpCircle className="size-4" />
-                    </TooltipTrigger>
-                </Tooltip>
+                // The parent field (Select, ComboBox, DatePicker, NumberField...) passes its own trigger
+                // props through ButtonContext. Without this reset the help button takes the field
+                // trigger's id, aria-labelledby, aria-haspopup and focus handlers, so focusing it marks
+                // the field focused and the field's real trigger then loses its focus ring.
+                <ButtonContext.Provider value={null}>
+                    <Tooltip title={tooltip} description={tooltipDescription} placement="top">
+                        <TooltipTrigger
+                            // `TooltipTrigger` inherits the disabled state from the parent form field
+                            // but we don't that. We want the tooltip be enabled even if the parent
+                            // field is disabled.
+                            isDisabled={false}
+                            aria-label={tooltip}
+                            className="cursor-pointer text-fg-quaternary transition duration-200 hover:text-fg-quaternary_hover focus:text-fg-quaternary_hover"
+                        >
+                            <HelpCircle className="size-4" />
+                        </TooltipTrigger>
+                    </Tooltip>
+                </ButtonContext.Provider>
             )}
         </AriaLabel>
     );

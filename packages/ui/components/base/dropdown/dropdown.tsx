@@ -1,12 +1,13 @@
 "use client";
 
-import { type FC, type RefAttributes, useCallback } from "react";
+import { type FC, type RefAttributes, useCallback, useContext } from "react";
 import type {
     ButtonProps as AriaButtonProps,
     MenuItemProps as AriaMenuItemProps,
     MenuProps as AriaMenuProps,
     PopoverProps as AriaPopoverProps,
     SeparatorProps as AriaSeparatorProps,
+    SubmenuTriggerProps as AriaSubmenuTriggerProps,
     MenuItemRenderProps,
 } from "react-aria-components";
 import {
@@ -16,11 +17,17 @@ import {
     MenuItem as AriaMenuItem,
     MenuSection as AriaMenuSection,
     MenuTrigger as AriaMenuTrigger,
+    OverlayTriggerStateContext as AriaOverlayTriggerStateContext,
     Popover as AriaPopover,
+    PopoverContext as AriaPopoverContext,
     Separator as AriaSeparator,
+    SubmenuTrigger as AriaSubmenuTrigger,
+    useSlottedContext,
 } from "react-aria-components";
-import { Check, ChevronRight, DotsVertical } from "@/components/foundations/icons";
+import { Check, ChevronLeft, ChevronRight, DotsVertical } from "@/components/foundations/icons";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cx } from "@/utils/cx";
+import { SHEET_POPOVER } from "@/utils/sheet-popover";
 import { Avatar } from "../avatar/avatar";
 import { CheckboxBase } from "../checkbox/checkbox";
 import { RadioButtonBase } from "../radio-buttons/radio-buttons";
@@ -167,6 +174,13 @@ const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
 interface DropdownPopoverProps extends AriaPopoverProps {}
 
 const DropdownPopover = (props: DropdownPopoverProps) => {
+    const isDesktop = useBreakpoint("md");
+    // Inside a SubmenuTrigger, these are the submenu's own popover settings and open state.
+    const popoverContext = useSlottedContext(AriaPopoverContext);
+    const submenuState = useContext(AriaOverlayTriggerStateContext);
+    // A submenu opens as a stacked sheet below md; touch has no Escape, so it needs its own way back one level.
+    const showBack = !isDesktop && popoverContext?.trigger === "SubmenuTrigger";
+
     return (
         <AriaPopover
             placement="bottom right"
@@ -179,12 +193,41 @@ const DropdownPopover = (props: DropdownPopoverProps) => {
                     state.isExiting &&
                         "duration-100 ease-in animate-out fade-out placement-right:slide-out-to-left-0.5 placement-top:slide-out-to-bottom-0.5 placement-bottom:slide-out-to-top-0.5",
                     typeof props.className === "function" ? props.className(state) : props.className,
+
+                    // Bottom sheet below md (submenus stack as a second sheet); after the consumer's width so it wins.
+                    SHEET_POPOVER,
                 )
             }
         >
-            {props.children}
+            {(renderProps) => (
+                <>
+                    {showBack && (
+                        <button
+                            type="button"
+                            onClick={() => submenuState?.close()}
+                            className="sticky top-0 z-10 flex w-full shrink-0 cursor-pointer items-center gap-2 border-b border-secondary bg-primary px-4 py-2.5 text-sm font-semibold text-secondary outline-focus-ring focus-visible:outline-2 focus-visible:-outline-offset-2"
+                        >
+                            <ChevronLeft aria-hidden="true" className="size-4 text-fg-quaternary" />
+                            Back
+                        </button>
+                    )}
+                    {typeof props.children === "function" ? props.children(renderProps) : props.children}
+                </>
+            )}
         </AriaPopover>
     );
+};
+
+/** Longest timer browsers allow (~24.8 days): the submenu hover delay never elapses. */
+const NEVER = 2 ** 31 - 1;
+
+/**
+ * Submenus open on tap below md, as a sheet stacked over the parent menu sheet. Hover-to-open (a mouse at
+ * high zoom) would cover the parent sheet; useSubmenuTrigger has no hover opt-out, so its delay never elapses.
+ */
+const DropdownSubmenuTrigger = (props: AriaSubmenuTriggerProps) => {
+    const isDesktop = useBreakpoint("md");
+    return <AriaSubmenuTrigger delay={isDesktop ? undefined : NEVER} {...props} />;
 };
 
 const DropdownSeparator = (props: AriaSeparatorProps) => {
@@ -214,6 +257,7 @@ const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonEle
 export const Dropdown = {
     Root: AriaMenuTrigger,
     Popover: DropdownPopover,
+    SubmenuTrigger: DropdownSubmenuTrigger,
     Menu: DropdownMenu,
     Section: AriaMenuSection,
     SectionHeader: AriaHeader,

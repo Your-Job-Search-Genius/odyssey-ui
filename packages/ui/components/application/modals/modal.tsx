@@ -142,11 +142,12 @@ export const ModalHeader = ({
                 )}
             </div>
 
-            {children}
-
+            {/* Before `children` in the DOM: it sits top-right, above anything passed in (e.g. tabs), so Tab must reach it first. */}
             {showCloseButton && canClose && (
                 <CloseButton size="sm" autoFocus={autoFocus} className="absolute top-4 right-4 sm:top-5 sm:right-5" onClick={onClose} />
             )}
+
+            {children}
         </div>
     );
 };

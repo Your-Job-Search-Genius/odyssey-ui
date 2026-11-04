@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import type { Selection } from "react-aria-components";
-import { SubmenuTrigger } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 import {
@@ -74,11 +73,11 @@ export const DropdownButtonAdvanced = () => {
                     <Dropdown.Separator />
 
                     <Dropdown.Section>
-                        <SubmenuTrigger>
+                        <Dropdown.SubmenuTrigger>
                             <Dropdown.Item icon={Cube01}>More tools</Dropdown.Item>
                             <Dropdown.Popover placement="right top" offset={-6} className="w-50">
                                 <Dropdown.Menu selectionMode="none">
-                                    <SubmenuTrigger>
+                                    <Dropdown.SubmenuTrigger>
                                         <Dropdown.Item icon={Download01}>Save as</Dropdown.Item>
                                         <Dropdown.Popover placement="right top" offset={-6} className="w-50">
                                             <Dropdown.Menu selectionMode="none">
@@ -87,7 +86,7 @@ export const DropdownButtonAdvanced = () => {
                                                 <Dropdown.Item>Markdown</Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown.Popover>
-                                    </SubmenuTrigger>
+                                    </Dropdown.SubmenuTrigger>
                                     <Dropdown.Item addon="⌘X" icon={Scissors01}>
                                         Cut
                                     </Dropdown.Item>
@@ -97,7 +96,7 @@ export const DropdownButtonAdvanced = () => {
 
                                     <Dropdown.Separator />
 
-                                    <SubmenuTrigger>
+                                    <Dropdown.SubmenuTrigger>
                                         <Dropdown.Item icon={Code02}>Developer</Dropdown.Item>
                                         <Dropdown.Popover placement="right top" offset={-6} className="w-50">
                                             <Dropdown.Menu selectionMode="none">
@@ -106,10 +105,10 @@ export const DropdownButtonAdvanced = () => {
                                                 <Dropdown.Item>Inspect elements</Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown.Popover>
-                                    </SubmenuTrigger>
+                                    </Dropdown.SubmenuTrigger>
                                 </Dropdown.Menu>
                             </Dropdown.Popover>
-                        </SubmenuTrigger>
+                        </Dropdown.SubmenuTrigger>
                     </Dropdown.Section>
                 </Dropdown.Menu>
             </Dropdown.Popover>

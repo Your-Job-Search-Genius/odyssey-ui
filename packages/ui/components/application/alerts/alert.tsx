@@ -1,7 +1,7 @@
 "use client";
 
 import { type ComponentPropsWithRef, type FC, type ReactNode, isValidElement, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "motion/react";
 import { CloseButton } from "@/components/base/buttons/close-button";
 import { AlertCircle, AlertTriangle, CheckCircle, InfoCircle } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
@@ -192,6 +192,17 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
     const [isPaused, setIsPaused] = useState(false);
     const remainingRef = useRef(item.duration);
     const startedAtRef = useRef<number | null>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
+    // Where focus was before it entered the toast (autoFocus, or the user tabbing in).
+    const returnFocusRef = useRef<HTMLElement | null>(null);
+    const isPresent = useIsPresent();
+
+    // However the toast goes (dismiss button, timeout, swipe, `toast.dismiss()`), if it holds focus,
+    // hand focus back to where it came from instead of letting it drop to <body> on unmount.
+    useEffect(() => {
+        if (isPresent || !rootRef.current?.contains(document.activeElement)) return;
+        if (returnFocusRef.current?.isConnected) returnFocusRef.current.focus();
+    }, [isPresent]);
 
     useEffect(() => {
         if (!Number.isFinite(item.duration) || isPaused) return;
@@ -212,6 +223,7 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
 
     return (
         <motion.div
+            ref={rootRef}
             layout
             role={item.color === "error" || item.color === "warning" ? "alert" : "status"}
             drag={shouldReduceMotion ? false : "x"}
@@ -225,6 +237,9 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
             // Pause while the user is reading or tabbing through the toast. Focus that arrives without
             // :focus-visible (e.g. `autoFocus` on mount) doesn't count, or the toast would never time out.
             onFocus={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    returnFocusRef.current = event.relatedTarget instanceof HTMLElement ? event.relatedTarget : null;
+                }
                 if (event.target instanceof HTMLElement && event.target.matches(":focus-visible")) setIsPaused(true);
             }}
             onBlur={(event) => {
@@ -287,6 +302,10 @@ export const Toaster = ({ position = "bottom-right" }: ToasterProps) => {
             className={cx("pointer-events-none fixed z-[100] flex max-h-dvh w-full max-w-sm flex-col gap-3 overflow-hidden p-4 sm:p-6", positions[position])}
             aria-live="polite"
             aria-atomic="false"
+            // An open Modal makes everything outside it inert. Without this the live region is inert when a
+            // toast fires from a dialog (e.g. a confirm) and comes back in the same update as the toast, so
+            // screen readers never announce it. React Aria leaves top-layer nodes exposed under a modal.
+            data-react-aria-top-layer=""
         >
             <AnimatePresence mode="popLayout">
                 {items.map((item) => (

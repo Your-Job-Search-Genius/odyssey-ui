@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Selection } from "react-aria-components";
-import { Button as AriaButton, SubmenuTrigger } from "react-aria-components";
+import { Button as AriaButton } from "react-aria-components";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 import { ChevronDown, LogOut01, Moon01, Plus, Settings01 } from "@/components/foundations/icons";
@@ -61,7 +61,7 @@ export const DropdownAccountCardXS = () => {
 
                     <Dropdown.Separator />
 
-                    <SubmenuTrigger>
+                    <Dropdown.SubmenuTrigger>
                         <Dropdown.Item icon={LogOut01}>Sign out</Dropdown.Item>
 
                         <Dropdown.Popover placement="right top" offset={-6}>
@@ -70,7 +70,7 @@ export const DropdownAccountCardXS = () => {
                                 <Dropdown.Item>All devices</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown.Popover>
-                    </SubmenuTrigger>
+                    </Dropdown.SubmenuTrigger>
                 </Dropdown.Menu>
             </Dropdown.Popover>
         </Dropdown.Root>

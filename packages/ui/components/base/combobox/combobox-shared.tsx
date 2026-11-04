@@ -67,3 +67,17 @@ export const popoverMaxHeights = {
 };
 
 export const ComboBoxContext = createContext<{ size: "sm" | "md" | "lg" }>({ size: "md" });
+
+/** The list fills the mobile bottom sheet between the pinned search field and footer, instead of a fixed max height. */
+export const SHEET_LIST = "max-md:max-h-none! max-md:min-h-0 max-md:flex-1";
+
+/**
+ * ListBox props for a combobox's mobile bottom sheet. The combobox normally drives the list with virtual
+ * focus from its trigger input; in the sheet that input is behind the modal, so the list uses real focus
+ * (Arrow Down from the sheet's search field moves into it). Empty on desktop, so nothing changes there.
+ */
+export const sheetListBoxProps = (isSheet: boolean) =>
+    isSheet
+        ? // `shouldUseVirtualFocus` is accepted by the ListBox (forwarded to useListBox) but missing from its public type.
+          ({ shouldUseVirtualFocus: false, shouldFocusOnHover: false, autoFocus: false, escapeKeyBehavior: "none" } as Record<string, unknown>)
+        : {};

@@ -137,8 +137,8 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                     </div>
 
                     {!isDesktop && (
-                        // Stacked: two date-time inputs side by side are wider than a phone-sized calendar.
-                        <div className="grid gap-2 md:hidden">
+                        // Stacked: two date(-time) fields side by side are wider than a phone or a 400%-zoomed window.
+                        <div className="flex flex-col gap-2 md:hidden">
                             <InputDateBase slot="start" size="sm" />
                             <InputDateBase slot="end" size="sm" />
                         </div>
@@ -154,7 +154,7 @@ export const RangeCalendar = ({ presets, visibleDuration, showOutOfRangeDates = 
                         </div>
                     )}
 
-                    <AriaCalendarGrid weekdayStyle="short" className="w-max">
+                    <AriaCalendarGrid weekdayStyle="short" className="w-max max-md:mx-auto">
                         <AriaCalendarGridHeader>
                             {(day) => (
                                 <AriaCalendarHeaderCell className="border-b-4 border-transparent p-0">
