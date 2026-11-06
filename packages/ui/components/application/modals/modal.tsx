@@ -152,9 +152,20 @@ export const ModalHeader = ({
     );
 };
 
-/** Scrollable body region for a `Modal`/`Dialog` pair. Sits between `ModalHeader` and `ModalFooter`. */
+/**
+ * Scrollable body region for a `Modal`/`Dialog` pair. Sits between `ModalHeader` and `ModalFooter`.
+ * On short viewports (under 32rem, e.g. 200% zoom on a laptop) the header and footer leave the body almost no
+ * height, so it stops scrolling on its own and the whole `Dialog` scrolls instead: one scroller, fields reachable.
+ */
 export const ModalBody = ({ className, ...props }: ComponentPropsWithRef<"div">) => (
-    <div {...props} className={cx("flex min-h-0 flex-col gap-4 overflow-y-auto px-6 py-4 text-sm text-tertiary", className)} />
+    <div
+        {...props}
+        className={cx(
+            "flex min-h-0 flex-col gap-4 overflow-y-auto px-6 py-4 text-sm text-tertiary",
+            "[@media(max-height:32rem)]:shrink-0 [@media(max-height:32rem)]:overflow-y-visible",
+            className,
+        )}
+    />
 );
 
 /** Action row for a `Modal`/`Dialog` pair. Right-aligned, content-width buttons; wraps when they don't fit. */
