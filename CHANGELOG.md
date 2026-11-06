@@ -3,6 +3,12 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 3.0.1
+
+### Fixes
+
+- **`ModalBody` no longer collapses into a tiny scroller on short viewports.** It shrinks (`min-h-0`) and scrolls on its own inside a `Dialog` that also scrolls, so when the header and footer took most of a short window (e.g. 200% zoom on a laptop, about 360px tall) the body shrank to a sliver and its fields were hidden behind a second, nested scrollbar. Below 32rem of viewport height the body now keeps its full height and the whole `Dialog` scrolls as one. Taller windows are unchanged: header and footer stay put and the body scrolls. Jira: ACMS-4110.
+
 ## odyssey-ui 3.0.0
 
 Selects, comboboxes, dropdowns, menus, the account switcher, date pickers and the color picker open as a **bottom sheet on mobile** (below the `md` breakpoint) -- which also covers desktop browsers at high zoom (400% on a 1920px screen is a 480px viewport). Desktop is unchanged.
