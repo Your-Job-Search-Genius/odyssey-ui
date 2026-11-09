@@ -84,6 +84,18 @@ export const MultipleSelectedItems = () => {
     );
 };
 
+export const BrandSelected = () => {
+    const [selectedKeys, setSelectedKeys] = useState<Set<Key>>(new Set(["week"]));
+
+    return (
+        <ButtonGroup aria-label="Date range" selectedColor="brand" selectedKeys={selectedKeys} onSelectionChange={setSelectedKeys}>
+            <ButtonGroupItem id="day">Day</ButtonGroupItem>
+            <ButtonGroupItem id="week">Week</ButtonGroupItem>
+            <ButtonGroupItem id="month">Month</ButtonGroupItem>
+        </ButtonGroup>
+    );
+};
+
 export const AllSmall = () => (
     <div className="flex flex-col gap-4">
         <ButtonGroup size="sm" selectedKeys={["archive"]}>

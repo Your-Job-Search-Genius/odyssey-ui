@@ -53,6 +53,12 @@ import { ButtonGroupItem } from "@/components/base/button-group/button-group";
 
 <ComponentPreview demo="base/button-group/button-group" export="MultipleSelectedItems" />
 
+### Brand Selected
+
+`selectedColor="brand"` fills the selected item with the brand colour and on-brand text (AA contrast); the default `"neutral"` keeps the subtle active surface.
+
+<ComponentPreview demo="base/button-group/button-group" export="BrandSelected" />
+
 ### All Small
 
 <ComponentPreview demo="base/button-group/button-group" export="AllSmall" />
@@ -65,7 +71,7 @@ import { ButtonGroupItem } from "@/components/base/button-group/button-group";
 
 - Single selection (the default) renders a `radiogroup` of `radio`s -- query items with `getByRole("radio")` in tests. `selectionMode="multiple"` renders toggle buttons with `aria-pressed`.
 - Give the group an `aria-label`; icon-only items need their own `aria-label`.
-- The selected item gets a distinct surface and, for text items, a leading check -- selection is never shown by color alone. Turn the check off with `showSelectedIndicator={false}` only when selection is conveyed another way.
+- The selected item gets a distinct surface (the brand fill with `selectedColor="brand"`) and, for text items, a leading check -- selection is never shown by color alone. Turn the check off with `showSelectedIndicator={false}` only when selection is conveyed another way.
 
 ## Related
 
