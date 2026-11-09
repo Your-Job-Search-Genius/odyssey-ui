@@ -147,11 +147,15 @@ function applyPropOverrides(props: PropEntry[], overrides: Record<string, { requ
     });
 }
 
-/** Picks the docgen result that best represents this file's public component, when parse() found more than one. */
-function pickPrimaryDoc(docs: docgen.ComponentDoc[], baseName: string): docgen.ComponentDoc | undefined {
+/**
+ * Picks the docgen result that best represents this file's public component, when parse() found more than one.
+ * A meta override's importName wins when it names one of the file's components (radio-buttons.tsx -> RadioGroup,
+ * not whichever export docgen listed first); otherwise the PascalCase file name, then the first result.
+ */
+function pickPrimaryDoc(docs: docgen.ComponentDoc[], baseName: string, curatedName?: string): docgen.ComponentDoc | undefined {
     if (docs.length <= 1) return docs[0];
     const expected = toPascalCase(baseName);
-    return docs.find((d) => d.displayName === expected) ?? docs[0];
+    return docs.find((d) => d.displayName === curatedName) ?? docs.find((d) => d.displayName === expected) ?? docs[0];
 }
 
 function isPascalCase(name: string): boolean {
@@ -270,8 +274,8 @@ export async function extractComponents({ componentsRoot, uiTsconfigPath, docsUr
 
     for (const candidate of candidates) {
         const docs = docsByFilePath.get(candidate.filePath);
-        const primary = docs ? pickPrimaryDoc(docs, candidate.baseName) : undefined;
         const override = await loadMetaOverride(candidate.filePath);
+        const primary = docs ? pickPrimaryDoc(docs, candidate.baseName, override?.importName) : undefined;
 
         if (!primary && !override) {
             skipped.push(candidate.id);
