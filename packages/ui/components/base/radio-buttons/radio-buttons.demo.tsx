@@ -42,6 +42,16 @@ export const DisabledIndividualItemDemo = () => {
     );
 };
 
+export const HorizontalDemo = () => {
+    return (
+        <RadioGroup aria-label="Billing period" orientation="horizontal" defaultValue="monthly">
+            <RadioButton label="Monthly" value="monthly" />
+            <RadioButton label="Quarterly" value="quarterly" />
+            <RadioButton label="Yearly" value="yearly" />
+        </RadioGroup>
+    );
+};
+
 export const RadioButtons = () => {
     return (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">

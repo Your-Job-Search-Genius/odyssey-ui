@@ -66,6 +66,17 @@ describe("extractComponents", () => {
         expect(selectItem?.name).toBe("SelectItem");
     });
 
+    it("uses the meta importName to pick the primary component of a multi-export file (RadioGroup)", async () => {
+        const { components } = await resultPromise;
+        const radio = components.find((c) => c.id === "base/radio-buttons/radio-buttons");
+        expect(radio?.name).toBe("RadioGroup");
+        expect(radio?.importName).toBe("RadioGroup");
+        // RadioGroup's own props, not RadioButtonBase's (which docgen lists first).
+        expect(radio?.props.find((p) => p.name === "orientation")?.enumValues?.toSorted()).toEqual(["horizontal", "vertical"]);
+        expect(radio?.props.some((p) => p.name === "isFocusVisible")).toBe(false);
+        expect(radio?.moduleExports).toEqual(["RadioButton", "RadioButtonBase", "RadioGroup"]);
+    });
+
     it("excludes the internal category entirely", async () => {
         const { components } = await resultPromise;
         expect(components.some((c) => c.id.startsWith("internal/"))).toBe(false);

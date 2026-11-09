@@ -5704,6 +5704,17 @@
           "required": false,
           "default": "true",
           "description": "Shows a check before the label of each selected text item (items with their own leading icon,\nand icon-only items, keep their icon). Turn off only when selection is conveyed another way."
+        },
+        {
+          "name": "selectedColor",
+          "type": "enum",
+          "enumValues": [
+            "brand",
+            "neutral"
+          ],
+          "required": false,
+          "default": "neutral",
+          "description": "Fill of the selected item. `\"neutral\"` is the subtle active surface; `\"brand\"` uses the\nprimary-button brand fill with on-brand text (WCAG AA) for a stronger selected state."
         }
       ],
       "slots": [],
@@ -8374,12 +8385,36 @@
     },
     {
       "id": "base/radio-buttons/radio-buttons",
-      "name": "RadioButtonBase",
-      "importName": "RadioButtonBase",
+      "name": "RadioGroup",
+      "importName": "RadioGroup",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/radio-buttons/radio-buttons",
       "category": "base",
-      "description": "",
+      "description": "Single choice from a short list. RadioGroup (size sm|md, orientation vertical|horizontal, value/onChange or defaultValue, isDisabled, aria-label) > RadioButton (value, label, hint, isDisabled). orientation=\"horizontal\" lays radios out in a row that wraps on narrow widths. RadioButtonBase is the bare visual circle for custom rows -- it has no radio semantics on its own.",
       "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The children of the component. A function may be provided to alter the children based on\ncomponent state."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "description": "The CSS [className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className) for the\nelement. A function may be provided to compute the class based on component state.",
+          "acceptsClassName": true
+        },
+        {
+          "name": "orientation",
+          "type": "enum",
+          "enumValues": [
+            "horizontal",
+            "vertical"
+          ],
+          "required": false,
+          "default": "vertical",
+          "description": "Layout and arrow-key axis. `\"horizontal\"` lays the radios out in a row that wraps on narrow\nwidths, sets `aria-orientation=\"horizontal\"`, and makes Left/Right follow the reading\ndirection (flipped in RTL). Up/Down move next/previous in both orientations."
+        },
         {
           "name": "size",
           "type": "enum",
@@ -8389,39 +8424,41 @@
           ],
           "required": false,
           "default": "sm"
-        },
-        {
-          "name": "className",
-          "type": "string | undefined",
-          "required": false,
-          "acceptsClassName": true
-        },
-        {
-          "name": "isFocusVisible",
-          "type": "boolean | undefined",
-          "required": false
-        },
-        {
-          "name": "isSelected",
-          "type": "boolean | undefined",
-          "required": false
-        },
-        {
-          "name": "isDisabled",
-          "type": "boolean | undefined",
-          "required": false
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md"
+        ],
+        "orientation": [
+          "vertical",
+          "horizontal"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "RadioButton",
         "RadioButtonBase",
         "RadioGroup"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Vertical with hints",
+          "code": "<RadioGroup aria-label=\"Plan\" value={plan} onChange={setPlan}>\n  <RadioButton value=\"basic\" label=\"Basic\" hint=\"Up to 10 users.\" />\n  <RadioButton value=\"business\" label=\"Business\" hint=\"Up to 20 users.\" />\n</RadioGroup>"
+        },
+        {
+          "title": "Horizontal",
+          "code": "<RadioGroup aria-label=\"Billing period\" orientation=\"horizontal\" defaultValue=\"monthly\">\n  <RadioButton value=\"monthly\" label=\"Monthly\" />\n  <RadioButton value=\"yearly\" label=\"Yearly\" />\n</RadioGroup>"
+        }
+      ],
+      "a11y": "Renders a radiogroup of native radios; give the group an aria-label (or aria-labelledby to a visible heading). Tab enters at the selected radio, arrow keys move and select. orientation sets aria-orientation; with \"horizontal\", Left/Right follow the reading direction. A RadioButton hint is exposed as its description, not part of its name.",
+      "doNot": [
+        "Do not use RadioGroup for more than ~6 options -- use Select.",
+        "Do not use RadioButtonBase as an interactive control; it is visual only. Use RadioButton inside RadioGroup.",
+        "Do not lay radios out horizontally with a custom flex wrapper -- pass orientation=\"horizontal\" so aria-orientation matches."
+      ],
       "docsUrl": "/docs/base/radio-buttons/radio-buttons",
       "isExtracted": true
     },

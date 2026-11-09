@@ -17,3 +17,6 @@ RadioButtons.storyName = "Radio buttons";
 
 export const RadioButtonsBase = () => <Radio.RadioButtonsBase />;
 RadioButtonsBase.storyName = "Radio buttons base";
+
+export const RadioButtonsHorizontal = () => <Radio.HorizontalDemo />;
+RadioButtonsHorizontal.storyName = "Radio buttons horizontal";

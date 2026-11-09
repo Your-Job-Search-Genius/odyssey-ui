@@ -26,6 +26,16 @@ export const styles = sortCx({
         icon: "pointer-events-none text-fg-quaternary transition-[inherit] group-hover/button-group:text-fg-quaternary_hover group-selected/button-group:text-fg-secondary",
     },
 
+    // Opt-in brand selected state: the primary-button fill (white on brand-600 is 6.9:1, on the brand-700 hover 9.7:1).
+    // Compound `selected:hover:` variants keep the brand fill and on-brand text while hovering a selected item.
+    selectedColors: {
+        neutral: { root: "", icon: "" },
+        brand: {
+            root: "selected:bg-brand-solid selected:text-primary_on-brand selected:ring-brand-solid selected:hover:bg-brand-solid_hover selected:hover:text-primary_on-brand",
+            icon: "group-selected/button-group:text-primary_on-brand group-selected/button-group:group-hover/button-group:text-primary_on-brand",
+        },
+    },
+
     sizes: {
         sm: {
             root: "gap-1.5 px-3.5 py-2 text-sm not-last:pr-[calc(calc(var(--spacing)*3.5)+1px)] first:rounded-l-lg last:rounded-r-lg data-icon-leading:pl-3 data-icon-only:px-2.5",
@@ -43,8 +53,13 @@ export const styles = sortCx({
 });
 
 type ButtonSize = keyof typeof styles.sizes;
+type SelectedColor = keyof typeof styles.selectedColors;
 
-const ButtonGroupContext = createContext<{ size: ButtonSize; showSelectedIndicator: boolean }>({ size: "md", showSelectedIndicator: true });
+const ButtonGroupContext = createContext<{ size: ButtonSize; showSelectedIndicator: boolean; selectedColor: SelectedColor }>({
+    size: "md",
+    showSelectedIndicator: true,
+    selectedColor: "neutral",
+});
 
 interface ButtonGroupItemProps extends ToggleButtonProps, RefAttributes<HTMLButtonElement> {
     iconLeading?: FC<{ className?: string }> | ReactNode;
@@ -66,7 +81,8 @@ export const ButtonGroupItem = ({
         throw new Error("ButtonGroupItem must be used within a ButtonGroup component");
     }
 
-    const { size, showSelectedIndicator } = context;
+    const { size, showSelectedIndicator, selectedColor } = context;
+    const iconClassName = cx(styles.common.icon, styles.selectedColors[selectedColor].icon, styles.sizes[size].icon);
 
     const isIcon = (IconLeading || IconTrailing) && !children;
     const canShowCheck = showSelectedIndicator && !IconLeading && !isIcon;
@@ -76,19 +92,17 @@ export const ButtonGroupItem = ({
             {...otherProps}
             data-icon-only={isIcon ? true : undefined}
             data-icon-leading={IconLeading ? true : undefined}
-            className={cx(styles.common.root, styles.sizes[size].root, className)}
+            className={cx(styles.common.root, styles.selectedColors[selectedColor].root, styles.sizes[size].root, className)}
         >
             {(renderProps) => (
                 <>
-                    {canShowCheck && renderProps.isSelected && (
-                        <Check aria-hidden="true" className={cx(styles.common.icon, styles.sizes[size].icon, "-ml-0.5 size-4 stroke-[2.5px]")} />
-                    )}
-                    {isReactComponent(IconLeading) && <IconLeading className={cx(styles.common.icon, styles.sizes[size].icon)} />}
+                    {canShowCheck && renderProps.isSelected && <Check aria-hidden="true" className={cx(iconClassName, "-ml-0.5 size-4 stroke-[2.5px]")} />}
+                    {isReactComponent(IconLeading) && <IconLeading className={iconClassName} />}
                     {isValidElement(IconLeading) && IconLeading}
 
                     {typeof children === "function" ? children(renderProps) : children}
 
-                    {isReactComponent(IconTrailing) && <IconTrailing className={cx(styles.common.icon, styles.sizes[size].icon)} />}
+                    {isReactComponent(IconTrailing) && <IconTrailing className={iconClassName} />}
                     {isValidElement(IconTrailing) && IconTrailing}
                 </>
             )}
@@ -105,6 +119,12 @@ interface ButtonGroupProps extends Omit<ToggleButtonGroupProps, "orientation">, 
      * @default true
      */
     showSelectedIndicator?: boolean;
+    /**
+     * Fill of the selected item. `"neutral"` is the subtle active surface; `"brand"` uses the
+     * primary-button brand fill with on-brand text (WCAG AA) for a stronger selected state.
+     * @default "neutral"
+     */
+    selectedColor?: SelectedColor;
 }
 
 /**
@@ -112,9 +132,9 @@ interface ButtonGroupProps extends Omit<ToggleButtonGroupProps, "orientation">, 
  * `radiogroup` (query them with `getByRole("radio")` in tests); `selectionMode="multiple"` makes
  * them toggle `button`s with `aria-pressed`. Give the group an `aria-label`.
  */
-export const ButtonGroup = ({ children, size = "md", className, showSelectedIndicator = true, ...otherProps }: ButtonGroupProps) => {
+export const ButtonGroup = ({ children, size = "md", className, showSelectedIndicator = true, selectedColor = "neutral", ...otherProps }: ButtonGroupProps) => {
     return (
-        <ButtonGroupContext.Provider value={{ size, showSelectedIndicator }}>
+        <ButtonGroupContext.Provider value={{ size, showSelectedIndicator, selectedColor }}>
             <AriaToggleButtonGroup
                 selectionMode="single"
                 className={cx("relative z-0 inline-flex w-max -space-x-px rounded-lg shadow-xs", className)}
