@@ -119,14 +119,26 @@ RadioButton.displayName = "RadioButton";
 interface RadioGroupProps extends RadioGroupContextType, AriaRadioGroupProps {
     children: ReactNode;
     className?: string;
+    /**
+     * Layout and arrow-key axis. `"horizontal"` lays the radios out in a row that wraps on narrow
+     * widths, sets `aria-orientation="horizontal"`, and makes Left/Right follow the reading
+     * direction (flipped in RTL). Up/Down move next/previous in both orientations.
+     * @default "vertical"
+     */
+    orientation?: "vertical" | "horizontal";
 }
 
-export const RadioGroup = ({ children, className, size = "sm", ...props }: RadioGroupProps) => {
+export const RadioGroup = ({ children, className, size = "sm", orientation = "vertical", ...props }: RadioGroupProps) => {
     return (
         <RadioGroupContext.Provider value={{ size }}>
-            <AriaRadioGroup {...props} className={cx("flex flex-col gap-4", className)}>
+            <AriaRadioGroup
+                {...props}
+                orientation={orientation}
+                className={cx("flex gap-4", orientation === "horizontal" ? "flex-row flex-wrap gap-x-6" : "flex-col", className)}
+            >
                 {children}
             </AriaRadioGroup>
         </RadioGroupContext.Provider>
     );
 };
+RadioGroup.displayName = "RadioGroup";

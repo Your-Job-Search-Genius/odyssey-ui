@@ -41,6 +41,12 @@ import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
 
 <ComponentPreview demo="base/radio-buttons/radio-buttons" export="DisabledIndividualItemDemo" />
 
+### Horizontal
+
+`orientation="horizontal"` lays the options out in a row that wraps on narrow widths and sets `aria-orientation` on the group.
+
+<ComponentPreview demo="base/radio-buttons/radio-buttons" export="HorizontalDemo" />
+
 ### Radio Buttons
 
 <ComponentPreview demo="base/radio-buttons/radio-buttons" export="RadioButtons" />
@@ -51,7 +57,8 @@ import { RadioButtonBase } from "@/components/base/radio-buttons/radio-buttons";
 
 ## Accessibility
 
-{/* TODO: keyboard interactions and ARIA notes. */}
+- `RadioGroup` renders a `radiogroup`; each `RadioButton` is a native radio. Give the group an `aria-label`, or `aria-labelledby` pointing at a visible heading.
+- Tab moves into the group (to the selected radio), arrow keys move and select. With `orientation="horizontal"`, Left/Right follow the reading direction.
 
 ## Related
 
