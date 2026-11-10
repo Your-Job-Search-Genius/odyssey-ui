@@ -10,14 +10,14 @@ import {
     Link as AriaLink,
 } from "react-aria-components";
 import { Tooltip } from "@/components/base/tooltip/tooltip";
-import { ChevronDown } from "@/components/foundations/icons";
+import { ArrowDown01SharpIcon } from "@/components/foundations/hugeicons";
 import { cx, sortCx } from "@/utils/cx";
 import { FADE, FOCUS_RING, ROW_TEXT, type SidebarNavItem, isBranchActive, useSidebar } from "./sidebar-shared";
 
 const styles = sortCx({
     row: {
         base: cx(
-            "flex w-full cursor-pointer items-center justify-between gap-1 rounded-md px-1.25 py-1.5 text-left transition duration-100 ease-linear",
+            "flex w-full cursor-pointer items-center justify-between gap-1 rounded-[7px] py-1.5 pr-2.5 pl-1.25 text-left transition duration-100 ease-linear",
             FOCUS_RING,
         ),
         idle: "text-primary hover:bg-quaternary",
@@ -50,9 +50,9 @@ const RowContent = ({ item, isActive, trailing }: RowContentProps) => {
 
     return (
         <>
-            <span className="flex min-w-0 items-center gap-1">
+            <span className="flex min-w-0 items-center gap-1.25">
                 <span aria-hidden="true" className={cx(styles.rail, isActive && "bg-utility-brand-600")} />
-                <span className="flex min-w-0 items-center gap-1.5">
+                <span className="flex min-w-0 items-center gap-1.25">
                     <Icon aria-hidden="true" className={cx(styles.icon, isActive ? "text-utility-brand-600" : "text-fg-primary")} />
                     <span className={cx(ROW_TEXT, "max-w-31", FADE, isCollapsed && "opacity-0")}>{item.label}</span>
                 </span>
@@ -95,9 +95,10 @@ const NavGroup = ({ item, index }: { item: SidebarNavItem; index: number }) => {
                         item={item}
                         isActive={isActive}
                         trailing={
-                            <ChevronDown
+                            // -mr-2 puts the 8px glyph 6px from the row's edge, as drawn.
+                            <ArrowDown01SharpIcon
                                 aria-hidden="true"
-                                className="size-4 shrink-0 text-fg-primary transition-transform duration-200 ease-in-out group-data-expanded/nav-group:rotate-180 motion-reduce:transition-none"
+                                className="-mr-2 size-4 shrink-0 text-fg-primary transition-transform duration-200 ease-in-out group-data-expanded/nav-group:rotate-180 motion-reduce:transition-none"
                             />
                         }
                     />
@@ -152,7 +153,7 @@ export const SidebarNav = ({ items, expandedKeys, onExpandedChange }: SidebarNav
                 onExpandedChange(new Set([...expandedKeys, ...keys]));
             }}
         >
-            <ul className="flex flex-col gap-2 px-1.5">
+            <ul className="flex flex-col gap-1 px-1.5">
                 {items.map((item, index) => (
                     <li key={item.label}>{item.items?.length ? <NavGroup item={item} index={index} /> : <NavLinkRow item={item} index={index} />}</li>
                 ))}

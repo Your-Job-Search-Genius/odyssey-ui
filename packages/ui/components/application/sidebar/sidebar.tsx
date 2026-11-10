@@ -4,7 +4,7 @@ import { type ReactNode, useId, useMemo, useRef, useState } from "react";
 import type { Key } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { Tooltip } from "@/components/base/tooltip/tooltip";
-import { LayoutLeft } from "@/components/foundations/icons";
+import { SidebarLeftIcon } from "@/components/foundations/hugeicons";
 import { useControllableState } from "@/hooks/use-controllable-state";
 import { useHideOnScroll } from "@/hooks/use-hide-on-scroll";
 import { cx } from "@/utils/cx";
@@ -133,7 +133,7 @@ export const SidebarLayout = ({
                                 isCollapsed ? "px-3" : "px-1.5",
                             )}
                         >
-                            <div className="flex min-w-0 items-center gap-2">
+                            <div className="flex min-w-0 items-center gap-1.75">
                                 <SidebarMark image={brand.logo} initials={getInitials(brand.name)} />
                                 <span className={cx("max-w-24.5 min-w-0 truncate text-sm font-medium text-primary", FADE, isCollapsed && "opacity-0")}>
                                     {brand.name}
@@ -147,22 +147,22 @@ export const SidebarLayout = ({
                                     aria-controls={asideId}
                                     onPress={() => setIsCollapsed(!isCollapsed)}
                                     className={cx(
-                                        // Expanded it sits flush at the end of the header row (right 0). Collapsed it slides onto the rail's right edge, level
+                                        // Expanded it sits at the end of the header row (its 20px icon 6px in, as drawn). Collapsed it slides onto the rail's right edge, level
                                         // with the logo: the header row ends 10px (the card's px-2.5) inside that edge, so right -18px
                                         // centres the 16px button exactly on it, clear of the content card.
-                                        "absolute top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border bg-primary text-fg-primary transition-[right,width,height,border-color,box-shadow,background-color] duration-200 ease-in-out hover:bg-primary_hover motion-reduce:transition-none",
-                                        isCollapsed ? "-right-4.5 size-4 border-secondary shadow-md" : "right-0 size-5.5 border-transparent",
+                                        "absolute top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border text-fg-primary transition-[right,width,height,border-color,box-shadow,background-color] duration-200 ease-in-out hover:bg-primary_hover motion-reduce:transition-none",
+                                        isCollapsed ? "-right-4.5 size-4 border-secondary bg-primary shadow-md" : "right-1.25 size-5.5 border-transparent",
                                         FOCUS_RING,
                                     )}
                                 >
-                                    <LayoutLeft aria-hidden="true" className={isCollapsed ? "size-3" : "size-5"} />
+                                    <SidebarLeftIcon aria-hidden="true" className={isCollapsed ? "size-3" : "size-5"} />
                                 </AriaButton>
                             </Tooltip>
                         </div>
 
                         <nav
                             aria-label="Main"
-                            className="min-h-0 flex-1 [scrollbar-width:thin] overflow-x-hidden overflow-y-auto py-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-quaternary"
+                            className="-my-1 min-h-0 flex-1 [scrollbar-width:thin] overflow-x-hidden overflow-y-auto py-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-quaternary"
                         >
                             <SidebarNav items={items} expandedKeys={expandedKeys} onExpandedChange={setExpandedKeys} />
                         </nav>
@@ -177,7 +177,7 @@ export const SidebarLayout = ({
                         id="main-content"
                         tabIndex={-1}
                         className={cx(
-                            "@container scrollbar-hide h-full overflow-y-auto bg-primary p-5 pb-20 outline-hidden md:rounded-[17px] md:border-[0.5px] md:border-secondary md:pb-5 md:shadow-xs",
+                            "@container scrollbar-hide h-full overflow-y-auto bg-primary p-5 pb-20 outline-hidden md:rounded-[17px] md:border md:border-[#E0E1E2] md:pb-5 md:shadow-[0_1px_1px_rgba(0,0,0,0.1)] md:dark:border-secondary",
                             contentClassName,
                         )}
                     >

@@ -134,9 +134,9 @@ const Title = ({ level = 2, ...props }: TitleProps) => {
         <Heading
             {...props}
             className={cx(
-                "text-md font-semibold text-primary",
+                "text-center text-md font-semibold text-primary",
                 size === "md" && "text-lg font-semibold",
-                size === "lg" && "text-xl font-semibold",
+                size === "lg" && "text-[26px] leading-[normal] font-semibold",
                 props.className,
             )}
         />
@@ -148,6 +148,17 @@ const Description = (props: ComponentPropsWithRef<"p">) => {
 
     return <p {...props} className={cx("text-center text-sm text-tertiary", size === "lg" && "text-md", props.className)} />;
 };
+
+/** A gray pill under the actions for a status note, e.g. "Your admin has been notified about your interest". */
+const Caption = (props: ComponentPropsWithRef<"p">) => (
+    <p
+        {...props}
+        className={cx(
+            "z-10 flex min-h-9 items-center justify-center rounded-[30px] bg-tertiary px-3.25 py-2 text-center text-sm font-medium text-primary",
+            props.className,
+        )}
+    />
+);
 
 interface AvatarRadiusProps extends ComponentPropsWithRef<"div"> {
     avatars?: Array<{ src: string; alt?: string }>;
@@ -348,6 +359,7 @@ const EmptyState = Root as typeof Root & {
     Footer: typeof Footer;
     Content: typeof Content;
     Description: typeof Description;
+    Caption: typeof Caption;
     Illustration: typeof Illustration;
     FeaturedIcon: typeof FeaturedIcon;
     FileTypeIcon: typeof FileTypeIcon;
@@ -361,6 +373,7 @@ EmptyState.Header = Header;
 EmptyState.Footer = Footer;
 EmptyState.Content = Content;
 EmptyState.Description = Description;
+EmptyState.Caption = Caption;
 EmptyState.Illustration = Illustration;
 EmptyState.FeaturedIcon = FeaturedIcon;
 EmptyState.FileTypeIcon = FileTypeIcon;

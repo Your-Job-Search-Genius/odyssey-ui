@@ -1,12 +1,12 @@
 "use client";
 
-import type { ComponentProps, ComponentPropsWithRef } from "react";
+import type { ComponentProps, ComponentPropsWithRef, FC, ReactNode } from "react";
 import { useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { Button as AriaButton } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
 import { ProgressBar } from "@/components/base/progress-indicators/progress-indicators";
-import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
 import type { FileIcon } from "@/components/foundations/file-icons/file-icon";
 import { FileIcon as FileTypeIcon } from "@/components/foundations/file-icons/file-icon";
 import { CheckCircle, Trash01, UploadCloud02, XCircle } from "@/components/foundations/icons";
@@ -34,6 +34,12 @@ interface FileUploadDropZoneProps {
      * A hint text explaining what files can be dropped.
      */
     hint?: string;
+    /** Visible title; it is also the button that opens the file picker. @default "Click to upload" (followed by "or drag and drop") */
+    title?: ReactNode;
+    /** Icon shown before the text, sized 32px. @default UploadCloud02 */
+    icon?: FC<{ className?: string }>;
+    /** Short status shown as a pill after the title, e.g. "1/5 Uploaded". */
+    badge?: ReactNode;
     /**
      * Disables dropping or uploading files.
      */
@@ -71,6 +77,9 @@ interface FileUploadDropZoneProps {
 export const FileUploadDropZone = ({
     className,
     hint,
+    title,
+    icon: Icon = UploadCloud02,
+    badge,
     isDisabled,
     accept,
     allowsMultiple = true,
@@ -201,16 +210,18 @@ export const FileUploadDropZone = ({
             onDragEnd={handleDragOut}
             onDrop={handleDrop}
             className={cx(
-                "relative flex flex-col items-center gap-3 rounded-xl bg-primary px-6 py-4 text-tertiary ring-1 ring-secondary transition duration-100 ease-linear ring-inset",
-                isDraggingOver && "ring-2 ring-brand",
-                isDisabled && "cursor-not-allowed bg-secondary",
+                "relative flex items-start gap-3 rounded-[20px] border-2 border-dashed border-secondary bg-primary p-2.5 text-left text-tertiary outline-focus-ring transition duration-100 ease-linear",
+                // The title button's hit area covers the whole zone, so the focus ring goes on the zone too.
+                "has-data-focus-visible:outline-2 has-data-focus-visible:outline-offset-2",
+                isDraggingOver && "border-brand-solid bg-brand-primary",
+                isDisabled && "cursor-not-allowed opacity-50",
                 className,
             )}
         >
-            <FeaturedIcon icon={UploadCloud02} color="gray" theme="modern" size="md" className={cx(isDisabled && "opacity-50")} />
+            <Icon aria-hidden="true" className="size-8 shrink-0 text-fg-primary" />
 
-            <div className="flex flex-col gap-1 text-center">
-                <div className="flex justify-center gap-1 text-center">
+            <div className="flex min-w-0 flex-1 flex-col gap-px">
+                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                     <input
                         ref={inputRef}
                         id={id}
@@ -225,29 +236,30 @@ export const FileUploadDropZone = ({
                         multiple={allowsMultiple}
                         onChange={handleInputFileChange}
                     />
-                    <label htmlFor={id} className="flex cursor-pointer">
-                        <Button
-                            color="link-color"
-                            size="md"
+                    <label htmlFor={id} className="flex">
+                        <AriaButton
                             isDisabled={isDisabled}
                             aria-describedby={`${id}-drop ${id}-hint`}
-                            onClick={() => inputRef.current?.click()}
+                            onPress={() => inputRef.current?.click()}
+                            // `after:` stretches the hit area over the whole drop zone.
+                            className="cursor-pointer text-left text-md font-semibold text-primary outline-hidden after:absolute after:inset-0 after:rounded-[18px] disabled:cursor-not-allowed"
                         >
-                            Click to upload <span className="md:hidden">and attach files</span>
-                        </Button>
+                            {title ?? "Click to upload"}
+                        </AriaButton>
                     </label>
                     {/* Part of the button's description so screen readers hear that files can also be dropped here.
-                        Kept when visually hidden below md: dropping still works at narrow widths (e.g. 400% zoom). */}
-                    <span id={`${id}-drop`} className="text-sm max-md:hidden">
+                        Visible only next to the default title; kept for screen readers when a custom title replaces it. */}
+                    <span id={`${id}-drop`} className={cx("text-md font-medium text-subtle", title !== undefined && "sr-only")}>
                         or drag and drop
                     </span>
+                    {badge && <span className="rounded-[17px] bg-brand-primary py-1 pr-2.25 pl-2 text-xs/4 font-medium text-brand-tertiary">{badge}</span>}
                 </div>
                 {/* Remounts as an alert when files are rejected so the hint is announced, not just recolored. */}
                 <p
                     key={isInvalid ? "invalid" : "valid"}
                     id={`${id}-hint`}
                     role={isInvalid ? "alert" : undefined}
-                    className={cx("text-xs transition duration-100 ease-linear", isInvalid && "text-error-primary")}
+                    className={cx("text-sm/[normal] font-medium text-subtle transition duration-100 ease-linear", isInvalid && "text-error-primary")}
                 >
                     {hint || "SVG, PNG, JPG or GIF (max. 800x400px)"}
                 </p>

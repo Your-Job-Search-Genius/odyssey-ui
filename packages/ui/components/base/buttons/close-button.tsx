@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react-aria-components";
-import { X as CloseIcon } from "@/components/foundations/icons";
+import { MultiplicationSignIcon } from "@/components/foundations/hugeicons";
 import { cx } from "@/utils/cx";
 
 const sizes = {
@@ -15,6 +15,9 @@ const sizes = {
 const themes = {
     light: "text-fg-quaternary hover:bg-primary_hover hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 outline-focus-ring",
     dark: "text-fg-white/70 hover:text-fg-white hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 outline-focus-ring",
+    // Figma's close button on dark (`bg-inverse`) dialogs: a fixed 26px white square with a 13px icon pinned at 7px
+    // (Figma's p7 overflows the box by 1px, so the icon is not centred), so `size` is ignored.
+    white: "size-6.5 items-start justify-start rounded-lg bg-white p-[7px] text-[#141B34] shadow-[0_1px_1px_rgba(0,0,0,0.05)] hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 outline-white",
 };
 
 // `:focus-visible` (and React Aria's own equivalent) is keyed to the last interaction *modality*,
@@ -33,7 +36,8 @@ const forceRingClasses =
     "data-force-focus-ring:outline-2! data-force-focus-ring:outline-solid! data-force-focus-ring:outline-offset-2! data-force-focus-ring:outline-focus-ring!";
 
 interface CloseButtonProps extends AriaButtonProps {
-    theme?: "light" | "dark";
+    /** `light`/`dark` are icon-only for light/dark surfaces; `white` is the solid white square for dark dialogs (fixed 26px). */
+    theme?: "light" | "dark" | "white";
     size?: "xs" | "sm" | "md" | "lg";
     label?: string;
     /**
@@ -80,7 +84,7 @@ export const CloseButton = ({ label, className, size = "sm", theme = "light", sl
                 )
             }
         >
-            <CloseIcon aria-hidden="true" className={cx("shrink-0 transition-inherit-all", sizes[size].icon)} />
+            <MultiplicationSignIcon aria-hidden="true" className={cx("shrink-0 transition-inherit-all", theme === "white" ? "size-3.25" : sizes[size].icon)} />
         </AriaButton>
     );
 };

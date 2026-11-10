@@ -9,7 +9,7 @@
 export const componentMeta = {
     importName: "Dropdown",
     description:
-        'Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, href, and variant="destructive" for delete/remove actions. Menus with selectionMode render checks/radios on items.',
+        'Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, count (a small chip right after the label, e.g. 32 for "All 32"), href, and variant="destructive" for delete/remove actions. Menus with selectionMode render checks/radios on items.',
     a11y: 'Arrow keys move between items, typeahead jumps, Enter/Space activates, Escape closes and returns focus to the trigger. Give an icon-only trigger a specific name: <Dropdown.DotsButton aria-label="Actions for Acme" /> (defaults to "Open menu").',
     doNot: [
         "Do not hand-position a portal menu -- use Dropdown (keyboard navigation and focus return come with it).",

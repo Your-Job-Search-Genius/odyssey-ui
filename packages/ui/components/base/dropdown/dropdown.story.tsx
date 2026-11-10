@@ -1,4 +1,6 @@
 import type { FC } from "react";
+import { Button } from "@/components/base/buttons/button";
+import { Dropdown } from "@/components/base/dropdown/dropdown";
 import { DropdownAccountBreadcrumb } from "@/components/base/dropdown/dropdown-account-breadcrumb";
 import { DropdownAccountButton } from "@/components/base/dropdown/dropdown-account-button";
 import { DropdownAccountCardMD } from "@/components/base/dropdown/dropdown-account-card-md";
@@ -15,6 +17,7 @@ import { DropdownIconSimple } from "@/components/base/dropdown/dropdown-icon-sim
 import { DropdownIntegration } from "@/components/base/dropdown/dropdown-integration";
 import { DropdownSearchAdvanced } from "@/components/base/dropdown/dropdown-search-advanced";
 import { DropdownSearchSimple } from "@/components/base/dropdown/dropdown-search-simple";
+import { ArrowDown01SharpIcon } from "@/components/foundations/hugeicons";
 
 export default {
     title: "Base components/Dropdown menus",
@@ -74,3 +77,21 @@ DropdownAccountCardMDStory.storyName = "Dropdown menu account card md";
 
 export const DropdownAccountBreadcrumbStory = () => <DropdownAccountBreadcrumb />;
 DropdownAccountBreadcrumbStory.storyName = "Dropdown menu account breadcrumb";
+
+/** P32 Download menu (14721:107834): counts in chips, rows split by a line. Screenshot `[role=menu]` for the menu alone. */
+export const Figma = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <Dropdown.Root defaultOpen>
+            <Button color="secondary" size="sm" iconTrailing={ArrowDown01SharpIcon}>
+                Download
+            </Button>
+            <Dropdown.Popover placement="bottom start" className="w-auto">
+                <Dropdown.Menu aria-label="Download">
+                    <Dropdown.Item id="all" label="All" count={32} />
+                    <Dropdown.Separator />
+                    <Dropdown.Item id="favorites" label="Favorites" count={8} />
+                </Dropdown.Menu>
+            </Dropdown.Popover>
+        </Dropdown.Root>
+    </div>
+);

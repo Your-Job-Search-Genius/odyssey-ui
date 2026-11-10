@@ -4,8 +4,12 @@
  */
 export const componentMeta = {
     description:
-        "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer.",
-    variants: { size: ["sm", "md", "lg", "xl", "2xl", "full"] },
+        "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer. Modal variant: default (white), dark (#444 photo-flow shell), dark-inset (dark frame around a white ModalBody card; use ModalOptionList/ModalOption for icon rows), translucent (crop). ModalOverlay backdrop: light (default), dark, splash, lightbox. ModalHeader actions puts a CTA on the title row. On phones dialogs dock at the bottom, inset 16px.",
+    variants: {
+        size: ["sm", "md", "lg", "xl", "2xl", "full"],
+        variant: ["default", "dark", "dark-inset", "translucent"],
+        backdrop: ["light", "dark", "splash", "lightbox"],
+    },
     a11y: 'Focus moves into the dialog on open, Tab is trapped inside, Escape closes it and focus returns to the trigger. ModalHeader\'s title labels the dialog. Use Dialog role="alertdialog" for confirmations, keep Cancel as the first focusable button, and set ModalOverlay isDismissable={false} while a destructive action is running.',
     doNot: [
         "Do not hand-build a fixed inset-0 overlay -- use ModalOverlay + Modal (focus trap, scroll lock and focus return come with it).",

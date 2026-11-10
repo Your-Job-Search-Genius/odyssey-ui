@@ -94,7 +94,7 @@ const styles = {
             withClose: "pr-1",
         },
         content: "gap-1.25",
-        count: "px-1.25 text-xs font-medium",
+        count: "min-w-[23px] px-1 text-[13px] leading-[19px] font-medium",
     },
     lg: {
         root: {
@@ -106,7 +106,7 @@ const styles = {
             withClose: "pr-1",
         },
         content: "gap-1.5",
-        count: "px-1.5 text-sm font-medium",
+        count: "min-w-[23px] px-1 text-sm font-medium",
     },
 };
 
@@ -169,7 +169,12 @@ export const Tag = ({
                         {children}
 
                         {typeof count === "number" && (
-                            <span className={cx("flex items-center justify-center rounded-[3px] bg-tertiary text-center", styles[context.size].count)}>
+                            <span
+                                className={cx(
+                                    "flex items-center justify-center rounded-[5px] bg-border-secondary text-center text-primary",
+                                    styles[context.size].count,
+                                )}
+                            >
                                 {count}
                             </span>
                         )}

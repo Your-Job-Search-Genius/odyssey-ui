@@ -11,32 +11,43 @@ import { cx } from "@/utils/cx";
 
 export interface RadioGroupContextType {
     size?: "sm" | "md";
+    /**
+     * Surface the radios sit on. `"inverse"` is for dark surfaces (e.g. the `bg-inverse` dialog shell):
+     * labels turn white, hints `text-inverse-secondary`, and the focus outline turns white. The circle
+     * itself is unchanged; it already reads on dark.
+     * @default "default"
+     */
+    tone?: "default" | "inverse";
 }
 
 const RadioGroupContext = createContext<RadioGroupContextType | null>(null);
 
 export interface RadioButtonBaseProps {
     size?: "sm" | "md";
+    tone?: "default" | "inverse";
     className?: string;
     isFocusVisible?: boolean;
     isSelected?: boolean;
     isDisabled?: boolean;
 }
 
-export const RadioButtonBase = ({ className, isFocusVisible, isSelected, isDisabled, size = "sm" }: RadioButtonBaseProps) => {
+export const RadioButtonBase = ({ className, isFocusVisible, isSelected, isDisabled, size = "sm", tone = "default" }: RadioButtonBaseProps) => {
     return (
         <div
             className={cx(
                 "flex size-4 shrink-0 cursor-pointer appearance-none items-center justify-center rounded-full bg-primary ring-1 ring-primary ring-inset",
                 size === "md" && "size-5",
-                isSelected && "bg-brand-solid ring-brand-solid",
+                isSelected && "bg-brand-primary ring-brand-solid",
                 isDisabled && "cursor-not-allowed opacity-50",
                 isDisabled && !isSelected && "bg-tertiary",
                 isFocusVisible && "outline-2 outline-offset-2 outline-focus-ring",
+                isFocusVisible && tone === "inverse" && "outline-white",
                 className,
             )}
         >
-            <div className={cx("size-1.5 rounded-full bg-fg-white opacity-0 transition-inherit-all", size === "md" && "size-2", isSelected && "opacity-100")} />
+            <div
+                className={cx("size-1.5 rounded-full bg-brand-solid opacity-0 transition-inherit-all", size === "md" && "size-2", isSelected && "opacity-100")}
+            />
         </div>
     );
 };
@@ -44,15 +55,18 @@ RadioButtonBase.displayName = "RadioButtonBase";
 
 interface RadioButtonProps extends AriaRadioProps {
     size?: "sm" | "md";
+    /** See `RadioGroup`'s `tone`; the group's value wins when both are set. */
+    tone?: "default" | "inverse";
     label?: ReactNode;
     hint?: ReactNode;
     ref?: Ref<HTMLLabelElement>;
 }
 
-export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioProps }: RadioButtonProps) => {
+export const RadioButton = ({ label, hint, className, size = "sm", tone = "default", ...ariaRadioProps }: RadioButtonProps) => {
     const context = useContext(RadioGroupContext);
 
     size = context?.size ?? size;
+    tone = context?.tone ?? tone;
     // The <label> wraps both texts; point name at the label and description at the hint so the hint isn't read as part of the name.
     const labelId = useId();
     const hintId = useId();
@@ -67,7 +81,7 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
         md: {
             root: "gap-3",
             textWrapper: "gap-0.5",
-            label: "text-md font-medium",
+            label: "text-md font-semibold",
             hint: "text-md",
         },
     };
@@ -90,6 +104,7 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
                 <>
                     <RadioButtonBase
                         size={size}
+                        tone={tone}
                         isSelected={isSelected}
                         isDisabled={isDisabled}
                         isFocusVisible={isFocusVisible}
@@ -98,12 +113,16 @@ export const RadioButton = ({ label, hint, className, size = "sm", ...ariaRadioP
                     {(label || hint) && (
                         <div className={cx("inline-flex flex-col", sizes[size].textWrapper)}>
                             {label && (
-                                <p id={labelId} className={cx("text-secondary select-none", sizes[size].label)}>
+                                <p id={labelId} className={cx("text-primary select-none", tone === "inverse" && "text-white", sizes[size].label)}>
                                     {label}
                                 </p>
                             )}
                             {hint && (
-                                <span id={hintId} className={cx("text-tertiary", sizes[size].hint)} onClick={(event) => event.stopPropagation()}>
+                                <span
+                                    id={hintId}
+                                    className={cx("text-tertiary", tone === "inverse" && "text-inverse-secondary", sizes[size].hint)}
+                                    onClick={(event) => event.stopPropagation()}
+                                >
                                     {hint}
                                 </span>
                             )}
@@ -128,9 +147,9 @@ interface RadioGroupProps extends RadioGroupContextType, AriaRadioGroupProps {
     orientation?: "vertical" | "horizontal";
 }
 
-export const RadioGroup = ({ children, className, size = "sm", orientation = "vertical", ...props }: RadioGroupProps) => {
+export const RadioGroup = ({ children, className, size = "sm", tone = "default", orientation = "vertical", ...props }: RadioGroupProps) => {
     return (
-        <RadioGroupContext.Provider value={{ size }}>
+        <RadioGroupContext.Provider value={{ size, tone }}>
             <AriaRadioGroup
                 {...props}
                 orientation={orientation}

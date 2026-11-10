@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type RefAttributes, useCallback, useContext } from "react";
+import { type FC, type ReactNode, type RefAttributes, useCallback, useContext } from "react";
 import type {
     ButtonProps as AriaButtonProps,
     MenuItemProps as AriaMenuItemProps,
@@ -38,6 +38,8 @@ interface DropdownItemProps extends AriaMenuItemProps {
     label?: string;
     /** An addon to be displayed on the right side of the item. */
     addon?: string;
+    /** A count shown in a small chip right after the label, e.g. `32` for "All 32". */
+    count?: ReactNode;
     /** If true, the item will not have any styles. */
     unstyled?: boolean;
     /** An icon to be displayed on the left side of the item. */
@@ -58,6 +60,7 @@ const DropdownItem = ({
     label,
     children,
     addon,
+    count,
     icon: Icon,
     avatarUrl,
     unstyled,
@@ -107,7 +110,7 @@ const DropdownItem = ({
             {...props}
             className={(state) =>
                 cx(
-                    "group block cursor-pointer px-1.5 py-px outline-hidden",
+                    "group block cursor-pointer outline-hidden",
                     state.isDisabled && "cursor-not-allowed opacity-50",
                     typeof props.className === "function" ? props.className(state) : props.className,
                 )
@@ -116,7 +119,7 @@ const DropdownItem = ({
             {(state) => (
                 <div
                     className={cx(
-                        "relative flex items-center rounded-md px-2.5 py-2 outline-focus-ring transition duration-100 ease-linear",
+                        "relative flex items-center rounded-md p-2 outline-focus-ring transition duration-100 ease-linear",
                         !state.isDisabled && (isDestructive ? "group-hover:bg-error-primary" : "group-hover:bg-primary_hover"),
                         state.isFocused && (isDestructive ? "bg-error-primary" : "bg-primary_hover"),
                         state.isFocusVisible && "outline-2 -outline-offset-2",
@@ -140,12 +143,19 @@ const DropdownItem = ({
 
                     <span
                         className={cx(
-                            "grow truncate text-sm font-semibold",
-                            isDestructive ? "text-error-primary" : cx("text-secondary", state.isFocused && "text-secondary_hover"),
+                            "truncate text-[15px] leading-5 font-medium",
+                            count === undefined && "grow",
+                            isDestructive ? "text-error-primary" : "text-primary",
                         )}
                     >
                         {label || (typeof children === "function" ? children(state) : children)}
                     </span>
+
+                    {count !== undefined && (
+                        <span className="mr-auto ml-2 flex h-[19px] min-w-[23px] shrink-0 items-center justify-center rounded-[5px] bg-border-secondary px-1 text-[13px] leading-5 font-medium text-primary">
+                            {count}
+                        </span>
+                    )}
 
                     {addon && <span className="ml-1 shrink-0 pr-1 text-xs font-medium text-quaternary">{addon}</span>}
 
@@ -165,7 +175,7 @@ const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
         <AriaMenu
             {...props}
             className={(state) =>
-                cx("h-min overflow-y-auto py-1 outline-hidden select-none", typeof props.className === "function" ? props.className(state) : props.className)
+                cx("h-min overflow-y-auto p-0.5 outline-hidden select-none", typeof props.className === "function" ? props.className(state) : props.className)
             }
         />
     );
@@ -187,7 +197,7 @@ const DropdownPopover = (props: DropdownPopoverProps) => {
             {...props}
             className={(state) =>
                 cx(
-                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt will-change-transform",
+                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-xl bg-primary shadow-[0_30px_30px_rgba(0,0,0,0.05)] ring-1 ring-secondary will-change-transform ring-inset",
                     state.isEntering &&
                         "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                     state.isExiting &&
@@ -231,7 +241,8 @@ const DropdownSubmenuTrigger = (props: AriaSubmenuTriggerProps) => {
 };
 
 const DropdownSeparator = (props: AriaSeparatorProps) => {
-    return <AriaSeparator {...props} className={cx("my-1 h-px w-full bg-border-secondary", props.className)} />;
+    // Inset to the item text (2px menu + 8px item padding); -mb-px makes the line take no height, so the rows either side keep 8px of air each, as drawn.
+    return <AriaSeparator {...props} className={cx("mx-2 -mb-px h-px bg-border-secondary", props.className)} />;
 };
 
 const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonElement>) => {

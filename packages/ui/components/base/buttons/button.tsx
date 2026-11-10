@@ -22,57 +22,87 @@ export const styles = sortCx({
         ].join(" "),
         icon: "pointer-events-none size-5 shrink-0 transition-inherit-all",
     },
+    // Figma (BetterShot) geometry, values as drawn: Medium 500, xs 28 / sm 32 / md 36 / lg 40 tall, icon gap 4.
+    // The splash CTA (36px with 14px text) is `size="sm" className="py-2"`; it is the board's only such button.
     sizes: {
         xs: {
             root: [
-                "gap-1 rounded-xl px-2 py-0.75 text-xs font-semibold data-icon-only:p-1",
-                "in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
+                "gap-1 rounded-lg px-2 py-1 text-sm font-medium data-icon-only:p-1.5",
+                "in-data-input-wrapper:px-4 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
                 "*:data-icon:size-4 *:data-icon:stroke-[2.25px]",
             ].join(" "),
             linkRoot: "gap-1 *:data-text:underline-offset-3",
         },
         sm: {
             root: [
-                "gap-1 rounded-xl px-3 py-1.5 text-sm font-semibold data-icon-only:p-1.5",
-                "in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
+                "gap-1 rounded-lg px-3 py-1.5 text-sm font-medium data-icon-only:p-2",
+                "in-data-input-wrapper:px-4 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
+                "*:data-icon:size-4",
             ].join(" "),
             linkRoot: "gap-1 *:data-text:underline-offset-3",
         },
         md: {
             root: [
-                "min-w-30 gap-1 rounded-xl px-4 py-2 text-md font-semibold data-icon-only:min-w-0 data-icon-only:p-2.5",
-                "in-data-input-wrapper:gap-1.5 in-data-input-wrapper:px-4 in-data-input-wrapper:text-md in-data-input-wrapper:data-icon-only:p-3",
+                "gap-1 rounded-[9px] px-3 py-1.5 text-md font-medium data-icon-only:p-[9px]",
+                "in-data-input-wrapper:gap-1.5 in-data-input-wrapper:px-4.5 in-data-input-wrapper:text-md in-data-input-wrapper:data-icon-only:p-3",
+                "*:data-icon:size-4.5",
             ].join(" "),
-            linkRoot: "min-w-0 gap-1 *:data-text:underline-offset-4",
+            linkRoot: "gap-1 *:data-text:underline-offset-4",
         },
         lg: {
-            root: "gap-1.5 rounded-xl px-6 py-2.5 text-lg font-semibold data-icon-only:p-3.5",
+            root: "gap-1.5 rounded-[10px] px-3 py-2 text-md font-medium data-icon-only:p-2.5",
             linkRoot: "gap-1.5 *:data-text:underline-offset-4",
         },
         xl: {
-            root: "min-w-37.5 gap-1.5 rounded-xl px-10 py-5 text-md font-semibold data-icon-only:min-w-0 data-icon-only:p-5.5",
+            root: "min-w-37.5 gap-1.5 rounded-xl px-4 py-3 text-md font-medium data-icon-only:min-w-0 data-icon-only:p-3.5",
             linkRoot: "min-w-0 gap-1.5 *:data-text:underline-offset-4",
         },
     },
-
     colors: {
         primary: {
             root: [
                 "bg-brand-solid text-white ring-1 ring-transparent ring-inset hover:bg-brand-solid_hover data-loading:bg-brand-solid_hover",
                 // Icon styles
-                "*:data-icon:text-white/60 hover:*:data-icon:text-white/70",
+                "*:data-icon:text-current",
             ].join(" "),
         },
         secondary: {
             root: [
-                "bg-primary text-primary ring-1 ring-secondary ring-inset hover:bg-quaternary data-loading:bg-quaternary",
+                "bg-primary text-primary shadow-xs ring-1 ring-secondary ring-inset hover:bg-quaternary data-loading:bg-quaternary",
                 // Icon styles
-                "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover",
+                "*:data-icon:text-current",
+            ].join(" "),
+        },
+        /** Secondary with brand-colored text (Figma "Edit Details", "Create Headshot →"). */
+        "secondary-brand": {
+            root: [
+                "bg-primary text-utility-brand-600 shadow-xs ring-1 ring-secondary ring-inset hover:bg-quaternary data-loading:bg-quaternary",
+                // Icon styles
+                "*:data-icon:text-current",
+            ].join(" "),
+        },
+        /** Solid white, no border, for dark surfaces (`bg-inverse`); stays white in dark mode. Figma pads it 7px at every size. */
+        white: {
+            root: [
+                "bg-white px-1.75 text-[#101419] outline-white hover:bg-neutral-100 data-loading:bg-neutral-100",
+                // Icon styles
+                "*:data-icon:text-current",
+            ].join(" "),
+        },
+        /**
+         * Outline info pill (Figma "What makes a good photo ⓘ"): border only, no fill or shadow, fully rounded,
+         * 8px padding (34px tall at `size="sm"`), 14px trailing icon. Sets its own padding, so `size` only picks the type size.
+         */
+        "outline-pill": {
+            root: [
+                "gap-[5px] rounded-full bg-transparent px-2 py-[7px] text-primary ring-1 ring-secondary ring-inset hover:bg-primary_hover data-icon-only:p-2 data-loading:bg-primary_hover",
+                // Icon styles
+                "*:data-icon:size-3.5 *:data-icon:text-current",
             ].join(" "),
         },
         tertiary: {
             root: [
-                "text-primary hover:bg-quaternary data-loading:bg-quaternary",
+                "text-tertiary hover:bg-quaternary data-loading:bg-quaternary",
                 // Icon styles
                 "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover",
             ].join(" "),
@@ -144,7 +174,7 @@ export interface CommonProps {
     iconLeading?: FC<{ className?: string }> | ReactNode;
     /** Icon component or element to show after the text */
     iconTrailing?: FC<{ className?: string }> | ReactNode;
-    /** Removes horizontal padding from the text content */
+    /** @deprecated No-op: the text no longer has its own padding (the sizes carry Figma's full padding). */
     noTextPadding?: boolean;
     /** When true, keeps the text visible during loading state */
     showTextWhileLoading?: boolean;
@@ -175,7 +205,7 @@ export const Button: {
     color = "primary",
     children,
     className,
-    noTextPadding,
+    noTextPadding: _noTextPadding,
     iconLeading: IconLeading,
     iconTrailing: IconTrailing,
     isDisabled: disabled,
@@ -192,8 +222,6 @@ export const Button: {
 
     const isIcon = (IconLeading || IconTrailing) && !children;
     const isLinkType = ["link-gray", "link-color", "link-destructive"].includes(color);
-
-    noTextPadding = isLinkType || noTextPadding;
 
     const commonChildren = (
         <>
@@ -228,7 +256,7 @@ export const Button: {
             )}
 
             {children && (
-                <span data-text className={cx("transition-inherit-all", !noTextPadding && "px-0.5")}>
+                <span data-text className="transition-inherit-all">
                     {children}
                 </span>
             )}

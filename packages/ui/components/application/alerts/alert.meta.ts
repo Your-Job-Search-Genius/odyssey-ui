@@ -3,7 +3,7 @@
  */
 export const componentMeta = {
     description:
-        "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children.",
+        "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children. Toasts are dark (#101419) pills anchored top-center by default; the info toast is text-only. ResumeToast is a separate persistent glass card (heading, description, title, action) for resuming an unfinished flow; position it yourself.",
     variants: { color: ["info", "success", "warning", "error"], size: ["sm", "md"] },
     a11y: "error/warning use role=alert (assertive); info/success use role=status. A dismissible Alert focuses its close button on mount unless autoFocus={false} -- turn it off for alerts present on page load. Toasts don't take focus unless you pass { autoFocus: true }; pass { duration: Infinity } for errors the user must read.",
     doNot: [
@@ -15,6 +15,10 @@ export const componentMeta = {
         {
             title: "Inline error with action",
             code: '<Alert color="error" title="Couldn\'t load contacts" description="Check your connection and try again." actions={<Button size="sm" color="link-color" onClick={retry}>Try again</Button>} />',
+        },
+        {
+            title: "Resume prompt",
+            code: '<ResumeToast className="fixed bottom-6 left-1/2 -translate-x-1/2" heading="Continue where you left off" description="Finish selecting" title="1 of 4 Looks chosen" action={<Button size="xs" color="secondary-brand" onPress={resume}>Resume Photoshoot</Button>} />',
         },
         { title: "Toaster at the root", code: "<RouterProvider navigate={navigate}>\n  <App />\n  <Toaster />\n</RouterProvider>" },
         {

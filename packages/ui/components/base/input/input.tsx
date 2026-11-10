@@ -83,13 +83,13 @@ export const InputBase = ({
             shortcut: "pr-1.5",
         },
         md: {
-            root: cx("px-3 py-2 text-md", hasLeadingIcon && "pl-10", hasTrailingIcon && "pr-9"),
+            root: cx("px-[13px] py-2.5 text-md", hasLeadingIcon && "pl-10", hasTrailingIcon && "pr-9"),
             iconLeading: "left-3 size-5",
             iconTrailing: "right-3",
             shortcut: "pr-2",
         },
         lg: {
-            root: cx("px-3.5 py-2.5 text-md", hasLeadingIcon && "pl-10.5", hasTrailingIcon && "pr-9.5"),
+            root: cx("px-3.5 py-3 text-md", hasLeadingIcon && "pl-10.5", hasTrailingIcon && "pr-9.5"),
             iconLeading: "left-3.5 size-5",
             iconTrailing: "right-3.5",
             shortcut: "pr-2.5",
@@ -102,7 +102,7 @@ export const InputBase = ({
             ref={groupRef}
             className={({ isFocusWithin, isDisabled, isInvalid }) =>
                 cx(
-                    "group/input relative flex w-full flex-row place-content-center place-items-center rounded-lg bg-primary shadow-xs ring-1 ring-primary transition-shadow duration-100 ease-linear ring-inset",
+                    "group/input relative flex w-full flex-row place-content-center place-items-center rounded-[10px] bg-primary ring-1 ring-secondary transition-shadow duration-100 ease-linear ring-inset",
 
                     isFocusWithin && !isDisabled && "ring-2 ring-brand",
 
@@ -136,7 +136,7 @@ export const InputBase = ({
                 type={type === "password" && isPasswordVisible ? "text" : type}
                 placeholder={placeholder}
                 className={cx(
-                    "m-0 w-full bg-transparent text-primary ring-0 outline-hidden placeholder:text-placeholder autofill:rounded-lg autofill:text-primary disabled:cursor-not-allowed",
+                    "m-0 w-full bg-transparent font-medium text-primary ring-0 outline-hidden placeholder:font-normal placeholder:text-placeholder autofill:rounded-[10px] autofill:text-primary disabled:cursor-not-allowed",
                     sizes[inputSize].root,
                     context?.inputClassName,
                     inputClassName,

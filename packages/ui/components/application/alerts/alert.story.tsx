@@ -20,3 +20,15 @@ export const WithActions = () => <AlertDemos.AlertWithActionsDemo />;
 WithActions.storyName = "With actions";
 
 export const Toasts = () => <AlertDemos.ToastDemo />;
+
+export const ResumeToast = () => <AlertDemos.ResumeToastDemo />;
+
+/** Figma P37. */
+export const FigmaToast = () => <AlertDemos.FigmaToastDemo />;
+
+/** Figma P08, padded like the Figma export (which includes the shadow). */
+export const FigmaResumeToast = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white px-10 pt-5 pb-7">
+        <AlertDemos.ResumeToastDemo />
+    </div>
+);

@@ -123,3 +123,11 @@ export const TooltipWithArrowSupportingText = () => (
         ))}
     </div>
 );
+
+export const FigmaTooltipDemo = () => (
+    <Tooltip isOpen title="Why Description" placement="bottom">
+        <TooltipTrigger className="text-fg-quaternary">
+            <HelpCircle className="size-4" />
+        </TooltipTrigger>
+    </Tooltip>
+);

@@ -48,3 +48,13 @@ MediaFillsParent.storyName = "Media fills its parent container";
 
 export const ProductGrid = () => <CardDemos.ProductGridDemo />;
 ProductGrid.storyName = "Composed example: product grid";
+
+export const Subtle = () => <CardDemos.SubtleDemo />;
+Subtle.storyName = "Subtle (section card)";
+
+/** `figma/section-card-inputs.png`: 438px section card; the fields are restyled by their own components. */
+export const FigmaSectionCard = () => (
+    <div data-compare className="inline-flex w-[438px] flex-col items-start gap-4 bg-white p-0">
+        <CardDemos.SubtleDemo />
+    </div>
+);

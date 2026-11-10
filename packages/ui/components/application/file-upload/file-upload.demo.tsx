@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FileUpload, getReadableFileSize } from "@/components/application/file-upload/file-upload-base";
+import { ImageAdd01Icon } from "@/components/foundations/hugeicons";
 
 const uploadFile = (file: File, onProgress: (progress: number) => void) => {
     // Add your upload logic here...
@@ -290,3 +291,16 @@ export const FileUploadProgressFill = (props: { isDisabled?: boolean }) => {
         </FileUpload.Root>
     );
 };
+
+/** Custom title, icon and status pill: the whole zone opens the picker and still accepts drops. */
+export const TitledDropZoneDemo = () => (
+    <FileUpload.DropZone
+        icon={ImageAdd01Icon}
+        title="Upload Photos"
+        badge="1/5 Uploaded"
+        hint="Choose up to 5 photos to get started. Accepted format are JPG, PNG or HEIC files."
+        accept="image/jpeg,image/png,image/heic"
+        onDropFiles={() => {}}
+        className="w-full max-w-[393px]"
+    />
+);

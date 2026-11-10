@@ -21,7 +21,8 @@ import { SHEET_LIST } from "@/components/base/combobox/combobox-shared";
 import { HintText } from "@/components/base/input/hint-text";
 import { Label } from "@/components/base/input/label";
 import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
-import { ChevronDown, SearchLg } from "@/components/foundations/icons";
+import { ArrowDown01SharpIcon } from "@/components/foundations/hugeicons";
+import { SearchLg } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 import { SHEET_POPOVER } from "@/utils/sheet-popover";
@@ -30,8 +31,8 @@ import { type CommonProps, SelectContext, type SelectItemType, sizes } from "./s
 
 const searchSizes = {
     sm: { wrapper: "py-1", root: "px-3 py-2 gap-2 *:data-icon:size-4 *:data-icon:stroke-[2.25px]", text: "text-sm" },
-    md: { wrapper: "py-0.5", root: "px-3 py-2 gap-2 *:data-icon:size-5", text: "text-md" },
-    lg: { wrapper: "py-0.5", root: "px-3.5 py-2.5 gap-2 *:data-icon:size-5", text: "text-md" },
+    md: { wrapper: "py-0.5", root: "px-3 py-2.5 gap-2 *:data-icon:size-5", text: "text-md" },
+    lg: { wrapper: "py-0.5", root: "px-3.5 py-3 gap-2 *:data-icon:size-5", text: "text-md" },
 };
 
 const footerButtonSize = {
@@ -258,7 +259,7 @@ const MultiSelectRoot = ({
                         onClick={onResize}
                         className={(state) =>
                             cx(
-                                "relative flex w-full cursor-pointer items-center rounded-lg bg-primary shadow-xs ring-1 ring-primary outline-hidden transition duration-100 ease-linear ring-inset",
+                                "relative flex w-full cursor-pointer items-center rounded-[10px] bg-primary ring-1 ring-secondary outline-hidden transition duration-100 ease-linear ring-inset",
                                 (state.isFocusVisible || state.isPressed) && "ring-2 ring-brand",
                                 state.isDisabled && "cursor-not-allowed opacity-50",
                             )
@@ -286,11 +287,11 @@ const MultiSelectRoot = ({
                                 </span>
                             )}
 
-                            <ChevronDown
+                            <ArrowDown01SharpIcon
                                 aria-hidden="true"
                                 className={cx(
-                                    "ml-auto shrink-0 text-fg-quaternary transition duration-100 ease-linear in-aria-expanded:rotate-180",
-                                    size === "lg" ? "size-5" : "size-4 stroke-[2.25px]",
+                                    "ml-auto shrink-0 text-primary transition duration-100 ease-linear in-aria-expanded:rotate-180 motion-reduce:transition-none",
+                                    size === "lg" ? "size-5" : "size-4",
                                 )}
                             />
                         </span>

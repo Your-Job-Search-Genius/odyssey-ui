@@ -39,14 +39,16 @@ const getTabStyles = ({ isFocusVisible, isSelected, isHovered }: AriaTabRenderPr
         (isSelected || isHovered) && "bg-primary_alt text-secondary shadow-xs ring-1 ring-primary ring-inset *:data-icon:text-fg-secondary_hover",
     ),
     underline: cx(
-        "rounded-none border-b-2 border-transparent outline-focus-ring *:data-icon:text-fg-quaternary",
+        "rounded-none border-b-2 border-transparent font-medium text-tertiary outline-focus-ring *:data-icon:text-fg-quaternary",
         isFocusVisible && "outline-2 -outline-offset-2",
-        (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover",
+        (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-tertiary *:data-icon:text-fg-brand-secondary_hover",
     ),
+    // Anchor-nav look: the current item gets a full-opacity brand icon and a heavier, darker label. Items without an
+    // icon also get the brand bar (see Tab), so the current one is never marked by weight alone.
     line: cx(
-        "rounded-none border-l-2 border-transparent outline-focus-ring *:data-icon:text-fg-quaternary",
-        isFocusVisible && "outline-2 -outline-offset-2",
-        (isSelected || isHovered) && "border-fg-brand-primary_alt text-brand-secondary *:data-icon:text-fg-brand-secondary_hover",
+        "rounded-md font-medium text-tertiary outline-focus-ring *:data-icon:text-fg-primary *:data-icon:opacity-20",
+        isFocusVisible && "outline-2 outline-offset-2",
+        (isSelected || isHovered) && "font-semibold text-secondary *:data-icon:text-fg-brand-primary *:data-icon:opacity-100",
     ),
 });
 
@@ -57,8 +59,8 @@ const sizes = {
         "button-gray": "py-2 px-2.5",
         "button-border": "py-2 px-2.5",
         "button-minimal": "py-2 px-2.5",
-        underline: "px-0.5 pb-2.5 pt-0",
-        line: "pl-2.5 pr-3 py-0.5",
+        underline: "px-4 pt-3 pb-3",
+        line: "p-0 *:data-icon:size-7",
     },
     md: {
         base: "text-md font-semibold gap-1.5 *:data-icon:size-5",
@@ -66,8 +68,8 @@ const sizes = {
         "button-gray": "py-2.5 px-2.5",
         "button-border": "py-2.5 px-2.5",
         "button-minimal": "py-2.5 px-2.5",
-        underline: "px-0.5 pb-2.5 pt-0",
-        line: "pr-3.5 pl-3 py-1",
+        underline: "px-4 pt-3 pb-3",
+        line: "p-0 *:data-icon:size-8",
     },
 };
 
@@ -77,8 +79,8 @@ const getHorizontalStyles = ({ size, fullWidth }: { size?: "sm" | "md"; fullWidt
     "button-gray": "gap-1",
     "button-border": cx("gap-1 rounded-[10px] bg-secondary_alt p-1 ring-1 ring-secondary ring-inset", size === "md" && "rounded-xl p-1.5"),
     "button-minimal": "gap-0.5 rounded-lg bg-secondary_alt ring-1 ring-inset ring-secondary",
-    underline: cx("gap-3", fullWidth && "w-full gap-4"),
-    line: "gap-2",
+    underline: cx("gap-0", fullWidth && "w-full"),
+    line: "gap-2 has-[[data-icon]]:gap-3",
 });
 
 interface TabListComponentProps<T extends object, K extends Orientation> extends Omit<AriaTabListProps<T>, "items"> {
@@ -132,7 +134,7 @@ export const TabList = <T extends Orientation>({
                         // (e.g. a scrolling tab row at 400% zoom), not just the first screenful.
                         orientation === "horizontal" &&
                             type === "underline" &&
-                            "relative min-w-max before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-border-secondary",
+                            "relative min-w-max before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-[#E5E5E5] dark:before:bg-border-secondary",
 
                         typeof className === "function" ? className(state) : className,
                     )
@@ -185,6 +187,13 @@ export const Tab = ({ label, children, badge, icon: Icon, className, ...otherPro
                     sizes[size].base,
                     sizes[size][type],
                     getTabStyles(prop)[type],
+                    type === "line" &&
+                        !Icon &&
+                        cx(
+                            "rounded-none border-l-2 border-transparent outline-offset-0",
+                            size === "md" ? "py-1 pr-3.5 pl-3" : "py-0.5 pr-3 pl-2.5",
+                            (prop.isSelected || prop.isHovered) && "border-fg-brand-primary_alt text-brand-tertiary",
+                        ),
                     typeof className === "function" ? className(prop) : className,
                 )
             }
@@ -195,7 +204,7 @@ export const Tab = ({ label, children, badge, icon: Icon, className, ...otherPro
                     {isValidElement(Icon) && Icon}
                     {isReactComponent(Icon) && <Icon data-icon className="transition-inherit-all" />}
 
-                    <span className={cx("flex items-center gap-1.5", type !== "line" && "px-0.5")}>
+                    <span className={cx("flex items-center gap-1.5", type !== "line" && type !== "underline" && "px-0.5")}>
                         {typeof children === "function" ? children(state) : children || label}
 
                         {/* Badge */}

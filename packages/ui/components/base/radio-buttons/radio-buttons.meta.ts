@@ -6,8 +6,8 @@
 export const componentMeta = {
     importName: "RadioGroup",
     description:
-        'Single choice from a short list. RadioGroup (size sm|md, orientation vertical|horizontal, value/onChange or defaultValue, isDisabled, aria-label) > RadioButton (value, label, hint, isDisabled). orientation="horizontal" lays radios out in a row that wraps on narrow widths. RadioButtonBase is the bare visual circle for custom rows -- it has no radio semantics on its own.',
-    variants: { size: ["sm", "md"], orientation: ["vertical", "horizontal"] },
+        'Single choice from a short list. RadioGroup (size sm|md, orientation vertical|horizontal, tone default|inverse, value/onChange or defaultValue, isDisabled, aria-label) > RadioButton (value, label, hint, isDisabled). orientation="horizontal" lays radios out in a row that wraps on narrow widths. tone="inverse" is for radios placed directly on a dark surface (bg-inverse): white labels, light hints, white focus outline. RadioButtonBase is the bare visual circle for custom rows -- it has no radio semantics on its own.',
+    variants: { size: ["sm", "md"], orientation: ["vertical", "horizontal"], tone: ["default", "inverse"] },
     a11y: 'Renders a radiogroup of native radios; give the group an aria-label (or aria-labelledby to a visible heading). Tab enters at the selected radio, arrow keys move and select. orientation sets aria-orientation; with "horizontal", Left/Right follow the reading direction. A RadioButton hint is exposed as its description, not part of its name.',
     doNot: [
         "Do not use RadioGroup for more than ~6 options -- use Select.",

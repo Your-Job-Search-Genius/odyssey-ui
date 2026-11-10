@@ -110,6 +110,8 @@ export interface SidebarAccount {
     initials?: string;
     /** Avatar image URL. */
     avatarUrl?: string;
+    /** Custom avatar element (e.g. initials on the tenant colour). Overrides `avatarUrl`. */
+    avatar?: ReactNode;
     /** Items in the account menu (e.g. "Account settings", "Log out"). */
     menuItems?: SidebarMenuItem[];
 }
@@ -203,7 +205,7 @@ export const useSidebar = () => useContext(SidebarContext);
 export const FOCUS_RING = "outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2";
 
 /** Label typography used by every sidebar row. */
-export const ROW_TEXT = "min-w-0 truncate text-sm leading-4 font-medium";
+export const ROW_TEXT = "min-w-0 truncate text-sm leading-5 font-medium";
 
 /** Fades labels in and out while the sidebar width animates. */
 export const FADE = "transition-opacity duration-200 ease-in-out motion-reduce:transition-none";

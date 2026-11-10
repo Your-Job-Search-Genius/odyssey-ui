@@ -18,16 +18,16 @@ export const InputPrefix = ({ children, ...props }: InputPrefixProps) => (
     <span
         {...props}
         className={cx(
-            "flex text-tertiary shadow-xs ring-1 ring-border-primary ring-inset",
+            "flex text-tertiary ring-1 ring-border-secondary ring-inset",
             // Styles when the prefix is within an `InputGroup`
-            "in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-l-lg",
-            "in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-r-lg",
+            "in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-l-[10px]",
+            "in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-r-[10px]",
             // Default size styles
-            "px-3 py-2 text-md",
+            "px-3 py-2.5 text-md",
             // Small size styles
             "in-data-input-wrapper:in-data-[input-size=sm]:px-3 in-data-input-wrapper:in-data-[input-size=sm]:py-2 in-data-input-wrapper:in-data-[input-size=sm]:text-sm",
             // Large size styles
-            "in-data-input-wrapper:in-data-[input-size=lg]:py-2.5 in-data-input-wrapper:in-data-[input-size=lg]:pr-3 in-data-input-wrapper:in-data-[input-size=lg]:pl-3.5",
+            "in-data-input-wrapper:in-data-[input-size=lg]:py-3 in-data-input-wrapper:in-data-[input-size=lg]:pr-3 in-data-input-wrapper:in-data-[input-size=lg]:pl-3.5",
 
             props.className,
         )}
@@ -111,10 +111,10 @@ export const InputGroup = ({ size = "md", prefix, leadingAddon, trailingAddon, l
                         // Used to apply styles based on the size of the input group within children
                         data-input-size={size}
                         className={cx(
-                            "group relative flex h-max w-full flex-row justify-center rounded-lg bg-primary transition-all duration-100 ease-linear",
+                            "group relative flex h-max w-full flex-row justify-center rounded-[10px] bg-primary transition-all duration-100 ease-linear",
 
                             // Only apply focus ring when child is select and input is focused
-                            "has-[&>select]:shadow-xs has-[&>select]:ring-1 has-[&>select]:ring-border-primary has-[&>select]:ring-inset has-[&>select]:has-[input:focus]:ring-2 has-[&>select]:has-[input:focus]:ring-border-brand",
+                            "has-[&>select]:ring-1 has-[&>select]:ring-border-secondary has-[&>select]:ring-inset has-[&>select]:has-[input:focus]:ring-2 has-[&>select]:has-[input:focus]:ring-border-brand",
 
                             isDisabled && "cursor-not-allowed",
                             isInvalid && "has-[&>select]:ring-border-error_subtle has-[&>select]:has-[input:focus]:ring-border-error",

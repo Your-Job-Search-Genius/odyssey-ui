@@ -3,6 +3,7 @@
 import { BadgeWithDot } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
 import { DescriptionList } from "@/components/base/description-list/description-list";
+import { CheckmarkBadge02Icon } from "@/components/foundations/hugeicons";
 
 export const DefaultDemo = () => (
     <DescriptionList columns={2} className="w-full max-w-2xl">
@@ -29,5 +30,21 @@ export const InlineDemo = () => (
         <DescriptionList.Item term="IP pool">Shared (warm)</DescriptionList.Item>
         <DescriptionList.Item term="Language">English</DescriptionList.Item>
         <DescriptionList.Item term="Guard policy">Pause on 3% bounce rate</DescriptionList.Item>
+    </DescriptionList>
+);
+
+export const SummaryDemo = () => (
+    <DescriptionList
+        variant="summary"
+        className="w-[311px]"
+        footer={
+            <>
+                <CheckmarkBadge02Icon data-icon aria-hidden="true" className="text-fg-brand-primary" />
+                100% money-back on eligible packages
+            </>
+        }
+    >
+        <DescriptionList.Item term="Your bookings">The-Signature</DescriptionList.Item>
+        <DescriptionList.Item term="HD images">32</DescriptionList.Item>
     </DescriptionList>
 );

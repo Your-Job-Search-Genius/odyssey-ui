@@ -5,6 +5,8 @@ import { Card } from "@/components/application/cards/card";
 import { Badge } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
+import { Input } from "@/components/base/input/input";
+import { Select } from "@/components/base/select/select";
 import { DotsVertical, Star01 } from "@/components/foundations/icons";
 
 export const BasicDemo = () => (
@@ -213,3 +215,23 @@ export const ProductGridDemo = () => {
         </div>
     );
 };
+
+/** `variant="subtle"`: the borderless grouped-section card (#FAFAFA, r20, 26px between header and fields). */
+export const SubtleDemo = () => (
+    <Card variant="subtle" size="sm" className="max-w-[438px]">
+        <Card.Header title="Basic Details" description="Some basic information about you" />
+        <div className="grid grid-cols-2 gap-9">
+            <Input label="Age" defaultValue="29" />
+            <Select
+                label="Sex"
+                defaultSelectedKey="male"
+                items={[
+                    { id: "male", label: "Male" },
+                    { id: "female", label: "Female" },
+                ]}
+            >
+                {(item) => <Select.Item id={item.id}>{item.label}</Select.Item>}
+            </Select>
+        </div>
+    </Card>
+);

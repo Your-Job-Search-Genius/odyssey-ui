@@ -3,7 +3,8 @@
 import { type FC, Fragment, type ReactNode } from "react";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { BottomSheet } from "@/components/application/bottom-sheet/bottom-sheet";
-import { Check, DotsHorizontal, Globe01 } from "@/components/foundations/icons";
+import { LanguageSkillIcon } from "@/components/foundations/hugeicons";
+import { Check, DotsHorizontal } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import { LanguagePill } from "./sidebar-footer";
 import {
@@ -186,7 +187,7 @@ export const SidebarMobileNav = ({ items, primaryCount, isHidden, brand, footerI
                                 <ul className="mt-4 flex flex-col gap-4">
                                     {language && (
                                         <li>
-                                            <SheetRow isUtility icon={Globe01} label={language.label ?? "Language"}>
+                                            <SheetRow isUtility icon={LanguageSkillIcon} label={language.label ?? "Language"}>
                                                 <LanguagePill language={language} />
                                             </SheetRow>
                                         </li>

@@ -3,7 +3,7 @@
  */
 export const componentMeta = {
     description:
-        "Tag chips on React Aria's TagGroup: TagGroup (label, size, selectionMode, onRemove) > TagList (items) > Tag. Removable chips are keyboard reachable (arrow keys between tags, Backspace/Delete removes).",
+        "Tag chips on React Aria's TagGroup: TagGroup (label, size, selectionMode, onRemove) > TagList (items) > Tag. A Tag count (number) renders a chip at least 23px wide. Removable chips are keyboard reachable (arrow keys between tags, Backspace/Delete removes).",
     variants: { size: ["sm", "md", "lg"] },
     a11y: "TagGroup needs a label (visible or aria-label). Prefer TagGroup onRemove={(keys) => ...} over per-Tag callbacks so removal always sees current state.",
     doNot: [

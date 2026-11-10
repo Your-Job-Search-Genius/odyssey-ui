@@ -19,3 +19,11 @@ export const WithIllustration = () => <EmptyStateDemos.WithIllustrationDemo />;
 export const WithAvatarRow = () => <EmptyStateDemos.WithAvatarRowDemo />;
 
 export const Sizes = () => <EmptyStateDemos.SizesDemo />;
+
+export const Licence = () => <EmptyStateDemos.LicenceDemo />;
+
+export const Figma = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <EmptyStateDemos.LicenceDemo />
+    </div>
+);

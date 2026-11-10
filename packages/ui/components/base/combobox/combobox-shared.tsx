@@ -45,8 +45,8 @@ export interface ComboBoxCommonProps {
 
 export const triggerSizes = {
     sm: { root: "py-2 pl-3 pr-2.5 gap-2 *:data-icon:size-4 *:data-icon:stroke-[2.25px]", text: "text-sm", textContainer: "gap-x-1.5", shortcut: "pr-2.5" },
-    md: { root: "py-2 px-3 gap-2 *:data-icon:size-5", text: "text-md", textContainer: "gap-x-1.5", shortcut: "pr-2.5" },
-    lg: { root: "py-2.5 px-3.5 gap-2 *:data-icon:size-5", text: "text-md", textContainer: "gap-x-1.5", shortcut: "pr-3" },
+    md: { root: "py-2.5 px-3 gap-2 *:data-icon:size-5", text: "text-md", textContainer: "gap-x-1.5", shortcut: "pr-2.5" },
+    lg: { root: "py-3 px-3.5 gap-2 *:data-icon:size-5", text: "text-md", textContainer: "gap-x-1.5", shortcut: "pr-3" },
 };
 
 export const itemSizes = {

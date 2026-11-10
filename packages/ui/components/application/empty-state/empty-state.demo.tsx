@@ -75,3 +75,18 @@ export const SizesDemo = () => (
         ))}
     </div>
 );
+
+/** Licence / interest state: a large headline, a sent-state action, and a caption pill tucked under it. */
+export const LicenceDemo = () => (
+    <EmptyState className="w-[434px] max-w-full">
+        <EmptyState.Content className="mb-[17px] max-w-none">
+            <EmptyState.Title>Over 3 million are generating headshots with BetterShot.</EmptyState.Title>
+        </EmptyState.Content>
+        <EmptyState.Footer className="flex-col items-center gap-0">
+            <Button size="md" isDisabled className="rounded-[10px] pt-1 pb-[13px]">
+                Email Sent!
+            </Button>
+            <EmptyState.Caption className="-mt-2.5">Your admin has been notified about your interest in BetterShot</EmptyState.Caption>
+        </EmptyState.Footer>
+    </EmptyState>
+);

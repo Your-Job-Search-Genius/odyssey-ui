@@ -4,6 +4,7 @@ import type { HTMLAttributes } from "react";
 import { Button } from "@/components/base/buttons/button";
 import { ButtonUtility } from "@/components/base/buttons/button-utility";
 import { CloseButton } from "@/components/base/buttons/close-button";
+import { ArrowRight02SharpIcon, HelpCircleIcon } from "@/components/foundations/hugeicons";
 import { Check, Copy01, DownloadCloud02, Edit01, Edit02, Placeholder, Trash01, Trash02 } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 
@@ -452,6 +453,78 @@ export const Tertiary = () => {
                 <Button color="tertiary" isLoading aria-label="Loading" size="lg" iconLeading={Circle} />
                 <Button color="tertiary" isLoading aria-label="Loading" size="xl" iconLeading={Circle} />
             </div>
+        </div>
+    );
+};
+
+/** `secondary-brand`: the secondary button with brand text. */
+export const SecondaryBrand = () => {
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-8">
+                <Button color="secondary-brand" size="xs">
+                    Edit Details
+                </Button>
+                <Button color="secondary-brand" size="sm">
+                    Edit Details
+                </Button>
+                <Button color="secondary-brand" size="md" iconTrailing={ArrowRight02SharpIcon}>
+                    Create Headshot
+                </Button>
+                <Button color="secondary-brand" size="lg">
+                    Edit Details
+                </Button>
+            </div>
+            <div className="flex items-center gap-8">
+                <Button color="secondary-brand" size="xs" isDisabled>
+                    Edit Details
+                </Button>
+                <Button color="secondary-brand" size="sm" isLoading showTextWhileLoading>
+                    Saving...
+                </Button>
+            </div>
+        </div>
+    );
+};
+
+/** `white`: solid white, no border, for dark (`bg-inverse`) surfaces. */
+export const White = () => {
+    return (
+        <div className="flex flex-col gap-4 rounded-2xl bg-inverse p-8">
+            <div className="flex items-center gap-8">
+                <Button color="white" size="sm">
+                    Continue 2/5
+                </Button>
+                <Button color="white" size="md">
+                    Choose Background
+                </Button>
+                <Button color="white" size="lg" iconTrailing={ArrowRight02SharpIcon}>
+                    Continue to Styling
+                </Button>
+            </div>
+            <div className="flex items-center gap-8">
+                <Button color="white" size="md" isDisabled>
+                    Continue 0/5
+                </Button>
+                <Button color="white" size="md" isLoading>
+                    Continue
+                </Button>
+            </div>
+        </div>
+    );
+};
+
+/** `outline-pill`: border-only pill with a trailing info icon. It sets its own padding (34px tall at `sm`). */
+export const OutlinePill = () => {
+    return (
+        <div className="flex items-center gap-4">
+            <Button color="outline-pill" iconTrailing={HelpCircleIcon}>
+                What makes a good photo
+            </Button>
+            <Button color="outline-pill" iconTrailing={HelpCircleIcon}>
+                Why this takes time
+            </Button>
+            <Button color="outline-pill">See Examples</Button>
         </div>
     );
 };
@@ -1100,6 +1173,14 @@ export const CloseXDarkDemo = () => {
     );
 };
 
+export const CloseXWhiteDemo = () => {
+    return (
+        <div className="flex items-start gap-3 rounded-2xl bg-inverse p-6">
+            <CloseButton theme="white" />
+        </div>
+    );
+};
+
 export const CloseX = () => {
     return (
         <div className="flex items-start gap-8">
@@ -1113,6 +1194,10 @@ export const CloseX = () => {
                 <CloseButton size="sm" theme="dark" />
                 <CloseButton size="md" theme="dark" />
                 <CloseButton size="lg" theme="dark" />
+            </div>
+
+            <div className="flex items-start gap-3 rounded-2xl bg-inverse p-12">
+                <CloseButton theme="white" />
             </div>
         </div>
     );
