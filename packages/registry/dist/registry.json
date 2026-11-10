@@ -1,6 +1,6 @@
 {
   "version": "3.0.1",
-  "generatedAt": "library@3.0.1+components:148+tokens:270+icons:1179",
+  "generatedAt": "library@3.0.1+components:175+tokens:278+icons:1234",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -219,7 +219,7 @@
       "importName": "Alert",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/alerts/alert",
       "category": "application",
-      "description": "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children.",
+      "description": "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children. Toasts are dark (#101419) pills anchored top-center by default; the info toast is text-only. ResumeToast is a separate persistent glass card (heading, description, title, action) for resuming an unfinished flow; position it yourself.",
       "props": [
         {
           "name": "color",
@@ -304,12 +304,17 @@
       "allowedChildren": "any",
       "moduleExports": [
         "Alert",
+        "ResumeToast",
         "Toaster"
       ],
       "examples": [
         {
           "title": "Inline error with action",
           "code": "<Alert color=\"error\" title=\"Couldn't load contacts\" description=\"Check your connection and try again.\" actions={<Button size=\"sm\" color=\"link-color\" onClick={retry}>Try again</Button>} />"
+        },
+        {
+          "title": "Resume prompt",
+          "code": "<ResumeToast className=\"fixed bottom-6 left-1/2 -translate-x-1/2\" heading=\"Continue where you left off\" description=\"Finish selecting\" title=\"1 of 4 Looks chosen\" action={<Button size=\"xs\" color=\"secondary-brand\" onPress={resume}>Resume Photoshoot</Button>} />"
         },
         {
           "title": "Toaster at the root",
@@ -327,6 +332,102 @@
         "Do not mount more than one <Toaster />."
       ],
       "docsUrl": "/docs/application/alerts/alert",
+      "isExtracted": true
+    },
+    {
+      "id": "application/banner/dashboard-banner",
+      "name": "DashboardBanner",
+      "importName": "DashboardBanner",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/banner/dashboard-banner",
+      "category": "application",
+      "description": "Full-width promo banner for a dashboard: headline and one action on the left, decorative art on the right. Props: title (ReactNode, required), headingLevel (2 | 3 | 4, default 2), action (ReactNode under the title, e.g. <Button color=\"secondary-brand\" size=\"md\">), media (decorative art, hidden below md, aria-hidden), plus section attributes (className). Unfilled with a 1px border so it sits on the page surface.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The headline, e.g. \"Over 3 million are generating headshots with BetterShot. Get Yours in 3 easy steps\"."
+        },
+        {
+          "name": "headingLevel",
+          "type": "enum",
+          "enumValues": [
+            "2",
+            "3",
+            "4"
+          ],
+          "required": false,
+          "default": "2",
+          "description": "Heading level of the title; match the page outline."
+        },
+        {
+          "name": "action",
+          "type": "ReactNode",
+          "required": false,
+          "description": "The call to action under the title, e.g. `<Button color=\"secondary-brand\" size=\"md\">`."
+        },
+        {
+          "name": "media",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Decorative art for the right side (hidden below `md`, `aria-hidden`), e.g. `FractalGlass` and a product logo."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "headingLevel": [
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "allowedChildren": "any",
+      "moduleExports": [
+        "DashboardBanner"
+      ],
+      "examples": [
+        {
+          "title": "Headline with action",
+          "code": "<DashboardBanner title=\"Over 3 million are generating headshots. Get Yours in 3 easy steps\" action={<Button color=\"secondary-brand\" size=\"md\" href=\"/headshot\" iconTrailing={ArrowRight02SharpIcon}>Create Headshot</Button>} media={<Art />} />"
+        }
+      ],
+      "a11y": "A section with the title as a heading; set headingLevel to fit the page outline. The media slot is wrapped in aria-hidden and hidden below md, so it must be purely decorative.",
+      "doNot": [
+        "Do not put informative content in media; it is aria-hidden.",
+        "Do not put more than one action in the action slot.",
+        "Do not use it for validation or status messages; use Alert."
+      ],
+      "docsUrl": "/docs/application/banner/dashboard-banner",
+      "isExtracted": true
+    },
+    {
+      "id": "application/bottom-bar/bottom-bar",
+      "name": "BottomBar",
+      "importName": "BottomBar",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/bottom-bar/bottom-bar",
+      "category": "application",
+      "description": "Mobile bottom action bar: a row of actions pinned to the bottom of the viewport (fixed, z-30) over a soft white fade, clear of the home indicator via safe-area-inset-bottom. Hidden from md up; pass className=\"md:block\" to keep it. BottomBar takes div attributes (children, className). BottomBarPill is the dark glass status pill for the bar (e.g. \"Your Selection 1/1\" with an info button); it takes div attributes. Leave about 6rem at the end of the page so the bar never covers the last content.",
+      "props": [],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "BottomBar",
+        "BottomBarPill"
+      ],
+      "examples": [
+        {
+          "title": "Selection bar",
+          "code": "<BottomBar>\n  <BottomBarPill>Your Selection 1/1</BottomBarPill>\n  <Button size=\"md\" iconTrailing={ArrowRight02SharpIcon}>Continue to Review</Button>\n</BottomBar>"
+        }
+      ],
+      "a11y": "Plain div wrappers with no landmark role; the fade is aria-hidden and pointer-events-none so only its children are clickable. Controls inside (Button, icon buttons) must carry their own accessible names. It covers content at the bottom, so reserve space and check it at 400% zoom.",
+      "doNot": [
+        "Do not use it on desktop layouts; it is hidden from md up unless you opt in.",
+        "Do not forget bottom padding on the page; the bar overlays the last content.",
+        "Do not put the primary action only here without a desktop equivalent."
+      ],
+      "docsUrl": "/docs/application/bottom-bar/bottom-bar",
       "isExtracted": true
     },
     {
@@ -473,7 +574,7 @@
       "importName": "Card",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/cards/card",
       "category": "application",
-      "description": "",
+      "description": "Content container. Card (size sm|md|lg sets padding and gap, variant outline|subtle, elevation for the outline variant, isSelected, isDisabled, isLoading; renders a button when onPress is passed, a link when href is passed, else a div) > Card.Header (title, description, actions) + Card.Media + Card.Body + Card.Footer. variant=\"outline\" (default) is a white card with a border, radius 20px. variant=\"subtle\" is a borderless #FAFAFA fill with a 26px gap, for grouped sections (\"section card\"); its Card.Header title is one step larger (18px). A selected card shows a brand ring.",
       "props": [
         {
           "name": "size",
@@ -488,6 +589,17 @@
           "description": "Padding + internal gap scale, also used by `Card.Media`/`Card.Footer` to bleed/divide correctly."
         },
         {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "outline",
+            "subtle"
+          ],
+          "required": false,
+          "default": "outline",
+          "description": "Surface style: `outline` (white with a border) or `subtle` (a borderless #FAFAFA fill for grouped sections)."
+        },
+        {
           "name": "elevation",
           "type": "enum",
           "enumValues": [
@@ -498,7 +610,7 @@
           ],
           "required": false,
           "default": "xs",
-          "description": "Border + shadow weight."
+          "description": "Border + shadow weight of the `outline` variant."
         },
         {
           "name": "isDisabled",
@@ -532,7 +644,17 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ],
+        "variant": [
+          "outline",
+          "subtle"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Card",
@@ -541,24 +663,44 @@
         "Card.Header",
         "Card.Media"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Outline card with header and footer",
+          "code": "<Card>\n  <Card.Header title=\"Team\" description=\"Manage members.\" />\n  <Card.Body>{content}</Card.Body>\n  <Card.Footer><Button size=\"sm\">Invite</Button></Card.Footer>\n</Card>"
+        },
+        {
+          "title": "Subtle section card",
+          "code": "<Card variant=\"subtle\">\n  <Card.Header title=\"Outfits\" description=\"Pick up to 5.\" />\n  <Card.Body>{tiles}</Card.Body>\n</Card>"
+        }
+      ],
+      "a11y": "An interactive Card is a native button (aria-pressed from isSelected) or link; do not nest other buttons or links inside it. isLoading sets aria-busy and shows a skeleton. Card.Header's title renders as an h3, keep heading levels in order.",
+      "doNot": [
+        "Do not nest interactive controls inside a Card that has onPress or href.",
+        "Do not use variant=\"subtle\" for a standalone clickable tile; it has no border, so use the default outline variant.",
+        "Do not hand-build a bordered rounded div for a content group -- use Card."
+      ],
       "docsUrl": "/docs/application/cards/card",
       "isExtracted": true
     },
     {
       "id": "application/carousel/carousel-base",
       "name": "CarouselContext",
-      "importName": "CarouselContext",
+      "importName": "Carousel",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/carousel/carousel-base",
       "category": "application",
-      "description": "",
+      "description": "Embla-based carousel. Carousel.Root (orientation horizontal|vertical, opts, plugins, setApi) > Carousel.Content > Carousel.Item per slide. Controls: Carousel.PrevTrigger / Carousel.NextTrigger (bare triggers you style), Carousel.Arrows (a ready-styled 20px prev/next chevron pair for a header row, each dimmed to 50% at the end it cannot scroll past), Carousel.IndicatorGroup > Carousel.Indicator for dots. Arrow keys scroll the carousel unless focus is in a widget that owns them (radiogroup, listbox, grid, tablist, menu, slider, text fields). When focus lands on a slide that is partly out of view the carousel scrolls it into view with the least movement.",
       "props": [],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Carousel",
+        "Carousel.Arrows",
         "Carousel.Content",
         "Carousel.Indicator",
         "Carousel.IndicatorGroup",
@@ -568,8 +710,17 @@
         "Carousel.Root",
         "CarouselContext"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Header row with arrows",
+          "code": "<Carousel.Root>\n  <div className=\"flex items-center justify-between\">\n    <span className=\"text-sm font-medium text-primary\">Eyewear</span>\n    <Carousel.Arrows />\n  </div>\n  <Carousel.Content className=\"gap-2\">\n    {items.map((item) => (\n      <Carousel.Item key={item.id}>{item.name}</Carousel.Item>\n    ))}\n  </Carousel.Content>\n</Carousel.Root>"
+        }
+      ],
+      "a11y": "Renders a region; Carousel.Arrows buttons are disabled at the ends. Carousel.Arrows has no visible text, give the surrounding header row a heading that names the carousel. Scrolling respects prefers-reduced-motion on focus.",
+      "doNot": [
+        "Do not hand-roll horizontal scroll rows with arrow buttons -- use Carousel.",
+        "Do not nest a second carousel or a component that handles left/right arrows without role-based semantics inside slides."
+      ],
       "docsUrl": "/docs/application/carousel/carousel-base",
       "isExtracted": true
     },
@@ -3213,7 +3364,7 @@
       "importName": "EmptyState",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/empty-state/empty-state",
       "category": "application",
-      "description": "Empty, no-results and error states. EmptyState (size sm|md|lg) > EmptyState.Header (pattern circle|square|grid|grid-check|none) > EmptyState.FeaturedIcon | EmptyState.Illustration | EmptyState.FileTypeIcon, then EmptyState.Content > EmptyState.Title + EmptyState.Description, then EmptyState.Footer with Buttons. Illustrations, file icons and non-default patterns load on demand, so a plain icon state stays light.",
+      "description": "Empty, no-results and error states. EmptyState (size sm|md|lg) > EmptyState.Header (pattern circle|square|grid|grid-check|none) > EmptyState.FeaturedIcon | EmptyState.Illustration | EmptyState.FileTypeIcon, then EmptyState.Content > EmptyState.Title + EmptyState.Description, then EmptyState.Footer with Buttons, and optionally EmptyState.Caption (a gray pill under the actions for a status note, e.g. \"Your admin has been notified about your interest\"). EmptyState.Title is centered; at size lg it is 26px. Illustrations, file icons and non-default patterns load on demand, so a plain icon state stays light.",
       "props": [
         {
           "name": "size",
@@ -3241,6 +3392,7 @@
         "EmptyState.AvatarGrid",
         "EmptyState.AvatarRadius",
         "EmptyState.AvatarRow",
+        "EmptyState.Caption",
         "EmptyState.Content",
         "EmptyState.Description",
         "EmptyState.FeaturedIcon",
@@ -3254,6 +3406,10 @@
         {
           "title": "Filter-aware no results",
           "code": "<EmptyState size=\"sm\">\n  <EmptyState.Header>\n    <EmptyState.FeaturedIcon icon={SearchLg} />\n  </EmptyState.Header>\n  <EmptyState.Content>\n    <EmptyState.Title>No campaigns match these filters</EmptyState.Title>\n    <EmptyState.Description>Try a different status or clear the filters.</EmptyState.Description>\n  </EmptyState.Content>\n  <EmptyState.Footer>\n    <Button color=\"secondary\" onClick={clearFilters}>Clear filters</Button>\n    <Button iconLeading={Plus} onClick={create}>Create campaign</Button>\n  </EmptyState.Footer>\n</EmptyState>"
+        },
+        {
+          "title": "With a status caption",
+          "code": "<EmptyState size=\"lg\">\n  <EmptyState.Content>\n    <EmptyState.Title>Headshots are not enabled</EmptyState.Title>\n    <EmptyState.Description>Ask your admin to turn this on.</EmptyState.Description>\n  </EmptyState.Content>\n  <EmptyState.Footer>\n    <Button onClick={notify}>Notify admin</Button>\n  </EmptyState.Footer>\n  <EmptyState.Caption>Your admin has been notified about your interest</EmptyState.Caption>\n</EmptyState>"
         }
       ],
       "a11y": "Title renders as a heading; keep it short and say what to do next in the description. Put the primary next step (Create, Clear filters, Try again) in the footer.",
@@ -3317,10 +3473,10 @@
     {
       "id": "application/file-upload/file-upload-base",
       "name": "getReadableFileSize",
-      "importName": "getReadableFileSize",
+      "importName": "FileUpload",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/file-upload/file-upload-base",
       "category": "application",
-      "description": "Returns a human-readable file size.",
+      "description": "File picker with drag and drop. FileUpload.Root > FileUpload.DropZone (+ FileUpload.List for uploaded files). DropZone is a dashed 2px, 20px-radius row: an icon (32px, default UploadCloud02), a title that is also the button opening the file picker (default \"Click to upload\" followed by \"or drag and drop\"), an optional hint, and an optional status pill. Props: title (ReactNode; replaces the default text and its \"or drag and drop\"), icon (component, e.g. a Hugeicon), badge (ReactNode pill after the title, e.g. \"1/5 Uploaded\"), hint, accept, maxSize, allowsMultiple, isDisabled, onDropFiles, onDropUnacceptedFiles. The title button's hit area covers the whole zone.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -3336,8 +3492,17 @@
         "FileUpload.Root",
         "FileUploadDropZone"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Custom title, icon and badge",
+          "code": "<FileUpload.DropZone icon={ImageAdd01Icon} title=\"Upload Photos\" badge=\"1/5 Uploaded\" hint=\"PNG or JPG, up to 10MB\" accept=\"image/png,image/jpeg\" allowsMultiple onDropFiles={add} />"
+        }
+      ],
+      "a11y": "The title button is described by the \"or drag and drop\" text and the hint, so a custom title still tells screen readers that files can be dropped (the text becomes screen-reader-only). Rejected files remount the hint as role=\"alert\". Give the zone a specific title when several are on one page.",
+      "doNot": [
+        "Do not hide the hint when files are restricted -- it announces rejection reasons.",
+        "Do not build a drop zone from a div and a hidden input -- use FileUpload.DropZone."
+      ],
       "docsUrl": "/docs/application/file-upload/file-upload-base",
       "isExtracted": true
     },
@@ -4220,6 +4385,1514 @@
       "isExtracted": true
     },
     {
+      "id": "application/headshot/background-tile",
+      "name": "BackgroundTile",
+      "importName": "BackgroundTile",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/background-tile",
+      "category": "application",
+      "description": "Single-choice background picker tile for the headshot flow. BackgroundTileGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) lays tiles out in 3 columns of 77px; BackgroundTile (value, label required, src, swatch, isDisabled, className) is one radio. Give it a photo with `src` or a CSS `background` (e.g. a gradient) with `swatch`. The label strip is always white because the picker surface is dark.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Background name, shown under the thumbnail and used as the accessible name."
+        },
+        {
+          "name": "src",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Thumbnail photo. Decorative: the label names the option."
+        },
+        {
+          "name": "swatch",
+          "type": "Background<string | number> | undefined",
+          "required": false,
+          "description": "CSS `background` for swatch-style options without a photo, e.g. a gradient."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "BackgroundTile",
+        "BackgroundTileGroup"
+      ],
+      "examples": [
+        {
+          "title": "Photo and swatch tiles",
+          "code": "<BackgroundTileGroup aria-label=\"Background\" value={value} onChange={setValue}>\n  <BackgroundTile value=\"office\" label=\"Office\" src={officePhoto} />\n  <BackgroundTile value=\"navy\" label=\"Navy\" swatch=\"linear-gradient(#2E3D5C, #1B2438)\" />\n</BackgroundTileGroup>"
+        }
+      ],
+      "a11y": "Renders native radios in a radiogroup; name the group with aria-label or aria-labelledby. The `label` is the option's accessible name; the thumbnail is decorative (alt=\"\"). Arrow keys move and select; the selected tile gets a brand border and a visible focus ring on keyboard focus.",
+      "doNot": [
+        "Do not omit aria-label/aria-labelledby on BackgroundTileGroup.",
+        "Do not use BackgroundTile outside BackgroundTileGroup -- it is a radio and needs the group.",
+        "Do not pass both src and swatch expecting a blend; src draws over swatch."
+      ],
+      "docsUrl": "/docs/application/headshot/background-tile",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/capture-method-card",
+      "name": "CaptureMethodCard",
+      "importName": "CaptureMethodCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/capture-method-card",
+      "category": "application",
+      "description": "One way to add photos (webcam, phone). The whole card is a single button or link: pass exactly one of `onPress` or `href`. `layout` \"featured\" (tall grey card, large decorative `icon` on top) or \"compact\" (short brand-tinted row). Props: title, description, icon, tab (a \"Recommended\" badge glued above the card), isDisabled, className. CapturePrivacyNote (children, className) renders a lock icon with a one-line privacy note.",
+      "props": [
+        {
+          "name": "layout",
+          "type": "enum",
+          "enumValues": [
+            "featured",
+            "compact"
+          ],
+          "required": false,
+          "default": "featured",
+          "description": "`featured`: the tall grey card with an icon on top. `compact`: the short brand-tinted row."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Large icon at the top of a `featured` card (46px in the design). Decorative.",
+          "acceptsIcon": true
+        },
+        {
+          "name": "tab",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Tab glued above the card, e.g. \"Recommended\". Announced as the card's description."
+        },
+        {
+          "name": "onPress",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Pass exactly one of `onPress` or `href`."
+        },
+        {
+          "name": "href",
+          "type": "string | undefined",
+          "required": false
+        },
+        {
+          "name": "isDisabled",
+          "type": "boolean | undefined",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "layout": [
+          "featured",
+          "compact"
+        ]
+      },
+      "allowedChildren": "any",
+      "moduleExports": [
+        "CaptureMethodCard",
+        "CapturePrivacyNote"
+      ],
+      "examples": [
+        {
+          "title": "Featured with recommended tab",
+          "code": "<CaptureMethodCard tab=\"Recommended\" icon={<FaceScanMark />} title=\"Computer Webcam\" description=\"See your framing and get guidance before every shot\" onPress={openWebcam} />"
+        },
+        {
+          "title": "Compact row and privacy note",
+          "code": "<CaptureMethodCard layout=\"compact\" title=\"Use Phone Camera\" description=\"Scan a code to capture or upload.\" onPress={openQr} />\n<CapturePrivacyNote>Photos stay private and encrypted in transit</CapturePrivacyNote>"
+        }
+      ],
+      "a11y": "Built on Card, so it is one button/link with title and description as its name. `tab` text is exposed as the card's description (aria-describedby) while the visible badge is aria-hidden. The icon and arrow are aria-hidden; keep the title self-explanatory.",
+      "doNot": [
+        "Do not pass both onPress and href.",
+        "Do not put interactive elements in title, description or icon -- the whole card is already the control."
+      ],
+      "docsUrl": "/docs/application/headshot/capture-method-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/crop-toolbar",
+      "name": "CropToolbar",
+      "importName": "CropToolbar",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/crop-toolbar",
+      "category": "application",
+      "description": "Frosted toolbar under the crop area. Props: zoom + onZoomChange (controlled, required), minZoom (1), maxZoom (3), zoomStep (0.01), onRotateLeft, onRotateRight, onReset, isResetDisabled, onReupload (all required except isResetDisabled), plus label / rotateLeftLabel / rotateRightLabel / zoomLabel / resetLabel / reuploadLabel to localize the accessible names and button text. Rotate/zoom/reset/re-upload only call back; the toolbar does not crop or rotate anything itself. Designed for a dark overlay.",
+      "props": [
+        {
+          "name": "zoom",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "onZoomChange",
+          "type": "(zoom: number) => void",
+          "required": true
+        },
+        {
+          "name": "minZoom",
+          "type": "number | undefined",
+          "required": false,
+          "default": "1"
+        },
+        {
+          "name": "maxZoom",
+          "type": "number | undefined",
+          "required": false,
+          "default": "3"
+        },
+        {
+          "name": "zoomStep",
+          "type": "number | undefined",
+          "required": false,
+          "default": "0.01"
+        },
+        {
+          "name": "onRotateLeft",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onRotateRight",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "onReset",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "isResetDisabled",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Dims \"Reset\" when there is nothing to reset."
+        },
+        {
+          "name": "onReupload",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Crop controls",
+          "description": "Accessible name of the toolbar group."
+        },
+        {
+          "name": "rotateLeftLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Rotate left"
+        },
+        {
+          "name": "rotateRightLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Rotate right"
+        },
+        {
+          "name": "zoomLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Zoom"
+        },
+        {
+          "name": "resetLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Reset"
+        },
+        {
+          "name": "reuploadLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Re-Upload"
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "CropToolbar"
+      ],
+      "examples": [
+        {
+          "title": "Controlled crop toolbar",
+          "code": "<CropToolbar\n  zoom={zoom}\n  onZoomChange={setZoom}\n  onRotateLeft={() => setRotation((r) => r - 90)}\n  onRotateRight={() => setRotation((r) => r + 90)}\n  onReset={reset}\n  isResetDisabled={zoom === 1 && rotation === 0}\n  onReupload={reupload}\n/>"
+        }
+      ],
+      "a11y": "Renders role=\"group\" named by `label` (\"Crop controls\"). Rotate buttons are icon-only with aria-labels; zoom is a React Aria Slider (arrow keys, Home/End) named by `zoomLabel`. All controls show a focus-visible outline. Translate every label prop when localizing.",
+      "doNot": [
+        "Do not show it on a light surface -- its glass styling is built for a dark overlay.",
+        "Do not leave the default English labels when the surrounding UI is localized; pass the *Label props."
+      ],
+      "docsUrl": "/docs/application/headshot/crop-toolbar",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/face-guide-ring",
+      "name": "FaceGuideRing",
+      "importName": "FaceGuideRing",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/face-guide-ring",
+      "category": "application",
+      "description": "Dashed oval that frames the face in the selfie camera. `status` \"neutral\" (default, faint white), \"good\" (green) or \"bad\" (red) colours the ring; `children` is the camera feed or photo (e.g. a <video className=\"size-full object-cover\" />), which is masked to fade out at the oval edge. Fixed 299x344 size; className for placement.",
+      "props": [
+        {
+          "name": "status",
+          "type": "enum",
+          "enumValues": [
+            "neutral",
+            "good",
+            "bad"
+          ],
+          "required": false,
+          "default": "neutral",
+          "description": "Ring colour. Decorative only: pair it with a visible heading that says what is wrong."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "The camera feed or photo (e.g. `<video className=\"size-full object-cover\" />`); it is faded out at an oval edge."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "status": [
+          "neutral",
+          "good",
+          "bad"
+        ]
+      },
+      "allowedChildren": "any",
+      "moduleExports": [
+        "FaceGuideRing"
+      ],
+      "examples": [
+        {
+          "title": "Good-framing state over a video",
+          "code": "<FaceGuideRing status=\"good\">\n  <video ref={videoRef} className=\"size-full object-cover\" autoPlay muted playsInline />\n</FaceGuideRing>"
+        }
+      ],
+      "a11y": "The ring is an aria-hidden SVG and conveys nothing on its own. Never rely on its colour for status: pair it with a visible heading or live message saying what is wrong (e.g. move closer). Give the camera feed (children) its own accessible name if it is meaningful.",
+      "doNot": [
+        "Do not use status colour as the only feedback to the user.",
+        "Do not use it for non-camera content; it is a fixed-size capture guide."
+      ],
+      "docsUrl": "/docs/application/headshot/face-guide-ring",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/favorites-bar",
+      "name": "FavoritesBar",
+      "importName": "FavoritesBar",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/favorites-bar",
+      "category": "application",
+      "description": "Bottom-centre favourites control. With count 0 it is a translucent pill (count chip + label). With favourites it becomes a dark tab tucked behind a share-for-feedback bar. Props: count (required), thumbnails (up to two image URLs stacked on the tab), onFavoritesPress, favoritesLabel (\"Favorites\"), feedbackTitle, onShare (renders the Share Link button only when provided), shareLabel (\"Share Link\"), className.",
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "thumbnails",
+          "type": "string[] | undefined",
+          "required": false,
+          "default": "[]",
+          "description": "Up to two favourite thumbnails, stacked on the tab."
+        },
+        {
+          "name": "onFavoritesPress",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "favoritesLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Favorites"
+        },
+        {
+          "name": "feedbackTitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Feedback prompt shown once there are favourites, e.g. \"Get Feedback from Friends on your Favourites\"."
+        },
+        {
+          "name": "onShare",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "shareLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Share Link"
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "FavoritesBar"
+      ],
+      "examples": [
+        {
+          "title": "Empty",
+          "code": "<FavoritesBar count={0} onFavoritesPress={openFavorites} />"
+        },
+        {
+          "title": "With favourites and share",
+          "code": "<FavoritesBar\n  count={8}\n  thumbnails={[a, b]}\n  onFavoritesPress={openFavorites}\n  feedbackTitle=\"Get Feedback from Friends on your Favourites\"\n  onShare={copyLink}\n/>"
+        }
+      ],
+      "a11y": "The favourites tab/pill is a button whose name is the count plus favoritesLabel; thumbnails are decorative (aria-hidden, alt=\"\"). The share button is a normal labelled Button. Localize favoritesLabel, feedbackTitle and shareLabel.",
+      "doNot": [
+        "Do not pass more than two thumbnails; extras are dropped.",
+        "Do not pass onShare without feedbackTitle context -- the share bar only appears when count > 0."
+      ],
+      "docsUrl": "/docs/application/headshot/favorites-bar",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/generating-card",
+      "name": "GeneratingCard",
+      "importName": "GeneratingCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/generating-card",
+      "category": "application",
+      "description": "Illustrated \"your headshots are being generated\" card on a fixed 768px stage (centred, so narrow screens crop the sides). Props: inputs (up to three { src, alt, tag, tone?: \"gray\" | \"purple\" | \"sky\" }: the face photo, then two style references), logo (centre tile), captionLead (\"Generating\") / captionTail (\"Headshot\"), stages (status chips along the bottom), className. The light beams pulse unless reduced motion is on. GeneratingHeader (title, description, children, className) is the centred title block above it; children is usually an info pill.",
+      "props": [
+        {
+          "name": "inputs",
+          "type": "GeneratingInput[]",
+          "required": true,
+          "description": "Up to three inputs: the face photo, then two style references (cut-outs on a grey tile)."
+        },
+        {
+          "name": "logo",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Product mark shown in the centre tile."
+        },
+        {
+          "name": "captionLead",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Generating",
+          "description": "Caption pair shown in two corners, e.g. \"Generating\" + \"Headshot\"."
+        },
+        {
+          "name": "captionTail",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Headshot"
+        },
+        {
+          "name": "stages",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Progress stages (status chips) shown at the bottom of the card."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "GeneratingCard",
+        "GeneratingHeader"
+      ],
+      "examples": [
+        {
+          "title": "Header and card",
+          "code": "<GeneratingHeader title=\"Learning your Face\" description=\"Usually ready in 45-90 minutes. Safe to close - we'll email you.\" />\n<GeneratingCard\n  inputs={[\n    { src: face, alt: \"Your photo\", tag: \"Clothes\" },\n    { src: bg, alt: \"Background reference\", tag: \"Background\", tone: \"purple\" },\n    { src: hair, alt: \"Hairstyle reference\", tag: \"Hairstyle\", tone: \"sky\" },\n  ]}\n  logo={<Logo />}\n/>"
+        }
+      ],
+      "a11y": "The beams, brackets and the second caption are aria-hidden. Input images use their `alt`; give each a meaningful one. The pulse animation is motion-safe only. Announce progress changes elsewhere (e.g. a live region) -- the card itself has no live region.",
+      "doNot": [
+        "Do not pass more than three inputs; extras are ignored.",
+        "Do not rely on the card to announce progress to screen readers."
+      ],
+      "docsUrl": "/docs/application/headshot/generating-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/glass-pill",
+      "name": "GlassPill",
+      "importName": "GlassPill",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/glass-pill",
+      "category": "application",
+      "description": "Translucent pill button used over photos and in the crop modal. `variant` \"dark\" (default, for sitting on photos: \"Why?\", \"Re-Take\") or \"light\" (for the dark crop overlay: \"Re-Upload\", \"Skip this photo\"); `iconLeading` takes an icon component reference; children is the label. Accepts the React Aria Button props (onPress, isDisabled, aria-label, className).",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "light",
+            "dark"
+          ],
+          "required": false,
+          "default": "dark",
+          "description": "`dark` sits on photos, `light` on the dark crop overlay."
+        },
+        {
+          "name": "iconLeading",
+          "type": "FC<SVGProps<SVGSVGElement>> | undefined",
+          "required": false,
+          "acceptsIcon": true
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "variant": [
+          "dark",
+          "light"
+        ]
+      },
+      "allowedChildren": "any",
+      "moduleExports": [
+        "GlassPill"
+      ],
+      "examples": [
+        {
+          "title": "Dark pill with icon over a photo",
+          "code": "<GlassPill iconLeading={RefreshIcon} onPress={retake}>Re-Take</GlassPill>"
+        },
+        {
+          "title": "Light pill on the crop overlay",
+          "code": "<GlassPill variant=\"light\" onPress={skip}>Skip this photo</GlassPill>"
+        }
+      ],
+      "a11y": "A native button with a focus-visible outline. The icon is aria-hidden, so the text children must name the action; if you ever omit text, add aria-label. Disabled state dims to 50%.",
+      "doNot": [
+        "Do not use it on a plain light surface -- use Button instead; the glass styling relies on a photo or dark backdrop.",
+        "Do not pass an icon element to iconLeading; pass the component reference."
+      ],
+      "docsUrl": "/docs/application/headshot/glass-pill",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/model-card",
+      "name": "ModelCard",
+      "importName": "ModelCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/model-card",
+      "category": "application",
+      "description": "Single-choice model portrait for the dark model picker. ModelCardGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) lays cards out in 2 columns (4 from sm); ModelCard (value, name and src required, alt, isDisabled, className) is one radio. The portrait dissolves into the card through a radial mask; the selected card turns light blue with an inner glow and a check badge. Colours are fixed because the picker shell is always dark.",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Model name, shown under the portrait and used as the accessible name."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "Portrait; decorative unless `alt` is given (the name already labels the card)."
+        },
+        {
+          "name": "alt",
+          "type": "string | undefined",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ModelCard",
+        "ModelCardGroup"
+      ],
+      "examples": [
+        {
+          "title": "Model picker grid",
+          "code": "<ModelCardGroup aria-label=\"Model for outfit try-ons\" value={value} onChange={setValue}>\n  <ModelCard value=\"malik\" name=\"Malik\" src={malikPhoto} />\n  <ModelCard value=\"theo\" name=\"Theo\" src={theoPhoto} />\n</ModelCardGroup>"
+        }
+      ],
+      "a11y": "Native radios in a radiogroup; name the group with aria-label or aria-labelledby. `name` is the accessible name; the portrait is decorative unless `alt` is passed. Selection is shown by the check badge and colour change, not colour alone. Arrow keys move and select; keyboard focus draws an outline.",
+      "doNot": [
+        "Do not use ModelCard outside ModelCardGroup.",
+        "Do not place ModelCardGroup on a light surface -- its colours are fixed for a dark (bg-inverse) background."
+      ],
+      "docsUrl": "/docs/application/headshot/model-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/model-chip",
+      "name": "ModelChip",
+      "importName": "ModelChip",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/model-chip",
+      "category": "application",
+      "description": "Chip showing which model outfits are tried on, with a button to swap it: \"MODEL | avatar Name | Change\". Props: name (required; e.g. \"Malik\" or a summary like \"Showing Mix\"), label (\"Model\", rendered uppercase), avatarSrc (omit for the text-only state), changeLabel (\"Change\"), onPressChange (opens the picker), className.",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "default": "Model",
+          "description": "Leading caption, rendered uppercase."
+        },
+        {
+          "name": "name",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Current model, e.g. \"Malik\", or a summary such as \"Showing Mix\"."
+        },
+        {
+          "name": "avatarSrc",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Model avatar; omit for the text-only \"Showing Mix\" state. Decorative: the name labels it."
+        },
+        {
+          "name": "changeLabel",
+          "type": "ReactNode",
+          "required": false,
+          "default": "Change"
+        },
+        {
+          "name": "onPressChange",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Opens the model picker."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ModelChip"
+      ],
+      "examples": [
+        {
+          "title": "With avatar",
+          "code": "<ModelChip name=\"Malik\" avatarSrc={malikPhoto} onPressChange={openModelPicker} />"
+        },
+        {
+          "title": "Mixed models (no avatar)",
+          "code": "<ModelChip name=\"Showing Mix\" onPressChange={openModelPicker} />"
+        }
+      ],
+      "a11y": "The Change button is aria-describedby the chip text, so screen readers hear \"Change, Model Malik\" instead of a bare \"Change\". The avatar is decorative (alt=\"\"); the name labels it. Localize label and changeLabel.",
+      "doNot": [
+        "Do not put the avatar's meaning only in the image; the name is the accessible content.",
+        "Do not use it as a general-purpose chip -- it is specific to the model-swap pattern."
+      ],
+      "docsUrl": "/docs/application/headshot/model-chip",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/option-tile",
+      "name": "OptionTile",
+      "importName": "OptionTile",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/option-tile",
+      "category": "application",
+      "description": "Single-choice tile for hair style, hair texture and eyewear. OptionTileGroup (a horizontal React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) holds OptionTile (value, label required, src, alt, isDisabled, className): a 109x141 tile with a preview image and the label in a chip. Works inside a Carousel: pass className=\"block\" to the group and put tiles in Carousel.Item. Omit `src` for a \"None\" tile.",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "Option name, shown in the chip and used as the accessible name."
+        },
+        {
+          "name": "src",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Preview image; decorative unless `alt` is given (the label already names the option)."
+        },
+        {
+          "name": "alt",
+          "type": "string | undefined",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "OptionTile",
+        "OptionTileGroup"
+      ],
+      "examples": [
+        {
+          "title": "Tile group",
+          "code": "<OptionTileGroup aria-label=\"Eyewear\" value={value} onChange={setValue}>\n  <OptionTile value=\"none\" label=\"None\" />\n  <OptionTile value=\"style-1\" label=\"Style 1\" src={glassesPhoto} />\n</OptionTileGroup>"
+        }
+      ],
+      "a11y": "Native radios in a horizontal radiogroup; name the group with aria-label or aria-labelledby. `label` is the accessible name; the preview image is decorative unless `alt` is passed. Arrow keys move and select; the selected tile has a brand border and keyboard focus draws an outline.",
+      "doNot": [
+        "Do not use OptionTile outside OptionTileGroup.",
+        "Do not drop the label to save space -- it is the tile's accessible name."
+      ],
+      "docsUrl": "/docs/application/headshot/option-tile",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/outfit-card",
+      "name": "OutfitCard",
+      "importName": "OutfitCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/outfit-card",
+      "category": "application",
+      "description": "Multi-select outfit toggle (aria-pressed). Props: src and caption (required), alt, backgroundLabel (\"Background:\", shown while selected), backgroundSrc (thumbnail of the chosen background, shown while selected), plus React Aria ToggleButton props (isSelected/defaultSelected, onChange, isDisabled, className). Selected state adds a dark fade, the chosen background and a check over the photo. Set isDisabled on unselected cards once the selection limit is reached; they dim to 30%.",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "Outfit photo; decorative unless `alt` is given (the caption already names the outfit)."
+        },
+        {
+          "name": "alt",
+          "type": "string | undefined",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "caption",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Outfit name under the photo; the toggle's accessible name."
+        },
+        {
+          "name": "backgroundLabel",
+          "type": "ReactNode",
+          "required": false,
+          "default": "Background:",
+          "description": "Shown over the photo while selected, e.g. \"Background:\" (or \"Bgd.\" on narrow cards)."
+        },
+        {
+          "name": "backgroundSrc",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Thumbnail of the chosen background, shown after `backgroundLabel` while selected."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "OutfitCard"
+      ],
+      "examples": [
+        {
+          "title": "Limit of two selections",
+          "code": "<OutfitCard\n  src={photo}\n  caption=\"Navy Suit and White Shirt\"\n  backgroundSrc={office}\n  isSelected={isSelected}\n  isDisabled={!isSelected && selected.length >= 2}\n  onChange={toggle}\n/>"
+        }
+      ],
+      "a11y": "A toggle button named by `caption`, exposing aria-pressed. The photo is decorative unless `alt` is given. Selection is shown by the check and background strip as well as colour. Enforce the limit with isDisabled and tell users the limit in surrounding text.",
+      "doNot": [
+        "Do not use for single choice -- use a radio-based tile group.",
+        "Do not enforce the selection limit silently; state it near the grid."
+      ],
+      "docsUrl": "/docs/application/headshot/outfit-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/phone-quality-banner",
+      "name": "PhoneQualityBanner",
+      "importName": "PhoneQualityBanner",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/phone-quality-banner",
+      "category": "application",
+      "description": "Violet \"use your phone\" promo that is one button. Props: title, description (both ReactNode, required), className, plus any React Aria Button prop (onPress, isDisabled, aria-label...). Fixed 124px high, max 362px wide, content bottom-aligned with an arrow icon so the top can be tucked behind a camera dialog with a negative margin.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "PhoneQualityBanner"
+      ],
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<PhoneQualityBanner title=\"Get Better Quality with your Phone\" description=\"Scan a code to capture or upload with a better camera.\" onPress={openQr} />"
+        }
+      ],
+      "a11y": "Renders a real button (React Aria) named by its title and description text; the arrow icon is aria-hidden. Visible focus outline on :focus-visible. Black text on brand-200.",
+      "doNot": [
+        "Do not use it as a static banner without an action; it is a button. Use Alert or DashboardBanner instead.",
+        "Do not pass children; content comes from title and description."
+      ],
+      "docsUrl": "/docs/application/headshot/phone-quality-banner",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/photo-slot",
+      "name": "PhotoSlot",
+      "importName": "PhotoSlot",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/photo-slot",
+      "category": "application",
+      "description": "One photo in the \"Add Photo\" grid, 197x261px. status empty (default; dashed Add Photo button, onAdd) | ok (photo + OK badge, optional onRetake shows a Re-Take pill) | fail (photo with red wash + Fail badge, optional onReupload and whyAction slot top-right). Props: src, alt, addLabel/okLabel/failLabel/retakeLabel/reuploadLabel (localisable strings), className. Made for dark surfaces (bg-inverse).",
+      "props": [
+        {
+          "name": "status",
+          "type": "enum",
+          "enumValues": [
+            "empty",
+            "ok",
+            "fail"
+          ],
+          "required": false,
+          "default": "empty",
+          "description": "`empty` renders the dashed \"Add Photo\" button; `ok` / `fail` render the photo with its status badge."
+        },
+        {
+          "name": "src",
+          "type": "string | undefined",
+          "required": false
+        },
+        {
+          "name": "alt",
+          "type": "string | undefined",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "onAdd",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onRetake",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onReupload",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "whyAction",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Top-right control on a failed slot, e.g. `<DialogTrigger><GlassPill>Why?</GlassPill>…</DialogTrigger>`."
+        },
+        {
+          "name": "addLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Add Photo"
+        },
+        {
+          "name": "okLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "OK"
+        },
+        {
+          "name": "failLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Fail"
+        },
+        {
+          "name": "retakeLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Re-Take"
+        },
+        {
+          "name": "reuploadLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Re-Upload"
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "status": [
+          "empty",
+          "ok",
+          "fail"
+        ]
+      },
+      "allowedChildren": "any",
+      "moduleExports": [
+        "PhotoSlot"
+      ],
+      "examples": [
+        {
+          "title": "The three states",
+          "code": "<div className=\"flex flex-wrap gap-3 rounded-[20px] bg-inverse p-4\">\n  <PhotoSlot status=\"ok\" src={url} alt=\"Photo 1\" onRetake={retake} />\n  <PhotoSlot status=\"fail\" src={url} alt=\"Photo 2\" onReupload={reupload} whyAction={<GlassPill>Why?</GlassPill>} />\n  <PhotoSlot onAdd={add} />\n</div>"
+        }
+      ],
+      "a11y": "Status is spelled out in the OK / Fail badge text, never colour alone. Actions are native buttons with visible focus outlines; decorative icons are aria-hidden. Give ok/fail slots a meaningful alt (e.g. \"Photo 2\").",
+      "doNot": [
+        "Do not rely on the green or red tint to convey status; the badge text carries it, so keep okLabel/failLabel set.",
+        "Do not pass src without alt for an ok or fail slot."
+      ],
+      "docsUrl": "/docs/application/headshot/photo-slot",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/qr-card",
+      "name": "QRCard",
+      "importName": "QRCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/qr-card",
+      "category": "application",
+      "description": "Dark 230px card with a white-on-black QR code for continuing on a phone. Props: value (URL or text to encode, required), caption (ReactNode above the code, required), onClose (shows the corner close button; inside a Dialog/Popover the button also closes it), closeLabel (accessible name of the close button), className.",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "The URL or text to encode."
+        },
+        {
+          "name": "caption",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Instruction above the code, e.g. \"Use your phone to take the picture for a better quality\"."
+        },
+        {
+          "name": "onClose",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Shows the corner close button. Inside a Dialog/Popover the button also closes it."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "QRCard"
+      ],
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<QRCard value=\"https://bttr.sh/x7\" caption=\"Use your phone to take the picture for a better quality\" onClose={close} />"
+        }
+      ],
+      "a11y": "The close button is a CloseButton with an accessible name (set closeLabel when localising). The caption is plain text above the code; the QR graphic itself is not announced, so make the caption say what to do and offer the link another way if it matters.",
+      "doNot": [
+        "Do not omit caption; it is the only text alternative for the code.",
+        "Do not use it on a light surface; the code is drawn in white on a dark card."
+      ],
+      "docsUrl": "/docs/application/headshot/qr-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/result-group",
+      "name": "ResultGroup",
+      "importName": "ResultGroup",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/result-group",
+      "category": "application",
+      "description": "One outfit's results: a header then a wrapping row of tiles. Props: eyebrow (e.g. \"OUTFIT 1\"), count, countLabel (word after the count, e.g. \"Photos\"), title, thumbnail ({ src, alt }, optional), children (ResultTile elements), className. The count renders as a Badge type=\"count\".",
+      "props": [
+        {
+          "name": "thumbnail",
+          "type": "{ src: string; alt: string; } | undefined",
+          "required": false,
+          "description": "Outfit thumbnail."
+        },
+        {
+          "name": "eyebrow",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Eyebrow, e.g. \"OUTFIT 1\"."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "countLabel",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Word after the count, e.g. \"Photos\"."
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "The `ResultTile`s."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ResultGroup"
+      ],
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<ResultGroup thumbnail={{ src: outfitUrl, alt: \"\" }} eyebrow=\"OUTFIT 1\" count={2} countLabel=\"Photos\" title=\"White T-Shirt and Leather Jacket\">\n  <ResultTile src={a} alt=\"Headshot 1\" onOpen={open} onDownload={download} />\n  <ResultTile src={b} alt=\"Headshot 2\" isFavorite onOpen={open} onDownload={download} />\n</ResultGroup>"
+        }
+      ],
+      "a11y": "Renders a section with a header and an h3 title; the thumbnail needs real alt text or alt=\"\" when decorative. Choose the surrounding heading levels so the h3 fits the page outline.",
+      "doNot": [
+        "Do not put anything other than ResultTile (or equivalent tile) children in it.",
+        "Do not build the count chip by hand; pass count and countLabel."
+      ],
+      "docsUrl": "/docs/application/headshot/result-group",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/result-tile",
+      "name": "ResultTile",
+      "importName": "ResultTile",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/result-tile",
+      "category": "application",
+      "description": "One generated headshot, 233x261px, with a blurred glow, a favourite toggle and hover actions. Props: src, alt (both required), isFavorite + onFavoriteChange (toggle, bottom-left), onOpen (shows the expand button, bottom-centre; opens the Lightbox), onDownload (shows the download button, bottom-right), favoriteLabel/openLabel/downloadLabel (accessible names), className. Open and download appear on hover, keyboard focus within the tile and always on touch screens.",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "isFavorite",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "false"
+        },
+        {
+          "name": "onFavoriteChange",
+          "type": "((isFavorite: boolean) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onOpen",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Shows the expand button (opens the lightbox)."
+        },
+        {
+          "name": "onDownload",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Shows the download button."
+        },
+        {
+          "name": "favoriteLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Favourite"
+        },
+        {
+          "name": "openLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Open"
+        },
+        {
+          "name": "downloadLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Download"
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ResultTile"
+      ],
+      "examples": [
+        {
+          "title": "With favourite state",
+          "code": "<ResultTile src={url} alt=\"Headshot 1\" isFavorite={isFavorite} onFavoriteChange={setIsFavorite} onOpen={openLightbox} onDownload={download} />"
+        }
+      ],
+      "a11y": "Favourite is a toggle button (aria-pressed via React Aria) with an aria-label; open and download are icon buttons with aria-labels, visible on focus-within so keyboard users reach them. The glow copy is aria-hidden; the main photo carries the alt text. Localise the three labels.",
+      "doNot": [
+        "Do not drop the aria-label overrides when localising; the buttons are icon-only.",
+        "Do not hide the actions behind hover only in custom wrappers; the tile already shows them on focus and touch."
+      ],
+      "docsUrl": "/docs/application/headshot/result-tile",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/review-card",
+      "name": "ReviewCard",
+      "importName": "ReviewCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/review-card",
+      "category": "application",
+      "description": "Review step summary: persona header then white sections. ReviewCard props: name, subtitle (e.g. \"Woman\"), attributes ({ label, value }[] rendered as a dl of brand Badge values separated by dots), action (header slot, e.g. a size=\"xs\" color=\"secondary-brand\" Button \"Edit Details\"), children (ReviewCard.Section), className. ReviewCard.Section: title, count (count chip), action, children. ReviewCard.Photo: src, alt, className (size it; default h-[178px] w-[135px] selfie), backgroundLabel + backgroundSrc turn it into a \"look\" tile with a label, thumbnail and check over a bottom fade. ReviewCard.Carousel: aria-label (required), children (ReviewCard.Photo[]); a horizontally scrolling row with prev/next arrows and a right-edge fade.",
+      "props": [
+        {
+          "name": "name",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Persona name."
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Shown after the name, e.g. \"Woman\"."
+        },
+        {
+          "name": "attributes",
+          "type": "ReviewCardAttribute[] | undefined",
+          "required": false,
+          "description": "Persona details, each a label + value tag, separated by dots."
+        },
+        {
+          "name": "action",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Header action, e.g. a small secondary \"Edit Details\" `Button`."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "`ReviewCard.Section`s."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": [
+        "ReviewCard.Section"
+      ],
+      "moduleExports": [
+        "ReviewCard",
+        "ReviewCard.Carousel",
+        "ReviewCard.Photo",
+        "ReviewCard.Section"
+      ],
+      "examples": [
+        {
+          "title": "Persona with selfies and looks",
+          "code": "<ReviewCard name=\"Moremi Sunfyre\" subtitle=\"Woman\" attributes={[{ label: \"Eye Color\", value: \"Blue\" }]} action={<Button size=\"xs\" color=\"secondary-brand\">Edit Details</Button>}>\n  <ReviewCard.Section title=\"Selfies\" count={5}>\n    <div className=\"flex gap-2 overflow-x-auto\">\n      <ReviewCard.Photo src={selfie} alt=\"Selfie 1\" />\n    </div>\n  </ReviewCard.Section>\n  <ReviewCard.Section title=\"Looks\" count={12}>\n    <ReviewCard.Carousel aria-label=\"Looks\">\n      <ReviewCard.Photo src={look} alt=\"Look 1\" backgroundLabel=\"Bgd.\" backgroundSrc={bg} className=\"h-[168px] w-[134px]\" />\n    </ReviewCard.Carousel>\n  </ReviewCard.Section>\n</ReviewCard>"
+        }
+      ],
+      "a11y": "Section/h3/h4 headings, attributes as a description list (dt/dd), photos need alt text. ReviewCard.Carousel is a Carousel region named by its required aria-label; its arrow buttons are icon-only and disabled at the ends.",
+      "doNot": [
+        "Do not put ReviewCard.Photo directly in ReviewCard; wrap in ReviewCard.Section.",
+        "Do not omit aria-label on ReviewCard.Carousel.",
+        "Do not mark a photo as a look by hand; pass backgroundLabel (and backgroundSrc) to ReviewCard.Photo."
+      ],
+      "docsUrl": "/docs/application/headshot/review-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/selection-tray",
+      "name": "SelectionTray",
+      "importName": "SelectionTray",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/selection-tray",
+      "category": "application",
+      "description": "Your Selection n/max with the picked thumbnails and a call to action; collapses to a single row when empty. Props: items ({ id, src, alt }[], required), max (required; counter reads items.length/max), title (default \"Your Selection\"), onRemove(id) (shows a remove badge on each thumbnail on hover/focus, always on touch), removeLabel(item) (default `Remove ${alt}`), info (trailing slot after the counter, e.g. an info button opening a Popover), children (CTA under the tray, e.g. a full-width lg Button), className. CounterRing (className sets its colour, default text-[#DBD8FF]) is the 24px decorative arc, for reuse in custom bars such as BottomBar.",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "default": "Your Selection"
+        },
+        {
+          "name": "items",
+          "type": "SelectionTrayItem[]",
+          "required": true
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": true,
+          "description": "How many items can be picked; the counter reads `items.length/max`."
+        },
+        {
+          "name": "onRemove",
+          "type": "((id: string) => void) | undefined",
+          "required": false,
+          "description": "Shows a remove badge on each thumbnail (on hover/focus, always on touch)."
+        },
+        {
+          "name": "removeLabel",
+          "type": "((item: SelectionTrayItem) => string) | undefined",
+          "required": false,
+          "default": "(item) => `Remove ${item.alt}`",
+          "description": "Accessible name of each remove badge."
+        },
+        {
+          "name": "info",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Trailing slot after the counter, e.g. an info button that opens a popover."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Call to action under the tray, e.g. a full-width primary `Button`."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "CounterRing",
+        "SelectionTray"
+      ],
+      "examples": [
+        {
+          "title": "With remove, info and CTA",
+          "code": "<SelectionTray items={items} max={4} onRemove={(id) => setItems((prev) => prev.filter((i) => i.id !== id))} info={<InfoButton />}>\n  <Button size=\"lg\" className=\"w-full\" isDisabled={items.length === 0}>Review Shoot</Button>\n</SelectionTray>"
+        },
+        {
+          "title": "Empty",
+          "code": "<SelectionTray items={[]} max={1} />"
+        }
+      ],
+      "a11y": "Thumbnails are a list (ul/li) with alt text; each remove badge is a button named by removeLabel, revealed on hover or keyboard focus and always on touch. CounterRing is aria-hidden; the number carries the meaning. Give the info slot an aria-label.",
+      "doNot": [
+        "Do not pass thumbnails without alt text; the default remove label is built from it.",
+        "Do not use CounterRing alone to convey progress; it is decorative."
+      ],
+      "docsUrl": "/docs/application/headshot/selection-tray",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/shoot-card",
+      "name": "ShootCard",
+      "importName": "ShootCard",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/shoot-card",
+      "category": "application",
+      "description": "A past shoot in the Activity Library: a Card variant=\"subtle\" size=\"sm\" with an uppercase shoot Badge, the cover photo with a soft glow, a count chip and a date. Props: tag, src, alt, count, countLabel (e.g. \"Portraits\"), date (pre-formatted), href (whole card is a link) or onPress (whole card is a button), className. Fills its container; cap it (e.g. max-w-[378px]).",
+      "props": [
+        {
+          "name": "tag",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Shoot name, shown as an uppercase tag in the top-left corner."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "Cover photo."
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "count",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Number of portraits, shown in a count chip."
+        },
+        {
+          "name": "countLabel",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Label after the count, e.g. \"Portraits\"."
+        },
+        {
+          "name": "date",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Pre-formatted date, e.g. \"Dec 2026\"."
+        },
+        {
+          "name": "href",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Pass `href` or `onPress` to make the whole card a link or a button."
+        },
+        {
+          "name": "onPress",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ShootCard"
+      ],
+      "examples": [
+        {
+          "title": "Link card",
+          "code": "<ShootCard href=\"/shoots/1\" tag=\"Shoot for Graduation\" src={cover} alt=\"Smiling woman in a pink cardigan\" count={23} countLabel=\"Portraits\" date=\"Dec 2026\" />"
+        }
+      ],
+      "a11y": "With href the card is a link, with onPress a button (React Aria), so the whole card is one focus stop; give the cover a descriptive alt. Without href or onPress it is static.",
+      "doNot": [
+        "Do not nest other links or buttons inside; the card is itself the control.",
+        "Do not pass an unformatted date; date is rendered as given."
+      ],
+      "docsUrl": "/docs/application/headshot/shoot-card",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/shutter-button",
+      "name": "ShutterButton",
+      "importName": "ShutterButton",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/shutter-button",
+      "category": "application",
+      "description": "Round 70px camera shutter for dark camera surfaces. Props: label (accessible name, default \"Take photo\"), caption (visible hint under the button), className, plus any React Aria Button prop (onPress, isDisabled...). Shrinks slightly while pressed (respects reduced motion).",
+      "props": [
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Take photo",
+          "description": "Accessible name."
+        },
+        {
+          "name": "caption",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible hint under the button, e.g. \"Click the button above to take photo\"."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ShutterButton"
+      ],
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<ShutterButton caption=\"Click the button above to take photo\" onPress={takePhoto} />"
+        },
+        {
+          "title": "Starting camera",
+          "code": "<ShutterButton caption=\"Starting camera…\" isDisabled />"
+        }
+      ],
+      "a11y": "A real button named by label (aria-label); the SVG is aria-hidden. The caption is plain text below it, not part of the name. Visible white focus outline; isDisabled dims it. Pass a localised label.",
+      "doNot": [
+        "Do not use it on a light surface; the ring and fill are white.",
+        "Do not rely on the caption as the button's name; set label."
+      ],
+      "docsUrl": "/docs/application/headshot/shutter-button",
+      "isExtracted": true
+    },
+    {
+      "id": "application/headshot/thumb-strip",
+      "name": "ThumbStrip",
+      "importName": "ThumbStrip",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/thumb-strip",
+      "category": "application",
+      "description": "Row of photo thumbnails and empty \"Add Photo\" slots under the crop area. Props: photos ({ src, alt }[], required), slots (total slots, default photos.length; extra ones render as add buttons), selectedIndex (marks the photo being cropped with a white ring and aria-current), onSelect(index), onAdd, addLabel (default \"Add Photo\"), className.",
+      "props": [
+        {
+          "name": "photos",
+          "type": "{ src: string; alt: string; }[]",
+          "required": true
+        },
+        {
+          "name": "slots",
+          "type": "number | undefined",
+          "required": false,
+          "default": "photos.length",
+          "description": "Total slots; the ones without a photo render as \"Add Photo\" buttons."
+        },
+        {
+          "name": "selectedIndex",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Marks the photo being cropped."
+        },
+        {
+          "name": "onSelect",
+          "type": "((index: number) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "onAdd",
+          "type": "(() => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "addLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Add Photo"
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ThumbStrip"
+      ],
+      "examples": [
+        {
+          "title": "Five slots, two photos",
+          "code": "<ThumbStrip photos={photos} slots={5} selectedIndex={selected} onSelect={setSelected} onAdd={addPhoto} />"
+        }
+      ],
+      "a11y": "Each thumbnail is a button named by its photo alt (give each a distinct alt); the selected one gets aria-current. Empty slots are buttons labelled addLabel. Focus outlines replace the dotted slot outline.",
+      "doNot": [
+        "Do not give every photo the same alt text.",
+        "Do not use it on a light surface; it is a translucent dark tray for dark camera/crop UI."
+      ],
+      "docsUrl": "/docs/application/headshot/thumb-strip",
+      "isExtracted": true
+    },
+    {
       "id": "application/html-preview/html-preview",
       "name": "HtmlPreview",
       "importName": "HtmlPreview",
@@ -4262,8 +5935,8 @@
           "name": "surface",
           "type": "enum",
           "enumValues": [
-            "theme",
-            "white"
+            "white",
+            "theme"
           ],
           "required": false,
           "default": "white",
@@ -4303,6 +5976,83 @@
         "Do not wrap HtmlPreview in a Modal wider than the email (600px is typical); use a Drawer or a Modal size=\"2xl\" for side-by-side previews."
       ],
       "docsUrl": "/docs/application/html-preview/html-preview",
+      "isExtracted": true
+    },
+    {
+      "id": "application/lightbox/lightbox",
+      "name": "Lightbox",
+      "importName": "Lightbox",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/lightbox/lightbox",
+      "category": "application",
+      "description": "Full-bleed image viewer over a near-opaque frosted backdrop (a ModalOverlay with backdrop=\"lightbox\"): the current photo on a glass card with its own colour glow, actions below it, previous/next buttons at the screen edges and a peek of the next photo. Lightbox props: images ({ src, alt }[], required), index + onIndexChange (controlled) or defaultIndex (default 0), header (ReactNode or (index) => ReactNode, caption above the card), actions (ReactNode or (index) => ReactNode, use LightboxAction), aria-label (default \"Image viewer\"), plus ModalOverlay props (isOpen, onOpenChange, isDismissable...). Open it inside a DialogTrigger or with isOpen/onOpenChange. LightboxAction props: label (visible text and accessible name), icon (required), shape circle (56px round, default) | square (55px tile), isSelected (sets aria-pressed and fills the icon), plus Button press props.",
+      "props": [
+        {
+          "name": "images",
+          "type": "LightboxImage[]",
+          "required": true
+        },
+        {
+          "name": "index",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Index of the image shown (controlled)."
+        },
+        {
+          "name": "defaultIndex",
+          "type": "number | undefined",
+          "required": false,
+          "default": "0"
+        },
+        {
+          "name": "onIndexChange",
+          "type": "((index: number) => void) | undefined",
+          "required": false
+        },
+        {
+          "name": "header",
+          "type": "ReactNode | ((index: number) => ReactNode)",
+          "required": false,
+          "description": "Caption above the card (e.g. the result group's header chip)."
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode | ((index: number) => ReactNode)",
+          "required": false,
+          "description": "Buttons under the photo; use `LightboxAction`."
+        },
+        {
+          "name": "aria-label",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Image viewer",
+          "description": "Names the dialog."
+        }
+      ],
+      "slots": [],
+      "variants": {
+        "shape": [
+          "circle",
+          "square"
+        ]
+      },
+      "allowedChildren": "any",
+      "moduleExports": [
+        "Lightbox",
+        "LightboxAction"
+      ],
+      "examples": [
+        {
+          "title": "Controlled with favourite and download",
+          "code": "<Lightbox isOpen={isOpen} onOpenChange={setIsOpen} images={images} actions={(index) => (\n  <>\n    <LightboxAction label=\"Add to Favorite\" icon={FavouriteIcon} isSelected={favourites.has(index)} onPress={() => toggle(index)} />\n    <LightboxAction label=\"Download\" icon={ImageDownloadIcon} shape=\"square\" />\n  </>\n)} />"
+        }
+      ],
+      "a11y": "A modal dialog named by aria-label: focus is trapped and returns to the trigger, Escape closes, Left/Right arrows step through images. A polite live region announces \"Image n of total\"; each photo's alt text says what it is. Close, Previous image and Next image are labelled icon buttons (disabled at the ends); the glow and peek images are aria-hidden. LightboxAction uses aria-pressed when isSelected is set.",
+      "doNot": [
+        "Do not render it without images or with images missing alt text.",
+        "Do not build a custom full-screen modal for photos; use Lightbox.",
+        "Do not use LightboxAction outside the Lightbox actions slot; it is styled for the dark glass backdrop."
+      ],
+      "docsUrl": "/docs/application/lightbox/lightbox",
       "isExtracted": true
     },
     {
@@ -4357,12 +6107,40 @@
       "isExtracted": true
     },
     {
+      "id": "application/modals/fractal-glass",
+      "name": "FractalGlass",
+      "importName": "FractalGlass",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/modals/fractal-glass",
+      "category": "application",
+      "description": "Decorative \"fractal glass\" hero art for a splash modal: soft colour blocks seen through 53px vertical glass stripes, fading into the panel below. Pure CSS, aria-hidden, pointer-events-none. Absolutely positioned at the top of its nearest positioned ancestor (e.g. a Dialog), 437px tall; put the modal's content below it. Takes div attributes; className can reposition or resize it (it is also reused as the media art of DashboardBanner).",
+      "props": [],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "FractalGlass"
+      ],
+      "examples": [
+        {
+          "title": "Splash modal hero",
+          "code": "<Dialog className=\"relative overflow-hidden\">\n  <FractalGlass />\n  <div className=\"relative pt-[300px]\">…modal content…</div>\n</Dialog>"
+        }
+      ],
+      "a11y": "Purely decorative: it is aria-hidden=\"true\" and ignores pointer events, so it must never carry information or controls.",
+      "doNot": [
+        "Do not put content inside it; it renders its own children.",
+        "Do not use it outside a positioned container; it is absolutely positioned."
+      ],
+      "docsUrl": "/docs/application/modals/fractal-glass",
+      "isExtracted": true
+    },
+    {
       "id": "application/modals/modal",
       "name": "Modal",
       "importName": "Modal",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/modals/modal",
       "category": "application",
-      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer.",
+      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer. Modal variant: default (white), dark (#444 photo-flow shell), dark-inset (dark frame around a white ModalBody card; use ModalOptionList/ModalOption for icon rows), translucent (crop). ModalOverlay backdrop: light (default), dark, splash, lightbox. ModalHeader actions puts a CTA on the title row. On phones dialogs dock at the bottom, inset 16px.",
       "props": [
         {
           "name": "size",
@@ -4378,6 +6156,19 @@
           "required": false,
           "default": "md",
           "description": "Constrains the dialog panel's max width on `sm`+ viewports (sm 400, md 456, lg 600, xl 720,\n2xl 960px, full = the whole overlay). On mobile the panel always spans the full available width."
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "dark",
+            "default",
+            "dark-inset",
+            "translucent"
+          ],
+          "required": false,
+          "default": "default",
+          "description": "Panel surface. `dark` is the `#444` photo-flow shell; `dark-inset` frames a white `ModalBody` card\n(selection dialogs); `translucent` is the see-through crop surface."
         }
       ],
       "slots": [],
@@ -4389,6 +6180,18 @@
           "xl",
           "2xl",
           "full"
+        ],
+        "variant": [
+          "default",
+          "dark",
+          "dark-inset",
+          "translucent"
+        ],
+        "backdrop": [
+          "light",
+          "dark",
+          "splash",
+          "lightbox"
         ]
       },
       "allowedChildren": "any",
@@ -4399,6 +6202,8 @@
         "ModalBody",
         "ModalFooter",
         "ModalHeader",
+        "ModalOption",
+        "ModalOptionList",
         "ModalOverlay"
       ],
       "examples": [
@@ -4718,7 +6523,7 @@
       "importName": "SidebarLayout",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/sidebar/sidebar",
       "category": "application",
-      "description": "The application shell and the ONLY sidebar navigation component: a collapsible sidebar (brand, nav items with expandable groups, language switcher, footer rows, account menu) beside a scrollable rounded main content card on desktop (md, >=768px); a bottom tab bar (first 4 destinations + a More bottom sheet) on mobile. Wrap each page's content in it as children. Navigation is data-driven via `items`; highlight the current page by passing the router's current URL as `activeUrl`.",
+      "description": "The application shell and the ONLY sidebar navigation component: a collapsible sidebar (brand, nav items with expandable groups, language switcher, footer rows, account menu) beside a scrollable rounded main content card on desktop (md, >=768px); a bottom tab bar (first 4 destinations + a More bottom sheet) on mobile. Wrap each page's content in it as children. The `account` prop takes name, email, initials, avatarUrl, or `avatar` (a custom ReactNode such as initials on the tenant color; overrides avatarUrl), and menuItems. Navigation is data-driven via `items`; highlight the current page by passing the router's current URL as `activeUrl`.",
       "props": [
         {
           "name": "brand",
@@ -4884,6 +6689,78 @@
       "isExtracted": true
     },
     {
+      "id": "application/stepper/stepper",
+      "name": "Stepper",
+      "importName": "Stepper",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/stepper/stepper",
+      "category": "application",
+      "description": "Compact segmented progress indicator for short linear flows (2-4 steps): gray segments joined by bridges with the current step on a white pill with a progress ring. Props: steps ({ id, label }[], required), currentStep (index, required; earlier steps are completed, later ones upcoming), onStepPress(index) (makes completed steps buttons that go back), onBack (shows a back button before the stepper below md), backLabel (default \"Back\"), completedLabel (screen-reader suffix, default \"completed\"), plus nav attributes (className, aria-label overrides the default \"Progress\").",
+      "props": [
+        {
+          "name": "steps",
+          "type": "StepperStep[]",
+          "required": true,
+          "description": "The steps, in order."
+        },
+        {
+          "name": "currentStep",
+          "type": "number",
+          "required": true,
+          "description": "Index of the current step. Steps before it are completed, steps after it are upcoming."
+        },
+        {
+          "name": "onStepPress",
+          "type": "((index: number) => void) | undefined",
+          "required": false,
+          "description": "Makes completed steps buttons that go back to that step. Without it every step is plain text."
+        },
+        {
+          "name": "onBack",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Shows a back button before the stepper below `md` (the mobile layout)."
+        },
+        {
+          "name": "backLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Back",
+          "description": "Accessible name of the back button."
+        },
+        {
+          "name": "completedLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "completed",
+          "description": "Screen-reader suffix for completed steps (they look like upcoming steps)."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "Stepper"
+      ],
+      "examples": [
+        {
+          "title": "Controlled",
+          "code": "<Stepper steps={[{ id: \"photo\", label: \"Take Photo\" }, { id: \"details\", label: \"Details\" }, { id: \"style\", label: \"Add Style\" }]} currentStep={step} onStepPress={setStep} onBack={() => setStep(step - 1)} />"
+        },
+        {
+          "title": "Read-only",
+          "code": "<Stepper steps={steps} currentStep={0} />"
+        }
+      ],
+      "a11y": "A nav landmark (aria-label \"Progress\") containing an ordered list; the current step has aria-current=\"step\". Completed and upcoming steps look alike, so completed ones get a screen-reader \"(completed)\" suffix, and are buttons only when onStepPress is set. The mobile back button is an icon button with an aria-label. Localise backLabel and completedLabel.",
+      "doNot": [
+        "Do not use it for more than about 4 steps; use a different pattern for long flows.",
+        "Do not make upcoming steps pressable; only completed steps become buttons.",
+        "Do not use it for non-linear tabs; use Tabs."
+      ],
+      "docsUrl": "/docs/application/stepper/stepper",
+      "isExtracted": true
+    },
+    {
       "id": "application/table/table",
       "name": "Table",
       "importName": "Table",
@@ -4952,7 +6829,7 @@
       "importName": "Tabs",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/tabs/tabs",
       "category": "application",
-      "description": "Tabbed views. Tabs (selectedKey/onSelectionChange or defaultSelectedKey) > Tabs.List (type, size, items) + one Tabs.Panel per tab id. List types: button-brand (default), button-gray, button-border, button-minimal, underline, line.",
+      "description": "Tabbed views. Tabs (selectedKey/onSelectionChange or defaultSelectedKey) > Tabs.List (type, size, items) + one Tabs.Panel per tab id. List types: button-brand (default), button-gray, button-border, button-minimal, underline, line. underline tabs are 16px-padded, medium weight, with a brand-tertiary selected/hover label and a #E5E5E5 baseline; spread them with className=\"justify-between\" for a full-width category bar. line is the anchor side-nav look for orientation=\"vertical\": items with an icon get a 28px (sm) / 32px (md) icon that goes from 20% to full brand opacity with a semibold darker label when current; items without an icon keep a brand left bar.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -5601,15 +7478,20 @@
       "importName": "Badge",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/badges/badges",
       "category": "base",
-      "description": "",
+      "description": "Status/label chip. Badge (type, size sm|md|lg, color, wrap). Base types: pill-color (default), color, modern -- they take a color (gray, brand, error, warning, success, slate, sky, blue, indigo, purple, pink, rose, orange). BetterShot recipe types are complete looks and ignore color (except generating): shoot (uppercase shoot tag), option (chip on an option tile, 9px; size=\"lg\" is the larger Browse-all chip), count (count chip next to a heading, e.g. \"Headshots 32\"), generating (7px input tags on the generating card; color gray|purple|sky), recommended (gradient tab that sits on a card's top edge, rounded top corners only). The color type at size sm is the 13px value tag; brand is a flat violet tint with no ring. StatusBadge (status done|active|pending, statusLabel, children) is the progress step chip: done = green check, active = violet with a spinning ring (static under reduced motion), pending = gray dashed ring. Also exported: BadgeWithDot, BadgeWithIcon, BadgeWithImage, BadgeWithFlag, BadgeWithButton, BadgeIcon.",
       "props": [
         {
           "name": "type",
           "type": "enum",
           "enumValues": [
             "color",
+            "option",
             "modern",
-            "pill-color"
+            "count",
+            "pill-color",
+            "shoot",
+            "generating",
+            "recommended"
           ],
           "required": false
         },
@@ -5632,13 +7514,13 @@
             "error",
             "success",
             "warning",
-            "slate",
-            "sky",
             "blue",
             "indigo",
-            "purple",
+            "orange",
             "pink",
-            "orange"
+            "purple",
+            "slate",
+            "sky"
           ],
           "required": false
         },
@@ -5656,7 +7538,38 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "type": [
+          "pill-color",
+          "color",
+          "modern",
+          "shoot",
+          "option",
+          "count",
+          "generating",
+          "recommended"
+        ],
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ],
+        "color": [
+          "gray",
+          "brand",
+          "error",
+          "warning",
+          "success",
+          "slate",
+          "sky",
+          "blue",
+          "indigo",
+          "purple",
+          "pink",
+          "rose",
+          "orange"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Badge",
@@ -5665,10 +7578,33 @@
         "BadgeWithDot",
         "BadgeWithFlag",
         "BadgeWithIcon",
-        "BadgeWithImage"
+        "BadgeWithImage",
+        "StatusBadge"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Basic",
+          "code": "<Badge color=\"brand\" size=\"md\">New</Badge>"
+        },
+        {
+          "title": "Shoot tag",
+          "code": "<Badge type=\"shoot\">Shoot for graduation</Badge>"
+        },
+        {
+          "title": "Count chip",
+          "code": "<Badge type=\"count\">32</Badge>"
+        },
+        {
+          "title": "Step status",
+          "code": "<StatusBadge status=\"active\">Shooting</StatusBadge>"
+        }
+      ],
+      "a11y": "Badges are plain text spans, not interactive. StatusBadge appends screen-reader-only status text (\"completed\", \"in progress\", \"not started\") after its label; pass statusLabel to localize it. Do not rely on color alone to carry meaning -- the label text must say it.",
+      "doNot": [
+        "Do not use a Badge as a button; use Button or BadgeWithButton for a dismiss control.",
+        "Do not pass color to the shoot, option, count or recommended types -- they have a fixed look.",
+        "Do not build step progress from colored spans -- use StatusBadge."
+      ],
       "docsUrl": "/docs/base/badges/badges",
       "isExtracted": true
     },
@@ -5817,7 +7753,7 @@
       "importName": "Button",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/buttons/button",
       "category": "base",
-      "description": "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants.",
+      "description": "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants. Sizes (text 14px at xs/sm, 16px at md+; weight 500): xs 28px, sm 32px (default), md 36px (was 40px), lg 40px, xl 48px. Colors: primary, secondary, secondary-brand (secondary with brand-colored text), white (solid white, no border, for dark bg-inverse surfaces), outline-pill (border-only fully rounded info pill, 14px trailing icon; sets its own padding so size only picks the type size), tertiary, link-*, and the *-destructive family. noTextPadding is deprecated and does nothing.",
       "props": [
         {
           "name": "href",
@@ -5857,6 +7793,9 @@
           "enumValues": [
             "primary",
             "secondary",
+            "secondary-brand",
+            "white",
+            "outline-pill",
             "tertiary",
             "link-color",
             "link-gray",
@@ -5887,7 +7826,7 @@
           "name": "noTextPadding",
           "type": "boolean | undefined",
           "required": false,
-          "description": "Removes horizontal padding from the text content"
+          "description": "@deprecated No-op: the text no longer has its own padding (the sizes carry Figma's full padding)."
         },
         {
           "name": "showTextWhileLoading",
@@ -5914,6 +7853,9 @@
         "color": [
           "primary",
           "secondary",
+          "secondary-brand",
+          "white",
+          "outline-pill",
           "tertiary",
           "link-gray",
           "link-color",
@@ -5943,12 +7885,29 @@
         {
           "title": "Link styled",
           "code": "<Button href=\"/dashboard\" color=\"link-color\">View dashboard</Button>"
+        },
+        {
+          "title": "Secondary with brand text",
+          "code": "<Button color=\"secondary-brand\" size=\"xs\">Edit Details</Button>"
+        },
+        {
+          "title": "On a dark surface",
+          "code": "<Button color=\"white\" size=\"md\">Continue</Button>"
+        },
+        {
+          "title": "Splash CTA (36px, 14px text)",
+          "code": "<Button size=\"sm\" className=\"py-2\" iconTrailing={ArrowRight02SharpIcon}>Create my Headshot</Button>"
+        },
+        {
+          "title": "Outline info pill",
+          "code": "<Button color=\"outline-pill\" iconTrailing={HelpCircleIcon}>What makes a good photo</Button>"
         }
       ],
       "a11y": "isDisabled sets the native disabled/aria-disabled state automatically; isLoading announces a busy state and disables interaction. Icon-only buttons (no children, only iconLeading/iconTrailing) need an aria-label since there is no visible text for assistive tech.",
       "doNot": [
         "Do not render a raw <button> or <a> for anything Button already covers, including plain text links -- use color=\"link-gray\" / \"link-color\" / \"link-destructive\" instead.",
         "Do not put block-level elements (div, headings) inside Button's children -- text and inline content only.",
+        "Do not use color=\"white\" on light surfaces -- it has no border; it is for dark (bg-inverse) surfaces only.",
         "Do not use primary-destructive/secondary-destructive/tertiary-destructive/link-destructive for anything other than a genuinely destructive action (delete, remove, revoke)."
       ],
       "docsUrl": "/docs/base/buttons/button",
@@ -6070,11 +8029,13 @@
           "name": "theme",
           "type": "enum",
           "enumValues": [
+            "white",
             "light",
             "dark"
           ],
           "required": false,
-          "default": "light"
+          "default": "light",
+          "description": "`light`/`dark` are icon-only for light/dark surfaces; `white` is the solid white square for dark dialogs (fixed 26px)."
         },
         {
           "name": "size",
@@ -6593,8 +8554,19 @@
       "importName": "ColorSwatchPicker",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/color-picker/color-swatch-picker",
       "category": "base",
-      "description": "A ColorSwatchPicker displays a list of color swatches and allows a user to\nselect one of them.",
+      "description": "Single choice from a set of colors. ColorSwatchPicker (size md|lg, layout grid|stack, value/onChange or defaultValue) > ColorSwatchPickerItem (color, label, fill, aria-label, isDisabled). size=\"md\" (default): 36px circles in a wrapping row; the selected one shows a centre dot (dark on light swatches). size=\"lg\": 48px discs inside a 2px ring that turns violet when selected, in a grid of equal columns. Item label is a visible caption under the swatch (also the accessible name when it is a string, else the generated color name). Item fill is a CSS `background` painted instead of the flat color (e.g. a radial gradient); color stays the value.",
       "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "md",
+            "lg"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`\"md\"`: 36px circles in a wrapping row; the selected one shows a centre dot.\n`\"lg\"`: 48px discs inside a 2px ring that turns violet when selected, in a grid of equal columns."
+        },
         {
           "name": "className",
           "type": "string | undefined",
@@ -6604,14 +8576,36 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "lg"
+        ],
+        "layout": [
+          "grid",
+          "stack"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "ColorSwatchPicker",
         "ColorSwatchPickerItem"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "Large with labels",
+          "code": "<ColorSwatchPicker size=\"lg\" aria-label=\"Background\" value={bg} onChange={setBg}>\n  <ColorSwatchPickerItem color=\"#F5F5F5\" label=\"Studio\" />\n  <ColorSwatchPickerItem color=\"#101419\" label=\"Charcoal\" />\n</ColorSwatchPicker>"
+        },
+        {
+          "title": "Gradient fill",
+          "code": "<ColorSwatchPickerItem color=\"#8571FF\" label=\"Aurora\" fill=\"radial-gradient(circle, #5215FF, #B9CDFF)\" />"
+        }
+      ],
+      "a11y": "Renders a listbox of swatches; arrow keys move and select. Each item is named by aria-label, else its string label, else the generated color name. When using fill, still pass a label or aria-label that says what the color is.",
+      "doNot": [
+        "Do not rely on the swatch color alone to convey its meaning -- add a label.",
+        "Do not use ColorSwatchPicker for free-form colors; use ColorPicker."
+      ],
       "docsUrl": "/docs/base/color-picker/color-swatch-picker",
       "isExtracted": true
     },
@@ -6882,13 +8876,13 @@
             "error",
             "success",
             "warning",
-            "slate",
-            "sky",
             "blue",
             "indigo",
-            "purple",
+            "orange",
             "pink",
-            "orange"
+            "purple",
+            "slate",
+            "sky"
           ],
           "required": false,
           "default": "gray",
@@ -7029,7 +9023,7 @@
       "importName": "DescriptionList",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/description-list/description-list",
       "category": "base",
-      "description": "Label/value metadata (record details, settings summaries) rendered as a semantic <dl>. Compound: DescriptionList holds DescriptionList.Item entries, each with a `term` and a value as children. Layouts: stacked or inline; 1-3 responsive columns; optional dividers.",
+      "description": "Label/value metadata (record details, settings summaries) rendered as a semantic <dl>. Compound: DescriptionList holds DescriptionList.Item entries, each with a `term` and a value as children. Layouts: stacked or inline; 1-3 responsive columns; optional dividers. variant=\"summary\" is the compact receipt look (e.g. a booking summary): a white card of uppercase keys and right-aligned values on a gray tray, with an optional `footer` node (icon + note) under it; it ignores layout, columns and isDivided.",
       "props": [
         {
           "name": "layout",
@@ -7046,9 +9040,9 @@
           "name": "columns",
           "type": "enum",
           "enumValues": [
-            "1",
             "2",
-            "3"
+            "3",
+            "1"
           ],
           "required": false,
           "default": "1",
@@ -7060,6 +9054,23 @@
           "required": false,
           "default": "false",
           "description": "Draws a divider between rows. Best with `layout=\"inline\"` and one column."
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "summary",
+            "default"
+          ],
+          "required": false,
+          "default": "default",
+          "description": "`summary` is the compact receipt look (e.g. a booking summary): a white card of uppercase keys and\nright-aligned values on a gray tray, with an optional `footer` line under it. It ignores `layout`,\n`columns` and `isDivided`."
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Note shown on the tray under a `summary` list, e.g. an icon + \"100% money-back on eligible packages\"."
         }
       ],
       "slots": [],
@@ -7072,6 +9083,10 @@
           "1",
           "2",
           "3"
+        ],
+        "variant": [
+          "default",
+          "summary"
         ]
       },
       "allowedChildren": [
@@ -7089,6 +9104,10 @@
         {
           "title": "Settings summary, inline with dividers",
           "code": "<DescriptionList layout=\"inline\" isDivided>\n  <DescriptionList.Item term=\"Throttle\">40 emails / minute</DescriptionList.Item>\n</DescriptionList>"
+        },
+        {
+          "title": "Summary receipt with footer",
+          "code": "<DescriptionList variant=\"summary\" footer={<><ShieldCheck data-icon />100% money-back on eligible packages</>}>\n  <DescriptionList.Item term=\"Package\">Pro</DescriptionList.Item>\n  <DescriptionList.Item term=\"Total\">$29</DescriptionList.Item>\n</DescriptionList>"
         }
       ],
       "a11y": "Renders dl/dt/dd, so screen readers announce each value with its term. Empty values render an em dash instead of nothing.",
@@ -7105,7 +9124,7 @@
       "importName": "Dropdown",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/dropdown/dropdown",
       "category": "base",
-      "description": "Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, href, and variant=\"destructive\" for delete/remove actions. Menus with selectionMode render checks/radios on items.",
+      "description": "Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, count (a small chip right after the label, e.g. 32 for \"All 32\"), href, and variant=\"destructive\" for delete/remove actions. Menus with selectionMode render checks/radios on items.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -8210,6 +10229,61 @@
       "isExtracted": true
     },
     {
+      "id": "base/popover/popover",
+      "name": "Popover",
+      "importName": "Popover",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/base/popover/popover",
+      "category": "base",
+      "description": "Dark, interactive explainer anchored to its trigger: body text plus an optional acknowledgement button. Popover props: children (body text; also names the dialog unless aria-label is set), acknowledgeLabel (label of the dismiss button, e.g. \"Okay! Got It\"; omit for none), onAcknowledge (called before it closes), aria-label, placement (default \"bottom start\"), offset (default 8), className, plus React Aria Popover props. Wrap the trigger (any pressable, e.g. Button) and the Popover in PopoverTrigger (opens on press; supports defaultOpen, isOpen, onOpenChange). Unlike Tooltip it is a non-modal dialog that can hold focusable content and returns focus to the trigger.",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Body text. It also names the dialog unless `aria-label` is set."
+        },
+        {
+          "name": "acknowledgeLabel",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Label of the button that dismisses the popover (\"Okay! Got It\"). Omit for no button (Escape and an outside press still close it)."
+        },
+        {
+          "name": "onAcknowledge",
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Called when the acknowledgement button is pressed, before the popover closes."
+        },
+        {
+          "name": "aria-label",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Defines a string value that labels the current element."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "Popover",
+        "PopoverTrigger"
+      ],
+      "examples": [
+        {
+          "title": "Explainer with acknowledge button",
+          "code": "<PopoverTrigger>\n  <Button size=\"sm\" color=\"outline-pill\" iconTrailing={HelpCircleIcon}>Why this takes time</Button>\n  <Popover acknowledgeLabel=\"Okay! Got It\">We train a private model on your selfies, then generate every look.</Popover>\n</PopoverTrigger>"
+        }
+      ],
+      "a11y": "A non-modal dialog named by its body text (aria-labelledby) or aria-label; opens on press, closes on Escape, outside press or the acknowledge button, and returns focus to the trigger. The body is plain text; keep it short.",
+      "doNot": [
+        "Do not use it for a hover or focus label with nothing to press; use Tooltip.",
+        "Do not put long forms or critical blocking content in it; use Modal.",
+        "Do not put the trigger outside PopoverTrigger."
+      ],
+      "docsUrl": "/docs/base/popover/popover",
+      "isExtracted": true
+    },
+    {
       "id": "base/progress-indicators/progress-circles",
       "name": "ProgressBarCircle",
       "importName": "ProgressBarCircle",
@@ -8389,7 +10463,7 @@
       "importName": "RadioGroup",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/radio-buttons/radio-buttons",
       "category": "base",
-      "description": "Single choice from a short list. RadioGroup (size sm|md, orientation vertical|horizontal, value/onChange or defaultValue, isDisabled, aria-label) > RadioButton (value, label, hint, isDisabled). orientation=\"horizontal\" lays radios out in a row that wraps on narrow widths. RadioButtonBase is the bare visual circle for custom rows -- it has no radio semantics on its own.",
+      "description": "Single choice from a short list. RadioGroup (size sm|md, orientation vertical|horizontal, tone default|inverse, value/onChange or defaultValue, isDisabled, aria-label) > RadioButton (value, label, hint, isDisabled). orientation=\"horizontal\" lays radios out in a row that wraps on narrow widths. tone=\"inverse\" is for radios placed directly on a dark surface (bg-inverse): white labels, light hints, white focus outline. RadioButtonBase is the bare visual circle for custom rows -- it has no radio semantics on its own.",
       "props": [
         {
           "name": "children",
@@ -8424,6 +10498,17 @@
           ],
           "required": false,
           "default": "sm"
+        },
+        {
+          "name": "tone",
+          "type": "enum",
+          "enumValues": [
+            "inverse",
+            "default"
+          ],
+          "required": false,
+          "default": "default",
+          "description": "Surface the radios sit on. `\"inverse\"` is for dark surfaces (e.g. the `bg-inverse` dialog shell):\nlabels turn white, hints `text-inverse-secondary`, and the focus outline turns white. The circle\nitself is unchanged; it already reads on dark."
         }
       ],
       "slots": [],
@@ -8435,6 +10520,10 @@
         "orientation": [
           "vertical",
           "horizontal"
+        ],
+        "tone": [
+          "default",
+          "inverse"
         ]
       },
       "allowedChildren": "any",
@@ -8805,7 +10894,7 @@
       "importName": "Select",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/select/select",
       "category": "base",
-      "description": "Dropdown selection field. children must be either a single render function `(item) => <Select.Item .../>` when items is provided, or one or more literal Select.Item children. Use Select.ComboBox instead when the list needs to be searchable.",
+      "description": "Dropdown selection field. children must be either a single render function `(item) => <Select.Item .../>` when items is provided, or one or more literal Select.Item children. Use Select.ComboBox instead when the list needs to be searchable. variant=\"button\" renders a compact 32px secondary-button trigger (leading icon, divider, chevron) sized to its content, e.g. a version picker in a toolbar; it needs aria-label when there is no label.",
       "props": [
         {
           "name": "items",
@@ -8822,6 +10911,17 @@
           "type": "ReactNode | FC",
           "required": false,
           "acceptsIcon": true
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "button",
+            "field"
+          ],
+          "required": false,
+          "default": "field",
+          "description": "`\"field\"` is the form-field trigger. `\"button\"` is a compact 32px trigger styled like a secondary\nbutton, with a divider before the chevron, sized to its content (e.g. a version picker in a toolbar).\n`\"button\"` always uses the sm text and icon sizes; `size` then only sets the list's max height."
         },
         {
           "name": "hint",
@@ -9249,7 +11349,7 @@
       "importName": "TagAvatar",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/tags/tags",
       "category": "base",
-      "description": "Tag chips on React Aria's TagGroup: TagGroup (label, size, selectionMode, onRemove) > TagList (items) > Tag. Removable chips are keyboard reachable (arrow keys between tags, Backspace/Delete removes).",
+      "description": "Tag chips on React Aria's TagGroup: TagGroup (label, size, selectionMode, onRemove) > TagList (items) > Tag. A Tag count (number) renders a chip at least 23px wide. Removable chips are keyboard reachable (arrow keys between tags, Backspace/Delete removes).",
       "props": [
         {
           "name": "contrastBorder",
@@ -9375,7 +11475,7 @@
       "importName": "Tooltip",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/tooltip/tooltip",
       "category": "base",
-      "description": "",
+      "description": "Short hint on hover or focus. Tooltip (title, description, arrow, delay 300ms, placement) wraps one trigger, usually TooltipTrigger. Renders a dark popover surface (bg-popover #151515, 14px radius, 10px padding, 14px text) that stays dark in both themes: a title-only tooltip uses the muted text-popover color; with a description the title is white and medium weight.",
       "props": [
         {
           "name": "title",
@@ -9411,8 +11511,17 @@
         "Tooltip",
         "TooltipTrigger"
       ],
-      "examples": [],
-      "doNot": [],
+      "examples": [
+        {
+          "title": "With description",
+          "code": "<Tooltip title=\"Share\" description=\"Copy a link to this page\"><TooltipTrigger aria-label=\"Share\"><Share01 className=\"size-4\" /></TooltipTrigger></Tooltip>"
+        }
+      ],
+      "a11y": "Opens on hover and keyboard focus, closes on Escape; ignores the scroll caused by Tab focusing a trigger and a Tab keydown still in flight. Keep it to supplementary text -- anything essential belongs in the visible UI. An icon-only trigger still needs its own aria-label.",
+      "doNot": [
+        "Do not put interactive content or essential instructions in a tooltip.",
+        "Do not wrap a non-focusable element without TooltipTrigger -- keyboard users cannot open it."
+      ],
       "docsUrl": "/docs/base/tooltip/tooltip",
       "isExtracted": true
     },
@@ -9558,10 +11667,10 @@
           "name": "level",
           "type": "enum",
           "enumValues": [
-            "1",
             "2",
-            "4",
             "3",
+            "4",
+            "1",
             "6",
             "5"
           ],
@@ -9572,10 +11681,10 @@
           "name": "size",
           "type": "enum",
           "enumValues": [
-            "1",
             "2",
-            "4",
             "3",
+            "4",
+            "1",
             "6",
             "5"
           ],
@@ -9910,10 +12019,10 @@
           "name": "theme",
           "type": "enum",
           "enumValues": [
+            "outline",
             "light",
             "gradient",
             "dark",
-            "outline",
             "modern",
             "modern-neue"
           ],
@@ -10802,11 +12911,29 @@
         "usage": "Default solid (dark) error hover state background color for components such as buttons."
       },
       {
+        "cssVar": "--color-bg-inverse",
+        "className": "bg-inverse",
+        "value": "rgb(68 68 68)",
+        "usage": "Dark panel (#444) for dialogs and surfaces that stay dark in both themes. Pair with text-white, text-inverse-secondary/tertiary and border-inverse."
+      },
+      {
+        "cssVar": "--color-bg-inverse-subtle",
+        "className": "bg-inverse-subtle",
+        "value": "rgb(255 255 255 / 0.1)",
+        "usage": "Subtle lighter fill (white at 10%) for controls and rows on a bg-inverse surface; the same in both themes."
+      },
+      {
         "cssVar": "--color-bg-overlay",
         "className": "bg-overlay",
         "value": "var(--color-neutral-950)",
         "darkValue": "var(--color-neutral-800)",
         "usage": "Default background color for background overlays. These are useful for overlay components such as modals."
+      },
+      {
+        "cssVar": "--color-bg-popover",
+        "className": "bg-popover",
+        "value": "rgb(21 21 21)",
+        "usage": "Near-black (#151515) popover surface (e.g. the Popover component); the same in both themes. Pair with text-popover."
       },
       {
         "cssVar": "--color-bg-primary",
@@ -10946,6 +13073,12 @@
         "usage": "A more subtle (lower contrast) alternative for error state semantic borders such as error state input fields."
       },
       {
+        "cssVar": "--color-border-inverse",
+        "className": "border-inverse",
+        "value": "rgb(255 255 255 / 0.12)",
+        "usage": "Hairline border (white at 12%) on dark inverse surfaces such as dark dialogs and popovers; the same in both themes."
+      },
+      {
         "cssVar": "--color-border-primary",
         "className": "border-primary",
         "value": "var(--color-neutral-300)",
@@ -10955,7 +13088,7 @@
       {
         "cssVar": "--color-border-secondary",
         "className": "border-secondary",
-        "value": "rgb(234 237 239)",
+        "value": "rgb(233 234 235)",
         "darkValue": "var(--color-neutral-800)",
         "usage": "Medium contrast borders. This is the most commonly used border color and is the default for most components (e.g. file uploaders), cards (such as tables), and content dividers."
       },
@@ -10976,43 +13109,43 @@
       {
         "cssVar": "--color-brand-100",
         "className": "brand-100",
-        "value": "rgb(232 234 253)",
+        "value": "rgb(213 207 255)",
         "usage": "Base Color token."
       },
       {
         "cssVar": "--color-brand-200",
         "className": "brand-200",
-        "value": "rgb(211 214 250)",
+        "value": "rgb(190 180 255)",
         "usage": "Base Color token."
       },
       {
         "cssVar": "--color-brand-25",
         "className": "brand-25",
-        "value": "rgb(251 251 255)",
+        "value": "rgb(248 247 255)",
         "usage": "Base Color token."
       },
       {
         "cssVar": "--color-brand-300",
         "className": "brand-300",
-        "value": "rgb(178 181 248)",
+        "value": "rgb(160 145 255)",
         "usage": "Base Color token."
       },
       {
         "cssVar": "--color-brand-400",
         "className": "brand-400",
-        "value": "rgb(140 139 246)",
+        "value": "rgb(129 109 240)",
         "usage": "Base Color token."
       },
       {
         "cssVar": "--color-brand-50",
         "className": "brand-50",
-        "value": "rgb(243 244 255)",
+        "value": "rgb(236 234 255)",
         "usage": "Base Color token."
       },
       {
         "cssVar": "--color-brand-500",
         "className": "brand-500",
-        "value": "rgb(110 98 239)",
+        "value": "rgb(107 84 230)",
         "usage": "Base Color token."
       },
       {
@@ -11491,6 +13624,18 @@
         "usage": "Text Colors token."
       },
       {
+        "cssVar": "--color-text-inverse-secondary",
+        "className": "text-inverse-secondary",
+        "value": "rgb(193 193 193)",
+        "usage": "Secondary text on dark inverse surfaces (bg-inverse); the same in both themes."
+      },
+      {
+        "cssVar": "--color-text-inverse-tertiary",
+        "className": "text-inverse-tertiary",
+        "value": "rgb(174 177 185)",
+        "usage": "Tertiary text and hints on dark inverse surfaces (bg-inverse); the same in both themes."
+      },
+      {
         "cssVar": "--color-text-placeholder",
         "className": "text-placeholder",
         "value": "rgb(113 118 128)",
@@ -11498,9 +13643,15 @@
         "usage": "Default color for placeholder text such as input field placeholders. This can be changed to gray-400, but gray-500 is more accessible because it is higher contrast."
       },
       {
+        "cssVar": "--color-text-popover",
+        "className": "text-popover",
+        "value": "rgb(204 205 207)",
+        "usage": "Body text inside dark popovers (bg-popover); the same in both themes."
+      },
+      {
         "cssVar": "--color-text-primary",
         "className": "text-primary",
-        "value": "rgb(16 36 79)",
+        "value": "rgb(16 20 25)",
         "darkValue": "var(--color-neutral-50)",
         "usage": "Primary text such as page headings."
       },
@@ -11521,14 +13672,14 @@
       {
         "cssVar": "--color-text-quaternary_on-brand",
         "className": "text-quaternary_on-brand",
-        "value": "var(--color-brand-300)",
+        "value": "rgb(211 214 250)",
         "darkValue": "var(--color-neutral-400)",
         "usage": "Quaternary text when used on solid brand color backgrounds. Commonly used for brand theme website sections (e.g. footers)."
       },
       {
         "cssVar": "--color-text-secondary",
         "className": "text-secondary",
-        "value": "rgb(63 78 114)",
+        "value": "rgb(65 70 81)",
         "darkValue": "var(--color-neutral-300)",
         "usage": "Secondary text such as labels and section headings."
       },
@@ -11542,9 +13693,16 @@
       {
         "cssVar": "--color-text-secondary_on-brand",
         "className": "text-secondary_on-brand",
-        "value": "var(--color-brand-200)",
+        "value": "rgb(211 214 250)",
         "darkValue": "var(--color-neutral-300)",
         "usage": "Secondary text when used on solid brand color backgrounds. Commonly used for brand theme website sections (e.g. CTA sections)."
+      },
+      {
+        "cssVar": "--color-text-subtle",
+        "className": "text-subtle",
+        "value": "rgb(110 112 117)",
+        "darkValue": "var(--color-neutral-400)",
+        "usage": "Subtitles and descriptions (#6E7075; Figma \"text-subtle\" #A4A7AE darkened to pass AA on every light surface up to #F6F6F6). Lighter than text-tertiary."
       },
       {
         "cssVar": "--color-text-success-primary",
@@ -11570,7 +13728,7 @@
       {
         "cssVar": "--color-text-tertiary_on-brand",
         "className": "text-tertiary_on-brand",
-        "value": "var(--color-brand-200)",
+        "value": "rgb(211 214 250)",
         "darkValue": "var(--color-neutral-400)",
         "usage": "Tertiary text when used on solid brand color backgrounds. Commonly used for brand theme website sections (e.g. CTA sections)."
       },
@@ -12573,8 +14731,8 @@
     ],
     "radius": [],
     "allowedTailwindPatterns": [
-      "^(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
-      "^(hover|focus|focus-visible|active|disabled|dark):(text-primary|text-tertiary|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover)$",
+      "^(text-primary|text-tertiary|text-subtle|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover|bg-inverse|bg-inverse-subtle|bg-popover|text-inverse-secondary|text-inverse-tertiary|text-popover|border-inverse)$",
+      "^(hover|focus|focus-visible|active|disabled|dark):(text-primary|text-tertiary|text-subtle|text-error-primary|text-warning-primary|text-success-primary|text-secondary|text-secondary_hover|text-tertiary_hover|text-brand-secondary|text-placeholder|text-brand-tertiary|text-editor-icon-fg|text-editor-icon-fg_active|text-quaternary|text-brand-primary|text-primary_on-brand|text-secondary_on-brand|text-tertiary_on-brand|text-quaternary_on-brand|text-brand-tertiary_alt|text-error-primary_hover|text-brand-secondary_hover|border-primary|border-secondary|border-secondary_alt|border-tertiary|border-error|border-error_subtle|border-brand|border-brand_alt|bg-primary|bg-tertiary|bg-brand-primary|bg-error-secondary|bg-warning-primary|bg-warning-secondary|bg-success-primary|bg-success-secondary|bg-brand-solid|bg-secondary-solid|bg-error-solid|bg-warning-solid|bg-success-solid|bg-secondary_hover|bg-primary_hover|bg-brand-solid_hover|bg-error-primary|bg-brand-secondary|bg-secondary|bg-quaternary|bg-primary_alt|bg-brand-primary_alt|bg-secondary_alt|bg-overlay|bg-brand-section|bg-brand-section_subtle|bg-primary-solid|bg-error-solid_hover|bg-inverse|bg-inverse-subtle|bg-popover|text-inverse-secondary|text-inverse-tertiary|text-popover|border-inverse)$",
       "^(outline-brand|outline-brand-solid|outline-brand-solid_hover|outline-brand_alt|outline-error|outline-error_subtle|outline-primary|outline-secondary|outline-secondary_alt|outline-tertiary|ring-brand|ring-brand-solid|ring-brand-solid_hover|ring-brand_alt|ring-error|ring-error_subtle|ring-primary|ring-secondary|ring-secondary_alt|ring-tertiary)$",
       "^(text|border|bg|ring|outline|stroke|fill|divide|decoration|caret|accent)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-bg|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
       "^(hover|focus|focus-visible|active|disabled|dark):(text|border|bg|ring|outline|stroke|fill)-(transparent|alpha-white|alpha-black|brand-25|brand-50|brand-100|brand-200|brand-300|brand-400|brand-500|brand-600|brand-700|brand-800|brand-900|brand-950|utility-blue-50|utility-blue-100|utility-blue-200|utility-blue-300|utility-blue-400|utility-blue-500|utility-blue-600|utility-blue-700|utility-brand-50|utility-brand-50_alt|utility-brand-100|utility-brand-100_alt|utility-brand-200|utility-brand-200_alt|utility-brand-300|utility-brand-300_alt|utility-brand-400|utility-brand-400_alt|utility-brand-500|utility-brand-500_alt|utility-brand-600|utility-brand-600_alt|utility-brand-700|utility-brand-700_alt|utility-brand-800|utility-brand-800_alt|utility-brand-900|utility-brand-900_alt|utility-neutral-50|utility-neutral-100|utility-neutral-200|utility-neutral-300|utility-neutral-400|utility-neutral-500|utility-neutral-600|utility-neutral-700|utility-neutral-800|utility-neutral-900|utility-red-50|utility-red-100|utility-red-200|utility-red-300|utility-red-400|utility-red-500|utility-red-600|utility-red-700|utility-yellow-50|utility-yellow-100|utility-yellow-200|utility-yellow-300|utility-yellow-400|utility-yellow-500|utility-yellow-600|utility-yellow-700|utility-green-50|utility-green-100|utility-green-200|utility-green-300|utility-green-400|utility-green-500|utility-green-600|utility-green-700|utility-orange-50|utility-orange-100|utility-orange-200|utility-orange-300|utility-orange-400|utility-orange-500|utility-orange-600|utility-orange-700|utility-indigo-50|utility-indigo-100|utility-indigo-200|utility-indigo-300|utility-indigo-400|utility-indigo-500|utility-indigo-600|utility-indigo-700|utility-fuchsia-50|utility-fuchsia-100|utility-fuchsia-200|utility-fuchsia-300|utility-fuchsia-400|utility-fuchsia-500|utility-fuchsia-600|utility-fuchsia-700|utility-pink-50|utility-pink-100|utility-pink-200|utility-pink-300|utility-pink-400|utility-pink-500|utility-pink-600|utility-pink-700|utility-purple-50|utility-purple-100|utility-purple-200|utility-purple-300|utility-purple-400|utility-purple-500|utility-purple-600|utility-purple-700|utility-sky-50|utility-sky-100|utility-sky-200|utility-sky-300|utility-sky-400|utility-sky-500|utility-sky-600|utility-sky-700|utility-slate-50|utility-slate-100|utility-slate-200|utility-slate-300|utility-slate-400|utility-slate-500|utility-slate-600|utility-slate-700|utility-emerald-50|utility-emerald-100|utility-emerald-200|utility-emerald-300|utility-emerald-400|utility-emerald-500|utility-emerald-600|utility-emerald-700|utility-amber-50|utility-amber-100|utility-amber-200|utility-amber-300|utility-amber-400|utility-amber-500|utility-amber-600|utility-amber-700|fg-secondary|fg-warning-primary|fg-success-primary|fg-white|fg-success-secondary|fg-secondary_hover|fg-primary|fg-brand-secondary|fg-brand-primary|fg-quaternary|fg-quaternary_hover|fg-error-primary|fg-warning-secondary|fg-error-secondary|fg-tertiary|fg-tertiary_hover|fg-brand-primary_alt|fg-brand-secondary_alt|fg-brand-secondary_hover|app-store-badge-border|avatar-styles-bg-neutral|featured-icon-light-fg-brand|featured-icon-light-fg-error|featured-icon-light-fg-gray|featured-icon-light-fg-success|featured-icon-light-fg-warning|focus-ring-error|focus-ring|footer-button-fg|footer-button-fg_hover|icon-fg-brand|icon-fg-brand_on-brand|screen-mockup-border|slider-handle-bg|slider-handle-border|toggle-border|toggle-slim-border_pressed-hover|toggle-slim-border_pressed|tooltip-bg|tooltip-supporting-text|chart-1|chart-2|chart-3|chart-4|chart-5|chart-6|chart-7|chart-8|chart-sequential-1|chart-sequential-2|chart-sequential-3|chart-sequential-4|chart-sequential-5|chart-sequential-6|chart-sequential-7|chart-diverging-negative|chart-diverging-mid|chart-diverging-positive|chart-grid|chart-axis|chart-track|chart-empty-cell|flow-glow-brand)$",
@@ -21779,6 +23937,437 @@
       "tags": [
         "zoom",
         "out"
+      ]
+    },
+    {
+      "name": "ArrowDown01SharpIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "arrow",
+        "down01",
+        "sharp"
+      ]
+    },
+    {
+      "name": "ArrowRight01SharpIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "arrow",
+        "right01",
+        "sharp"
+      ]
+    },
+    {
+      "name": "ArrowRight02SharpIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "arrow",
+        "right02",
+        "sharp"
+      ]
+    },
+    {
+      "name": "Briefcase05Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "briefcase05"
+      ]
+    },
+    {
+      "name": "CheckmarkBadge02Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "checkmark",
+        "badge02"
+      ]
+    },
+    {
+      "name": "CheckmarkCircle02Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "checkmark",
+        "circle02"
+      ]
+    },
+    {
+      "name": "CircleArrowRight01RoundIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "circle",
+        "arrow",
+        "right01",
+        "round"
+      ]
+    },
+    {
+      "name": "CircleArrowRight01SharpIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "circle",
+        "arrow",
+        "right01",
+        "sharp"
+      ]
+    },
+    {
+      "name": "ClearCircleIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "clear",
+        "circle"
+      ]
+    },
+    {
+      "name": "Clock04Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "clock04"
+      ]
+    },
+    {
+      "name": "ClothesIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "clothes"
+      ]
+    },
+    {
+      "name": "Contact01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "contact01"
+      ]
+    },
+    {
+      "name": "CoPresentIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "co",
+        "present"
+      ]
+    },
+    {
+      "name": "Edit02Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "edit02"
+      ]
+    },
+    {
+      "name": "EyeIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "eye"
+      ]
+    },
+    {
+      "name": "FavouriteIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "favourite"
+      ]
+    },
+    {
+      "name": "File01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "file01"
+      ]
+    },
+    {
+      "name": "FileUploadIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "file",
+        "upload"
+      ]
+    },
+    {
+      "name": "GridViewIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "grid",
+        "view"
+      ]
+    },
+    {
+      "name": "HelpCircleIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "help",
+        "circle"
+      ]
+    },
+    {
+      "name": "HijabIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "hijab"
+      ]
+    },
+    {
+      "name": "Home01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "home01"
+      ]
+    },
+    {
+      "name": "ImageAdd01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "image",
+        "add01"
+      ]
+    },
+    {
+      "name": "ImageDownloadIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "image",
+        "download"
+      ]
+    },
+    {
+      "name": "InformationCircleIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "information",
+        "circle"
+      ]
+    },
+    {
+      "name": "Invoice03Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "invoice03"
+      ]
+    },
+    {
+      "name": "LanguageSkillIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "language",
+        "skill"
+      ]
+    },
+    {
+      "name": "ListViewIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "list",
+        "view"
+      ]
+    },
+    {
+      "name": "LockedIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "locked"
+      ]
+    },
+    {
+      "name": "MicOffIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "mic",
+        "off"
+      ]
+    },
+    {
+      "name": "MoreHorizontalSquare01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "more",
+        "horizontal",
+        "square01"
+      ]
+    },
+    {
+      "name": "MoreVerticalIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "more",
+        "vertical"
+      ]
+    },
+    {
+      "name": "MultiplicationSignIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "multiplication",
+        "sign"
+      ]
+    },
+    {
+      "name": "MultiplicationSignSquareIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "multiplication",
+        "sign",
+        "square"
+      ]
+    },
+    {
+      "name": "Notification01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "notification01"
+      ]
+    },
+    {
+      "name": "Notification02Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "notification02"
+      ]
+    },
+    {
+      "name": "PlusSignIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "plus",
+        "sign"
+      ]
+    },
+    {
+      "name": "RefreshIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "refresh"
+      ]
+    },
+    {
+      "name": "RemoveCircleIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "remove",
+        "circle"
+      ]
+    },
+    {
+      "name": "RemoveIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "remove"
+      ]
+    },
+    {
+      "name": "RemoveSquareIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "remove",
+        "square"
+      ]
+    },
+    {
+      "name": "RepeatIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "repeat"
+      ]
+    },
+    {
+      "name": "Rotate02Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "rotate02"
+      ]
+    },
+    {
+      "name": "ScrollIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "scroll"
+      ]
+    },
+    {
+      "name": "SidebarLeftIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "sidebar",
+        "left"
+      ]
+    },
+    {
+      "name": "SquareArrowExpand01SharpIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "square",
+        "arrow",
+        "expand01",
+        "sharp"
+      ]
+    },
+    {
+      "name": "StarCircleIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "star",
+        "circle"
+      ]
+    },
+    {
+      "name": "StarsIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "stars"
+      ]
+    },
+    {
+      "name": "UnfoldMoreSharpIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "unfold",
+        "more",
+        "sharp"
+      ]
+    },
+    {
+      "name": "UserAccountIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "user",
+        "account"
+      ]
+    },
+    {
+      "name": "UserCircleIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "user",
+        "circle"
+      ]
+    },
+    {
+      "name": "UserIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "user"
+      ]
+    },
+    {
+      "name": "UserIdVerificationIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "user",
+        "id",
+        "verification"
+      ]
+    },
+    {
+      "name": "VideoOffIcon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "video",
+        "off"
+      ]
+    },
+    {
+      "name": "Wrench01Icon",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+      "tags": [
+        "wrench01"
       ]
     }
   ],

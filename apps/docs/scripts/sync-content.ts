@@ -194,7 +194,7 @@ function writeDemoSourcesAndExports(registry: Map<string, RegistryEntry>) {
 // wrapper files each) -- they become searchable IconGallery pages, not
 // PropsTable-documented components, so per-file docgen extraction over
 // them would be both pointless and slow. Excluded from the scan below.
-const ICON_HEAVY_GROUPS = new Set(["icons", "payment-icons", "integration-icons", "social-icons"]);
+const ICON_HEAVY_GROUPS = new Set(["icons", "hugeicons", "payment-icons", "integration-icons", "social-icons"]);
 
 /**
  * react-docgen-typescript extraction for props tables. Runs against

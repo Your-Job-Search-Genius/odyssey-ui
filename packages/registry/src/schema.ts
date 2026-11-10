@@ -16,6 +16,8 @@ import { z } from "zod";
 export const UI_PACKAGE_NAME = "@your-job-search-genius/odyssey-ui";
 export const UI_COMPONENTS_IMPORT_ROOT = "@your-job-search-genius/odyssey-ui/components";
 export const ICONS_IMPORT_PATH = "@your-job-search-genius/odyssey-ui/components/foundations/icons";
+/** Vendored Hugeicons (`XxxIcon` exports, some multi-colour) used by the BetterShot screens. */
+export const HUGEICONS_IMPORT_PATH = "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons";
 
 export const PropEntrySchema = z.object({
     name: z.string(),
@@ -164,7 +166,7 @@ export type TokenSet = z.infer<typeof TokenSetSchema>;
 export const IconEntrySchema = z.object({
     /** Exported name, e.g. "Activity". */
     name: z.string(),
-    importPath: z.literal(ICONS_IMPORT_PATH),
+    importPath: z.union([z.literal(ICONS_IMPORT_PATH), z.literal(HUGEICONS_IMPORT_PATH)]),
     tags: z.array(z.string()),
 });
 export type IconEntry = z.infer<typeof IconEntrySchema>;

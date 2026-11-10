@@ -14,7 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { extractComponents } from "./extract/components.js";
 import { loadGuidelines } from "./extract/guidelines.js";
-import { defaultIconsIndexPath, extractIcons } from "./extract/icons.js";
+import { defaultHugeiconsIndexPath, defaultIconsIndexPath, extractHugeicons, extractIcons } from "./extract/icons.js";
 import { buildRuleSet } from "./extract/rules.js";
 import { defaultThemeCssPath, extractTokens } from "./extract/tokens.js";
 import type { Registry } from "./schema.js";
@@ -56,7 +56,7 @@ async function main() {
         claudeMdPath: path.join(REPO_ROOT, "CLAUDE.md"),
     });
 
-    const icons = extractIcons(defaultIconsIndexPath(UI_ROOT));
+    const icons = [...extractIcons(defaultIconsIndexPath(UI_ROOT)), ...extractHugeicons(defaultHugeiconsIndexPath(UI_ROOT))];
     const rules = buildRuleSet();
 
     const registry: Registry = {

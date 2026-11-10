@@ -23,6 +23,11 @@
         "virtualized-list",
         "ai-chatbox",
         "flow-canvas",
-        "html-preview"
+        "html-preview",
+        "headshot",
+        "stepper",
+        "banner",
+        "bottom-bar",
+        "lightbox"
     ]
 }
