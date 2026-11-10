@@ -19,7 +19,7 @@ describe("extractTokens", () => {
         const textPrimary = tokens.colors.find((c) => c.className === "text-primary");
         expect(textPrimary).toBeDefined();
         expect(textPrimary?.cssVar).toBe("--color-text-primary");
-        expect(textPrimary?.value).toContain("rgb(16 36 79)");
+        expect(textPrimary?.value).toContain("rgb(16 20 25)");
     });
 
     it("enriches known classes with CLAUDE.md's documented usage text, verbatim", () => {
