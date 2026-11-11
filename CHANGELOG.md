@@ -3,7 +3,9 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
-## odyssey-ui Unreleased
+## odyssey-ui 4.0.0
+
+Major: the restyle changes defaults that move layouts (button and input heights, toast position, mobile modals), as 3.0.0's bottom sheets did, so `^3` consumers don't pick it up unasked.
 
 ### BetterShot redesign
 
@@ -47,6 +49,14 @@ A visual restyle of the base and application components to the BetterShot Figma 
 
 - `application/headshot`: `BackgroundTile`, `CaptureMethodCard`, `CropToolbar`, `FaceGuideRing`, `FavoritesBar`, `GeneratingCard`, `GlassPill`, `ModelCard`, `ModelChip`, `OptionTile`, `OutfitCard`, `PhoneQualityBanner`, `PhotoSlot`, `QRCard`, `ResultGroup`, `ResultTile`, `ReviewCard`, `SelectionTray`, `ShootCard`, `ShutterButton`, `ThumbStrip`.
 - `Stepper`, `DashboardBanner`, `BottomBar`, `Lightbox`, `Popover` (dark, `bg-popover`) and `FractalGlass` (decorative hero art for the splash modal).
+- `ModelSwitcher` / `ModelSwitcherOption` (`application/headshot`): a labelled one-tap radio strip of portraits for who wears the outfit previews, usually with a "Mix" option (`srcs`, up to three portraits) first; scrolls sideways when narrow.
+
+#### Behaviour
+
+- **`Lightbox`**: changing photo animates (the photo swings in on a 3D turn out of a blur, the glow and peeks crossfade) and the photo can be dragged sideways to change it (past 80px or a flick; springs back otherwise, firm at the ends). Arrow buttons and keys are unchanged; with `prefers-reduced-motion` photos only fade. A peek of the previous photo now sits left of the card (xl+). The stage clips with `overflow: clip`, so a dialog opened over it can no longer scroll the photo off-centre.
+- **`QRCard`**: `value` is optional; without it the card shows a white spinner and `loadingLabel` in place of the code (same size, caption and close kept). **`LoadingIndicator`** gains `inverse` (white spinner and label for dark surfaces).
+- **`ColorSwatchPicker`**: `lg` and tile labels wrap inside their column instead of running into the next swatch.
+- **`BackgroundTile`**, **`OptionTile`**: the tile is positioned, so React Aria's hidden radio input stays inside it; in a long scrolling list a click no longer scrolls the dialog away.
 
 #### Icons
 
