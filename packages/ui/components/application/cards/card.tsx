@@ -4,7 +4,8 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
 import type { ButtonProps as AriaButtonProps, LinkProps as AriaLinkProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
-import { Check, Image01 } from "@/components/foundations/icons";
+import { CheckmarkCircle02Icon } from "@/components/foundations/hugeicons";
+import { Image01 } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
 
 type CardSize = "sm" | "md" | "lg";
@@ -40,6 +41,13 @@ const footerPadding = sortCx({
     lg: "pt-6",
 });
 
+// `outline` keeps the bordered white surface (`elevation` applies); `subtle` is the filled, borderless
+// surface used for grouped sections (the BetterShot "section card": #FAFAFA, 26px between header and content).
+const variants = sortCx({
+    outline: "bg-primary",
+    subtle: "gap-6.5 bg-secondary",
+});
+
 const elevations = sortCx({
     none: "ring-1 ring-secondary ring-inset",
     xs: "shadow-xs ring-1 ring-secondary ring-inset",
@@ -57,16 +65,14 @@ const CardSkeleton = ({ size }: { size: CardSize }) => (
     </div>
 );
 
-const SelectedIndicator = () => (
-    <div className="absolute top-3 right-3 z-10 flex size-5 items-center justify-center rounded-full bg-brand-solid text-fg-white shadow-sm">
-        <Check aria-hidden="true" className="size-3 stroke-[3px]" />
-    </div>
-);
+const SelectedIndicator = () => <CheckmarkCircle02Icon aria-hidden="true" className="absolute top-2 right-2 z-10 size-6 text-fg-brand-primary" />;
 
 type CardCommonProps = {
     /** Padding + internal gap scale, also used by `Card.Media`/`Card.Footer` to bleed/divide correctly. @default "md" */
     size?: CardSize;
-    /** Border + shadow weight. @default "xs" */
+    /** Surface style: `outline` (white with a border) or `subtle` (a borderless #FAFAFA fill for grouped sections). @default "outline" */
+    variant?: keyof typeof variants;
+    /** Border + shadow weight of the `outline` variant. @default "xs" */
     elevation?: keyof typeof elevations;
     /** Disables interaction and shows the `opacity-50` disabled treatment. */
     isDisabled?: boolean;
@@ -74,6 +80,10 @@ type CardCommonProps = {
     isSelected?: boolean;
     /** Replaces `children` with a skeleton placeholder while content is loading. */
     isLoading?: boolean;
+    /** Screen-reader text for a selected static/link card (a button card uses `aria-pressed`). @default "Selected" */
+    selectedLabel?: string;
+    /** Screen-reader text while `isLoading`. @default "Loading" */
+    loadingLabel?: string;
     className?: string;
     children?: ReactNode;
 };
@@ -90,6 +100,7 @@ export type CardProps = CardButtonProps | CardLinkProps | CardStaticProps;
 
 const cardRootClassName = ({
     size = "md",
+    variant = "outline",
     elevation = "xs",
     isSelected,
     isDisabled,
@@ -99,6 +110,7 @@ const cardRootClassName = ({
     className,
 }: {
     size?: CardSize;
+    variant?: keyof typeof variants;
     elevation?: keyof typeof elevations;
     isSelected?: boolean;
     isDisabled?: boolean;
@@ -108,10 +120,11 @@ const cardRootClassName = ({
     className?: string;
 }) =>
     cx(
-        "group relative flex w-full flex-col overflow-hidden rounded-xl bg-primary text-left transition duration-100 ease-linear",
+        "group relative flex w-full flex-col overflow-hidden rounded-[20px] text-left transition duration-100 ease-linear",
         paddings[size],
-        elevations[elevation],
-        isSelected && "ring-2 ring-brand ring-inset",
+        variants[variant],
+        variant === "outline" && elevations[elevation],
+        isSelected && "ring-2 ring-brand-solid ring-inset",
         isInteractive && "cursor-pointer outline-focus-ring",
         isInteractive && isHovered && !isDisabled && "shadow-md ring-primary",
         isInteractive && isFocusVisible && "outline-2 outline-offset-2",
@@ -125,7 +138,19 @@ const cardRootClassName = ({
  * `onPress` to render as a button — exactly one of the two, matching `Button`'s own polymorphic
  * pattern.
  */
-const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoading, className, children, ...props }: CardProps) => {
+const CardRoot = ({
+    size = "md",
+    variant = "outline",
+    elevation = "xs",
+    isDisabled,
+    isSelected,
+    isLoading,
+    selectedLabel = "Selected",
+    loadingLabel = "Loading",
+    className,
+    children,
+    ...props
+}: CardProps) => {
     const content = isLoading ? <CardSkeleton size={size} /> : children;
 
     const body = (
@@ -133,8 +158,8 @@ const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoa
             {content}
             {isSelected && <SelectedIndicator />}
             {/* The button variant reports selection via `aria-pressed` instead. */}
-            {isSelected && !("onPress" in props) && <span className="sr-only">Selected</span>}
-            {isLoading && <span className="sr-only">Loading</span>}
+            {isSelected && !("onPress" in props) && <span className="sr-only">{selectedLabel}</span>}
+            {isLoading && <span className="sr-only">{loadingLabel}</span>}
         </>
     );
 
@@ -145,10 +170,11 @@ const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoa
                 <AriaLink
                     {...rest}
                     href={isDisabled ? undefined : href}
+                    data-card-variant={variant}
                     aria-disabled={isDisabled || undefined}
                     aria-busy={isLoading || undefined}
                     className={({ isHovered, isFocusVisible }) =>
-                        cardRootClassName({ size, elevation, isSelected, isDisabled, isInteractive: true, isHovered, isFocusVisible, className })
+                        cardRootClassName({ size, variant, elevation, isSelected, isDisabled, isInteractive: true, isHovered, isFocusVisible, className })
                     }
                 >
                     {body}
@@ -167,9 +193,10 @@ const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoa
                     onPress={onPress}
                     isDisabled={isDisabled}
                     aria-pressed={isSelected}
+                    data-card-variant={variant}
                     aria-busy={isLoading || undefined}
                     className={({ isHovered, isFocusVisible }) =>
-                        cardRootClassName({ size, elevation, isSelected, isDisabled, isInteractive: true, isHovered, isFocusVisible, className })
+                        cardRootClassName({ size, variant, elevation, isSelected, isDisabled, isInteractive: true, isHovered, isFocusVisible, className })
                     }
                 >
                     {body}
@@ -184,9 +211,10 @@ const CardRoot = ({ size = "md", elevation = "xs", isDisabled, isSelected, isLoa
         <CardSizeContext.Provider value={size}>
             <div
                 {...rest}
+                data-card-variant={variant}
                 aria-disabled={isDisabled || undefined}
                 aria-busy={isLoading || undefined}
-                className={cardRootClassName({ size, elevation, isSelected, isDisabled, isInteractive: false, className })}
+                className={cardRootClassName({ size, variant, elevation, isSelected, isDisabled, isInteractive: false, className })}
             >
                 {body}
             </div>
@@ -205,9 +233,10 @@ export interface CardHeaderProps extends Omit<ComponentPropsWithRef<"div">, "tit
 
 const CardHeader = ({ title, description, actions, children, className, ...props }: CardHeaderProps) => (
     <div {...props} className={cx("flex items-start justify-between gap-4", className)}>
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-            {title && <h3 className="truncate text-md font-semibold text-primary">{title}</h3>}
-            {description && <p className="line-clamp-2 text-sm text-tertiary">{description}</p>}
+        {/* Inside a `subtle` (section) card the header is one step larger: 18px title, 5px gap. */}
+        <div className="flex min-w-0 flex-1 flex-col gap-1 in-data-[card-variant=subtle]:gap-1.25">
+            {title && <h3 className="truncate text-md font-semibold text-primary in-data-[card-variant=subtle]:text-lg/[1.3]">{title}</h3>}
+            {description && <p className="line-clamp-2 text-sm font-medium text-subtle in-data-[card-variant=subtle]:leading-[normal]">{description}</p>}
             {children}
         </div>
         {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
@@ -232,6 +261,8 @@ export interface CardMediaProps extends Omit<ComponentPropsWithRef<"img">, "alt"
      * e.g. wrap `Card.Media` in a `div` with an explicit `h-48` and it will fill it completely.
      */
     aspectRatio?: keyof typeof aspectRatios;
+    /** Accessible name of the placeholder when `src` is missing or fails and `alt` is empty. @default "Image unavailable" */
+    unavailableLabel?: string;
 }
 
 /**
@@ -241,7 +272,7 @@ export interface CardMediaProps extends Omit<ComponentPropsWithRef<"img">, "alt"
  * `aspectRatio` for a self-contained ratio instead. Falls back to a placeholder icon when `src` is
  * missing or fails to load, so a broken image never leaves an empty gap in the layout.
  */
-const CardMedia = ({ alt, aspectRatio, className, onError, ...props }: CardMediaProps) => {
+const CardMedia = ({ alt, aspectRatio, unavailableLabel = "Image unavailable", className, onError, ...props }: CardMediaProps) => {
     const size = useContext(CardSizeContext);
     const [hasError, setHasError] = useState(false);
 
@@ -251,7 +282,7 @@ const CardMedia = ({ alt, aspectRatio, className, onError, ...props }: CardMedia
         return (
             <div
                 role="img"
-                aria-label={alt || "Image unavailable"}
+                aria-label={alt || unavailableLabel}
                 className={cx("flex items-center justify-center bg-secondary text-fg-quaternary", sizeClassName, mediaBleed[size], className)}
             >
                 <Image01 aria-hidden="true" className="size-8" />

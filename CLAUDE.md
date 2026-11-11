@@ -222,6 +222,7 @@ export const styles = sortCx({
 ### Available Libraries
 
 - `@/components/foundations/icons` - 1,100+ line-style icons, vendored locally in this repo
+- `@/components/foundations/hugeicons` - 55 vendored Hugeicons (`XxxIcon` exports, some multi-colour with gradients). The BetterShot screens use these; import e.g. `import { StarsIcon } from "@/components/foundations/hugeicons"`. The registry lists them as icons (not components).
 
 ### Import & Usage
 
@@ -375,13 +376,14 @@ import { Button } from "@/components/base/buttons/button";
 
 **Common Props:**
 
-- `size`: `"xs" | "sm" | "md" | "lg" | "xl"` - Button size (default: `"sm"`)
-- `color`: `"primary" | "secondary" | "tertiary" | "link-gray" | "link-color" | "primary-destructive" | "secondary-destructive" | "tertiary-destructive" | "link-destructive"` - Button color variant (default: `"primary"`)
+- `size`: `"xs" | "sm" | "md" | "lg" | "xl"` - Button size (default: `"sm"`). Figma (BetterShot) heights: xs 28px, sm 32px, md 36px, lg 40px, xl 48px; Medium (500) weight; radii 8/8/9/10/12px. `md` was 40px before BetterShot (now 36px) and no longer has `min-w-30`
+- `color`: `"primary" | "secondary" | "secondary-brand" | "white" | "outline-pill" | "tertiary" | "link-gray" | "link-color" | "primary-destructive" | "secondary-destructive" | "tertiary-destructive" | "link-destructive"` - Button color variant (default: `"primary"`). `secondary-brand` = secondary with brand-colored text; `white` = solid white with no border, for dark surfaces (`bg-inverse`), stays white in dark mode; `outline-pill` = border-only fully rounded info pill (sets its own padding, so `size` only picks the type size)
 - `iconLeading`: `FC | ReactNode` - Icon or component to display before text
 - `iconTrailing`: `FC | ReactNode` - Icon or component to display after text
 - `isDisabled`: `boolean` - Disabled state
 - `isLoading`: `boolean` - Loading state with spinner
 - `showTextWhileLoading`: `boolean` - Keep text visible during loading
+- `noTextPadding`: `boolean` - Deprecated no-op (the sizes carry the full padding)
 - `children`: `ReactNode` - Button content
 
 **Examples:**
@@ -389,6 +391,11 @@ import { Button } from "@/components/base/buttons/button";
 ```typescript
 // Basic button
 <Button size="md">Save</Button>
+
+// Secondary with brand text, white-on-dark, outline info pill
+<Button color="secondary-brand" iconTrailing={ArrowRight}>Create headshot</Button>
+<Button color="white">Continue</Button>
+<Button color="outline-pill" iconTrailing={InfoCircle}>What makes a good photo</Button>
 
 // With leading icon
 <Button iconLeading={Check} color="primary">Save</Button>
@@ -544,14 +551,15 @@ Badge components for status indicators and labels.
 **Import:**
 
 ```typescript
-import { Badge, BadgeWithDot, BadgeWithIcon } from "@/components/base/badges/badges";
+import { Badge, BadgeWithDot, BadgeWithIcon, StatusBadge } from "@/components/base/badges/badges";
 ```
 
 **Common Props:**
 
-- `size`: `"sm" | "md" | "lg"` - Badge size
-- `color`: `"gray" | "brand" | "error" | "warning" | "success" | "slate" | "sky" | "blue" | "indigo" | "purple" | "pink" | "rose" | "orange"` - Color theme
-- `type`: `"pill-color" | "color" | "modern"` - Badge style variant
+- `size`: `"sm" | "md" | "lg"` - Badge size (`size="sm"` on `type="color"` is Figma's value tag; `size="lg"` on `type="option"` is the larger Browse-all chip)
+- `color`: `"gray" | "brand" | "error" | "warning" | "success" | "slate" | "sky" | "blue" | "indigo" | "purple" | "pink" | "rose" | "orange"` - Color theme. Ignored by the BetterShot recipe types below, except `generating`
+- `type`: `"pill-color" | "color" | "modern" | "shoot" | "option" | "count" | "generating" | "recommended"` - Badge style variant. The last five are complete BetterShot (Figma) tag recipes: `shoot` uppercase shoot tag, `option` 9px chip on an option tile, `count` count chip next to a heading, `generating` 7px input tag (`color` is `gray | purple | sky`), `recommended` gradient tab on a card's top edge
+- `StatusBadge`: `status` `"done" | "active" | "pending"` (+ optional `statusLabel` screen-reader text) - step status pill with a check, spinning ring or dashed ring
 
 **Examples:**
 
@@ -564,6 +572,12 @@ import { Badge, BadgeWithDot, BadgeWithIcon } from "@/components/base/badges/bad
 
 // With icon
 <BadgeWithIcon iconLeading={ArrowUp} color="success">12%</BadgeWithIcon>
+
+// BetterShot recipes
+<Badge type="shoot">Shoot for graduation</Badge>
+<Badge type="count">32</Badge>
+<Badge type="generating" color="purple">Style</Badge>
+<StatusBadge status="active">Generating</StatusBadge>
 ```
 
 ### Avatar
@@ -811,6 +825,8 @@ Good:
 - text-secondary
 - bg-primary
 
+Brand scale (BetterShot): `--color-brand-25` through `500` are `rgb(248 247 255)`, `236 234 255`, `213 207 255`, `190 180 255`, `160 145 255`, `129 109 240`, `107 84 230` (25, 50, 100, 200, 300, 400, 500); 600 and up are unchanged (`rgb(86 59 219)` at 600). The `text-*_on-brand` tokens are pinned to the old tint (`rgb(211 214 250)`) because the new brand-200/300 fall below AA on brand-600. Light-mode values: `text-primary` #101419, `text-secondary` #414651, `border-secondary` #E9EAEB. Source of truth: `packages/ui/styles/theme.css`.
+
 ### Text Color
 
 Use text color variables to manage all text fill colors in your designs across light and dark modes.
@@ -827,6 +843,10 @@ Use text color variables to manage all text fill colors in your designs across l
 | text-tertiary_on-brand     | Tertiary text when used on solid brand color backgrounds. Commonly used for brand theme website sections (e.g. CTA sections).                                        |
 | text-quaternary            | Quaternary text for more subtle and lower-contrast text, such as footer column headings.                                                                             |
 | text-quaternary_on-brand   | Quaternary text when used on solid brand color backgrounds. Commonly used for brand theme website sections (e.g. footers).                                           |
+| text-subtle                | Subtitles and descriptions (#6E7075; Figma "text-subtle" #A4A7AE darkened to pass AA on every light surface up to #F6F6F6). Lighter than text-tertiary.              |
+| text-inverse-secondary     | Secondary text on dark inverse surfaces (bg-inverse); the same in both themes.                                                                                       |
+| text-inverse-tertiary      | Tertiary text and hints on dark inverse surfaces (bg-inverse); the same in both themes.                                                                              |
+| text-popover               | Body text inside dark popovers (bg-popover); the same in both themes.                                                                                                |
 | text-white                 | Text that is always white, regardless of the mode.                                                                                                                   |
 | text-placeholder           | Default color for placeholder text such as input field placeholders. This can be changed to gray-400, but gray-500 is more accessible because it is higher contrast. |
 | text-brand-primary         | Primary brand text useful for headings (e.g. cards in pricing page headers).                                                                                         |
@@ -852,6 +872,7 @@ Use border color variables to manage all stroke colors in your designs across li
 | border-brand_alt     | An brand border color that switches to gray when in dark mode. Useful for components such as brand-style variants of banners and footers.                                               |
 | border-error         | Default error state semantic border color. Useful for error states in components such as input fields and file uploaders.                                                               |
 | border-error_subtle  | A more subtle (lower contrast) alternative for error state semantic borders such as error state input fields.                                                                           |
+| border-inverse       | Hairline border (white at 12%) on dark inverse surfaces such as dark dialogs and popovers; the same in both themes.                                                                     |
 
 ### Foreground Color
 
@@ -897,6 +918,9 @@ Use background color variables to manage all fill colors for elements in your de
 | bg-quaternary           | The quaternary background color used to create contrast against light backgrounds, such as sliders and progress bars.                                                                         |
 | bg-active               | Default active background color for components such as selected menu items in input dropdowns.                                                                                                |
 | bg-overlay              | Default background color for background overlays. These are useful for overlay components such as modals.                                                                                     |
+| bg-inverse              | Dark panel (#444) for dialogs and surfaces that stay dark in both themes. Pair with text-white, text-inverse-secondary/tertiary and border-inverse.                                           |
+| bg-inverse-subtle       | Subtle lighter fill (white at 10%) for controls and rows on a bg-inverse surface; the same in both themes.                                                                                    |
+| bg-popover              | Near-black (#151515) popover surface (e.g. the Popover component); the same in both themes. Pair with text-popover.                                                                           |
 | bg-brand-primary        | The primary brand background color. Useful for components such as check icons.                                                                                                                |
 | bg-brand-primary_alt    | An alternative primary brand background color that switches to bg-secondary when in dark mode. Useful for components such as active horizontal tabs.                                          |
 | bg-brand-secondary      | The secondary brand background color. Useful for components such as featured icons.                                                                                                           |

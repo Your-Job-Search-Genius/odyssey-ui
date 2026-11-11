@@ -19,3 +19,6 @@ TooltipWithArrow.storyName = "Tooltip with arrow";
 
 export const TooltipWithArrowSupportingText = () => <Tooltips.TooltipWithArrowSupportingText />;
 TooltipWithArrowSupportingText.storyName = "Tooltip with arrow supporting text";
+
+/** BetterShot look: the dark popover surface (#151515, r14, 14/1.4 text). Screenshot `[role=tooltip]`. */
+export const Figma = () => <Tooltips.FigmaTooltipDemo />;

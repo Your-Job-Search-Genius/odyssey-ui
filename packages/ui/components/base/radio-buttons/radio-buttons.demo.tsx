@@ -85,3 +85,15 @@ export const RadioButtonsBase = () => {
         </div>
     );
 };
+
+export const InverseDemo = () => {
+    return (
+        <div className="rounded-[17px] bg-inverse p-4">
+            <RadioGroup aria-label="Pricing plans" tone="inverse" size="md" defaultValue="basic">
+                <RadioButton label="Basic plan" hint="Up to 10 users and 20 GB data." value="basic" />
+                <RadioButton label="Business plan" hint="Up to 20 users and 40 GB data." value="business" />
+                <RadioButton isDisabled label="Enterprise plan" hint="Unlimited users and unlimited data." value="enterprise" />
+            </RadioGroup>
+        </div>
+    );
+};

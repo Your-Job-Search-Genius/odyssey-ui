@@ -80,13 +80,13 @@ export const InputDateBase = ({
             shortcut: "pr-2.5",
         },
         md: {
-            root: cx("px-3 py-2 text-md", hasTrailingIcon && "pr-9", hasLeadingIcon && "pl-10"),
+            root: cx("px-3 py-2.5 text-md", hasTrailingIcon && "pr-9", hasLeadingIcon && "pl-10"),
             iconLeading: "left-3 size-5",
             iconTrailing: "right-3",
             shortcut: "pr-2.5",
         },
         lg: {
-            root: cx("px-3.5 py-2.5 text-md", hasTrailingIcon && "pr-9.5", hasLeadingIcon && "pl-10.5"),
+            root: cx("px-3.5 py-3 text-md", hasTrailingIcon && "pr-9.5", hasLeadingIcon && "pl-10.5"),
             iconLeading: "left-3.5 size-5",
             iconTrailing: "right-3.5",
             shortcut: "pr-3",
@@ -99,7 +99,7 @@ export const InputDateBase = ({
             ref={groupRef}
             className={({ isFocusWithin, isDisabled, isInvalid }) =>
                 cx(
-                    "group/input relative flex w-full flex-row place-content-center place-items-center rounded-lg bg-primary shadow-xs ring-1 ring-primary transition-shadow duration-100 ease-linear ring-inset",
+                    "group/input relative flex w-full flex-row place-content-center place-items-center rounded-[10px] bg-primary ring-1 ring-secondary transition-shadow duration-100 ease-linear ring-inset",
 
                     isFocusWithin && !isDisabled && "ring-2 ring-brand",
 

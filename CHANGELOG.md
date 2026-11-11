@@ -3,6 +3,65 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 4.0.0
+
+Major: the restyle changes defaults that move layouts (button and input heights, toast position, mobile modals), as 3.0.0's bottom sheets did, so `^3` consumers don't pick it up unasked.
+
+### BetterShot redesign
+
+A visual restyle of the base and application components to the BetterShot Figma board, plus new variants, new components and a vendored Hugeicons set. No prop was removed. Items marked **Breaking (visual)** keep working but look or lay out differently, so check them in the consuming app.
+
+#### Breaking (visual)
+
+- **`Button` `size="md"` is 36px tall (was 40px)** and no longer has `min-w-30`. All sizes are now Figma's: xs 28, sm 32, md 36, lg 40, xl 48px; weight Medium (500) instead of Semibold; radii 8 / 8 / 9 / 10 / 12px; icon gap 4px. `noTextPadding` is a deprecated no-op (the text no longer has its own `px-0.5`; the sizes carry the full padding). Primary, secondary and tertiary icons now inherit the text color; `tertiary` text is `text-tertiary` (was `text-primary`).
+- **`Input` (and `InputGroup`, `InputNumber`, `InputDate`, `InputTags`, `Textarea`, `Select`, `ComboBox`, `MultiSelect`, `TagSelect`) `size="md"` is 44px tall (was 40px) with a 10px radius.** Surrounding layouts that assumed 40px fields will shift.
+- **`Toaster` default `position` is `top-center` (was `bottom-right`)** and toasts are dark. Pass `position="bottom-right"` to keep the old placement.
+- **`Modal` docks as a bottom sheet on mobile (below `md`)** instead of a centered dialog. Phones (below `sm`) dock it at the bottom, inset 16px; `ModalOverlay` `mobileLayout="fullscreen"` fills the screen below `md` instead. There is no centered-on-mobile option.
+- **Color token values changed**, so anything that relied on the old values moves: `text-primary` #101419 (was `rgb(16 36 79)`), `text-secondary` #414651, `border-secondary` #E9EAEB, and `brand-25` to `brand-500` are now the BetterShot Primary scale (`brand-600` and up unchanged).
+
+#### Tokens
+
+- New text token **`text-subtle`** (#6E7075, subtitles and descriptions; dark mode `neutral-400`). Figma's #A4A7AE is darkened to pass AA (4.5:1) on every light surface up to #F6F6F6.
+- New inverse surface tokens for dark dialogs, popovers and panels that stay dark in both themes: `bg-inverse` (#444), `bg-inverse-subtle` (white 10%), `bg-popover` (#151515), `text-inverse-secondary`, `text-inverse-tertiary`, `text-popover`, `border-inverse` (white 12%).
+- `text-secondary_on-brand`, `text-tertiary_on-brand` and `text-quaternary_on-brand` are pinned to the old tint (`rgb(211 214 250)`): the new brand-200/300 fall below AA on brand-600.
+- AA adjustments to Figma values: sidebar footer text #717171, `GeneratingCard` caption #767676, Polish chip text #363636, `FAIL` status text #141414, cyan `Tag` #007A93, and the `ResumeToast` header and the guidance tip text are darkened.
+
+#### Restyled defaults
+
+- **Button**: weights, sizes and radii as above.
+- **Inputs**: 44px tall, 10px radius (`Label` and hint spacing follow).
+- **Radio buttons**: BetterShot geometry; `RadioGroup` gains `tone`.
+- **Cards**: 20px radius.
+- **Modal**: 28px radius, 16px padding, bottom sheet on mobile.
+- **Toasts**: dark, top-center.
+- **Sidebar** (`SidebarLayout`), **Tabs**, **Dropdown**, **Tooltip** and **Badges** restyled to the board (`Badge` `type="color"` `size="sm"` is Figma's value tag).
+
+#### New variants and props
+
+- `Button` `color`: `secondary-brand` (brand-colored text), `white` (solid white for `bg-inverse` surfaces), `outline-pill` (border-only info pill).
+- `Badge` `type`: `shoot`, `option` (`size="lg"` is the Browse-all chip), `count`, `generating` (`color`: `gray | purple | sky`), `recommended`. New `StatusBadge` (`status`: `done | active | pending`, optional `statusLabel`).
+- `Card` `variant="subtle"`; `Select` `variant="button"`; `RadioGroup` `tone` (`default | inverse`).
+- `ColorSwatchPicker` `size` and per-item `label` / `fill`.
+- `ModalOverlay` `backdrop` and `mobileLayout`; `Modal` `variant`; `ModalHeader` `actions`; new `ModalOptionList` / `ModalOption`.
+- `Dropdown.Item` `count`; `DescriptionList` `variant="summary"`; `EmptyState.Caption`; `Carousel.Arrows`; `SidebarLayout` `account.avatar`; `FileUpload` `title`, `icon` and `badge`; `Tabs` restyled; `ResumeToast` (persistent frosted-glass prompt to resume an unfinished flow; not a live region).
+
+#### New components
+
+- `application/headshot`: `BackgroundTile`, `CaptureMethodCard`, `CropToolbar`, `FaceGuideRing`, `FavoritesBar`, `GeneratingCard`, `GlassPill`, `ModelCard`, `ModelChip`, `OptionTile`, `OutfitCard`, `PhoneQualityBanner`, `PhotoSlot`, `QRCard`, `ResultGroup`, `ResultTile`, `ReviewCard`, `SelectionTray`, `ShootCard`, `ShutterButton`, `ThumbStrip`.
+- `Stepper`, `DashboardBanner`, `BottomBar`, `Lightbox`, `Popover` (dark, `bg-popover`) and `FractalGlass` (decorative hero art for the splash modal).
+- `ModelSwitcher` / `ModelSwitcherOption` (`application/headshot`): a labelled one-tap radio strip of portraits for who wears the outfit previews, usually with a "Mix" option (`srcs`, up to three portraits) first; scrolls sideways when narrow.
+
+#### Behaviour
+
+- **`Lightbox`**: changing photo animates (the photo swings in on a 3D turn out of a blur, the glow and peeks crossfade) and the photo can be dragged sideways to change it (past 80px or a flick; springs back otherwise, firm at the ends). Arrow buttons and keys are unchanged; with `prefers-reduced-motion` photos only fade. A peek of the previous photo now sits left of the card (xl+). The stage clips with `overflow: clip`, so a dialog opened over it can no longer scroll the photo off-centre.
+- **`QRCard`**: `value` is optional; without it the card shows a white spinner and `loadingLabel` in place of the code (same size, caption and close kept). **`LoadingIndicator`** gains `inverse` (white spinner and label for dark surfaces).
+- **`ColorSwatchPicker`**: `lg` and tile labels wrap inside their column instead of running into the next swatch.
+- **`BackgroundTile`**, **`OptionTile`**: the tile is positioned, so React Aria's hidden radio input stays inside it; in a long scrolling list a click no longer scrolls the dialog away.
+
+#### Icons
+
+- 55 vendored **Hugeicons** in `components/foundations/hugeicons` (`XxxIcon` exports, some multi-colour). The registry lists them as icons (import path `@your-job-search-genius/odyssey-ui/components/foundations/hugeicons`), so `search_icons` and `validate_jsx` know them.
+
 ## odyssey-ui 3.0.1
 
 ### Fixes

@@ -4,7 +4,7 @@
  */
 export const componentMeta = {
     description:
-        "The application shell and the ONLY sidebar navigation component: a collapsible sidebar (brand, nav items with expandable groups, language switcher, footer rows, account menu) beside a scrollable rounded main content card on desktop (md, >=768px); a bottom tab bar (first 4 destinations + a More bottom sheet) on mobile. Wrap each page's content in it as children. Navigation is data-driven via `items`; highlight the current page by passing the router's current URL as `activeUrl`.",
+        "The application shell and the ONLY sidebar navigation component: a collapsible sidebar (brand, nav items with expandable groups, language switcher, footer rows, account menu) beside a scrollable rounded main content card on desktop (md, >=768px); a bottom tab bar (first 4 destinations + a More bottom sheet) on mobile. Wrap each page's content in it as children. The `account` prop takes name, email, initials, avatarUrl, or `avatar` (a custom ReactNode such as initials on the tenant color; overrides avatarUrl), and menuItems. Navigation is data-driven via `items`; highlight the current page by passing the router's current URL as `activeUrl`.",
     allowedChildren: "any",
     a11y: 'Renders a \'Skip to main content\' link, an <aside> with a <nav aria-label="Main"> landmark, and <main id="main-content">. Links set aria-current="page"; the collapse toggle exposes aria-expanded. Collapsed icon-only items show tooltips and keep their label as screen-reader text. Groups are React Aria disclosures (Enter/Space toggles). Wrap the app in React Aria\'s RouterProvider so links use client-side routing.',
     doNot: [

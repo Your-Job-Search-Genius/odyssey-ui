@@ -5,7 +5,7 @@
  */
 export const componentMeta = {
     description:
-        "Dropdown selection field. children must be either a single render function `(item) => <Select.Item .../>` when items is provided, or one or more literal Select.Item children. Use Select.ComboBox instead when the list needs to be searchable.",
+        'Dropdown selection field. children must be either a single render function `(item) => <Select.Item .../>` when items is provided, or one or more literal Select.Item children. Use Select.ComboBox instead when the list needs to be searchable. variant="button" renders a compact 32px secondary-button trigger (leading icon, divider, chevron) sized to its content, e.g. a version picker in a toolbar; it needs aria-label when there is no label.',
     allowedChildren: ["base/select/select-item"],
     compound: {
         parent: "Select",

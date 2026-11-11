@@ -9,8 +9,8 @@ import { cx, sortCx } from "@/utils/cx";
 
 const sizes = sortCx({
     sm: "px-3 py-2 text-sm",
-    md: "px-3 py-2 text-md",
-    lg: "px-3.5 py-2.5 text-md",
+    md: "px-3 py-2.5 text-md",
+    lg: "px-3.5 py-3 text-md",
 });
 
 export interface ColorFieldProps extends AriaColorFieldProps {
@@ -46,7 +46,7 @@ export const ColorField = ({ label, hint, size = "md", className, ...props }: Co
 
                     <div
                         className={cx(
-                            "relative flex w-full flex-row rounded-lg bg-primary shadow-xs ring-1 ring-primary transition-shadow duration-100 ease-linear ring-inset",
+                            "relative flex w-full flex-row rounded-[10px] bg-primary ring-1 ring-secondary transition-shadow duration-100 ease-linear ring-inset",
                             "focus-within:ring-2 focus-within:ring-brand",
                             isInvalid && "ring-error_subtle",
                             isInvalid && "focus-within:ring-2 focus-within:ring-error",

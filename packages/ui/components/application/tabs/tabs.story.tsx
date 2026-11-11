@@ -1,4 +1,6 @@
 import type { FC } from "react";
+import { Tabs } from "@/components/application/tabs/tabs";
+import { HijabIcon, UserAccountIcon } from "@/components/foundations/hugeicons";
 import * as Demos from "./tabs.demo";
 
 export default {
@@ -56,3 +58,30 @@ ButtonMinimalHorizontalFullWidth.storyName = "Button minimal horizontal full wid
 
 export const ButtonMinimalVertical = () => <Demos.ButtonMinimalVertical />;
 ButtonMinimalVertical.storyName = "Button minimal vertical";
+
+const categories = ["All", "Suits", "Casual", "Creative", "Medical", "Therapy", "Graduation", "Culinary", "Fitness"].map((label) => ({ id: label, label }));
+
+/** P23 category tabs (14695:4335): underline tabs spread across a 770px bar. */
+export const FigmaCategoryTabs = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <Tabs defaultSelectedKey="All" className="w-[770px]">
+            <Tabs.List type="underline" items={categories} className="justify-between" />
+        </Tabs>
+    </div>
+);
+
+/** P21 anchor side-nav (14853:207258): vertical `line` tabs with 28px icons. */
+export const FigmaAnchorNav = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <Tabs orientation="vertical" defaultSelectedKey="face">
+            <Tabs.List
+                type="line"
+                aria-label="Persona sections"
+                items={[
+                    { id: "basic", label: "Basic Details", icon: UserAccountIcon },
+                    { id: "face", label: "Facial Features", icon: HijabIcon },
+                ]}
+            />
+        </Tabs>
+    </div>
+);

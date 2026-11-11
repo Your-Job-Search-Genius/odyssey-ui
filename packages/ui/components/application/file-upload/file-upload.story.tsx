@@ -68,3 +68,13 @@ export const FileUploadProgressFillDisabled = () => (
     </>
 );
 FileUploadProgressFillDisabled.storyName = "File upload progress fill disabled";
+
+export const TitledDropZone = () => <FileUploads.TitledDropZoneDemo />;
+TitledDropZone.storyName = "Drop zone with title, icon and badge";
+
+/** The "Upload Photos" drop zone from the capture-method stack (`figma/capture-method-cards.png`, 1/5 Uploaded variant). */
+export const FigmaDropZone = () => (
+    <div data-compare className="inline-flex w-[393px] flex-col items-start gap-4 bg-white p-0">
+        <FileUploads.TitledDropZoneDemo />
+    </div>
+);

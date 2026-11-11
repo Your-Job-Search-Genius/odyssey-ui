@@ -1,0 +1,24 @@
+import type { SVGProps } from "react";
+
+export const MoreVerticalIcon = (props: SVGProps<SVGSVGElement>) => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M10.242 12C10.242 11.0335 11.0255 10.25 11.992 10.25H12.001C12.9675 10.25 13.751 11.0335 13.751 12C13.751 12.9665 12.9675 13.75 12.001 13.75H11.992C11.0255 13.75 10.242 12.9665 10.242 12Z"
+            fill="currentColor"
+        />
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M10.2342 18C10.2342 17.0335 11.0177 16.25 11.9842 16.25H11.9932C12.9597 16.25 13.7432 17.0335 13.7432 18C13.7432 18.9665 12.9597 19.75 11.9932 19.75H11.9842C11.0177 19.75 10.2342 18.9665 10.2342 18Z"
+            fill="currentColor"
+        />
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M10.2498 6C10.2498 5.0335 11.0333 4.25 11.9998 4.25H12.0088C12.9753 4.25 13.7588 5.0335 13.7588 6C13.7588 6.9665 12.9753 7.75 12.0088 7.75H11.9998C11.0333 7.75 10.2498 6.9665 10.2498 6Z"
+            fill="currentColor"
+        />
+    </svg>
+);

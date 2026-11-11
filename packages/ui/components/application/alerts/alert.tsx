@@ -1,8 +1,11 @@
 "use client";
 
-import { type ComponentPropsWithRef, type FC, type ReactNode, isValidElement, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { type ComponentPropsWithRef, type FC, type ReactNode, isValidElement, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "motion/react";
+import { Overlay as AriaOverlay } from "react-aria";
+import { Button as AriaButton } from "react-aria-components";
 import { CloseButton } from "@/components/base/buttons/close-button";
+import { MultiplicationSignSquareIcon } from "@/components/foundations/hugeicons";
 import { AlertCircle, AlertTriangle, CheckCircle, InfoCircle } from "@/components/foundations/icons";
 import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
@@ -58,6 +61,8 @@ export interface AlertProps extends Omit<ComponentPropsWithRef<"div">, "title"> 
      * @default true
      */
     autoFocus?: boolean;
+    /** Accessible name of the dismiss button. @default "Dismiss" */
+    dismissLabel?: string;
 }
 
 /**
@@ -74,6 +79,7 @@ export const Alert = ({
     actions,
     onDismiss,
     autoFocus = true,
+    dismissLabel = "Dismiss",
     className,
     children,
     ...props
@@ -105,9 +111,53 @@ export const Alert = ({
             </div>
 
             {onDismiss && (
-                <CloseButton size="sm" slot={null} label="Dismiss" autoFocus={autoFocus} className="absolute top-2.5 right-2.5" onClick={onDismiss} />
+                <CloseButton size="sm" slot={null} label={dismissLabel} autoFocus={autoFocus} className="absolute top-2.5 right-2.5" onClick={onDismiss} />
             )}
         </div>
+    );
+};
+
+interface ResumeToastProps extends Omit<ComponentPropsWithRef<"section">, "title"> {
+    /** Line on the glass strip ("Continue where you left off"). Names the region. */
+    heading: ReactNode;
+    /** Muted first line ("Finish selecting"). */
+    description?: ReactNode;
+    /** Strong second line ("1 of 4 Looks chosen"). */
+    title?: ReactNode;
+    /** Action at the bottom right, e.g. `<Button size="xs" color="secondary-brand">Resume Photoshoot</Button>`. */
+    action?: ReactNode;
+}
+
+/**
+ * A persistent prompt to pick an unfinished flow back up: a frosted glass strip with a heading over a white card
+ * with progress text and one action. Not transient and not a live region; place it yourself, typically
+ * `fixed bottom-6 left-1/2 -translate-x-1/2`.
+ */
+export const ResumeToast = ({ heading, description, title, action, className, ...props }: ResumeToastProps) => {
+    const headingId = useId();
+
+    return (
+        <section
+            aria-labelledby={headingId}
+            {...props}
+            className={cx(
+                // Figma's glass is rgba(119,119,119,.67); that leaves the white heading at ~2.4:1 over a light page,
+                // so it is darkened to pass AA (4.5:1) while keeping the frosted look.
+                "flex w-[391px] max-w-full flex-col gap-2 rounded-[14px] bg-[rgba(85,85,85,0.85)] px-0.5 pt-2 pb-0.5 shadow-[0_20px_40px_rgba(0,0,0,0.1)] backdrop-blur-[53px]",
+                className,
+            )}
+        >
+            <div id={headingId} className="px-2.5 text-sm/[1.6] font-semibold text-white">
+                {heading}
+            </div>
+            <div className="flex items-end gap-1 rounded-t-lg rounded-b-xl bg-primary pt-[3px] pr-1.5 pb-1.5 pl-[13px]">
+                <div className="flex min-w-0 flex-1 flex-col gap-1 text-md">
+                    {description && <p className="font-medium text-tertiary">{description}</p>}
+                    {title && <p className="font-semibold text-primary">{title}</p>}
+                </div>
+                {action}
+            </div>
+        </section>
     );
 };
 
@@ -187,7 +237,7 @@ export const toast = Object.assign((title: ReactNode, options?: Omit<ToastOption
     },
 });
 
-const ToastCard = ({ item }: { item: ToastItem }) => {
+const ToastCard = ({ item, dismissLabel }: { item: ToastItem; dismissLabel: string }) => {
     const shouldReduceMotion = useReducedMotion();
     const [isPaused, setIsPaused] = useState(false);
     const remainingRef = useRef(item.duration);
@@ -219,7 +269,8 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPaused, item.id]);
 
-    const Icon = item.icon ?? defaultIcons[item.color];
+    // The default (info) toast is text-only, as drawn; the other intents keep their icon so the type isn't carried by the role alone.
+    const Icon = item.icon ?? (item.color === "info" ? null : defaultIcons[item.color]);
 
     return (
         <motion.div
@@ -250,31 +301,32 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 100, scale: 0.95 }}
             transition={shouldReduceMotion ? { duration: 0.15 } : { type: "spring", stiffness: 500, damping: 40 }}
             className={cx(
-                "pointer-events-auto relative flex w-full items-start gap-3 rounded-xl bg-primary p-4 pr-11 shadow-lg ring-1 ring-secondary_alt",
+                // Figma "Default Alert with CTA": near-black frosted pill, white text, dismiss icon inline at the end.
+                "pointer-events-auto relative flex min-h-[43px] w-fit max-w-full items-center gap-[7px] rounded-[10px] bg-[#101419] px-2 py-2.5 text-white shadow-lg backdrop-blur-[25px]",
                 !shouldReduceMotion && "cursor-grab active:cursor-grabbing",
             )}
         >
             {Icon && (
                 <>
-                    {isReactComponent(Icon) && <Icon aria-hidden="true" className={cx("mt-0.5 size-5 shrink-0", styles.colors[item.color].icon)} />}
-                    {isValidElement(Icon) && <div className={cx("mt-0.5 size-5 shrink-0", styles.colors[item.color].icon)}>{Icon}</div>}
+                    {isReactComponent(Icon) && <Icon aria-hidden="true" className={cx("size-5 shrink-0", styles.colors[item.color].icon)} />}
+                    {isValidElement(Icon) && <div className={cx("size-5 shrink-0", styles.colors[item.color].icon)}>{Icon}</div>}
                 </>
             )}
 
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-                {item.title && <div className="text-sm font-semibold text-primary">{item.title}</div>}
-                {item.description && <div className="text-sm text-tertiary">{item.description}</div>}
+                {item.title && <div className="text-sm font-medium text-white">{item.title}</div>}
+                {item.description && <div className="text-sm text-popover">{item.description}</div>}
                 {item.actions && <div className="mt-1 flex flex-wrap items-center gap-3">{item.actions}</div>}
             </div>
 
-            <CloseButton
-                size="sm"
-                slot={null}
-                label="Dismiss"
+            <AriaButton
+                aria-label={dismissLabel}
                 autoFocus={item.autoFocus}
-                className="absolute top-2.5 right-2.5"
-                onClick={() => dismissToast(item.id)}
-            />
+                onPress={() => dismissToast(item.id)}
+                className="shrink-0 cursor-pointer rounded-sm text-white outline-focus-ring transition duration-100 ease-linear hover:text-white/80 focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+                <MultiplicationSignSquareIcon aria-hidden="true" className="size-5" />
+            </AriaButton>
         </motion.div>
     );
 };
@@ -289,29 +341,40 @@ const positions = sortCx({
 });
 
 interface ToasterProps {
-    /** Screen corner the toast stack anchors to. @default "bottom-right" */
+    /** Screen edge/corner the toast stack anchors to. @default "top-center" */
     position?: keyof typeof positions;
+    /** Accessible name of each toast's dismiss button. @default "Dismiss" */
+    dismissLabel?: string;
 }
 
-/** Mount once near the root of the app. Renders whatever toasts are pushed via `toast()`. */
-export const Toaster = ({ position = "bottom-right" }: ToasterProps) => {
+/**
+ * Mount once near the root of the app. Renders whatever toasts are pushed via `toast()`. The stack is portaled like
+ * the modals (into the nearest `PortalProvider` container, else `document.body`) and sits above them (`z-[100]` vs
+ * the modal overlay's `z-50`), so a toast fired while a dialog is open shows over it.
+ */
+export const Toaster = ({ position = "top-center", dismissLabel = "Dismiss" }: ToasterProps) => {
     const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
     return (
-        <div
-            className={cx("pointer-events-none fixed z-[100] flex max-h-dvh w-full max-w-sm flex-col gap-3 overflow-hidden p-4 sm:p-6", positions[position])}
-            aria-live="polite"
-            aria-atomic="false"
-            // An open Modal makes everything outside it inert. Without this the live region is inert when a
-            // toast fires from a dialog (e.g. a confirm) and comes back in the same update as the toast, so
-            // screen readers never announce it. React Aria leaves top-layer nodes exposed under a modal.
-            data-react-aria-top-layer=""
-        >
-            <AnimatePresence mode="popLayout">
-                {items.map((item) => (
-                    <ToastCard key={item.id} item={item} />
-                ))}
-            </AnimatePresence>
-        </div>
+        <AriaOverlay disableFocusManagement>
+            <div
+                className={cx(
+                    "pointer-events-none fixed z-[100] flex max-h-dvh w-full max-w-sm flex-col gap-3 overflow-hidden p-4 sm:p-6",
+                    positions[position],
+                )}
+                aria-live="polite"
+                aria-atomic="false"
+                // An open Modal makes everything outside it inert. Without this the live region is inert when a
+                // toast fires from a dialog (e.g. a confirm) and comes back in the same update as the toast, so
+                // screen readers never announce it. React Aria leaves top-layer nodes exposed under a modal.
+                data-react-aria-top-layer=""
+            >
+                <AnimatePresence mode="popLayout">
+                    {items.map((item) => (
+                        <ToastCard key={item.id} item={item} dismissLabel={dismissLabel} />
+                    ))}
+                </AnimatePresence>
+            </div>
+        </AriaOverlay>
     );
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button as AriaButton } from "react-aria-components";
-import { ChevronDown } from "@/components/foundations/icons";
+import { ArrowDown01SharpIcon } from "@/components/foundations/hugeicons";
 import { cx } from "@/utils/cx";
 
 interface ComboBoxChevronProps {
@@ -21,13 +21,13 @@ export const ComboBoxChevron = ({ size, isOpen, className }: ComboBoxChevronProp
     <AriaButton
         excludeFromTabOrder={false}
         className={cx(
-            "flex shrink-0 cursor-pointer items-center justify-center self-center rounded-sm text-fg-quaternary outline-focus-ring transition duration-100 ease-linear hover:text-fg-quaternary_hover focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
+            "flex shrink-0 cursor-pointer items-center justify-center self-center rounded-sm text-primary outline-focus-ring transition duration-100 ease-linear hover:text-secondary focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed",
             className,
         )}
     >
-        <ChevronDown
+        <ArrowDown01SharpIcon
             aria-hidden="true"
-            className={cx("transition duration-100 ease-linear", size === "lg" ? "size-5" : "size-4 stroke-[2.25px]", isOpen && "rotate-180")}
+            className={cx("transition duration-100 ease-linear motion-reduce:transition-none", size === "lg" ? "size-5" : "size-4", isOpen && "rotate-180")}
         />
     </AriaButton>
 );

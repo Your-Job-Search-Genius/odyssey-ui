@@ -9149,5 +9149,436 @@
       "zoom",
       "out"
     ]
+  },
+  {
+    "name": "ArrowDown01SharpIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "arrow",
+      "down01",
+      "sharp"
+    ]
+  },
+  {
+    "name": "ArrowRight01SharpIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "arrow",
+      "right01",
+      "sharp"
+    ]
+  },
+  {
+    "name": "ArrowRight02SharpIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "arrow",
+      "right02",
+      "sharp"
+    ]
+  },
+  {
+    "name": "Briefcase05Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "briefcase05"
+    ]
+  },
+  {
+    "name": "CheckmarkBadge02Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "checkmark",
+      "badge02"
+    ]
+  },
+  {
+    "name": "CheckmarkCircle02Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "checkmark",
+      "circle02"
+    ]
+  },
+  {
+    "name": "CircleArrowRight01RoundIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "circle",
+      "arrow",
+      "right01",
+      "round"
+    ]
+  },
+  {
+    "name": "CircleArrowRight01SharpIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "circle",
+      "arrow",
+      "right01",
+      "sharp"
+    ]
+  },
+  {
+    "name": "ClearCircleIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "clear",
+      "circle"
+    ]
+  },
+  {
+    "name": "Clock04Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "clock04"
+    ]
+  },
+  {
+    "name": "ClothesIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "clothes"
+    ]
+  },
+  {
+    "name": "Contact01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "contact01"
+    ]
+  },
+  {
+    "name": "CoPresentIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "co",
+      "present"
+    ]
+  },
+  {
+    "name": "Edit02Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "edit02"
+    ]
+  },
+  {
+    "name": "EyeIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "eye"
+    ]
+  },
+  {
+    "name": "FavouriteIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "favourite"
+    ]
+  },
+  {
+    "name": "File01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "file01"
+    ]
+  },
+  {
+    "name": "FileUploadIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "file",
+      "upload"
+    ]
+  },
+  {
+    "name": "GridViewIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "grid",
+      "view"
+    ]
+  },
+  {
+    "name": "HelpCircleIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "help",
+      "circle"
+    ]
+  },
+  {
+    "name": "HijabIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "hijab"
+    ]
+  },
+  {
+    "name": "Home01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "home01"
+    ]
+  },
+  {
+    "name": "ImageAdd01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "image",
+      "add01"
+    ]
+  },
+  {
+    "name": "ImageDownloadIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "image",
+      "download"
+    ]
+  },
+  {
+    "name": "InformationCircleIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "information",
+      "circle"
+    ]
+  },
+  {
+    "name": "Invoice03Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "invoice03"
+    ]
+  },
+  {
+    "name": "LanguageSkillIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "language",
+      "skill"
+    ]
+  },
+  {
+    "name": "ListViewIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "list",
+      "view"
+    ]
+  },
+  {
+    "name": "LockedIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "locked"
+    ]
+  },
+  {
+    "name": "MicOffIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "mic",
+      "off"
+    ]
+  },
+  {
+    "name": "MoreHorizontalSquare01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "more",
+      "horizontal",
+      "square01"
+    ]
+  },
+  {
+    "name": "MoreVerticalIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "more",
+      "vertical"
+    ]
+  },
+  {
+    "name": "MultiplicationSignIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "multiplication",
+      "sign"
+    ]
+  },
+  {
+    "name": "MultiplicationSignSquareIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "multiplication",
+      "sign",
+      "square"
+    ]
+  },
+  {
+    "name": "Notification01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "notification01"
+    ]
+  },
+  {
+    "name": "Notification02Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "notification02"
+    ]
+  },
+  {
+    "name": "PlusSignIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "plus",
+      "sign"
+    ]
+  },
+  {
+    "name": "RefreshIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "refresh"
+    ]
+  },
+  {
+    "name": "RemoveCircleIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "remove",
+      "circle"
+    ]
+  },
+  {
+    "name": "RemoveIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "remove"
+    ]
+  },
+  {
+    "name": "RemoveSquareIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "remove",
+      "square"
+    ]
+  },
+  {
+    "name": "RepeatIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "repeat"
+    ]
+  },
+  {
+    "name": "Rotate02Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "rotate02"
+    ]
+  },
+  {
+    "name": "ScrollIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "scroll"
+    ]
+  },
+  {
+    "name": "SidebarLeftIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "sidebar",
+      "left"
+    ]
+  },
+  {
+    "name": "SquareArrowExpand01SharpIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "square",
+      "arrow",
+      "expand01",
+      "sharp"
+    ]
+  },
+  {
+    "name": "StarCircleIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "star",
+      "circle"
+    ]
+  },
+  {
+    "name": "StarsIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "stars"
+    ]
+  },
+  {
+    "name": "UnfoldMoreSharpIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "unfold",
+      "more",
+      "sharp"
+    ]
+  },
+  {
+    "name": "UserAccountIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "user",
+      "account"
+    ]
+  },
+  {
+    "name": "UserCircleIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "user",
+      "circle"
+    ]
+  },
+  {
+    "name": "UserIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "user"
+    ]
+  },
+  {
+    "name": "UserIdVerificationIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "user",
+      "id",
+      "verification"
+    ]
+  },
+  {
+    "name": "VideoOffIcon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "video",
+      "off"
+    ]
+  },
+  {
+    "name": "Wrench01Icon",
+    "importPath": "@your-job-search-genius/odyssey-ui/components/foundations/hugeicons",
+    "tags": [
+      "wrench01"
+    ]
   }
 ]

@@ -27,8 +27,8 @@ const NumberFieldContext = createContext<{
 
 const styles = {
     sm: "px-3 py-2 text-sm",
-    md: "px-3 py-2 text-md",
-    lg: "px-3.5 py-2.5 text-md",
+    md: "px-3 py-2.5 text-md",
+    lg: "px-3.5 py-3 text-md",
 };
 
 export interface InputNumberBaseProps extends AriaNumberFieldProps {
@@ -74,7 +74,7 @@ export const InputNumberBase = ({
             ref={groupRef}
             className={({ isFocusWithin, isDisabled, isInvalid }) =>
                 cx(
-                    "relative flex w-full flex-row items-stretch rounded-lg bg-primary shadow-xs outline-1 -outline-offset-1 outline-primary transition-all duration-100 ease-linear",
+                    "relative flex w-full flex-row items-stretch rounded-[10px] bg-primary outline-1 -outline-offset-1 outline-secondary transition-all duration-100 ease-linear",
 
                     isFocusWithin && !isDisabled && "outline-2 -outline-offset-2 outline-brand",
 
@@ -105,7 +105,7 @@ export const InputNumberBase = ({
                 ref={ref}
                 placeholder={placeholder}
                 className={cx(
-                    "m-0 w-full bg-transparent text-primary ring-0 outline-hidden placeholder:text-placeholder autofill:rounded-lg autofill:text-primary disabled:cursor-not-allowed",
+                    "m-0 w-full bg-transparent font-medium text-primary ring-0 outline-hidden placeholder:font-normal placeholder:text-placeholder autofill:rounded-[10px] autofill:text-primary disabled:cursor-not-allowed",
                     orientation === "horizontal" && "text-center",
                     styles[inputSize],
                     context?.inputClassName,

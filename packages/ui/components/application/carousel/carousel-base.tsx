@@ -1,8 +1,9 @@
 "use client";
 
-import type { CSSProperties, ComponentPropsWithRef, HTMLAttributes, KeyboardEvent, ReactNode, Ref } from "react";
-import { cloneElement, createContext, isValidElement, useCallback, useContext, useEffect, useState } from "react";
+import type { CSSProperties, ComponentPropsWithRef, FocusEvent, HTMLAttributes, KeyboardEvent, ReactNode, Ref } from "react";
+import { cloneElement, createContext, isValidElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
+import { ArrowRight01SharpIcon } from "@/components/foundations/hugeicons";
 import { cx } from "@/utils/cx";
 
 type CarouselApi = UseEmblaCarouselType[1];
@@ -19,6 +20,10 @@ type CarouselProps = {
     orientation?: "horizontal" | "vertical";
     /** The function to set the API for the carousel. */
     setApi?: (api: CarouselApi) => void;
+    /** Accessible name of each slide (1-based). @default (n, total) => `${n} of ${total}` */
+    slideLabel?: (n: number, total: number) => string;
+    /** Live-region text announced when the slide changes (1-based). @default (n, total) => `Slide ${n} of ${total}` */
+    slideAnnouncement?: (n: number, total: number) => string;
 };
 
 type CarouselContextProps = CarouselProps & {
@@ -40,6 +45,10 @@ type CarouselContextProps = CarouselProps & {
     scrollSnaps: number[];
 };
 
+/** Targets inside these handle arrow keys themselves, so the carousel must not scroll on them. */
+const OWNS_ARROW_KEYS =
+    '[role=radiogroup],[role=listbox],[role=grid],[role=treegrid],[role=tablist],[role=menu],[role=menubar],[role=slider],input,textarea,select,[contenteditable]:not([contenteditable="false"])';
+
 export const CarouselContext = createContext<CarouselContextProps | null>(null);
 
 export const useCarousel = () => {
@@ -52,7 +61,20 @@ export const useCarousel = () => {
     return context;
 };
 
-const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }: ComponentPropsWithRef<"div"> & CarouselProps) => {
+const defaultSlideLabel = (n: number, total: number) => `${n} of ${total}`;
+const defaultSlideAnnouncement = (n: number, total: number) => `Slide ${n} of ${total}`;
+
+const CarouselRoot = ({
+    orientation = "horizontal",
+    opts,
+    setApi,
+    plugins,
+    slideLabel = defaultSlideLabel,
+    slideAnnouncement = defaultSlideAnnouncement,
+    className,
+    children,
+    ...props
+}: ComponentPropsWithRef<"div"> & CarouselProps) => {
     const [carouselRef, api] = useEmblaCarousel(
         {
             ...opts,
@@ -64,6 +86,11 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
     const [canScrollNext, setCanScrollNext] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+    // Read by onInit, which must stay stable (it's registered as an Embla listener), so an inline formatter is fine.
+    const slideLabelRef = useRef(slideLabel);
+    useEffect(() => {
+        slideLabelRef.current = slideLabel;
+    }, [slideLabel]);
 
     const onInit = useCallback((api: CarouselApi) => {
         if (!api) return;
@@ -75,7 +102,7 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
         const slides = api.slideNodes();
         slides.forEach((slide, i) => {
             if (slide.hasAttribute("aria-label") && !slide.hasAttribute("data-auto-label")) return;
-            slide.setAttribute("aria-label", `${i + 1} of ${slides.length}`);
+            slide.setAttribute("aria-label", slideLabelRef.current(i + 1, slides.length));
             slide.setAttribute("data-auto-label", "");
         });
     }, []);
@@ -98,6 +125,8 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent<HTMLDivElement>) => {
+            // Leave arrows to widgets that use them (e.g. a radio group of option tiles inside or around the carousel).
+            if (event.defaultPrevented || (event.target as Element).closest?.(OWNS_ARROW_KEYS)) return;
             if (event.key === "ArrowLeft") {
                 event.preventDefault();
                 scrollPrev();
@@ -107,6 +136,34 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
             }
         },
         [scrollPrev, scrollNext],
+    );
+
+    // Focus moved onto a slide that isn't fully visible (e.g. arrowing through tiles in a radio group): undo the
+    // browser's native scroll of the overflow-hidden viewport, then bring the slide in with the least movement.
+    const handleFocus = useCallback(
+        (event: FocusEvent<HTMLDivElement>) => {
+            if (!api) return;
+            const root = api.rootNode();
+            const slides = api.slideNodes();
+            const index = slides.findIndex((slide) => slide.contains(event.target));
+            if (index < 0) return;
+            root.scrollLeft = 0;
+            root.scrollTop = 0;
+
+            const [start, end, size] = orientation === "horizontal" ? (["left", "right", "width"] as const) : (["top", "bottom", "height"] as const);
+            const view = root.getBoundingClientRect();
+            const box = slides[index].getBoundingClientRect();
+            if (box[start] >= view[start] - 1 && box[end] <= view[end] + 1) return;
+
+            // Off the start: align it to the start. Off the end: the earliest leading slide that still shows it whole.
+            let first = index;
+            if (box[end] > view[end]) {
+                while (first > 0 && box[end] - slides[first - 1].getBoundingClientRect()[start] <= view[size] + 1) first--;
+            }
+            const snap = api.internalEngine().slideRegistry.findIndex((group) => group.includes(first));
+            if (snap >= 0) api.scrollTo(snap, window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+        },
+        [api, orientation],
     );
 
     useEffect(() => {
@@ -147,6 +204,7 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
         >
             <div
                 onKeyDownCapture={handleKeyDown}
+                onFocus={handleFocus}
                 className={cx("relative", className)}
                 role="region"
                 aria-roledescription="carousel"
@@ -156,7 +214,7 @@ const CarouselRoot = ({ orientation = "horizontal", opts, setApi, plugins, class
                 {children}
                 {/* Announces slide changes; silenced while an autoplay plugin is running so it doesn't chatter. */}
                 <div aria-live={plugins?.some((plugin) => plugin.name === "autoplay") ? "off" : "polite"} aria-atomic="true" className="sr-only">
-                    {scrollSnaps.length > 0 && `Slide ${selectedIndex + 1} of ${scrollSnaps.length}`}
+                    {scrollSnaps.length > 0 && slideAnnouncement(selectedIndex + 1, scrollSnaps.length)}
                 </div>
             </div>
         </CarouselContext.Provider>
@@ -190,6 +248,8 @@ interface TriggerRenderProps {
 }
 
 interface TriggerProps {
+    /** Accessible name. @default "Previous slide" / "Next slide" */
+    "aria-label"?: string;
     /** The ref of the trigger. */
     ref?: Ref<HTMLButtonElement>;
     /** If true, the child element will be cloned and passed down the prop of the trigger. */
@@ -204,7 +264,7 @@ interface TriggerProps {
     className?: string | ((args: { isDisabled: boolean }) => string);
 }
 
-const Trigger = ({ className, children, asChild, direction, style, ...props }: TriggerProps) => {
+const Trigger = ({ className, children, asChild, direction, style, "aria-label": ariaLabel, ...props }: TriggerProps) => {
     const { scrollPrev, canScrollNext, scrollNext, canScrollPrev } = useCarousel();
 
     const isDisabled = direction === "prev" ? !canScrollPrev : !canScrollNext;
@@ -217,7 +277,7 @@ const Trigger = ({ className, children, asChild, direction, style, ...props }: T
 
     const computedClassName = typeof className === "function" ? className({ isDisabled }) : className;
 
-    const defaultAriaLabel = direction === "prev" ? "Previous slide" : "Next slide";
+    const defaultAriaLabel = ariaLabel ?? (direction === "prev" ? "Previous slide" : "Next slide");
 
     // If the children is a render prop, we need to pass the necessary props to the render prop.
     if (typeof children === "function") {
@@ -246,6 +306,34 @@ const CarouselPrevTrigger = (props: Omit<TriggerProps, "direction">) => <Trigger
 
 const CarouselNextTrigger = (props: Omit<TriggerProps, "direction">) => <Trigger {...props} direction="next" />;
 
+const arrowStyles =
+    "flex cursor-pointer items-center justify-center rounded text-fg-primary outline-focus-ring transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-default disabled:opacity-50";
+
+// Chevron (and button) size: 20px, Figma's phone 17px, or 17px below `md`.
+const arrowSizes = { md: "size-5", sm: "size-[17px]", responsive: "size-[17px] md:size-5" };
+
+interface CarouselArrowsProps {
+    /** `sm` = Figma's phone 17px chevrons; `responsive` = `sm` below `md`, `md` from `md` up. @default "md" */
+    size?: "md" | "sm" | "responsive";
+    /** @default "Previous slide" */
+    prevLabel?: string;
+    /** @default "Next slide" */
+    nextLabel?: string;
+    className?: string;
+}
+
+/** A ready-styled prev/next pair for a carousel's header row: 20px chevrons, each dimmed to 50% at the end it can't scroll past. */
+const CarouselArrows = ({ size = "md", prevLabel, nextLabel, className }: CarouselArrowsProps) => (
+    <div className={cx("flex items-center", className)}>
+        <Trigger direction="prev" aria-label={prevLabel} className={cx(arrowStyles, arrowSizes[size])}>
+            <ArrowRight01SharpIcon aria-hidden="true" className={cx("rotate-180", arrowSizes[size])} />
+        </Trigger>
+        <Trigger direction="next" aria-label={nextLabel} className={cx(arrowStyles, arrowSizes[size])}>
+            <ArrowRight01SharpIcon aria-hidden="true" className={arrowSizes[size]} />
+        </Trigger>
+    </div>
+);
+
 interface CarouselIndicatorRenderProps {
     isSelected: boolean;
     onClick: () => void;
@@ -264,9 +352,11 @@ interface CarouselIndicatorProps {
     style?: CSSProperties;
     /** The class name of the indicator. */
     className?: string | ((args: { isSelected: boolean }) => string);
+    /** Accessible name. @default `Go to slide ${index + 1}` */
+    "aria-label"?: string;
 }
 
-const CarouselIndicator = ({ index, isSelected = false, children, asChild, className, style }: CarouselIndicatorProps) => {
+const CarouselIndicator = ({ index, isSelected = false, children, asChild, className, style, "aria-label": ariaLabel }: CarouselIndicatorProps) => {
     const { api, selectedIndex } = useCarousel();
 
     isSelected = isSelected || selectedIndex === index;
@@ -276,7 +366,7 @@ const CarouselIndicator = ({ index, isSelected = false, children, asChild, class
     };
     const computedClassName = typeof className === "function" ? className({ isSelected }) : className;
 
-    const defaultAriaLabel = `Go to slide ${index + 1}`;
+    const defaultAriaLabel = ariaLabel ?? `Go to slide ${index + 1}`;
 
     // If the children is a render prop, we need to pass the necessary props to the render prop.
     if (typeof children === "function") {
@@ -331,6 +421,7 @@ export const Carousel = {
     Item: CarouselItem,
     PrevTrigger: CarouselPrevTrigger,
     NextTrigger: CarouselNextTrigger,
+    Arrows: CarouselArrows,
     IndicatorGroup: CarouselIndicatorGroup,
     Indicator: CarouselIndicator,
 };

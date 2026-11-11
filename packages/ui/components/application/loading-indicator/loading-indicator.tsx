@@ -40,15 +40,18 @@ interface LoadingIndicatorProps {
      * Optional text label displayed below the indicator.
      */
     label?: string;
+    /** For dark surfaces: a white spinner and label. */
+    inverse?: boolean;
 }
 
-export const LoadingIndicator = ({ type = "line-simple", size = "sm", label }: LoadingIndicatorProps) => {
+export const LoadingIndicator = ({ type = "line-simple", size = "sm", label, inverse }: LoadingIndicatorProps) => {
+    const arc = inverse ? "stroke-white" : "stroke-fg-brand-primary";
     const renderSpinner = () => {
         if (type === "line-spinner") {
             return (
                 <svg aria-hidden="true" className={cx("animate-spin", styles[size].spinner)} viewBox="0 0 32 32" fill="none">
                     <circle
-                        className="stroke-fg-brand-primary"
+                        className={arc}
                         cx="16"
                         cy="16"
                         r="14"
@@ -64,7 +67,12 @@ export const LoadingIndicator = ({ type = "line-simple", size = "sm", label }: L
 
         if (type === "dot-circle") {
             return (
-                <svg aria-hidden="true" className={cx("animate-spin text-fg-brand-primary", styles[size].spinner)} viewBox="0 0 36 36" fill="none">
+                <svg
+                    aria-hidden="true"
+                    className={cx("animate-spin", inverse ? "text-white" : "text-fg-brand-primary", styles[size].spinner)}
+                    viewBox="0 0 36 36"
+                    fill="none"
+                >
                     <path
                         d="M34 18C34 15.8989 33.5861 13.8183 32.7821 11.8771C31.978 9.93586 30.7994 8.17203 29.3137 6.68629C27.828 5.20055 26.0641 4.022 24.1229 3.21793C22.1817 2.41385 20.1011 2 18 2C15.8988 2 13.8183 2.41385 11.8771 3.21793C9.93585 4.022 8.17203 5.20055 6.68629 6.68629C5.20055 8.17203 4.022 9.93586 3.21793 11.8771C2.41385 13.8183 2 15.8989 2 18"
                         stroke="url(#paint0)"
@@ -98,18 +106,8 @@ export const LoadingIndicator = ({ type = "line-simple", size = "sm", label }: L
         // Default case: type === "line-simple"
         return (
             <svg aria-hidden="true" className={cx("animate-spin", styles[size].spinner)} viewBox="0 0 32 32" fill="none">
-                <circle className="text-bg-tertiary" cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="4" />
-                <circle
-                    className="stroke-fg-brand-primary"
-                    cx="16"
-                    cy="16"
-                    r="14"
-                    fill="none"
-                    strokeWidth="4"
-                    strokeDashoffset="75"
-                    strokeDasharray="100"
-                    strokeLinecap="round"
-                />
+                <circle className={inverse ? "text-white/20" : "text-bg-tertiary"} cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="4" />
+                <circle className={arc} cx="16" cy="16" r="14" fill="none" strokeWidth="4" strokeDashoffset="75" strokeDasharray="100" strokeLinecap="round" />
             </svg>
         );
     };
@@ -117,7 +115,11 @@ export const LoadingIndicator = ({ type = "line-simple", size = "sm", label }: L
     return (
         <div role="status" className={cx("flex flex-col items-center justify-center", styles[size].root)}>
             {renderSpinner()}
-            {label ? <span className={cx("text-secondary", styles[size].label)}>{label}</span> : <span className="sr-only">Loading</span>}
+            {label ? (
+                <span className={cx(inverse ? "text-white" : "text-secondary", styles[size].label)}>{label}</span>
+            ) : (
+                <span className="sr-only">Loading</span>
+            )}
         </div>
     );
 };

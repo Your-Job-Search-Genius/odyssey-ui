@@ -129,13 +129,14 @@
     --color-alpha-white: rgb(255 255 255);
     --color-alpha-black: rgb(0 0 0);
 
-    --color-brand-25: rgb(251 251 255);
-    --color-brand-50: rgb(243 244 255);
-    --color-brand-100: rgb(232 234 253);
-    --color-brand-200: rgb(211 214 250);
-    --color-brand-300: rgb(178 181 248);
-    --color-brand-400: rgb(140 139 246);
-    --color-brand-500: rgb(110 98 239);
+    /* 50, 200, 300 and 600 are the BetterShot Figma Primary scale; the steps between are interpolated. */
+    --color-brand-25: rgb(248 247 255);
+    --color-brand-50: rgb(236 234 255);
+    --color-brand-100: rgb(213 207 255);
+    --color-brand-200: rgb(190 180 255);
+    --color-brand-300: rgb(160 145 255);
+    --color-brand-400: rgb(129 109 240);
+    --color-brand-500: rgb(107 84 230);
     --color-brand-600: rgb(86 59 219);
     --color-brand-700: rgb(68 28 191);
     --color-brand-800: rgb(52 13 152);
@@ -298,12 +299,14 @@
     --color-utility-amber-700: var(--color-amber-700);
 
     /* TEXT COLORS */
-    --color-text-primary: rgb(16 36 79);
+    --color-text-primary: rgb(16 20 25);
     --color-text-tertiary: rgb(83 88 98);
+    /* Figma "text-subtle" (#A4A7AE) darkened to pass AA (4.5:1) on every light surface up to #F6F6F6. */
+    --color-text-subtle: rgb(110 112 117);
     --color-text-error-primary: var(--color-red-600);
     --color-text-warning-primary: var(--color-yellow-600);
     --color-text-success-primary: var(--color-green-600);
-    --color-text-secondary: rgb(63 78 114);
+    --color-text-secondary: rgb(65 70 81);
     --color-text-secondary_hover: var(--color-neutral-800);
     --color-text-tertiary_hover: var(--color-neutral-700);
     --color-text-brand-secondary: var(--color-brand-700);
@@ -314,16 +317,17 @@
     --color-text-quaternary: rgb(113 118 128);
     --color-text-brand-primary: var(--color-brand-900);
     --color-text-primary_on-brand: var(--color-white);
-    --color-text-secondary_on-brand: var(--color-brand-200);
-    --color-text-tertiary_on-brand: var(--color-brand-200);
-    --color-text-quaternary_on-brand: var(--color-brand-300);
+    /* Pinned to the pre-BetterShot tints: the new brand-200/300 drop below AA on brand-600. */
+    --color-text-secondary_on-brand: rgb(211 214 250);
+    --color-text-tertiary_on-brand: rgb(211 214 250);
+    --color-text-quaternary_on-brand: rgb(211 214 250);
     --color-text-brand-tertiary_alt: var(--color-brand-600);
     --color-text-error-primary_hover: var(--color-red-700);
     --color-text-brand-secondary_hover: var(--color-brand-800);
 
     /* BORDER COLORS */
     --color-border-primary: var(--color-neutral-300);
-    --color-border-secondary: rgb(234 237 239);
+    --color-border-secondary: rgb(233 234 235);
     --color-border-secondary_alt: rgb(0 0 0 / 0.1);
     --color-border-tertiary: var(--color-neutral-100);
     --color-border-error: var(--color-red-500);
@@ -406,6 +410,15 @@
     --color-tooltip-bg: rgb(16 20 25);
     --color-tooltip-supporting-text: var(--color-neutral-300);
 
+    /* INVERSE SURFACES: dark dialogs, popovers and panels that stay dark in both themes. */
+    --color-bg-inverse: rgb(68 68 68);
+    --color-bg-inverse-subtle: rgb(255 255 255 / 0.1);
+    --color-bg-popover: rgb(21 21 21);
+    --color-text-inverse-secondary: rgb(193 193 193);
+    --color-text-inverse-tertiary: rgb(174 177 185);
+    --color-text-popover: rgb(204 205 207);
+    --color-border-inverse: rgb(255 255 255 / 0.12);
+
     /* BACKGROUND PROPERTY COLORS */
     --background-color-primary: var(--color-bg-primary);
     --background-color-tertiary: var(--color-bg-tertiary);
@@ -437,6 +450,9 @@
     --background-color-error-solid_hover: var(--color-bg-error-solid_hover);
     --background-color-border-brand: var(--color-border-brand);
     --background-color-border-brand_alt: var(--color-border-brand_alt);
+    --background-color-inverse: var(--color-bg-inverse);
+    --background-color-inverse-subtle: var(--color-bg-inverse-subtle);
+    --background-color-popover: var(--color-bg-popover);
 
     /* TEXT PROPERTY COLORS */
     --color-text-white: var(--color-white);
@@ -463,6 +479,10 @@
     --text-color-error-primary_hover: var(--color-text-error-primary_hover);
     --text-color-brand-secondary_hover: var(--color-text-brand-secondary_hover);
     --text-color-tooltip-supporting-text: var(--color-tooltip-supporting-text);
+    --text-color-subtle: var(--color-text-subtle);
+    --text-color-inverse-secondary: var(--color-text-inverse-secondary);
+    --text-color-inverse-tertiary: var(--color-text-inverse-tertiary);
+    --text-color-popover: var(--color-text-popover);
 
     /* BORDER PROPERTY COLORS */
     --border-color-primary: var(--color-border-primary);
@@ -475,6 +495,7 @@
     --border-color-brand_alt: var(--color-border-brand_alt);
     --border-color-brand-solid: var(--color-bg-brand-solid);
     --border-color-brand-solid_hover: var(--color-bg-brand-solid_hover);
+    --border-color-inverse: var(--color-border-inverse);
 
     /* RING PROPERTY COLORS */
     --ring-color-primary: var(--color-border-primary);
@@ -718,6 +739,7 @@
         --color-text-editor-icon-fg: var(--color-neutral-400);
         --color-text-editor-icon-fg_active: var(--color-white);
         --color-text-quaternary: var(--color-neutral-400);
+        --color-text-subtle: var(--color-neutral-400);
         --color-text-brand-primary: var(--color-neutral-50);
         --color-text-primary_on-brand: var(--color-neutral-50);
         --color-text-secondary_on-brand: var(--color-neutral-300);

@@ -15,3 +15,11 @@ export default {
 export const Default = () => <Demos.DefaultDemo />;
 export const Inline = () => <Demos.InlineDemo />;
 Inline.storyName = "Inline, divided";
+
+export const Summary = () => <Demos.SummaryDemo />;
+
+export const Figma = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <Demos.SummaryDemo />
+    </div>
+);

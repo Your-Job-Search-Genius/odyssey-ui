@@ -1,0 +1,377 @@
+---
+title: Headshot
+description: "BetterShot building blocks for the AI headshot flow: capture, model, outfit and background pickers, generating and review cards, and results."
+---
+
+## Overview
+
+<ComponentPreview demo="application/headshot/crop-toolbar" export="BasicDemo" />
+
+## Installation
+
+```ts
+import { BackgroundTileGroup } from "@/components/application/headshot/background-tile";
+import { CaptureMethodCard } from "@/components/application/headshot/capture-method-card";
+import { CropToolbar } from "@/components/application/headshot/crop-toolbar";
+import { FaceGuideRing } from "@/components/application/headshot/face-guide-ring";
+import { FavoritesBar } from "@/components/application/headshot/favorites-bar";
+import { GeneratingCard } from "@/components/application/headshot/generating-card";
+import { GlassPill } from "@/components/application/headshot/glass-pill";
+import { ModelCardGroup } from "@/components/application/headshot/model-card";
+import { ModelChip } from "@/components/application/headshot/model-chip";
+import { ModelSwitcher, ModelSwitcherOption } from "@/components/application/headshot/model-switcher";
+import { OptionTileGroup } from "@/components/application/headshot/option-tile";
+import { OutfitCard } from "@/components/application/headshot/outfit-card";
+import { PhoneQualityBanner } from "@/components/application/headshot/phone-quality-banner";
+import { PhotoSlot } from "@/components/application/headshot/photo-slot";
+import { QRCard } from "@/components/application/headshot/qr-card";
+import { ResultGroup } from "@/components/application/headshot/result-group";
+import { ResultTile } from "@/components/application/headshot/result-tile";
+import { ReviewCard } from "@/components/application/headshot/review-card";
+import { CounterRing } from "@/components/application/headshot/selection-tray";
+import { ShootCard } from "@/components/application/headshot/shoot-card";
+import { ShutterButton } from "@/components/application/headshot/shutter-button";
+import { ThumbStrip } from "@/components/application/headshot/thumb-strip";
+```
+
+## Usage
+
+Each component is its own file under `components/application/headshot/`. Import the one you need; most are presentational and controlled by the screen that composes them.
+
+- **Background Tile**: Single-choice background picker tile for the headshot flow.
+- **Capture Method Card**: One way to add photos (webcam, phone).
+- **Crop Toolbar**: Frosted toolbar under the crop area.
+- **Face Guide Ring**: Dashed oval that frames the face in the selfie camera.
+- **Favorites Bar**: Bottom-centre favourites control.
+- **Generating Card**: Illustrated "your headshots are being generated" card on a fixed 768px stage (centred, so narrow screens crop the sides).
+- **Glass Pill**: Translucent pill button used over photos and in the crop modal.
+- **Model Card**: Single-choice model portrait for the dark model picker.
+- **Model Chip**: Chip showing which model outfits are tried on, with a button to swap it: "MODEL | avatar Name | Change".
+- **Option Tile**: Single-choice tile for hair style, hair texture and eyewear.
+- **Outfit Card**: Multi-select outfit toggle (aria-pressed).
+- **Phone Quality Banner**: Violet "use your phone" promo that is one button.
+- **Photo Slot**: One photo in the "Add Photo" grid, 197x261px.
+- **Qr Card**: Dark 230px card with a white-on-black QR code for continuing on a phone.
+- **Result Group**: One outfit's results: a header then a wrapping row of tiles.
+- **Result Tile**: One generated headshot, 233x261px, with a blurred glow, a favourite toggle and hover actions.
+- **Review Card**: Review step summary: persona header then white sections.
+- **Selection Tray**: Your Selection n/max with the picked thumbnails and a call to action; collapses to a single row when empty.
+- **Shoot Card**: A past shoot in the Activity Library: a Card variant="subtle" size="sm" with an uppercase shoot Badge, the cover photo with a soft glow, a count chip and a date.
+- **Shutter Button**: Round 70px camera shutter for dark camera surfaces.
+- **Thumb Strip**: Row of photo thumbnails and empty "Add Photo" slots under the crop area.
+
+## Props
+
+**BackgroundTileGroup**
+
+<PropsTable component="application/headshot/background-tile" />
+
+**CaptureMethodCard**
+
+<PropsTable component="application/headshot/capture-method-card" />
+
+**CropToolbar**
+
+<PropsTable component="application/headshot/crop-toolbar" />
+
+**FaceGuideRing**
+
+<PropsTable component="application/headshot/face-guide-ring" />
+
+**FavoritesBar**
+
+<PropsTable component="application/headshot/favorites-bar" />
+
+**GeneratingCard**
+
+<PropsTable component="application/headshot/generating-card" />
+
+**GlassPill**
+
+<PropsTable component="application/headshot/glass-pill" />
+
+**ModelCardGroup**
+
+<PropsTable component="application/headshot/model-card" />
+
+**ModelChip**
+
+<PropsTable component="application/headshot/model-chip" />
+
+**ModelSwitcher**
+
+<PropsTable component="application/headshot/model-switcher" />
+
+**OptionTileGroup**
+
+<PropsTable component="application/headshot/option-tile" />
+
+**OutfitCard**
+
+<PropsTable component="application/headshot/outfit-card" />
+
+**PhoneQualityBanner**
+
+<PropsTable component="application/headshot/phone-quality-banner" />
+
+**PhotoSlot**
+
+<PropsTable component="application/headshot/photo-slot" />
+
+**QRCard**
+
+<PropsTable component="application/headshot/qr-card" />
+
+**ResultGroup**
+
+<PropsTable component="application/headshot/result-group" />
+
+**ResultTile**
+
+<PropsTable component="application/headshot/result-tile" />
+
+**ReviewCard**
+
+<PropsTable component="application/headshot/review-card" />
+
+**CounterRing**
+
+<PropsTable component="application/headshot/selection-tray" />
+
+**ShootCard**
+
+<PropsTable component="application/headshot/shoot-card" />
+
+**ShutterButton**
+
+<PropsTable component="application/headshot/shutter-button" />
+
+**ThumbStrip**
+
+<PropsTable component="application/headshot/thumb-strip" />
+
+## Examples
+
+**Background Tile**
+
+### Background Tile Grid
+
+<ComponentPreview demo="application/headshot/background-tile" export="BackgroundTileGridDemo" />
+
+### Selected Background Tile
+
+<ComponentPreview demo="application/headshot/background-tile" export="SelectedBackgroundTileDemo" />
+
+**Capture Method Card**
+
+### Face Scan Mark
+
+<ComponentPreview demo="application/headshot/capture-method-card" export="FaceScanMark" />
+
+### Capture Methods
+
+<ComponentPreview demo="application/headshot/capture-method-card" export="CaptureMethodsDemo" />
+
+### Privacy Note
+
+<ComponentPreview demo="application/headshot/capture-method-card" export="PrivacyNoteDemo" />
+
+**Crop Toolbar**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/crop-toolbar" export="BasicDemo" />
+
+**Face Guide Ring**
+
+### Neutral
+
+<ComponentPreview demo="application/headshot/face-guide-ring" export="NeutralDemo" />
+
+### Statuses
+
+<ComponentPreview demo="application/headshot/face-guide-ring" export="StatusesDemo" />
+
+**Favorites Bar**
+
+### Empty
+
+<ComponentPreview demo="application/headshot/favorites-bar" export="EmptyDemo" />
+
+### With Favorites
+
+<ComponentPreview demo="application/headshot/favorites-bar" export="WithFavoritesDemo" />
+
+**Generating Card**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/generating-card" export="BasicDemo" />
+
+**Glass Pill**
+
+### Dark
+
+<ComponentPreview demo="application/headshot/glass-pill" export="DarkDemo" />
+
+### Light
+
+<ComponentPreview demo="application/headshot/glass-pill" export="LightDemo" />
+
+**Model Card**
+
+### Model Card Grid
+
+<ComponentPreview demo="application/headshot/model-card" export="ModelCardGridDemo" />
+
+### Selected Model Card
+
+<ComponentPreview demo="application/headshot/model-card" export="SelectedModelCardDemo" />
+
+**Model Chip**
+
+### Model Chip
+
+<ComponentPreview demo="application/headshot/model-chip" export="ModelChipDemo" />
+
+### Mix
+
+<ComponentPreview demo="application/headshot/model-chip" export="MixDemo" />
+
+**Option Tile**
+
+### Option Tile Carousel
+
+<ComponentPreview demo="application/headshot/option-tile" export="OptionTileCarouselDemo" />
+
+**Outfit Card**
+
+### Outfit Grid
+
+<ComponentPreview demo="application/headshot/outfit-card" export="OutfitGridDemo" />
+
+### Selected Outfit Card
+
+<ComponentPreview demo="application/headshot/outfit-card" export="SelectedOutfitCardDemo" />
+
+**Phone Quality Banner**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/phone-quality-banner" export="BasicDemo" />
+
+**Photo Slot**
+
+### States
+
+<ComponentPreview demo="application/headshot/photo-slot" export="StatesDemo" />
+
+**QR Card**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/qr-card" export="BasicDemo" />
+
+**Result Group**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/result-group" export="BasicDemo" />
+
+**Result Tile**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/result-tile" export="BasicDemo" />
+
+**Review Card**
+
+### Review Card
+
+<ComponentPreview demo="application/headshot/review-card" export="ReviewCardDemo" />
+
+**Selection Tray**
+
+### Selection Tray
+
+<ComponentPreview demo="application/headshot/selection-tray" export="SelectionTrayDemo" />
+
+### Empty Selection Tray
+
+<ComponentPreview demo="application/headshot/selection-tray" export="EmptySelectionTrayDemo" />
+
+**Shoot Card**
+
+### Shoot Card
+
+<ComponentPreview demo="application/headshot/shoot-card" export="ShootCardDemo" />
+
+### Activity Library
+
+<ComponentPreview demo="application/headshot/shoot-card" export="ActivityLibraryDemo" />
+
+**Shutter Button**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/shutter-button" export="BasicDemo" />
+
+### Disabled
+
+<ComponentPreview demo="application/headshot/shutter-button" export="DisabledDemo" />
+
+**Thumb Strip**
+
+### Basic
+
+<ComponentPreview demo="application/headshot/thumb-strip" export="BasicDemo" />
+
+## Accessibility
+
+**Background Tile**: Renders native radios in a radiogroup; name the group with aria-label or aria-labelledby. The `label` is the option's accessible name; the thumbnail is decorative (alt=""). Arrow keys move and select; the selected tile gets a brand border and a visible focus ring on keyboard focus.
+
+**Capture Method Card**: Built on Card, so it is one button/link with title and description as its name. `tab` text is exposed as the card's description (aria-describedby) while the visible badge is aria-hidden. The icon and arrow are aria-hidden; keep the title self-explanatory.
+
+**Crop Toolbar**: Renders role="group" named by `label` ("Crop controls"). Rotate buttons are icon-only with aria-labels; zoom is a React Aria Slider (arrow keys, Home/End) named by `zoomLabel`. All controls show a focus-visible outline. Translate every label prop when localizing.
+
+**Face Guide Ring**: The ring is an aria-hidden SVG and conveys nothing on its own. Never rely on its colour for status: pair it with a visible heading or live message saying what is wrong (e.g. move closer). Give the camera feed (children) its own accessible name if it is meaningful.
+
+**Favorites Bar**: The favourites tab/pill is a button whose name is the count plus favoritesLabel; thumbnails are decorative (aria-hidden, alt=""). The share button is a normal labelled Button. Localize favoritesLabel, feedbackTitle and shareLabel.
+
+**Generating Card**: The beams, brackets and the second caption are aria-hidden. Input images use their `alt`; give each a meaningful one. The pulse animation is motion-safe only. Announce progress changes elsewhere (e.g. a live region) -- the card itself has no live region.
+
+**Glass Pill**: A native button with a focus-visible outline. The icon is aria-hidden, so the text children must name the action; if you ever omit text, add aria-label. Disabled state dims to 50%.
+
+**Model Card**: Native radios in a radiogroup; name the group with aria-label or aria-labelledby. `name` is the accessible name; the portrait is decorative unless `alt` is passed. Selection is shown by the check badge and colour change, not colour alone. Arrow keys move and select; keyboard focus draws an outline.
+
+**Model Chip**: The Change button is aria-describedby the chip text, so screen readers hear "Change, Model Malik" instead of a bare "Change". The avatar is decorative (alt=""); the name labels it. Localize label and changeLabel.
+
+**Option Tile**: Native radios in a horizontal radiogroup; name the group with aria-label or aria-labelledby. `label` is the accessible name; the preview image is decorative unless `alt` is passed. Arrow keys move and select; the selected tile has a brand border and keyboard focus draws an outline.
+
+**Outfit Card**: A toggle button named by `caption`, exposing aria-pressed. The photo is decorative unless `alt` is given. Selection is shown by the check and background strip as well as colour. Enforce the limit with isDisabled and tell users the limit in surrounding text.
+
+**Phone Quality Banner**: Renders a real button (React Aria) named by its title and description text; the arrow icon is aria-hidden. Visible focus outline on :focus-visible. Black text on brand-200.
+
+**Photo Slot**: Status is spelled out in the OK / Fail badge text, never colour alone. Actions are native buttons with visible focus outlines; decorative icons are aria-hidden. Give ok/fail slots a meaningful alt (e.g. "Photo 2").
+
+**Qr Card**: The close button is a CloseButton with an accessible name (set closeLabel when localising). The caption is plain text above the code; the QR graphic itself is not announced, so make the caption say what to do and offer the link another way if it matters.
+
+**Result Group**: Renders a section with a header and an h3 title; the thumbnail needs real alt text or alt="" when decorative. Choose the surrounding heading levels so the h3 fits the page outline.
+
+**Result Tile**: Favourite is a toggle button (aria-pressed via React Aria) with an aria-label; open and download are icon buttons with aria-labels, visible on focus-within so keyboard users reach them. The glow copy is aria-hidden; the main photo carries the alt text. Localise the three labels.
+
+**Review Card**: Section/h3/h4 headings, attributes as a description list (dt/dd), photos need alt text. ReviewCard.Carousel is a Carousel region named by its required aria-label; its arrow buttons are icon-only and disabled at the ends.
+
+**Selection Tray**: Thumbnails are a list (ul/li) with alt text; each remove badge is a button named by removeLabel, revealed on hover or keyboard focus and always on touch. CounterRing is aria-hidden; the number carries the meaning. Give the info slot an aria-label.
+
+**Shoot Card**: With href the card is a link, with onPress a button (React Aria), so the whole card is one focus stop; give the cover a descriptive alt. Without href or onPress it is static.
+
+**Shutter Button**: A real button named by label (aria-label); the SVG is aria-hidden. The caption is plain text below it, not part of the name. Visible white focus outline; isDisabled dims it. Pass a localised label.
+
+**Thumb Strip**: Each thumbnail is a button named by its photo alt (give each a distinct alt); the selected one gets aria-current. Empty slots are buttons labelled addLabel. Focus outlines replace the dotted slot outline.
+
+## Related
+
+- [Accordion](/docs/application/accordion)
+- [AI Chatbox](/docs/application/ai-chatbox)
+- [Alerts](/docs/application/alerts)

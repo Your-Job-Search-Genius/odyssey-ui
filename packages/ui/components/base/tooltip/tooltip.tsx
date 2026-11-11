@@ -103,8 +103,7 @@ export const Tooltip = ({
                 {({ isEntering, isExiting }) => (
                     <div
                         className={cx(
-                            "z-50 flex max-w-xs origin-(--trigger-anchor-point) flex-col items-start gap-1 rounded-lg bg-tooltip-bg px-3 shadow-md will-change-transform",
-                            description ? "py-3" : "py-2",
+                            "z-50 flex max-w-xs origin-(--trigger-anchor-point) flex-col items-start gap-1 rounded-[14px] bg-popover p-2.5 shadow-md will-change-transform",
 
                             isEntering &&
                                 "ease-out animate-in fade-in zoom-in-95 in-placement-left:slide-in-from-right-0.5 in-placement-right:slide-in-from-left-0.5 in-placement-top:slide-in-from-bottom-0.5 in-placement-bottom:slide-in-from-top-0.5",
@@ -112,15 +111,15 @@ export const Tooltip = ({
                                 "ease-in animate-out fade-out zoom-out-95 in-placement-left:slide-out-to-right-0.5 in-placement-right:slide-out-to-left-0.5 in-placement-top:slide-out-to-bottom-0.5 in-placement-bottom:slide-out-to-top-0.5",
                         )}
                     >
-                        <span className="text-xs font-medium text-white">{title}</span>
+                        <span className={cx("text-sm/[1.4]", description ? "font-medium text-white" : "text-popover")}>{title}</span>
 
-                        {description && <span className="text-xs font-medium text-tooltip-supporting-text">{description}</span>}
+                        {description && <span className="text-sm/[1.4] text-popover">{description}</span>}
 
                         {arrow && (
                             <AriaOverlayArrow>
                                 <svg
                                     viewBox="0 0 100 100"
-                                    className="size-2.5 fill-tooltip-bg in-placement-left:-rotate-90 in-placement-right:rotate-90 in-placement-top:rotate-0 in-placement-bottom:rotate-180"
+                                    className="size-2.5 fill-bg-popover in-placement-left:-rotate-90 in-placement-right:rotate-90 in-placement-top:rotate-0 in-placement-bottom:rotate-180"
                                 >
                                     <path d="M0,0 L50,50 L100,0 Z" />
                                 </svg>

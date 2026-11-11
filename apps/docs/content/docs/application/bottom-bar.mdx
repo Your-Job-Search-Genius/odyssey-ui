@@ -1,0 +1,51 @@
+---
+title: Bottom Bar
+description: "Mobile bottom action bar: a row of actions pinned to the bottom of the viewport (fixed, z-30) over a soft white fade, clear of the home indicator via safe-area-inset-bottom."
+---
+
+## Overview
+
+<ComponentPreview demo="application/bottom-bar/bottom-bar" export="BottomBarDemo" />
+
+## Installation
+
+```ts
+import { BottomBar } from "@/components/application/bottom-bar/bottom-bar";
+```
+
+## Usage
+
+Mobile bottom action bar: a row of actions pinned to the bottom of the viewport (fixed, z-30) over a soft white fade, clear of the home indicator via safe-area-inset-bottom. Hidden from md up; pass className="md:block" to keep it. BottomBar takes div attributes (children, className). BottomBarPill is the dark glass status pill for the bar (e.g. "Your Selection 1/1" with an info button); it takes div attributes. Leave about 6rem at the end of the page so the bar never covers the last content.
+
+**Selection bar**
+
+```tsx
+<BottomBar>
+    <BottomBarPill>Your Selection 1/1</BottomBarPill>
+    <Button size="md" iconTrailing={ArrowRight02SharpIcon}>
+        Continue to Review
+    </Button>
+</BottomBar>
+```
+
+## Props
+
+**BottomBar**
+
+<PropsTable component="application/bottom-bar/bottom-bar" />
+
+## Examples
+
+### Bottom Bar
+
+<ComponentPreview demo="application/bottom-bar/bottom-bar" export="BottomBarDemo" />
+
+## Accessibility
+
+Plain div wrappers with no landmark role; the fade is aria-hidden and pointer-events-none so only its children are clickable. Controls inside (Button, icon buttons) must carry their own accessible names. It covers content at the bottom, so reserve space and check it at 400% zoom.
+
+## Related
+
+- [Accordion](/docs/application/accordion)
+- [AI Chatbox](/docs/application/ai-chatbox)
+- [Alerts](/docs/application/alerts)

@@ -1,0 +1,69 @@
+---
+title: Stepper
+description: "Compact segmented progress indicator for short linear flows (2-4 steps): gray segments joined by bridges with the current step on a white pill with a progress ring."
+---
+
+## Overview
+
+<ComponentPreview demo="application/stepper/stepper" export="StepperDemo" />
+
+## Installation
+
+```ts
+import { Stepper } from "@/components/application/stepper/stepper";
+```
+
+## Usage
+
+Compact segmented progress indicator for short linear flows (2-4 steps): gray segments joined by bridges with the current step on a white pill with a progress ring. Props: steps (\{ id, label \}[], required), currentStep (index, required; earlier steps are completed, later ones upcoming), onStepPress(index) (makes completed steps buttons that go back), onBack (shows a back button before the stepper below md), backLabel (default "Back"), completedLabel (screen-reader suffix, default "completed"), plus nav attributes (className, aria-label overrides the default "Progress").
+
+**Controlled**
+
+```tsx
+<Stepper
+    steps={[
+        { id: "photo", label: "Take Photo" },
+        { id: "details", label: "Details" },
+        { id: "style", label: "Add Style" },
+    ]}
+    currentStep={step}
+    onStepPress={setStep}
+    onBack={() => setStep(step - 1)}
+/>
+```
+
+**Read-only**
+
+```tsx
+<Stepper steps={steps} currentStep={0} />
+```
+
+## Props
+
+**Stepper**
+
+<PropsTable component="application/stepper/stepper" />
+
+## Examples
+
+### Stepper
+
+<ComponentPreview demo="application/stepper/stepper" export="StepperDemo" />
+
+### Stepper Figma
+
+<ComponentPreview demo="application/stepper/stepper" export="StepperFigmaDemo" />
+
+### Stepper Figma Mobile
+
+<ComponentPreview demo="application/stepper/stepper" export="StepperFigmaMobileDemo" />
+
+## Accessibility
+
+A nav landmark (aria-label "Progress") containing an ordered list; the current step has aria-current="step". Completed and upcoming steps look alike, so completed ones get a screen-reader "(completed)" suffix, and are buttons only when onStepPress is set. The mobile back button is an icon button with an aria-label. Localise backLabel and completedLabel.
+
+## Related
+
+- [Accordion](/docs/application/accordion)
+- [AI Chatbox](/docs/application/ai-chatbox)
+- [Alerts](/docs/application/alerts)

@@ -1,5 +1,6 @@
 /**
- * Extracts the primary icon set from packages/ui/components/foundations/icons.
+ * Extracts the primary icon set from packages/ui/components/foundations/icons, plus the vendored
+ * Hugeicons from foundations/hugeicons (extractHugeicons).
  * Scope note: payment-icons, social-icons, integration-icons, and
  * file-icons are separate, more specialized asset barrels (brand marks,
  * file-type glyphs) rather than general-purpose swappable UI icons, and
@@ -11,7 +12,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { IconEntry } from "../schema.js";
-import { ICONS_IMPORT_PATH } from "../schema.js";
+import { HUGEICONS_IMPORT_PATH, ICONS_IMPORT_PATH } from "../schema.js";
 
 /**
  * icons/index.ts is a flat barrel: `export { default as Activity } from "./activity";`
@@ -21,7 +22,7 @@ import { ICONS_IMPORT_PATH } from "../schema.js";
  * names would be pure overhead here (react-docgen-typescript is already
  * doing that work for actual components in extract/components.ts).
  */
-const EXPORT_LINE = /^export\s*\{\s*default\s+as\s+([A-Za-z0-9_]+)\s*\}\s*from\s*["'](\.\/[^"']+)["'];?\s*$/;
+const EXPORT_LINE = /^export\s*\{\s*(?:default\s+as\s+)?([A-Za-z0-9_]+)\s*\}\s*from\s*["'](\.\/[^"']+)["'];?\s*$/;
 
 function tagsFor(iconName: string): string[] {
     // Split "ArrowNarrowUpRight" -> ["arrow", "narrow", "up", "right"].
@@ -34,7 +35,7 @@ function tagsFor(iconName: string): string[] {
     return [...new Set(words)];
 }
 
-export function extractIcons(iconsIndexPath: string): IconEntry[] {
+export function extractIcons(iconsIndexPath: string, importPath: IconEntry["importPath"] = ICONS_IMPORT_PATH): IconEntry[] {
     const text = fs.readFileSync(iconsIndexPath, "utf8");
     const icons: IconEntry[] = [];
 
@@ -42,7 +43,9 @@ export function extractIcons(iconsIndexPath: string): IconEntry[] {
         const match = EXPORT_LINE.exec(line.trim());
         const name = match?.[1];
         if (!name) continue;
-        icons.push({ name, importPath: ICONS_IMPORT_PATH, tags: tagsFor(name) });
+        // Hugeicons export "StarsIcon"; drop the shared suffix from the tags so "icon" doesn't match every one.
+        const tagName = importPath === HUGEICONS_IMPORT_PATH ? name.replace(/Icon$/, "") : name;
+        icons.push({ name, importPath, tags: tagsFor(tagName) });
     }
 
     return icons.sort((a, b) => a.name.localeCompare(b.name));
@@ -50,4 +53,13 @@ export function extractIcons(iconsIndexPath: string): IconEntry[] {
 
 export function defaultIconsIndexPath(uiRoot: string): string {
     return path.join(uiRoot, "components", "foundations", "icons", "index.ts");
+}
+
+/** foundations/hugeicons/index.ts: one `export { XxxIcon } from "./xxx";` per vendored icon. */
+export function defaultHugeiconsIndexPath(uiRoot: string): string {
+    return path.join(uiRoot, "components", "foundations", "hugeicons", "index.ts");
+}
+
+export function extractHugeicons(hugeiconsIndexPath: string): IconEntry[] {
+    return extractIcons(hugeiconsIndexPath, HUGEICONS_IMPORT_PATH);
 }

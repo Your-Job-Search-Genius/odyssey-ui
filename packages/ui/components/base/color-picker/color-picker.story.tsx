@@ -97,6 +97,40 @@ export const ColorSwatchPickerWithDisabledSwatch = () => <ColorPickers.ColorSwat
 ColorSwatchPickerWithDisabledSwatch.decorators = [Decorator];
 ColorSwatchPickerWithDisabledSwatch.storyName = "Color swatch picker / With disabled swatch";
 
+export const ColorSwatchPickerHairColor = () => <ColorPickers.ColorSwatchPickerHairColor />;
+ColorSwatchPickerHairColor.decorators = [Decorator];
+ColorSwatchPickerHairColor.storyName = "Color swatch picker / Labels (md)";
+
+export const ColorSwatchPickerEyeColor = () => <ColorPickers.ColorSwatchPickerEyeColor />;
+ColorSwatchPickerEyeColor.decorators = [Decorator];
+ColorSwatchPickerEyeColor.storyName = "Color swatch picker / Gradient fills (lg)";
+
+/** BetterShot P18 eye colour, in the persona section card (#FAFAFA r20 p16; the Card variant is group E's). */
+export const FigmaEyeColor = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <div className="w-[438px] rounded-[20px] bg-[#FAFAFA] p-4">
+            <ColorPickers.ColorSwatchPickerEyeColor />
+        </div>
+    </div>
+);
+
+/** BetterShot P18 hair colour (top of the hair card). */
+export const FigmaHairColor = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <div className="flex w-[438px] flex-col gap-5 rounded-[20px] bg-[#FAFAFA] p-4">
+            <span className="text-sm font-medium text-tertiary">HAIR</span>
+            <ColorPickers.ColorSwatchPickerHairColor />
+        </div>
+    </div>
+);
+
+/** BetterShot phone hair colour (`14853:216277`): `layout="tile"`, Brown selected. */
+export const FigmaHairColorTiles = () => (
+    <div data-compare className="inline-flex w-[346px] flex-col items-start gap-4 bg-white p-0">
+        <ColorPickers.ColorSwatchPickerHairColorTiles defaultValue="#4B3621" />
+    </div>
+);
+
 // ColorPicker
 
 export const ColorPickerDefault = () => <ColorPickers.ColorPickerDefault />;

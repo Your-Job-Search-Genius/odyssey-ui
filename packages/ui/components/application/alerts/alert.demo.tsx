@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/base/buttons/button";
-import { Alert, Toaster, toast } from "./alert";
+import { Alert, ResumeToast, Toaster, toast } from "./alert";
 
 export const ColorsAlertDemo = () => {
     return (
@@ -90,8 +90,35 @@ export const ToastDemo = () => {
                 Persistent error toast
             </Button>
 
+            <Button size="md" color="secondary" onPress={() => toast("Nudge Notification sent to Admin")}>
+                Default toast
+            </Button>
+
             {/* Mount once — every `toast()` call anywhere in the tree renders here. */}
-            <Toaster position="bottom-right" />
+            <Toaster />
         </div>
     );
 };
+
+/** The Figma "Default Alert with CTA" toast, shown on mount and kept open. Screenshot `[role=status]`. */
+export const FigmaToastDemo = () => {
+    useEffect(() => {
+        const id = toast("Nudge Notification sent to Admin", { duration: Infinity });
+        return () => toast.dismiss(id);
+    }, []);
+
+    return <Toaster />;
+};
+
+export const ResumeToastDemo = () => (
+    <ResumeToast
+        heading="Continue where you left off"
+        description="Finish selecting"
+        title="1 of 4 Looks chosen"
+        action={
+            <Button size="xs" color="secondary-brand">
+                Resume Photoshoot
+            </Button>
+        }
+    />
+);

@@ -26,13 +26,16 @@ export const componentMeta = {
         },
     },
     description:
-        "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants.",
+        "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants. Sizes (text 14px at xs/sm, 16px at md+; weight 500): xs 28px (label 7px from each side, Figma's 6px padding inside a 1px stroke), sm 32px (default), md 36px (was 40px), lg 40px, xl 48px. Colors: primary, secondary, secondary-brand (secondary with brand-colored text), white (solid white, no border, for dark bg-inverse surfaces), outline-pill (border-only fully rounded info pill, 14px trailing icon; sets its own padding so size only picks the type size), tertiary, link-*, and the *-destructive family. noTextPadding is deprecated and does nothing.",
     allowedChildren: "text",
     variants: {
         size: ["xs", "sm", "md", "lg", "xl"],
         color: [
             "primary",
             "secondary",
+            "secondary-brand",
+            "white",
+            "outline-pill",
             "tertiary",
             "link-gray",
             "link-color",
@@ -46,6 +49,7 @@ export const componentMeta = {
     doNot: [
         'Do not render a raw <button> or <a> for anything Button already covers, including plain text links -- use color="link-gray" / "link-color" / "link-destructive" instead.',
         "Do not put block-level elements (div, headings) inside Button's children -- text and inline content only.",
+        'Do not use color="white" on light surfaces -- it has no border; it is for dark (bg-inverse) surfaces only.',
         "Do not use primary-destructive/secondary-destructive/tertiary-destructive/link-destructive for anything other than a genuinely destructive action (delete, remove, revoke).",
     ],
     examples: [
@@ -53,5 +57,9 @@ export const componentMeta = {
         { title: "With leading icon", code: '<Button iconLeading={Check} color="primary">Save</Button>' },
         { title: "Destructive", code: '<Button color="primary-destructive" iconLeading={Trash02}>Delete</Button>' },
         { title: "Link styled", code: '<Button href="/dashboard" color="link-color">View dashboard</Button>' },
+        { title: "Secondary with brand text", code: '<Button color="secondary-brand" size="xs">Edit Details</Button>' },
+        { title: "On a dark surface", code: '<Button color="white" size="md">Continue</Button>' },
+        { title: "Splash CTA (36px, 14px text)", code: '<Button size="sm" className="py-2" iconTrailing={ArrowRight02SharpIcon}>Create my Headshot</Button>' },
+        { title: "Outline info pill", code: '<Button color="outline-pill" iconTrailing={HelpCircleIcon}>What makes a good photo</Button>' },
     ],
 };

@@ -52,7 +52,7 @@ export const ComboBoxSheetSearch = ({ size, placeholder, label = "Search", trigg
 
     return (
         <div className="sticky top-0 z-10 shrink-0 border-b border-secondary bg-primary p-2">
-            <div className="flex items-center gap-2 rounded-lg bg-primary px-3 ring-1 ring-primary ring-inset focus-within:ring-2 focus-within:ring-brand">
+            <div className="flex items-center gap-2 rounded-[10px] bg-primary px-3 ring-1 ring-secondary ring-inset focus-within:ring-2 focus-within:ring-brand">
                 <SearchLg aria-hidden="true" className="size-5 shrink-0 text-fg-quaternary" />
                 <input
                     ref={inputRef}

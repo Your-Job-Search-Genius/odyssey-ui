@@ -17,7 +17,7 @@
  * same way.
  */
 import type { ComponentEntry, Registry } from "@your-job-search-genius/ds-registry";
-import { ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "@your-job-search-genius/ds-registry";
+import { HUGEICONS_IMPORT_PATH, ICONS_IMPORT_PATH, UI_COMPONENTS_IMPORT_ROOT, UI_PACKAGE_NAME } from "@your-job-search-genius/ds-registry";
 import ts from "typescript";
 
 export interface ValidationIssue {
@@ -194,7 +194,11 @@ function collectImports(ctx: Ctx) {
         // Bindings from a legacy "@/" import are still recorded (with their
         // would-be package meaning) so the one error above stays the only
         // report, instead of cascading into "used but not imported" noise.
-        const isIconImport = modulePath === ICONS_IMPORT_PATH || modulePath === "@/components/foundations/icons";
+        const isIconImport =
+            modulePath === ICONS_IMPORT_PATH ||
+            modulePath === HUGEICONS_IMPORT_PATH ||
+            modulePath === "@/components/foundations/icons" ||
+            modulePath === "@/components/foundations/hugeicons";
         const isComponentPath = modulePath.startsWith(`${UI_COMPONENTS_IMPORT_ROOT}/`) || modulePath.startsWith("@/components/");
         const namedBindings = stmt.importClause?.namedBindings;
         if (!namedBindings || !ts.isNamedImports(namedBindings)) continue;

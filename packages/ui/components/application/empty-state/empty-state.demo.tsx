@@ -75,3 +75,19 @@ export const SizesDemo = () => (
         ))}
     </div>
 );
+
+/** Licence / interest state: a large headline, a sent-state action, and a caption pill tucked under it. */
+export const LicenceDemo = () => (
+    <EmptyState className="w-[434px] max-w-full">
+        <EmptyState.Content className="mb-[17px] max-w-none">
+            <EmptyState.Title>Over 3 million are generating headshots with BetterShot.</EmptyState.Title>
+        </EmptyState.Content>
+        <EmptyState.Footer className="flex-col items-center gap-0">
+            {/* Figma clips the 36px button and tucks the pill 7.5px over its bottom, with the label raised to stay clear. */}
+            <Button size="md" isDisabled className="h-9 items-start rounded-lg px-2 pt-1 pb-0">
+                Email Sent!
+            </Button>
+            <EmptyState.Caption className="-mt-[7.5px]">Your admin has been notified about your interest in BetterShot</EmptyState.Caption>
+        </EmptyState.Footer>
+    </EmptyState>
+);

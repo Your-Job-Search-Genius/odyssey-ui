@@ -1,7 +1,17 @@
 "use client";
 
 import type { BadgeColors } from "@/components/base/badges/badge-types";
-import { Badge, BadgeIcon, BadgeWithButton, BadgeWithDot, BadgeWithFlag, BadgeWithIcon, BadgeWithImage, filledColors } from "@/components/base/badges/badges";
+import {
+    Badge,
+    BadgeIcon,
+    BadgeWithButton,
+    BadgeWithDot,
+    BadgeWithFlag,
+    BadgeWithIcon,
+    BadgeWithImage,
+    StatusBadge,
+    filledColors,
+} from "@/components/base/badges/badges";
 import { ArrowRight, ArrowUp, Plus } from "@/components/foundations/icons";
 
 export const Default = () => {
@@ -492,6 +502,53 @@ export const WithIconOnlyBadgeModern = () => {
                     <BadgeIcon color="gray" size="lg" icon={Plus} type="modern" />
                 </button>
             </div>
+        </div>
+    );
+};
+
+/** BetterShot tag recipes: value tag (`color` + `brand` + `sm`), shoot, option, count, generating and recommended. */
+export const TagRecipes = () => {
+    return (
+        <div className="flex flex-col items-start gap-4">
+            <div className="flex items-center gap-2">
+                <Badge type="color" color="brand" size="sm">
+                    Style 4
+                </Badge>
+                <Badge type="shoot">Shoot for graduation</Badge>
+                <Badge type="count">32</Badge>
+            </div>
+            <div className="flex items-center gap-2">
+                <Badge type="option" size="sm">
+                    Style 4
+                </Badge>
+                <Badge type="option" size="lg">
+                    Taper Fade
+                </Badge>
+            </div>
+            <div className="flex items-center gap-2">
+                <Badge type="generating" color="gray">
+                    Clothes
+                </Badge>
+                <Badge type="generating" color="purple">
+                    Background
+                </Badge>
+                <Badge type="generating" color="sky">
+                    Hairstyle
+                </Badge>
+            </div>
+            <Badge type="recommended">Recommended</Badge>
+        </div>
+    );
+};
+
+/** Progress step chips: `done`, `active` (spinner, static under reduced motion) and `pending`. */
+export const StatusBadges = () => {
+    return (
+        <div className="flex items-center gap-px">
+            <StatusBadge status="done">Learning</StatusBadge>
+            <StatusBadge status="done">Shooting</StatusBadge>
+            <StatusBadge status="active">Polish</StatusBadge>
+            <StatusBadge status="pending">Ready</StatusBadge>
         </div>
     );
 };

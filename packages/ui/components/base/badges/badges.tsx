@@ -2,6 +2,7 @@
 
 import type { MouseEventHandler, ReactNode } from "react";
 import { Dot } from "@/components/foundations/dot-icon";
+import { CheckmarkCircle02Icon } from "@/components/foundations/hugeicons";
 import { X as CloseX } from "@/components/foundations/icons";
 import { cx } from "@/utils/cx";
 import type { BadgeColors, BadgeTypeToColorMap, BadgeTypes, FlagTypes, IconComponentType, Sizes } from "./badge-types";
@@ -13,8 +14,9 @@ export const filledColors: Record<BadgeColors, { root: string; addon: string; ad
         addon: "text-utility-neutral-500",
         addonButton: "hover:bg-utility-neutral-100 text-utility-neutral-400 hover:text-utility-neutral-500",
     },
+    // Figma value tag: flat #ECEAFF / #563BDB, no visible ring.
     brand: {
-        root: "bg-utility-brand-50 text-utility-brand-700 ring-utility-brand-200",
+        root: "bg-utility-brand-50 text-utility-brand-600 ring-transparent",
         addon: "text-utility-brand-500",
         addonButton: "hover:bg-utility-brand-100 text-utility-brand-400 hover:text-utility-brand-500",
     },
@@ -129,9 +131,42 @@ const withBadgeTypes = {
     },
 };
 
-export type BadgeColor<T extends BadgeTypes> = BadgeTypeToColorMap<typeof withPillTypes>[T];
+/**
+ * BetterShot (Figma) tag recipes for `Badge`. Each is a complete look, so `color` only applies to `generating`.
+ * - `shoot`: uppercase shoot tag ("SHOOT FOR GRADUATION").
+ * - `option`: chip on an option tile (9px); `size="lg"` is the larger Browse-all chip (16px).
+ * - `count`: count chip next to a heading ("Headshots 32").
+ * - `generating`: 7px input tags on the generating card; `color` is `gray` | `purple` | `sky`.
+ * - `recommended`: gradient tab that sits on a card's top edge (round top corners only).
+ */
+const recipeTypes = {
+    shoot: "rounded-[3px] bg-quaternary px-0.75 py-px text-[13px] leading-[17px] font-medium uppercase text-primary",
+    option: "rounded-[3px] bg-[#F0F0F0] px-0.75 py-px text-[9px] leading-[13px] font-semibold text-black",
+    count: "min-w-[23px] justify-center rounded-[5px] bg-utility-neutral-300 px-1 text-[13px] leading-[19px] font-semibold text-primary",
+    generating: "rounded-[2px] px-0.75 py-px text-[7px] leading-[9px] font-semibold",
+    recommended: [
+        "rounded-t-[7px] pt-[5px] pr-1.25 pb-[3px] pl-1.5 text-[10px] leading-[13px] font-medium text-white uppercase",
+        // Figma's radial gradient, centred below the visible tab (the rest of the shape sits behind the card).
+        "bg-[radial-gradient(ellipse_77px_60px_at_41px_31px,#5215FF_0%,#5E2CFF_12.5%,#6B43FF_25%,#8571FF_50%,#9F9FFF_75%,#B9CDFF_100%)]",
+    ].join(" "),
+};
 
-interface BadgeProps<T extends BadgeTypes> {
+const generatingColors = {
+    gray: "bg-[#EDEDED] text-black",
+    purple: "bg-[#DEDBFF] text-[#51008F]",
+    // Figma's #00ACCF text is 2.6:1 on #DBFEFF; darkened to pass AA.
+    sky: "bg-[#DBFEFF] text-[#007A93]",
+};
+
+export type BadgeRecipe = keyof typeof recipeTypes;
+
+export type BadgeColor<T extends BadgeTypes | BadgeRecipe> = T extends BadgeTypes
+    ? BadgeTypeToColorMap<typeof withPillTypes>[T]
+    : T extends "generating"
+      ? keyof typeof generatingColors
+      : never;
+
+interface BadgeProps<T extends BadgeTypes | BadgeRecipe> {
     type?: T;
     size?: Sizes;
     color?: BadgeColor<T>;
@@ -141,9 +176,30 @@ interface BadgeProps<T extends BadgeTypes> {
     wrap?: boolean;
 }
 
-export const Badge = <T extends BadgeTypes>(props: BadgeProps<T>) => {
-    const { type = "pill-color", size = "md", color = "gray", wrap = false, children } = props;
-    const colors = withPillTypes[type];
+export const Badge = <T extends BadgeTypes | BadgeRecipe>(props: BadgeProps<T>) => {
+    const { type = "pill-color", size = "md", wrap = false, children } = props;
+    const color = (props.color ?? "gray") as string;
+    const wrapClass = wrap && "max-w-full wrap-anywhere whitespace-normal";
+
+    if (type in recipeTypes) {
+        const recipe = type as BadgeRecipe;
+        return (
+            <span
+                className={cx(
+                    "flex size-max items-center whitespace-nowrap",
+                    recipeTypes[recipe],
+                    recipe === "option" && size === "lg" && "rounded-md px-1.5 py-[3px] text-md leading-[21px]",
+                    recipe === "generating" && generatingColors[color as keyof typeof generatingColors],
+                    wrapClass,
+                    props.className,
+                )}
+            >
+                {children}
+            </span>
+        );
+    }
+
+    const colors = withPillTypes[type as BadgeTypes];
 
     const pillSizes = {
         sm: "py-0.5 px-2 text-xs font-medium",
@@ -158,18 +214,61 @@ export const Badge = <T extends BadgeTypes>(props: BadgeProps<T>) => {
 
     const sizes = {
         [badgeTypes.pillColor]: pillSizes,
-        [badgeTypes.badgeColor]: badgeSizes,
+        // `sm` is Figma's value tag geometry ("Blue", "Style 4").
+        [badgeTypes.badgeColor]: { ...badgeSizes, sm: "rounded-[3px] py-px px-0.75 text-[13px] leading-[17px] font-medium" },
         [badgeTypes.badgeModern]: badgeSizes,
     };
 
     return (
-        <span
-            className={cx(colors.common, sizes[type][size], colors.styles[color].root, wrap && "max-w-full wrap-anywhere whitespace-normal", props.className)}
-        >
+        <span className={cx(colors.common, sizes[type as BadgeTypes][size], colors.styles[color as BadgeColors].root, wrapClass, props.className)}>
             {children}
         </span>
     );
 };
+
+const statusStyles = {
+    done: "gap-0.5 bg-border-secondary pl-1 pr-1.5 text-primary",
+    // Figma draws white on #A091FF (2.6:1); the approved fix is #363636 text.
+    active: "gap-0.5 bg-brand-300 pl-1.25 pr-1 text-[#363636]",
+    pending: "gap-0.5 bg-border-secondary pl-1.5 pr-1 text-tertiary",
+};
+
+const statusLabels = { done: "completed", active: "in progress", pending: "not started" };
+
+/** 12px dashed ring (Figma "Small circle"); its 2px stroke overflows the box by 1px like in Figma. */
+const DashedRing = ({ className }: { className?: string }) => (
+    <svg viewBox="1 1 12 12" fill="none" aria-hidden="true" className={cx("size-3 shrink-0 overflow-visible", className)}>
+        <path
+            d="M12.9161 5.99447C12.9713 6.32142 13 6.65736 13 7C13 7.34264 12.9713 7.67858 12.9161 8.00553M11.8938 3.52774C11.503 2.97801 11.022 2.49696 10.4723 2.10621M8.00553 1.08389C7.67858 1.02872 7.34264 1 7 1C6.65736 1 6.32142 1.02872 5.99447 1.08389M3.52774 2.10621C2.97801 2.49696 2.49696 2.97801 2.10621 3.52774M1.08389 5.99447C1.02872 6.32142 1 6.65736 1 7C1 7.34264 1.02872 7.67858 1.08389 8.00553M2.10621 10.4723C2.49696 11.022 2.97801 11.503 3.52774 11.8938M5.99447 12.9161C6.32142 12.9713 6.65736 13 7 13C7.34264 13 7.67858 12.9713 8.00553 12.9161M10.4723 11.8938C11.022 11.503 11.503 11.022 11.8938 10.4723"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+
+interface StatusBadgeProps {
+    /** `done` = green check, `active` = violet with a spinning ring (static under reduced motion), `pending` = gray with a dashed ring. */
+    status: "done" | "active" | "pending";
+    children: ReactNode;
+    /** Screen-reader text for the status, appended after the label. Defaults to "completed" / "in progress" / "not started". */
+    statusLabel?: string;
+    className?: string;
+}
+
+/** Progress step chip (Figma "Learning / Shooting / Polish / Ready"). */
+export const StatusBadge = ({ status, children, statusLabel, className }: StatusBadgeProps) => (
+    <span className={cx("flex size-max items-center rounded-full py-1 text-sm leading-[18px] font-medium whitespace-nowrap", statusStyles[status], className)}>
+        {status === "done" ? (
+            <CheckmarkCircle02Icon className="size-3.5 shrink-0 text-[#12B76A]" />
+        ) : (
+            <DashedRing className={status === "active" ? "text-white motion-safe:animate-spin" : "text-primary"} />
+        )}
+        {children}
+        <span className="sr-only">, {statusLabel ?? statusLabels[status]}</span>
+    </span>
+);
 
 interface BadgeWithDotProps<T extends BadgeTypes> {
     type?: T;

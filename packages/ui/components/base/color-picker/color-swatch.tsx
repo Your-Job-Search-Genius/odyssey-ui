@@ -29,7 +29,7 @@ export const ColorSwatch = ({ className, style, ...props }: ColorSwatchProps) =>
                 background: `linear-gradient(${color}, ${color}), repeating-conic-gradient(var(--color-bg-quaternary) 0% 25%, transparent 0% 50%) 50% / 8px 8px`,
                 ...(typeof style === "function" ? style({ color, defaultStyle }) : style),
             })}
-            className={cx("size-8 shrink-0 rounded-md ring-1 ring-primary ring-inset", className)}
+            className={cx("size-9 shrink-0 rounded-full ring-1 ring-secondary ring-inset", className)}
         />
     );
 };

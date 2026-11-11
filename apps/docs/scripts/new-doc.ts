@@ -29,7 +29,7 @@ const COMPONENTS_ROOT = path.join(UI_ROOT, "components");
 const GENERATED_DIR = path.join(DOCS_ROOT, ".generated");
 const CONTENT_ROOT = path.join(DOCS_ROOT, "content", "docs");
 
-const ICON_HEAVY_GROUPS = new Set(["icons", "payment-icons", "integration-icons", "social-icons"]);
+const ICON_HEAVY_GROUPS = new Set(["icons", "hugeicons", "payment-icons", "integration-icons", "social-icons"]);
 
 const CATEGORIES: Record<string, { dir: string; title: string }> = {
     base: { dir: "base-components", title: "Base Components" },

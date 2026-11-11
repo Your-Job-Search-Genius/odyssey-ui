@@ -23,6 +23,7 @@
         "file-upload-trigger",
         "typography",
         "code-block",
-        "description-list"
+        "description-list",
+        "popover"
     ]
 }

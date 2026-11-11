@@ -21,7 +21,7 @@ import ts from "typescript";
 import type { ComponentCategory, ComponentEntry, ComponentMetaOverride, PropEntry } from "../schema.js";
 import { ComponentMetaOverrideSchema, UI_COMPONENTS_IMPORT_ROOT } from "../schema.js";
 
-const ICON_HEAVY_GROUPS = new Set(["icons", "payment-icons", "integration-icons", "social-icons"]);
+const ICON_HEAVY_GROUPS = new Set(["icons", "hugeicons", "payment-icons", "integration-icons", "social-icons"]);
 const EXCLUDED_CATEGORIES = new Set(["internal"]);
 const KNOWN_CATEGORIES = new Set(["base", "application", "foundations", "shared-assets", "marketing"]);
 
