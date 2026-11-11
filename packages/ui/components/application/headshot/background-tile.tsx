@@ -64,7 +64,10 @@ export const BackgroundTile = ({ label, src, swatch, size = "md", className, ...
         {...props}
         className={({ isSelected, isFocusVisible, isDisabled }) =>
             cx(
-                "flex cursor-pointer flex-col overflow-hidden border-2 outline-focus-ring transition duration-100 ease-linear",
+                // relative: keeps React Aria's visually hidden radio input inside the tile. Otherwise it sits against an outer
+                // ancestor, at the tile's unscrolled spot, so in a long scrolling list focusing it (any click) scrolled the
+                // dialog to it and the content out of view.
+                "relative flex cursor-pointer flex-col overflow-hidden border-2 outline-focus-ring transition duration-100 ease-linear",
                 sizes[size].root,
                 isSelected ? sizes[size].selected : "border-transparent",
                 isFocusVisible && "outline-2 outline-offset-2",

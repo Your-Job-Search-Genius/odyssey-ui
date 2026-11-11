@@ -73,7 +73,10 @@ export const OptionTile = ({ label, src, alt = "", size = "md", fade = "selected
             {...props}
             className={({ isSelected, isFocusVisible, isDisabled }) =>
                 cx(
-                    "flex shrink-0 cursor-pointer overflow-hidden bg-primary outline-focus-ring transition duration-100 ease-linear",
+                    // relative: keeps React Aria's visually hidden radio input inside the tile. Otherwise it sits against an outer
+                    // ancestor, at the tile's unscrolled spot, so in a long scrolling list focusing it (any click) scrolled the
+                    // dialog to it and the content out of view.
+                    "relative flex shrink-0 cursor-pointer overflow-hidden bg-primary outline-focus-ring transition duration-100 ease-linear",
                     s.root,
                     isSelected ? cx("border-brand-solid", s.selected) : "border-[#F2F2F2] hover:border-primary dark:border-secondary",
                     isFocusVisible && "outline-2 outline-offset-2",
