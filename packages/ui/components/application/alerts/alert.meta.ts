@@ -3,13 +3,14 @@
  */
 export const componentMeta = {
     description:
-        "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children. Toasts are dark (#101419) pills anchored top-center by default; the info toast is text-only. ResumeToast is a separate persistent glass card (heading, description, title, action) for resuming an unfinished flow; position it yourself.",
+        'Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss, dismissLabel (dismiss button name, default "Dismiss")) and, from the same module, transient notifications: mount <Toaster /> once near the app root (position, dismissLabel), then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children. Toasts are dark (#101419) pills anchored top-center by default; the info toast is text-only. ResumeToast is a separate persistent glass card (heading, description, title, action) for resuming an unfinished flow; position it yourself.',
     variants: { color: ["info", "success", "warning", "error"], size: ["sm", "md"] },
     a11y: "error/warning use role=alert (assertive); info/success use role=status. A dismissible Alert focuses its close button on mount unless autoFocus={false} -- turn it off for alerts present on page load. Toasts don't take focus unless you pass { autoFocus: true }; pass { duration: Infinity } for errors the user must read.",
     doNot: [
         "Do not build red/amber boxes from divs for errors -- use Alert.",
         "Do not use a toast for an error the user has to act on; keep it inline (Alert) or make it persistent (duration: Infinity).",
         "Do not mount more than one <Toaster />.",
+        "Do not mount <Toaster /> outside the PortalProvider your modals use; it portals into the same container so toasts stack above open dialogs.",
     ],
     examples: [
         {

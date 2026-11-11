@@ -41,6 +41,8 @@ const mobileLayouts = sortCx({
     sheet: "items-end px-4 [--modal-pb:16px] [--modal-pt:16px] sm:items-center sm:px-8 sm:[--modal-pb:32px] sm:[--modal-pt:32px]",
     /** Below `md` the dialog fills the screen edge to edge; `md`+ centres it. */
     fullscreen: "items-stretch px-0 [--modal-pb:0px] [--modal-pt:0px] md:items-center md:px-8 md:[--modal-pb:32px] md:[--modal-pt:32px]",
+    /** Phones dock the dialog edge to edge, flush with the bottom and at most 17px from the top (square bottom corners); `sm`+ centres it. */
+    bottom: "items-end px-0 [--modal-pb:0px] [--modal-pt:17px] sm:items-center sm:px-8 sm:[--modal-pb:32px] sm:[--modal-pt:32px]",
 });
 
 type MobileLayout = keyof typeof mobileLayouts;
@@ -52,8 +54,9 @@ interface ModalOverlayProps extends AriaModalOverlayProps {
     /** Scrim behind the dialog. @default "light" */
     backdrop?: keyof typeof backdrops;
     /**
-     * Layout on small screens. `sheet` docks the dialog at the bottom, inset 16px. `fullscreen` (camera and crop
-     * flows) removes the overlay padding and panel radius below `md`, fills the dynamic viewport, and pads
+     * Layout on small screens. `sheet` docks the dialog at the bottom, inset 16px. `bottom` docks it edge to edge,
+     * flush with the bottom of the screen, with square bottom corners (splash, selection dialogs). `fullscreen` (camera
+     * and crop flows) removes the overlay padding and panel radius below `md`, fills the dynamic viewport, and pads
      * `ModalHeader`/`ModalFooter` by the safe-area insets.
      * @default "sheet"
      */
@@ -96,15 +99,18 @@ const modalSizes = sortCx({
     full: "sm:max-w-none",
 });
 
+// The brand focus ring is 1.41:1 on #444, so dark surfaces draw focus in white (the white inset body resets it).
 const modalVariants = sortCx({
     /** White panel. */
     default: "rounded-[28px] bg-primary",
     /** Dark `#444` panel with white text: camera, guidance, photo and model/background pickers. */
-    dark: "rounded-[28px] bg-inverse text-white",
+    dark: "rounded-[28px] bg-inverse text-white [--color-focus-ring:var(--color-white)]",
     /** Dark `#444` frame around a white inset `ModalBody` card: selection dialogs. */
-    "dark-inset": "rounded-[17px] bg-inverse text-white",
+    "dark-inset": "rounded-[17px] bg-inverse text-white [--color-focus-ring:var(--color-white)]",
+    /** Light `#F6F6F6` frame around an outlined white inset `ModalBody` card: the light selection dialogs. */
+    "light-inset": "rounded-[17px] bg-tertiary text-primary",
     /** Translucent black panel that lets the page show through: crop. */
-    translucent: "rounded-3xl bg-black/59 text-white",
+    translucent: "rounded-3xl bg-black/59 text-white [--color-focus-ring:var(--color-white)]",
 });
 
 type ModalVariant = keyof typeof modalVariants;
@@ -121,13 +127,21 @@ interface ModalProps extends AriaModalOverlayProps {
     size?: keyof typeof modalSizes;
     /**
      * Panel surface. `dark` is the `#444` photo-flow shell; `dark-inset` frames a white `ModalBody` card
-     * (selection dialogs); `translucent` is the see-through crop surface.
+     * (selection dialogs) and `light-inset` is its light `#F6F6F6` counterpart; `translucent` is the see-through crop surface.
+     * Dark surfaces (`dark`, `dark-inset`, `translucent`) draw focus rings in white.
      * @default "default"
      */
     variant?: ModalVariant;
+    /**
+     * Clips the content to the panel and casts its shadow. Set `false` to let content overflow the panel without a
+     * shadow, e.g. a banner tucked under the camera shell (give it `-z-10`); round the `Dialog` yourself
+     * (`rounded-[inherit]`) if its content must still follow the corners.
+     * @default true
+     */
+    clip?: boolean;
 }
 
-export const Modal = ({ size = "md", variant = "default", children, ...props }: ModalProps) => {
+export const Modal = ({ size = "md", variant = "default", clip = true, children, ...props }: ModalProps) => {
     const mobileLayout = useContext(ModalLayoutContext);
 
     return (
@@ -135,7 +149,8 @@ export const Modal = ({ size = "md", variant = "default", children, ...props }: 
             {...props}
             className={(state) =>
                 cx(
-                    "w-full overflow-hidden align-middle shadow-lg outline-hidden",
+                    "w-full align-middle outline-hidden",
+                    clip && "overflow-hidden shadow-lg",
                     modalVariants[variant],
                     modalSizes[size],
                     // Max height based on parent's vertical padding
@@ -146,6 +161,7 @@ export const Modal = ({ size = "md", variant = "default", children, ...props }: 
                     typeof props.className === "function" ? props.className(state) : props.className,
                     // Last and `!`, so a consumer's `sm:max-w-*`/radius can't keep the panel inset below `md`.
                     mobileLayout === "fullscreen" && "max-md:h-dvh max-md:max-w-none! max-md:rounded-none!",
+                    mobileLayout === "bottom" && "max-sm:max-w-none! max-sm:rounded-b-none!",
                 )
             }
         >
@@ -156,14 +172,27 @@ export const Modal = ({ size = "md", variant = "default", children, ...props }: 
     );
 };
 
-export const Dialog = (props: AriaDialogProps) => (
-    <AriaDialog {...props} className={cx("relative flex max-h-[inherit] w-full flex-col overflow-y-auto outline-hidden", props.className)} />
-);
+export const Dialog = (props: AriaDialogProps) => {
+    const mobileLayout = useContext(ModalLayoutContext);
+
+    return (
+        <AriaDialog
+            {...props}
+            className={cx(
+                "relative flex max-h-[inherit] w-full flex-col overflow-y-auto outline-hidden",
+                // Fill the full-screen panel so a footer pinned to the bottom (`absolute bottom-0` or `mt-auto`) reaches the screen edge.
+                mobileLayout === "fullscreen" && "max-md:h-full",
+                props.className,
+            )}
+        />
+    );
+};
 
 const headerStyles = sortCx({
     default: { root: "px-4 pt-4", title: "text-xl/[normal] text-primary", description: "text-sm text-tertiary" },
     dark: { root: "px-4 pt-4", title: "text-xl/[normal] text-white", description: "text-sm/[normal] font-medium text-inverse-secondary" },
     "dark-inset": { root: "px-3.5 pt-3", title: "text-lg/[normal] text-white", description: "text-sm/[normal] font-medium text-inverse-secondary" },
+    "light-inset": { root: "px-3.5 pt-3", title: "text-lg/[normal] text-primary", description: "text-sm/[normal] font-medium text-tertiary" },
     translucent: { root: "px-3.5 pt-3.5 pb-3", title: "text-lg/[1.6] text-white", description: "text-sm/[normal] font-medium text-inverse-secondary" },
 });
 
@@ -189,6 +218,8 @@ interface ModalHeaderProps extends Omit<ComponentPropsWithRef<"div">, "title"> {
     showCloseButton?: boolean;
     /** Called in addition to the default dismiss behavior when the close button is pressed. Required for the button to appear outside a `Modal`/`DialogTrigger`. */
     onClose?: () => void;
+    /** Accessible name of the close button; localize it. @default "Close" */
+    closeLabel?: string;
     /**
      * Moves keyboard focus straight to the close button as soon as the dialog mounts, instead of
      * the dialog container (React Aria's default). Combined with the dialog's built-in focus trap,
@@ -209,6 +240,7 @@ export const ModalHeader = ({
     iconTheme = "light",
     showCloseButton = true,
     onClose,
+    closeLabel,
     autoFocus = true,
     className,
     children,
@@ -249,7 +281,7 @@ export const ModalHeader = ({
             </div>
 
             {/* Before `children` in the DOM: it sits top-right, above anything passed in (e.g. tabs), so Tab must reach it first. */}
-            {hasClose && <CloseButton theme="white" autoFocus={autoFocus} className="absolute top-3.5 right-3.5" onClick={onClose} />}
+            {hasClose && <CloseButton theme="white" label={closeLabel} autoFocus={autoFocus} className="absolute top-3.5 right-3.5" onClick={onClose} />}
 
             {children}
         </div>
@@ -259,8 +291,10 @@ export const ModalHeader = ({
 const bodyStyles = sortCx({
     default: "px-4 py-4 text-tertiary",
     dark: "px-4 py-4 text-inverse-secondary",
-    // The white inset card: 2px from the frame, 10px below the title.
-    "dark-inset": "mx-0.5 mt-2.5 gap-0 rounded-[14px] bg-primary p-[5px] text-tertiary",
+    // The white inset card: 2px from the frame, 10px below the title; it is light, so focus goes back to brand.
+    "dark-inset": "mx-0.5 mt-2.5 gap-0 rounded-[14px] bg-primary p-[5px] text-tertiary [--color-focus-ring:var(--color-brand-600)]",
+    // Same card on the light frame, outlined: 0.5px border-secondary and a 1px drop shadow.
+    "light-inset": "mx-0.5 mt-2.5 gap-0 rounded-[14px] bg-primary p-[5px] text-tertiary shadow-[0_1px_1px_rgba(0,0,0,0.05)] ring-[0.5px] ring-secondary",
     translucent: "px-4 py-4 text-inverse-secondary",
 });
 
@@ -290,10 +324,11 @@ const footerStyles = sortCx({
     dark: "justify-end px-4 pt-4 pb-4",
     // Cancel left, primary right, as in the selection dialogs.
     "dark-inset": "justify-between px-3.5 pt-2.5 pb-3",
+    "light-inset": "justify-between px-3.5 pt-2.5 pb-3",
     translucent: "justify-end px-3.5 pt-3 pb-3.5",
 });
 
-/** Action row for a `Modal`/`Dialog` pair. Content-width buttons (right-aligned; split left/right in `dark-inset`); wraps when they don't fit. */
+/** Action row for a `Modal`/`Dialog` pair. Content-width buttons (right-aligned; split left/right in `dark-inset`/`light-inset`); wraps when they don't fit. */
 export const ModalFooter = ({ className, ...props }: ComponentPropsWithRef<"div">) => {
     const variant = useContext(ModalVariantContext);
     const mobileLayout = useContext(ModalLayoutContext);
@@ -312,7 +347,7 @@ export const ModalFooter = ({ className, ...props }: ComponentPropsWithRef<"div"
 };
 
 /**
- * Selectable icon rows ("List Default") for a `dark-inset` dialog body: icon, title and description, with
+ * Selectable icon rows ("List Default") for a `dark-inset`/`light-inset` dialog body: icon, title and description, with
  * dividers between rows. A React Aria `ListBox`, so arrow keys move between rows and selection is announced.
  * Needs an `aria-label` (or `aria-labelledby`).
  */

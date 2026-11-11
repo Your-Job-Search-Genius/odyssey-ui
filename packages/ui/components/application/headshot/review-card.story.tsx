@@ -13,3 +13,10 @@ export const Figma = () => (
         <Demos.ReviewCardDemo selfieSrc={portrait} lookSrc={man} />
     </div>
 );
+
+/** Phone frame `14839:181942`, the card (370 wide): Edit Details inline after the subtitle, details wrap with the dot ending line 1, no next arrow or fade. Shoot at a 402px viewport. */
+export const FigmaPhone = () => (
+    <div data-compare className="inline-flex w-[370px] flex-col items-start gap-4 bg-white p-0">
+        <Demos.ReviewCardDemo selfieSrc={portrait} lookSrc={man} />
+    </div>
+);

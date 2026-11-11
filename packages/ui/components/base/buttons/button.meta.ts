@@ -26,7 +26,7 @@ export const componentMeta = {
         },
     },
     description:
-        "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants. Sizes (text 14px at xs/sm, 16px at md+; weight 500): xs 28px, sm 32px (default), md 36px (was 40px), lg 40px, xl 48px. Colors: primary, secondary, secondary-brand (secondary with brand-colored text), white (solid white, no border, for dark bg-inverse surfaces), outline-pill (border-only fully rounded info pill, 14px trailing icon; sets its own padding so size only picks the type size), tertiary, link-*, and the *-destructive family. noTextPadding is deprecated and does nothing.",
+        "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants. Sizes (text 14px at xs/sm, 16px at md+; weight 500): xs 28px (label 7px from each side, Figma's 6px padding inside a 1px stroke), sm 32px (default), md 36px (was 40px), lg 40px, xl 48px. Colors: primary, secondary, secondary-brand (secondary with brand-colored text), white (solid white, no border, for dark bg-inverse surfaces), outline-pill (border-only fully rounded info pill, 14px trailing icon; sets its own padding so size only picks the type size), tertiary, link-*, and the *-destructive family. noTextPadding is deprecated and does nothing.",
     allowedChildren: "text",
     variants: {
         size: ["xs", "sm", "md", "lg", "xl"],

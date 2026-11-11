@@ -1,6 +1,6 @@
 {
   "version": "3.0.1",
-  "generatedAt": "library@3.0.1+components:175+tokens:278+icons:1234",
+  "generatedAt": "library@3.0.1+components:176+tokens:278+icons:1234",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -219,7 +219,7 @@
       "importName": "Alert",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/alerts/alert",
       "category": "application",
-      "description": "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss) and, from the same module, transient notifications: mount <Toaster /> once near the app root, then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children. Toasts are dark (#101419) pills anchored top-center by default; the info toast is text-only. ResumeToast is a separate persistent glass card (heading, description, title, action) for resuming an unfinished flow; position it yourself.",
+      "description": "Inline status banner (Alert: color info|success|warning|error, size sm|md, title, description, actions, onDismiss, dismissLabel (dismiss button name, default \"Dismiss\")) and, from the same module, transient notifications: mount <Toaster /> once near the app root (position, dismissLabel), then call toast(title, options) / toast.success / toast.error / toast.warning / toast.info / toast.dismiss(id) from anywhere. description renders block content, so lists or a CodeBlock may go there or in children. Toasts are dark (#101419) pills anchored top-center by default; the info toast is text-only. ResumeToast is a separate persistent glass card (heading, description, title, action) for resuming an unfinished flow; position it yourself.",
       "props": [
         {
           "name": "color",
@@ -286,6 +286,13 @@
           "required": false,
           "default": "true",
           "description": "When `onDismiss` is set, moves keyboard focus to the dismiss button as soon as the alert\nmounts. Set to `false` for banners that are present on initial page load (so focus isn't\nyanked away from wherever the user actually started), and keep it on for alerts that appear\nin response to something the user just did."
+        },
+        {
+          "name": "dismissLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Dismiss",
+          "description": "Accessible name of the dismiss button."
         }
       ],
       "slots": [],
@@ -329,7 +336,8 @@
       "doNot": [
         "Do not build red/amber boxes from divs for errors -- use Alert.",
         "Do not use a toast for an error the user has to act on; keep it inline (Alert) or make it persistent (duration: Infinity).",
-        "Do not mount more than one <Toaster />."
+        "Do not mount more than one <Toaster />.",
+        "Do not mount <Toaster /> outside the PortalProvider your modals use; it portals into the same container so toasts stack above open dialogs."
       ],
       "docsUrl": "/docs/application/alerts/alert",
       "isExtracted": true
@@ -394,6 +402,7 @@
       "a11y": "A section with the title as a heading; set headingLevel to fit the page outline. The media slot is wrapped in aria-hidden and hidden below md, so it must be purely decorative.",
       "doNot": [
         "Do not put informative content in media; it is aria-hidden.",
+        "Do not put FractalGlass straight on the banner; give its wrapper a white (bg-primary) fill, or its overlay-blended stripes show as grey bars.",
         "Do not put more than one action in the action slot.",
         "Do not use it for validation or status messages; use Alert."
       ],
@@ -406,7 +415,7 @@
       "importName": "BottomBar",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/bottom-bar/bottom-bar",
       "category": "application",
-      "description": "Mobile bottom action bar: a row of actions pinned to the bottom of the viewport (fixed, z-30) over a soft white fade, clear of the home indicator via safe-area-inset-bottom. Hidden from md up; pass className=\"md:block\" to keep it. BottomBar takes div attributes (children, className). BottomBarPill is the dark glass status pill for the bar (e.g. \"Your Selection 1/1\" with an info button); it takes div attributes. Leave about 6rem at the end of the page so the bar never covers the last content.",
+      "description": "Mobile bottom action bar: a row of actions pinned to the bottom of the viewport (fixed, z-30; the row sits 7px above the bottom edge, as in the Figma mobile frames) over a soft white fade, clear of the home indicator via safe-area-inset-bottom. Hidden from md up; pass className=\"md:block\" to keep it. BottomBar takes div attributes (children, className). BottomBarPill is the dark glass status pill for the bar (e.g. \"Your Selection 1/1\" with an info button); it takes div attributes. Leave about 6rem at the end of the page so the bar never covers the last content.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -574,7 +583,7 @@
       "importName": "Card",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/cards/card",
       "category": "application",
-      "description": "Content container. Card (size sm|md|lg sets padding and gap, variant outline|subtle, elevation for the outline variant, isSelected, isDisabled, isLoading; renders a button when onPress is passed, a link when href is passed, else a div) > Card.Header (title, description, actions) + Card.Media + Card.Body + Card.Footer. variant=\"outline\" (default) is a white card with a border, radius 20px. variant=\"subtle\" is a borderless #FAFAFA fill with a 26px gap, for grouped sections (\"section card\"); its Card.Header title is one step larger (18px). A selected card shows a brand ring.",
+      "description": "Content container. Card (size sm|md|lg sets padding and gap, variant outline|subtle, elevation for the outline variant, isSelected, isDisabled, isLoading, selectedLabel/loadingLabel for the screen-reader text, default \"Selected\"/\"Loading\"; renders a button when onPress is passed, a link when href is passed, else a div) > Card.Header (title, description, actions) + Card.Media (alt, aspectRatio, unavailableLabel for the broken-image placeholder, default \"Image unavailable\") + Card.Body + Card.Footer. variant=\"outline\" (default) is a white card with a border, radius 20px. variant=\"subtle\" is a borderless #FAFAFA fill with a 26px gap, for grouped sections (\"section card\"); its Card.Header title is one step larger (18px). A selected card shows a brand ring.",
       "props": [
         {
           "name": "size",
@@ -629,6 +638,20 @@
           "type": "boolean | undefined",
           "required": false,
           "description": "Replaces `children` with a skeleton placeholder while content is loading."
+        },
+        {
+          "name": "selectedLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Selected",
+          "description": "Screen-reader text for a selected static/link card (a button card uses `aria-pressed`)."
+        },
+        {
+          "name": "loadingLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Loading",
+          "description": "Screen-reader text while `isLoading`."
         },
         {
           "name": "className",
@@ -688,7 +711,7 @@
       "importName": "Carousel",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/carousel/carousel-base",
       "category": "application",
-      "description": "Embla-based carousel. Carousel.Root (orientation horizontal|vertical, opts, plugins, setApi) > Carousel.Content > Carousel.Item per slide. Controls: Carousel.PrevTrigger / Carousel.NextTrigger (bare triggers you style), Carousel.Arrows (a ready-styled 20px prev/next chevron pair for a header row, each dimmed to 50% at the end it cannot scroll past), Carousel.IndicatorGroup > Carousel.Indicator for dots. Arrow keys scroll the carousel unless focus is in a widget that owns them (radiogroup, listbox, grid, tablist, menu, slider, text fields). When focus lands on a slide that is partly out of view the carousel scrolls it into view with the least movement.",
+      "description": "Embla-based carousel. Carousel.Root (orientation horizontal|vertical, opts, plugins, setApi, aria-label (default \"Carousel\"), slideLabel ((n, total) => string, each slide's name, default \"n of total\"), slideAnnouncement ((n, total) => string, live-region text on change, default \"Slide n of total\")) > Carousel.Content > Carousel.Item per slide. Controls: Carousel.PrevTrigger / Carousel.NextTrigger (bare triggers you style; aria-label, default \"Previous slide\" / \"Next slide\"), Carousel.Arrows (a ready-styled prev/next chevron pair for a header row, each dimmed to 50% at the end it cannot scroll past; size md 20px (default) | sm 17px (Figma phone) | responsive (sm below md); prevLabel / nextLabel), Carousel.IndicatorGroup (aria-label, default \"Slides\") > Carousel.Indicator (aria-label, default \"Go to slide n\") for dots. Every built-in English label has a prop for translation. Carousel.IndicatorGroup > Carousel.Indicator for dots. Arrow keys scroll the carousel unless focus is in a widget that owns them (radiogroup, listbox, grid, tablist, menu, slider, text fields). When focus lands on a slide that is partly out of view the carousel scrolls it into view with the least movement.",
       "props": [],
       "slots": [],
       "variants": {
@@ -3476,7 +3499,7 @@
       "importName": "FileUpload",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/file-upload/file-upload-base",
       "category": "application",
-      "description": "File picker with drag and drop. FileUpload.Root > FileUpload.DropZone (+ FileUpload.List for uploaded files). DropZone is a dashed 2px, 20px-radius row: an icon (32px, default UploadCloud02), a title that is also the button opening the file picker (default \"Click to upload\" followed by \"or drag and drop\"), an optional hint, and an optional status pill. Props: title (ReactNode; replaces the default text and its \"or drag and drop\"), icon (component, e.g. a Hugeicon), badge (ReactNode pill after the title, e.g. \"1/5 Uploaded\"), hint, accept, maxSize, allowsMultiple, isDisabled, onDropFiles, onDropUnacceptedFiles. The title button's hit area covers the whole zone.",
+      "description": "File picker with drag and drop. FileUpload.Root > FileUpload.DropZone (+ FileUpload.List for uploaded files). DropZone is a dashed 2px, 20px-radius row: an icon (32px, default UploadCloud02), a title that is also the button opening the file picker (default \"Click to upload\" followed by \"or drag and drop\"), an optional hint, and an optional status pill. Props: title (ReactNode; replaces the default text; \"or drag and drop\" then stays for screen readers only), dragDropLabel (default \"or drag and drop\"), icon (component, e.g. a Hugeicon), badge (ReactNode pill after the title, e.g. \"1/5 Uploaded\"), hint (default \"SVG, PNG, JPG or GIF (max. 800x400px)\"; pass a localised one), accept, maxSize, allowsMultiple, isDisabled, onDropFiles, onDropUnacceptedFiles. The title button's hit area covers the whole zone.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -4390,7 +4413,7 @@
       "importName": "BackgroundTile",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/background-tile",
       "category": "application",
-      "description": "Single-choice background picker tile for the headshot flow. BackgroundTileGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) lays tiles out in 3 columns of 77px; BackgroundTile (value, label required, src, swatch, isDisabled, className) is one radio. Give it a photo with `src` or a CSS `background` (e.g. a gradient) with `swatch`. The label strip is always white because the picker surface is dark.",
+      "description": "Single-choice background picker tile for the headshot flow. BackgroundTileGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, size, className) lays tiles out in 3 columns of 77px; BackgroundTile (value, label required, src, swatch, size, isDisabled, className) is one radio. size: 'md' (default) is the 77px desktop tile in a 3x77px grid; 'sm' the phone tile (fills one of 4 fluid columns, 55px thumbnail, 14px label, lighter brand-200 selected border); 'responsive' is sm below the md breakpoint and md from it (set it on the group and every tile). Give it a photo with `src` or a CSS `background` (e.g. a gradient) with `swatch`. The label strip is always white because the picker surface is dark.",
       "props": [
         {
           "name": "label",
@@ -4411,6 +4434,18 @@
           "description": "CSS `background` for swatch-style options without a photo, e.g. a gradient."
         },
         {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md`: the 77px desktop tile; `sm`: the phone tile (fills its column, 55px thumbnail, 14px label); `responsive`: `sm` below `md`."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -4418,7 +4453,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "BackgroundTile",
@@ -4445,7 +4486,7 @@
       "importName": "CaptureMethodCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/capture-method-card",
       "category": "application",
-      "description": "One way to add photos (webcam, phone). The whole card is a single button or link: pass exactly one of `onPress` or `href`. `layout` \"featured\" (tall grey card, large decorative `icon` on top) or \"compact\" (short brand-tinted row). Props: title, description, icon, tab (a \"Recommended\" badge glued above the card), isDisabled, className. CapturePrivacyNote (children, className) renders a lock icon with a one-line privacy note.",
+      "description": "One way to add photos (webcam, phone). The whole card is a single button or link: pass exactly one of `onPress` or `href`. `layout` \"featured\" (tall grey card, large decorative `icon` on top) or \"compact\" (short brand-tinted row). `size` (featured only): \"md\" (default, icon on top), \"sm\" (phone: icon left of the text), \"responsive\" (sm below the md breakpoint). Props: title, description, icon, tab (a \"Recommended\" badge glued above the card), isDisabled, className. CapturePrivacyNote (children, className) renders a lock icon with a one-line privacy note.",
       "props": [
         {
           "name": "layout",
@@ -4457,6 +4498,18 @@
           "required": false,
           "default": "featured",
           "description": "`featured`: the tall grey card with an icon on top. `compact`: the short brand-tinted row."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`featured` layout only. `md`: icon on top of the text (desktop). `sm`: icon left of the text (phone).\n`responsive`: `sm` below the `md` breakpoint, `md` from it."
         },
         {
           "name": "title",
@@ -4509,6 +4562,11 @@
         "layout": [
           "featured",
           "compact"
+        ],
+        "size": [
+          "md",
+          "sm",
+          "responsive"
         ]
       },
       "allowedChildren": "any",
@@ -4518,8 +4576,8 @@
       ],
       "examples": [
         {
-          "title": "Featured with recommended tab",
-          "code": "<CaptureMethodCard tab=\"Recommended\" icon={<FaceScanMark />} title=\"Computer Webcam\" description=\"See your framing and get guidance before every shot\" onPress={openWebcam} />"
+          "title": "Featured with recommended tab (phone layout below md)",
+          "code": "<CaptureMethodCard size=\"responsive\" tab=\"Recommended\" icon={<FaceScanMark />} title=\"Computer Webcam\" description=\"See your framing and get guidance before every shot\" onPress={openWebcam} />"
         },
         {
           "title": "Compact row and privacy note",
@@ -4540,7 +4598,7 @@
       "importName": "CropToolbar",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/crop-toolbar",
       "category": "application",
-      "description": "Frosted toolbar under the crop area. Props: zoom + onZoomChange (controlled, required), minZoom (1), maxZoom (3), zoomStep (0.01), onRotateLeft, onRotateRight, onReset, isResetDisabled, onReupload (all required except isResetDisabled), plus label / rotateLeftLabel / rotateRightLabel / zoomLabel / resetLabel / reuploadLabel to localize the accessible names and button text. Rotate/zoom/reset/re-upload only call back; the toolbar does not crop or rotate anything itself. Designed for a dark overlay.",
+      "description": "Frosted toolbar under the crop area. Props: zoom + onZoomChange (controlled, required), minZoom (1), maxZoom (3), zoomStep (0.01), onRotateLeft, onRotateRight, onReset (required), isResetDisabled, onReupload (optional: shows the Re-Upload pill; the phone layout never shows it, put Re-Upload in the screen's bottom bar), size (md default: one frosted toolbar; sm: Figma's phone layout, two full-width frosted pills, zoom + Reset first and rotate after; responsive: sm below the md breakpoint), plus label / rotateLeftLabel / rotateRightLabel / zoomLabel / resetLabel / reuploadLabel to localize the accessible names and button text. Rotate/zoom/reset/re-upload only call back; the toolbar does not crop or rotate anything itself. Designed for a dark overlay or a photo; focus rings inside it are white.",
       "props": [
         {
           "name": "zoom",
@@ -4593,8 +4651,21 @@
         },
         {
           "name": "onReupload",
-          "type": "() => void",
-          "required": true
+          "type": "(() => void) | undefined",
+          "required": false,
+          "description": "Shows the Re-Upload pill (desktop only: the phone layout leaves Re-Upload to the screen's bottom bar)."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md`: one frosted toolbar (desktop). `sm`: Figma's phone layout, two full-width pills. `responsive`: `sm` below the `md` breakpoint."
         },
         {
           "name": "label",
@@ -4641,7 +4712,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "CropToolbar"
@@ -4650,6 +4727,10 @@
         {
           "title": "Controlled crop toolbar",
           "code": "<CropToolbar\n  zoom={zoom}\n  onZoomChange={setZoom}\n  onRotateLeft={() => setRotation((r) => r - 90)}\n  onRotateRight={() => setRotation((r) => r + 90)}\n  onReset={reset}\n  isResetDisabled={zoom === 1 && rotation === 0}\n  onReupload={reupload}\n/>"
+        },
+        {
+          "title": "Phone layout below md (Re-Upload moves to the bottom bar)",
+          "code": "<CropToolbar size=\"responsive\" zoom={zoom} onZoomChange={setZoom} onRotateLeft={rotateLeft} onRotateRight={rotateRight} onReset={reset} onReupload={reupload} />"
         }
       ],
       "a11y": "Renders role=\"group\" named by `label` (\"Crop controls\"). Rotate buttons are icon-only with aria-labels; zoom is a React Aria Slider (arrow keys, Home/End) named by `zoomLabel`. All controls show a focus-visible outline. Translate every label prop when localizing.",
@@ -4725,7 +4806,7 @@
       "importName": "FavoritesBar",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/favorites-bar",
       "category": "application",
-      "description": "Bottom-centre favourites control. With count 0 it is a translucent pill (count chip + label). With favourites it becomes a dark tab tucked behind a share-for-feedback bar. Props: count (required), thumbnails (up to two image URLs stacked on the tab), onFavoritesPress, favoritesLabel (\"Favorites\"), feedbackTitle, onShare (renders the Share Link button only when provided), shareLabel (\"Share Link\"), className.",
+      "description": "Bottom-centre favourites control. With count 0 it is a translucent pill (count chip + label). With favourites it becomes a dark tab tucked behind a share-for-feedback bar; with neither feedbackTitle nor onShare only the tab shows. Props: count (required), thumbnails (up to two image URLs stacked on the tab), onFavoritesPress, isFavoritesActive (set it when the tab filters the results to favourites: the tab becomes a toggle with aria-pressed), favoritesLabel (\"Favorites\"), feedbackTitle, onShare (renders the Share Link button only when provided), shareLabel (\"Share Link\"), size (\"md\" desktop, default | \"sm\" phone: frosted 50px tab over a full-width bar with a grey Share button | \"responsive\": sm below the md breakpoint), className.",
       "props": [
         {
           "name": "count",
@@ -4745,6 +4826,12 @@
           "required": false
         },
         {
+          "name": "isFavoritesActive",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "Whether the results are filtered to favourites. Set it when pressing the tab toggles that filter, so the\ntab is announced as a toggle (`aria-pressed`); leave it undefined for a plain button."
+        },
+        {
           "name": "favoritesLabel",
           "type": "string | undefined",
           "required": false,
@@ -4754,7 +4841,7 @@
           "name": "feedbackTitle",
           "type": "ReactNode",
           "required": false,
-          "description": "Feedback prompt shown once there are favourites, e.g. \"Get Feedback from Friends on your Favourites\"."
+          "description": "Feedback prompt shown once there are favourites, e.g. \"Get Feedback from Friends on your Favourites\".\nWithout it and without `onShare` the bar is left out and only the tab shows."
         },
         {
           "name": "onShare",
@@ -4768,6 +4855,18 @@
           "default": "Share Link"
         },
         {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md` is the desktop bar, `sm` the phone bar, `responsive` switches to `sm` below the `md` breakpoint."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -4775,7 +4874,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "FavoritesBar"
@@ -4786,11 +4891,15 @@
           "code": "<FavoritesBar count={0} onFavoritesPress={openFavorites} />"
         },
         {
+          "title": "Phone-aware filter toggle",
+          "code": "<FavoritesBar\n  size=\"responsive\"\n  count={8}\n  thumbnails={[a, b]}\n  isFavoritesActive={favoritesOnly}\n  onFavoritesPress={() => setFavoritesOnly((on) => !on)}\n  feedbackTitle=\"Get Feedback from Friends on your Favourites\"\n  onShare={copyLink}\n/>"
+        },
+        {
           "title": "With favourites and share",
           "code": "<FavoritesBar\n  count={8}\n  thumbnails={[a, b]}\n  onFavoritesPress={openFavorites}\n  feedbackTitle=\"Get Feedback from Friends on your Favourites\"\n  onShare={copyLink}\n/>"
         }
       ],
-      "a11y": "The favourites tab/pill is a button whose name is the count plus favoritesLabel; thumbnails are decorative (aria-hidden, alt=\"\"). The share button is a normal labelled Button. Localize favoritesLabel, feedbackTitle and shareLabel.",
+      "a11y": "The favourites tab/pill is a button whose name is the count plus favoritesLabel; thumbnails are decorative (aria-hidden, alt=\"\"). Pass isFavoritesActive when the tab toggles a favourites filter so its state is announced (aria-pressed), and announce the filtered result count in a live region. The share button is a normal labelled Button. Localize favoritesLabel, feedbackTitle and shareLabel.",
       "doNot": [
         "Do not pass more than two thumbnails; extras are dropped.",
         "Do not pass onShare without feedbackTitle context -- the share bar only appears when count > 0."
@@ -4804,7 +4913,7 @@
       "importName": "GeneratingCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/generating-card",
       "category": "application",
-      "description": "Illustrated \"your headshots are being generated\" card on a fixed 768px stage (centred, so narrow screens crop the sides). Props: inputs (up to three { src, alt, tag, tone?: \"gray\" | \"purple\" | \"sky\" }: the face photo, then two style references), logo (centre tile), captionLead (\"Generating\") / captionTail (\"Headshot\"), stages (status chips along the bottom), className. The light beams pulse unless reduced motion is on. GeneratingHeader (title, description, children, className) is the centred title block above it; children is usually an info pill.",
+      "description": "Illustrated \"your headshots are being generated\" card. From md: 768x383 on a fixed 768px stage (centred, so narrower cards crop the sides). Below md: Figma's phone collage, 340px tall on a 390px stage, tiles at ~1.21x, no captions, the art running 6px past the card's sides (give it ~6px of room, e.g. a 390px card on a 402px screen). Props: inputs (up to three { src, alt, tag, tone?: \"gray\" | \"purple\" | \"sky\" }: the face photo, then two style references), logo (centre tile; scaled 1.21x on phones), captionLead (\"Generating\") / captionTail (\"Headshot\"), stages (status chips, centred on the card's bottom border; the card adds a 12-13px bottom margin for the part that hangs below), className. The light beams pulse unless reduced motion is on. GeneratingHeader is the centred title block above it: title (keeps \\n line breaks), description, children (usually an info pill), headingLevel (1-6, default 2), id / ref / tabIndex (put on the title heading, so the app can label a region with it and focus it), className. Its title is 20px below md, 24px from md.",
       "props": [
         {
           "name": "inputs",
@@ -4835,7 +4944,7 @@
           "name": "stages",
           "type": "ReactNode",
           "required": false,
-          "description": "Progress stages (status chips) shown at the bottom of the card."
+          "description": "Progress stages (status chips), centred on the card's bottom border. The card reserves the space they hang below it."
         },
         {
           "name": "className",
@@ -4854,10 +4963,10 @@
       "examples": [
         {
           "title": "Header and card",
-          "code": "<GeneratingHeader title=\"Learning your Face\" description=\"Usually ready in 45-90 minutes. Safe to close - we'll email you.\" />\n<GeneratingCard\n  inputs={[\n    { src: face, alt: \"Your photo\", tag: \"Clothes\" },\n    { src: bg, alt: \"Background reference\", tag: \"Background\", tone: \"purple\" },\n    { src: hair, alt: \"Hairstyle reference\", tag: \"Hairstyle\", tone: \"sky\" },\n  ]}\n  logo={<Logo />}\n/>"
+          "code": "<GeneratingHeader headingLevel={1} id=\"generating-title\" ref={headingRef} tabIndex={-1} title=\"Learning your Face\" description=\"Usually ready in 45-90 minutes. Safe to close - we'll email you.\" />\n<GeneratingCard\n  inputs={[\n    { src: face, alt: \"Your photo\", tag: \"Clothes\" },\n    { src: bg, alt: \"Background reference\", tag: \"Background\", tone: \"purple\" },\n    { src: hair, alt: \"Hairstyle reference\", tag: \"Hairstyle\", tone: \"sky\" },\n  ]}\n  logo={<Logo />}\n  stages={<div role=\"group\" aria-label=\"Progress\" className=\"flex gap-px\"><StatusBadge status=\"done\">Learning</StatusBadge>…</div>}\n/>"
         }
       ],
-      "a11y": "The beams, brackets and the second caption are aria-hidden. Input images use their `alt`; give each a meaningful one. The pulse animation is motion-safe only. Announce progress changes elsewhere (e.g. a live region) -- the card itself has no live region.",
+      "a11y": "GeneratingHeader: set headingLevel to fit the page outline (1 when it is the screen's main heading); to move focus to the title on a state change pass ref + tabIndex={-1} (it shows no focus ring, it is not a control). The beams, brackets, placeholders and the second caption are aria-hidden; phones hide both captions. Input images use their `alt`; give each a meaningful one. The pulse animation is motion-safe only. Announce progress changes elsewhere (e.g. a live region) -- the card itself has no live region.",
       "doNot": [
         "Do not pass more than three inputs; extras are ignored.",
         "Do not rely on the card to announce progress to screen readers."
@@ -4926,7 +5035,7 @@
       "importName": "ModelCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/model-card",
       "category": "application",
-      "description": "Single-choice model portrait for the dark model picker. ModelCardGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) lays cards out in 2 columns (4 from sm); ModelCard (value, name and src required, alt, isDisabled, className) is one radio. The portrait dissolves into the card through a radial mask; the selected card turns light blue with an inner glow and a check badge. Colours are fixed because the picker shell is always dark.",
+      "description": "Single-choice model portrait for the dark model picker. ModelCardGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, size, className) lays cards out in 2 columns (4 from sm); ModelCard (value, name and src required, alt, size, isDisabled, className) is one radio. size: 'md' (default) is the 197x261 desktop card and 12px grid gap; 'sm' the 181x216 phone card and 8px gap; 'responsive' is sm below the md breakpoint and md from it (set it on the group and every card). The portrait dissolves into the card through a radial mask; the selected card turns light blue with an inner glow and a check badge. Colours are fixed because the picker shell is always dark.",
       "props": [
         {
           "name": "name",
@@ -4947,6 +5056,18 @@
           "default": ""
         },
         {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md`: the 197×261 desktop card; `sm`: the 181×216 phone card; `responsive`: `sm` below `md`, `md` from it."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -4954,7 +5075,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "ModelCard",
@@ -4980,7 +5107,7 @@
       "importName": "ModelChip",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/model-chip",
       "category": "application",
-      "description": "Chip showing which model outfits are tried on, with a button to swap it: \"MODEL | avatar Name | Change\". Props: name (required; e.g. \"Malik\" or a summary like \"Showing Mix\"), label (\"Model\", rendered uppercase), avatarSrc (omit for the text-only state), changeLabel (\"Change\"), onPressChange (opens the picker), className.",
+      "description": "Chip showing which model outfits are tried on, with a button to swap it: \"MODEL | avatar Name | Change\". Props: name (required; e.g. \"Malik\" or a summary like \"Showing Mix\"), label (\"Model\", rendered uppercase), avatarSrc (omit for the text-only state), changeLabel (\"Change\"), onPressChange (opens the picker), size (\"md\" default: inner box at least 198px with the name pushed right, for desktop; \"sm\": hugs its content with a 25px gap, for phones; \"responsive\": sm below the md breakpoint, md from it), className.",
       "props": [
         {
           "name": "label",
@@ -5014,6 +5141,18 @@
           "description": "Opens the model picker."
         },
         {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md` keeps the inner box at least 198px wide (desktop); `sm` hugs its content (phone); `responsive` is `sm` below `md`."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -5021,7 +5160,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "ModelChip"
@@ -5030,6 +5175,10 @@
         {
           "title": "With avatar",
           "code": "<ModelChip name=\"Malik\" avatarSrc={malikPhoto} onPressChange={openModelPicker} />"
+        },
+        {
+          "title": "Phone and desktop",
+          "code": "<ModelChip size=\"responsive\" name=\"Malik\" avatarSrc={malikPhoto} onPressChange={openModelPicker} />"
         },
         {
           "title": "Mixed models (no avatar)",
@@ -5050,7 +5199,7 @@
       "importName": "OptionTile",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/option-tile",
       "category": "application",
-      "description": "Single-choice tile for hair style, hair texture and eyewear. OptionTileGroup (a horizontal React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) holds OptionTile (value, label required, src, alt, isDisabled, className): a 109x141 tile with a preview image and the label in a chip. Works inside a Carousel: pass className=\"block\" to the group and put tiles in Carousel.Item. Omit `src` for a \"None\" tile.",
+      "description": "Single-choice tile for hair style, hair texture and eyewear. OptionTileGroup (a horizontal React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) holds OptionTile (value, label required, src, alt, isDisabled, className, size, fade, fadeStops): a tile with a preview image and the label in a chip. size: \"md\" (default, 109x141 persona tile), \"sm\" (137x177 phone tile, 17px chip), \"lg\" (197x255 Browse-all tile, 16px chip and a check mark when selected; shrinks to its grid column keeping the ratio), \"responsive\" (sm below md, md above). fade: \"selected\" (default, only the selected image fades towards the chip), \"always\" (every tile, as Figma draws hair), \"none\". fadeStops: [start, end] in % of the tile height, default [34, 73]; the Figma beard tile uses [64, 75]. Works inside a Carousel: pass className=\"block\" to the group and put tiles in Carousel.Item. Omit `src` for a \"None\" tile.",
       "props": [
         {
           "name": "label",
@@ -5069,6 +5218,38 @@
           "type": "string | undefined",
           "required": false,
           "default": ""
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "lg",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md` is the 109×141 persona tile; `sm` the 137×177 phone tile (17px chip); `lg` the 197×255 Browse-all tile\n(16px chip, check mark when selected; shrinks to its column); `responsive` is `sm` below `md` and `md` above."
+        },
+        {
+          "name": "fade",
+          "type": "enum",
+          "enumValues": [
+            "none",
+            "selected",
+            "always"
+          ],
+          "required": false,
+          "default": "selected",
+          "description": "When the image fades out towards the chip: only on the selected tile, on every tile, or never."
+        },
+        {
+          "name": "fadeStops",
+          "type": "[number, number] | undefined",
+          "required": false,
+          "default": "[34, 73]",
+          "description": "Fade start and end, in % of the tile's height (opaque before the first, gone after the second)."
         },
         {
           "name": "className",
@@ -5104,7 +5285,7 @@
       "importName": "OutfitCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/outfit-card",
       "category": "application",
-      "description": "Multi-select outfit toggle (aria-pressed). Props: src and caption (required), alt, backgroundLabel (\"Background:\", shown while selected), backgroundSrc (thumbnail of the chosen background, shown while selected), plus React Aria ToggleButton props (isSelected/defaultSelected, onChange, isDisabled, className). Selected state adds a dark fade, the chosen background and a check over the photo. Set isDisabled on unselected cards once the selection limit is reached; they dim to 30%.",
+      "description": "Multi-select outfit toggle (aria-pressed). Props: src and caption (required), alt, backgroundLabel (\"Background:\", shown while selected), backgroundSrc (thumbnail of the chosen background, shown while selected), size (\"md\" default: the 240px desktop card; \"sm\": the 178px phone card with a 13/15 caption, 10px label, 20x18 thumbnail and 18px check; \"responsive\": sm below the md breakpoint, md from it), plus React Aria ToggleButton props (isSelected/defaultSelected, onChange, isDisabled, className). Selected state adds a dark fade, the chosen background and a check over the photo. Set isDisabled on unselected cards once the selection limit is reached; they dim to 30%.",
       "props": [
         {
           "name": "src",
@@ -5138,6 +5319,18 @@
           "description": "Thumbnail of the chosen background, shown after `backgroundLabel` while selected."
         },
         {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md` is the 240px desktop card (14px caption); `sm` is the 178px phone card (13/15 caption, 10px label,\n20×18 thumbnail, 18px check); `responsive` is `sm` below the `md` breakpoint and `md` from it."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -5145,7 +5338,13 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "OutfitCard"
@@ -5153,7 +5352,7 @@
       "examples": [
         {
           "title": "Limit of two selections",
-          "code": "<OutfitCard\n  src={photo}\n  caption=\"Navy Suit and White Shirt\"\n  backgroundSrc={office}\n  isSelected={isSelected}\n  isDisabled={!isSelected && selected.length >= 2}\n  onChange={toggle}\n/>"
+          "code": "<OutfitCard\n  src={photo}\n  caption=\"Navy Suit and White Shirt\"\n  backgroundSrc={office}\n  size=\"responsive\"\n  isSelected={isSelected}\n  isDisabled={!isSelected && selected.length >= 2}\n  onChange={toggle}\n/>"
         }
       ],
       "a11y": "A toggle button named by `caption`, exposing aria-pressed. The photo is decorative unless `alt` is given. Selection is shown by the check and background strip as well as colour. Enforce the limit with isDisabled and tell users the limit in surrounding text.",
@@ -5215,7 +5414,7 @@
       "importName": "PhotoSlot",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/photo-slot",
       "category": "application",
-      "description": "One photo in the \"Add Photo\" grid, 197x261px. status empty (default; dashed Add Photo button, onAdd) | ok (photo + OK badge, optional onRetake shows a Re-Take pill) | fail (photo with red wash + Fail badge, optional onReupload and whyAction slot top-right). Props: src, alt, addLabel/okLabel/failLabel/retakeLabel/reuploadLabel (localisable strings), className. Made for dark surfaces (bg-inverse).",
+      "description": "One photo in the \"Add Photo\" grid. status empty (default; dashed Add Photo button, onAdd) | ok (photo + OK badge, optional onRetake shows a Re-Take pill) | fail (photo with red wash + Fail badge, optional onReupload (centred, 88px from the top) and whyAction slot top-right) | pending (dimmed photo under pendingLabel while it is checked). size: \"md\" (default, 197x261), \"sm\" (phone: fluid width at 183/242, smaller OK badge and Re-Take pill; put it in a grid cell), \"responsive\" (sm below the md breakpoint). label names the slot (\"Photo 2\"). Props: src, alt, addLabel/okLabel/failLabel/retakeLabel/reuploadLabel/pendingLabel (localisable strings, pendingLabel default \"Checking photo…\"), className. Made for dark surfaces (bg-inverse); its focus rings are white.",
       "props": [
         {
           "name": "status",
@@ -5223,11 +5422,30 @@
           "enumValues": [
             "empty",
             "ok",
-            "fail"
+            "fail",
+            "pending"
           ],
           "required": false,
           "default": "empty",
-          "description": "`empty` renders the dashed \"Add Photo\" button; `ok` / `fail` render the photo with its status badge."
+          "description": "`empty` renders the dashed \"Add Photo\" button; `ok` / `fail` render the photo with its status badge;\n`pending` dims the photo under `pendingLabel` while it is being checked."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "`md`: 197×261 (desktop). `sm`: fluid width at the phone tile's 183/242 ratio. `responsive`: `sm` below the `md` breakpoint."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "required": false,
+          "description": "Names the slot, e.g. \"Photo 2\": a group label for a filled slot, appended to the Add button's name for an empty one."
         },
         {
           "name": "src",
@@ -5292,6 +5510,13 @@
           "default": "Re-Upload"
         },
         {
+          "name": "pendingLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Checking photo…",
+          "description": "Shown (and announced politely) over a `pending` slot."
+        },
+        {
           "name": "className",
           "type": "string | undefined",
           "required": false,
@@ -5303,7 +5528,13 @@
         "status": [
           "empty",
           "ok",
-          "fail"
+          "fail",
+          "pending"
+        ],
+        "size": [
+          "md",
+          "sm",
+          "responsive"
         ]
       },
       "allowedChildren": "any",
@@ -5314,9 +5545,13 @@
         {
           "title": "The three states",
           "code": "<div className=\"flex flex-wrap gap-3 rounded-[20px] bg-inverse p-4\">\n  <PhotoSlot status=\"ok\" src={url} alt=\"Photo 1\" onRetake={retake} />\n  <PhotoSlot status=\"fail\" src={url} alt=\"Photo 2\" onReupload={reupload} whyAction={<GlassPill>Why?</GlassPill>} />\n  <PhotoSlot onAdd={add} />\n</div>"
+        },
+        {
+          "title": "Phone grid (fluid tiles below md)",
+          "code": "<div className=\"grid grid-cols-2 gap-x-1 gap-y-2 md:flex md:flex-wrap md:gap-3\">\n  <PhotoSlot size=\"responsive\" label=\"Photo 1\" status=\"pending\" src={url} alt=\"\" pendingLabel=\"Checking photo…\" />\n  <PhotoSlot size=\"responsive\" label=\"Photo 2\" onAdd={add} />\n</div>"
         }
       ],
-      "a11y": "Status is spelled out in the OK / Fail badge text, never colour alone. Actions are native buttons with visible focus outlines; decorative icons are aria-hidden. Give ok/fail slots a meaningful alt (e.g. \"Photo 2\").",
+      "a11y": "Status is spelled out in the OK / Fail badge text, never colour alone. Actions are native buttons with visible focus outlines; decorative icons are aria-hidden. Give ok/fail slots a meaningful alt (e.g. \"Photo 2\"), or set label: a filled slot becomes a group named by it, the button of an empty slot is named \"Add Photo, Photo 2\". pendingLabel sits in a role=status region, so it is announced politely; do not announce the check a second time.",
       "doNot": [
         "Do not rely on the green or red tint to convey status; the badge text carries it, so keep okLabel/failLabel set.",
         "Do not pass src without alt for an ok or fail slot."
@@ -5330,7 +5565,7 @@
       "importName": "QRCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/qr-card",
       "category": "application",
-      "description": "Dark 230px card with a white-on-black QR code for continuing on a phone. Props: value (URL or text to encode, required), caption (ReactNode above the code, required), onClose (shows the corner close button; inside a Dialog/Popover the button also closes it), closeLabel (accessible name of the close button), className.",
+      "description": "Dark 230px card with a white-on-black QR code for continuing on a phone. Props: value (URL or text to encode, required), caption (ReactNode above the code, required), onClose (shows the corner close button; inside a Dialog/Popover the button also closes it), closeLabel (accessible name of the close button, default \"Close\"), codeSize (drawn size of the code inside its 180px slot, default 158 as in Figma; up to 180), className.",
       "props": [
         {
           "name": "value",
@@ -5354,6 +5589,13 @@
           "name": "closeLabel",
           "type": "string | undefined",
           "required": false
+        },
+        {
+          "name": "codeSize",
+          "type": "number | undefined",
+          "required": false,
+          "default": "158",
+          "description": "Drawn size of the code (px) inside its 180px slot; the rest is quiet zone."
         },
         {
           "name": "className",
@@ -5388,7 +5630,7 @@
       "importName": "ResultGroup",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/result-group",
       "category": "application",
-      "description": "One outfit's results: a header then a wrapping row of tiles. Props: eyebrow (e.g. \"OUTFIT 1\"), count, countLabel (word after the count, e.g. \"Photos\"), title, thumbnail ({ src, alt }, optional), children (ResultTile elements), className. The count renders as a Badge type=\"count\".",
+      "description": "One outfit's results: a header then a wrapping row of tiles. Props: eyebrow (e.g. \"OUTFIT 1\"), count, countLabel (word after the count, e.g. \"Photos\"), title, headingLevel (1-6, default 3: heading level of the title), thumbnail ({ src, alt }, optional), children (ResultTile elements), className. The count renders as a Badge type=\"count\".",
       "props": [
         {
           "name": "thumbnail",
@@ -5419,6 +5661,21 @@
           "required": true
         },
         {
+          "name": "headingLevel",
+          "type": "enum",
+          "enumValues": [
+            "2",
+            "3",
+            "4",
+            "1",
+            "6",
+            "5"
+          ],
+          "required": false,
+          "default": "3",
+          "description": "Level of the title heading; fit it to the page outline."
+        },
+        {
           "name": "children",
           "type": "ReactNode",
           "required": true,
@@ -5432,7 +5689,16 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "headingLevel": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "ResultGroup"
@@ -5440,10 +5706,10 @@
       "examples": [
         {
           "title": "Basic",
-          "code": "<ResultGroup thumbnail={{ src: outfitUrl, alt: \"\" }} eyebrow=\"OUTFIT 1\" count={2} countLabel=\"Photos\" title=\"White T-Shirt and Leather Jacket\">\n  <ResultTile src={a} alt=\"Headshot 1\" onOpen={open} onDownload={download} />\n  <ResultTile src={b} alt=\"Headshot 2\" isFavorite onOpen={open} onDownload={download} />\n</ResultGroup>"
+          "code": "<ResultGroup headingLevel={2} thumbnail={{ src: outfitUrl, alt: \"\" }} eyebrow=\"OUTFIT 1\" count={2} countLabel=\"Photos\" title=\"White T-Shirt and Leather Jacket\">\n  <ResultTile src={a} alt=\"Headshot 1\" onFavoriteChange={toggleA} onOpen={open} onDownload={download} />\n  <ResultTile src={b} alt=\"Headshot 2\" isFavorite onFavoriteChange={toggleB} onOpen={open} onDownload={download} />\n</ResultGroup>"
         }
       ],
-      "a11y": "Renders a section with a header and an h3 title; the thumbnail needs real alt text or alt=\"\" when decorative. Choose the surrounding heading levels so the h3 fits the page outline.",
+      "a11y": "Renders a section with a header and the title as a heading (h3 unless headingLevel says otherwise); the thumbnail needs real alt text or alt=\"\" when decorative. Set headingLevel so the title fits the page outline (e.g. 2 under the page h1).",
       "doNot": [
         "Do not put anything other than ResultTile (or equivalent tile) children in it.",
         "Do not build the count chip by hand; pass count and countLabel."
@@ -5457,7 +5723,7 @@
       "importName": "ResultTile",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/result-tile",
       "category": "application",
-      "description": "One generated headshot, 233x261px, with a blurred glow, a favourite toggle and hover actions. Props: src, alt (both required), isFavorite + onFavoriteChange (toggle, bottom-left), onOpen (shows the expand button, bottom-centre; opens the Lightbox), onDownload (shows the download button, bottom-right), favoriteLabel/openLabel/downloadLabel (accessible names), className. Open and download appear on hover, keyboard focus within the tile and always on touch screens.",
+      "description": "One generated headshot, 233x261px, with a blurred glow, a favourite toggle and hover actions. Props: src, alt (both required), isFavorite + onFavoriteChange (the favourite toggle, bottom-left; it only renders when onFavoriteChange is passed), onOpen (shows the expand button, bottom-centre; opens the Lightbox), onDownload (shows the download button, bottom-right), favoriteLabel/openLabel/downloadLabel (accessible names, defaults \"Favourite\"/\"Open\"/\"Download\"; pass translations), className. Open and download appear on hover, keyboard focus within the tile and always on touch screens.",
       "props": [
         {
           "name": "src",
@@ -5478,7 +5744,8 @@
         {
           "name": "onFavoriteChange",
           "type": "((isFavorite: boolean) => void) | undefined",
-          "required": false
+          "required": false,
+          "description": "Shows the favourite toggle (bottom-left); without it the tile has no heart."
         },
         {
           "name": "onOpen",
@@ -5496,7 +5763,8 @@
           "name": "favoriteLabel",
           "type": "string | undefined",
           "required": false,
-          "default": "Favourite"
+          "default": "Favourite",
+          "description": "Accessible name of the favourite toggle."
         },
         {
           "name": "openLabel",
@@ -5543,7 +5811,7 @@
       "importName": "ReviewCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/review-card",
       "category": "application",
-      "description": "Review step summary: persona header then white sections. ReviewCard props: name, subtitle (e.g. \"Woman\"), attributes ({ label, value }[] rendered as a dl of brand Badge values separated by dots), action (header slot, e.g. a size=\"xs\" color=\"secondary-brand\" Button \"Edit Details\"), children (ReviewCard.Section), className. ReviewCard.Section: title, count (count chip), action, children. ReviewCard.Photo: src, alt, className (size it; default h-[178px] w-[135px] selfie), backgroundLabel + backgroundSrc turn it into a \"look\" tile with a label, thumbnail and check over a bottom fade. ReviewCard.Carousel: aria-label (required), children (ReviewCard.Photo[]); a horizontally scrolling row with prev/next arrows and a right-edge fade.",
+      "description": "Review step summary: persona header then white sections. ReviewCard props: name, subtitle (e.g. \"Woman\"), attributes ({ label, value }[] rendered as a dl of brand Badge values; a dot trails each item so a wrapped line ends with it), action (header slot, e.g. a size=\"xs\" color=\"secondary-brand\" Button \"Edit Details\": top right from md, inline right after the subtitle on phones with the details 12px below), headingLevel (name heading, 1-6, default 3), children (ReviewCard.Section), className. ReviewCard.Section: title, count (count chip), action, headingLevel (default 4), children. ReviewCard.Photo: src, alt, className (size it; default h-[178px] w-[135px] selfie), backgroundLabel + backgroundSrc turn it into a \"look\" tile with a label, thumbnail and check over a bottom fade. ReviewCard.Carousel: aria-label (required), children (ReviewCard.Photo[]), prevLabel / nextLabel (arrow names, default \"Previous slide\" / \"Next slide\"), slideLabel / slideAnnouncement ((n, total) => string, see Carousel); a horizontally scrolling row that runs through the section's right padding to its edge (the next photo peeks), with prev/next arrows and a right-edge fade; phones show no next arrow and no fade. A native scroll row of selfies should bleed the same way: -mr-3.5 pr-3.5 with role=\"group\", an aria-label and tabIndex={0}.",
       "props": [
         {
           "name": "name",
@@ -5567,7 +5835,22 @@
           "name": "action",
           "type": "ReactNode",
           "required": false,
-          "description": "Header action, e.g. a small secondary \"Edit Details\" `Button`."
+          "description": "Header action, e.g. a small secondary \"Edit Details\" `Button`. Top right from `md`; on phones it follows the subtitle inline."
+        },
+        {
+          "name": "headingLevel",
+          "type": "enum",
+          "enumValues": [
+            "2",
+            "3",
+            "4",
+            "1",
+            "6",
+            "5"
+          ],
+          "required": false,
+          "default": "4",
+          "description": "Heading level of the name. Sections default to one level below 3; set theirs with `ReviewCard.Section` `headingLevel`."
         },
         {
           "name": "children",
@@ -5599,7 +5882,7 @@
           "code": "<ReviewCard name=\"Moremi Sunfyre\" subtitle=\"Woman\" attributes={[{ label: \"Eye Color\", value: \"Blue\" }]} action={<Button size=\"xs\" color=\"secondary-brand\">Edit Details</Button>}>\n  <ReviewCard.Section title=\"Selfies\" count={5}>\n    <div className=\"flex gap-2 overflow-x-auto\">\n      <ReviewCard.Photo src={selfie} alt=\"Selfie 1\" />\n    </div>\n  </ReviewCard.Section>\n  <ReviewCard.Section title=\"Looks\" count={12}>\n    <ReviewCard.Carousel aria-label=\"Looks\">\n      <ReviewCard.Photo src={look} alt=\"Look 1\" backgroundLabel=\"Bgd.\" backgroundSrc={bg} className=\"h-[168px] w-[134px]\" />\n    </ReviewCard.Carousel>\n  </ReviewCard.Section>\n</ReviewCard>"
         }
       ],
-      "a11y": "Section/h3/h4 headings, attributes as a description list (dt/dd), photos need alt text. ReviewCard.Carousel is a Carousel region named by its required aria-label; its arrow buttons are icon-only and disabled at the ends.",
+      "a11y": "Section with h3/h4 headings by default; set headingLevel on ReviewCard and each ReviewCard.Section to fit the page outline (e.g. 2 and 3 under the screen h1), attributes as a description list (dt/dd), photos need alt text. ReviewCard.Carousel is a Carousel region named by its required aria-label; its arrow buttons are icon-only (named by prevLabel / nextLabel) and disabled at the ends; on phones only the prev arrow shows, swipe or the arrow keys scroll it.",
       "doNot": [
         "Do not put ReviewCard.Photo directly in ReviewCard; wrap in ReviewCard.Section.",
         "Do not omit aria-label on ReviewCard.Carousel.",
@@ -5696,24 +5979,37 @@
       "importName": "ShootCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/shoot-card",
       "category": "application",
-      "description": "A past shoot in the Activity Library: a Card variant=\"subtle\" size=\"sm\" with an uppercase shoot Badge, the cover photo with a soft glow, a count chip and a date. Props: tag, src, alt, count, countLabel (e.g. \"Portraits\"), date (pre-formatted), href (whole card is a link) or onPress (whole card is a button), className. Fills its container; cap it (e.g. max-w-[378px]).",
+      "description": "A past shoot in the Activity Library: a Card variant=\"subtle\" size=\"sm\" (#F8F8F8, 21px radius) with the shoot name in a white chip led by its initial, the cover photo with a soft glow, a count chip and a date; phone sizes below md (222x293 photo). Props: tag, initial (avatar letter; default the first letter of a string tag), src (optional), placeholder (shown in the photo slot when there is no src, e.g. \"Generating...\"), alt, count, countLabel (e.g. \"Portraits\"), date (pre-formatted), href (whole card is a link) or onPress (whole card is a button), className. Fills its container; cap it (e.g. max-w-[378px]).",
       "props": [
         {
           "name": "tag",
           "type": "ReactNode",
           "required": true,
-          "description": "Shoot name, shown as an uppercase tag in the top-left corner."
+          "description": "Shoot name, shown in a white chip in the top-left corner after its initial."
+        },
+        {
+          "name": "initial",
+          "type": "ReactNode",
+          "required": false,
+          "default": "the first letter of `tag` (when it is a string)",
+          "description": "Letter in the chip's avatar square."
         },
         {
           "name": "src",
-          "type": "string",
-          "required": true,
-          "description": "Cover photo."
+          "type": "string | undefined",
+          "required": false,
+          "description": "Cover photo. Omit it while the shoot has none (e.g. still generating) and pass `placeholder`."
         },
         {
           "name": "alt",
           "type": "string",
           "required": true
+        },
+        {
+          "name": "placeholder",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Shown in the photo's place when there is no `src`, e.g. \"Generating…\"."
         },
         {
           "name": "count",
@@ -5763,7 +6059,7 @@
           "code": "<ShootCard href=\"/shoots/1\" tag=\"Shoot for Graduation\" src={cover} alt=\"Smiling woman in a pink cardigan\" count={23} countLabel=\"Portraits\" date=\"Dec 2026\" />"
         }
       ],
-      "a11y": "With href the card is a link, with onPress a button (React Aria), so the whole card is one focus stop; give the cover a descriptive alt. Without href or onPress it is static.",
+      "a11y": "With href the card is a link, with onPress a button (React Aria), so the whole card is one focus stop; give the cover a descriptive alt. The initial is decorative (aria-hidden); the name is read once. Without href or onPress it is static.",
       "doNot": [
         "Do not nest other links or buttons inside; the card is itself the control.",
         "Do not pass an unformatted date; date is rendered as given."
@@ -5777,7 +6073,7 @@
       "importName": "ShutterButton",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/shutter-button",
       "category": "application",
-      "description": "Round 70px camera shutter for dark camera surfaces. Props: label (accessible name, default \"Take photo\"), caption (visible hint under the button), className, plus any React Aria Button prop (onPress, isDisabled...). Shrinks slightly while pressed (respects reduced motion).",
+      "description": "Round 70px camera shutter for dark camera surfaces. Props: label (accessible name, default \"Take photo\"), caption (visible hint under the button), currentStep (pose progress on the ring: 0-3 lights that quarter white and the earlier ones green, 4 = all done; unset = plain ring), stepLabel ((step, total) => string appended to the name when currentStep is set, default \"photo 2 of 4\"), className, plus any React Aria Button prop (onPress, isDisabled...). Shrinks slightly while pressed (respects reduced motion).",
       "props": [
         {
           "name": "className",
@@ -5797,6 +6093,19 @@
           "type": "ReactNode",
           "required": false,
           "description": "Visible hint under the button, e.g. \"Click the button above to take photo\"."
+        },
+        {
+          "name": "currentStep",
+          "type": "number | undefined",
+          "required": false,
+          "description": "Pose progress on the ring (Figma webcam states): quarters before it are done (green), this one is white.\n0-3 for the four poses, 4 when all are done. Unset shows the plain ring with the top quarter lit."
+        },
+        {
+          "name": "stepLabel",
+          "type": "((step: number, total: number) => string) | undefined",
+          "required": false,
+          "default": "(step, total) => `photo ${step} of ${total}`",
+          "description": "Appended to the accessible name when `currentStep` is set."
         }
       ],
       "slots": [],
@@ -5811,11 +6120,15 @@
           "code": "<ShutterButton caption=\"Click the button above to take photo\" onPress={takePhoto} />"
         },
         {
+          "title": "Pose progress",
+          "code": "<ShutterButton currentStep={pose} stepLabel={(n, total) => t(\"photoOf\", { n, total })} onPress={capture} />"
+        },
+        {
           "title": "Starting camera",
           "code": "<ShutterButton caption=\"Starting camera…\" isDisabled />"
         }
       ],
-      "a11y": "A real button named by label (aria-label); the SVG is aria-hidden. The caption is plain text below it, not part of the name. Visible white focus outline; isDisabled dims it. Pass a localised label.",
+      "a11y": "A real button named by label (aria-label); the SVG is aria-hidden. The caption is plain text below it, not part of the name. With currentStep the name gains the pose (Take photo, photo 3 of 4); localise stepLabel. Progress is never colour alone: done and current differ by position too, and the name carries the step. Visible white focus outline (the component sets the focus ring to white); isDisabled dims it. Pass a localised label.",
       "doNot": [
         "Do not use it on a light surface; the ring and fill are white.",
         "Do not rely on the caption as the button's name; set label."
@@ -5829,11 +6142,11 @@
       "importName": "ThumbStrip",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/thumb-strip",
       "category": "application",
-      "description": "Row of photo thumbnails and empty \"Add Photo\" slots under the crop area. Props: photos ({ src, alt }[], required), slots (total slots, default photos.length; extra ones render as add buttons), selectedIndex (marks the photo being cropped with a white ring and aria-current), onSelect(index), onAdd, addLabel (default \"Add Photo\"), className.",
+      "description": "Row of photo thumbnails and empty \"Add Photo\" slots under the crop area. Props: photos ({ src, alt, crop?: { x, y, size } (the kept square: x/size as fractions of the turned image width, y of its height; shown centred, covering the 73x58 thumb), rotation?: 0 | 90 | 180 | 270 (clockwise, applied before crop) }[], required), slots (total slots, default photos.length; extra ones render as add buttons), selectedIndex (marks the photo being cropped with a white ring and aria-current), onSelect(index), onAdd, addLabel (default \"Add Photo\"), className.",
       "props": [
         {
           "name": "photos",
-          "type": "{ src: string; alt: string; }[]",
+          "type": "ThumbStripPhoto[]",
           "required": true
         },
         {
@@ -5847,7 +6160,7 @@
           "name": "selectedIndex",
           "type": "number | undefined",
           "required": false,
-          "description": "Marks the photo being cropped."
+          "description": "Marks the photo being cropped (white ring, `aria-current`)."
         },
         {
           "name": "onSelect",
@@ -5884,7 +6197,7 @@
           "code": "<ThumbStrip photos={photos} slots={5} selectedIndex={selected} onSelect={setSelected} onAdd={addPhoto} />"
         }
       ],
-      "a11y": "Each thumbnail is a button named by its photo alt (give each a distinct alt); the selected one gets aria-current. Empty slots are buttons labelled addLabel. Focus outlines replace the dotted slot outline.",
+      "a11y": "Each thumbnail is a button named by its photo alt (give each a distinct alt); the selected one gets aria-current (photo thumbs are native buttons so the attribute reaches the DOM). Empty slots are buttons labelled addLabel. Focus outlines replace the dotted slot outline.",
       "doNot": [
         "Do not give every photo the same alt text.",
         "Do not use it on a light surface; it is a translucent dark tray for dark camera/crop UI."
@@ -5984,7 +6297,7 @@
       "importName": "Lightbox",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/lightbox/lightbox",
       "category": "application",
-      "description": "Full-bleed image viewer over a near-opaque frosted backdrop (a ModalOverlay with backdrop=\"lightbox\"): the current photo on a glass card with its own colour glow, actions below it, previous/next buttons at the screen edges and a peek of the next photo. Lightbox props: images ({ src, alt }[], required), index + onIndexChange (controlled) or defaultIndex (default 0), header (ReactNode or (index) => ReactNode, caption above the card), actions (ReactNode or (index) => ReactNode, use LightboxAction), aria-label (default \"Image viewer\"), plus ModalOverlay props (isOpen, onOpenChange, isDismissable...). Open it inside a DialogTrigger or with isOpen/onOpenChange. LightboxAction props: label (visible text and accessible name), icon (required), shape circle (56px round, default) | square (55px tile), isSelected (sets aria-pressed and fills the icon), plus Button press props.",
+      "description": "Full-bleed image viewer over a near-opaque frosted backdrop (a ModalOverlay with backdrop=\"lightbox\"): the current photo on a glass card with its own colour glow, actions below it, previous/next buttons at the screen edges and a peek of the next photo. Below the md breakpoint it switches to the phone layout by itself: an edge-to-edge card with the previous/next buttons under the photo and small actions (24px icons, one-line labels in equal columns, up to three) below the card. Lightbox props: images ({ src, alt }[], required), index + onIndexChange (controlled) or defaultIndex (default 0), header (ReactNode or (index) => ReactNode, caption above the card), actions (ReactNode or (index) => ReactNode, use LightboxAction), aria-label (default \"Image viewer\"), closeLabel (\"Close\"), previousLabel (\"Previous image\"), nextLabel (\"Next image\"), positionLabel ((position, total) => string, default \"Image n of total\", the live-region text), plus ModalOverlay props (isOpen, onOpenChange, isDismissable...). Open it inside a DialogTrigger or with isOpen/onOpenChange. LightboxAction props: label (visible text and accessible name), icon (required), shape circle (56px round, 24px on phones; default) | square (55px tile, 24x28 on phones), isSelected (sets aria-pressed and fills the icon), plus Button press props.",
       "props": [
         {
           "name": "images",
@@ -6018,7 +6331,7 @@
           "name": "actions",
           "type": "ReactNode | ((index: number) => ReactNode)",
           "required": false,
-          "description": "Buttons under the photo; use `LightboxAction`."
+          "description": "Buttons under the photo; use `LightboxAction`. Up to three fit on a phone."
         },
         {
           "name": "aria-label",
@@ -6026,6 +6339,31 @@
           "required": false,
           "default": "Image viewer",
           "description": "Names the dialog."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Close"
+        },
+        {
+          "name": "previousLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Previous image"
+        },
+        {
+          "name": "nextLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Next image"
+        },
+        {
+          "name": "positionLabel",
+          "type": "((position: number, total: number) => string) | undefined",
+          "required": false,
+          "default": "(position: number, total: number) => `Image ${position} of ${total}`",
+          "description": "Text the live region announces for the current image."
         }
       ],
       "slots": [],
@@ -6046,11 +6384,12 @@
           "code": "<Lightbox isOpen={isOpen} onOpenChange={setIsOpen} images={images} actions={(index) => (\n  <>\n    <LightboxAction label=\"Add to Favorite\" icon={FavouriteIcon} isSelected={favourites.has(index)} onPress={() => toggle(index)} />\n    <LightboxAction label=\"Download\" icon={ImageDownloadIcon} shape=\"square\" />\n  </>\n)} />"
         }
       ],
-      "a11y": "A modal dialog named by aria-label: focus is trapped and returns to the trigger, Escape closes, Left/Right arrows step through images. A polite live region announces \"Image n of total\"; each photo's alt text says what it is. Close, Previous image and Next image are labelled icon buttons (disabled at the ends); the glow and peek images are aria-hidden. LightboxAction uses aria-pressed when isSelected is set.",
+      "a11y": "A modal dialog named by aria-label: focus is trapped and returns to the trigger, Escape closes, Left/Right arrows step through images. A polite live region announces positionLabel (\"Image n of total\" by default); each photo's alt text says what it is. Close, Previous image and Next image are labelled icon buttons (closeLabel/previousLabel/nextLabel; translate them with aria-label and positionLabel) (disabled at the ends); the glow and peek images are aria-hidden. LightboxAction uses aria-pressed when isSelected is set.",
       "doNot": [
         "Do not render it without images or with images missing alt text.",
         "Do not build a custom full-screen modal for photos; use Lightbox.",
-        "Do not use LightboxAction outside the Lightbox actions slot; it is styled for the dark glass backdrop."
+        "Do not use LightboxAction outside the Lightbox actions slot; it is styled for the dark glass backdrop.",
+        "Do not put more than three actions in the slot; phones lay them out in equal columns on one line."
       ],
       "docsUrl": "/docs/application/lightbox/lightbox",
       "isExtracted": true
@@ -6140,7 +6479,7 @@
       "importName": "Modal",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/modals/modal",
       "category": "application",
-      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer. Modal variant: default (white), dark (#444 photo-flow shell), dark-inset (dark frame around a white ModalBody card; use ModalOptionList/ModalOption for icon rows), translucent (crop). ModalOverlay backdrop: light (default), dark, splash, lightbox. ModalHeader actions puts a CTA on the title row. On phones dialogs dock at the bottom, inset 16px.",
+      "description": "Overlay dialog. Compose DialogTrigger > (trigger Button) + ModalOverlay > Modal > Dialog > {({ close }) => ModalHeader + ModalBody + ModalFooter}. Sizes (max width on sm+): sm 400, md 456 (default), lg 600, xl 720, 2xl 960, full. On phones the panel always spans the screen. For long previews or side content prefer Drawer. Modal variant: default (white), dark (#444 photo-flow shell), dark-inset (dark frame around a white ModalBody card; use ModalOptionList/ModalOption for icon rows), light-inset (the light #F6F6F6 counterpart with an outlined white card), translucent (crop); dark, dark-inset and translucent draw focus rings in white. Modal clip={false} drops the overflow clip and shadow so content can overflow the panel (e.g. a banner tucked under the camera shell with -z-10). ModalOverlay backdrop: light (default), dark, splash, lightbox. ModalOverlay mobileLayout: sheet (default; phones dock the dialog at the bottom, inset 16px), bottom (edge to edge, flush with the bottom, square bottom corners, at most 17px from the top; sm+ centred), fullscreen (below md the panel fills the screen and the Dialog fills the panel, so an absolute bottom-0 footer reaches the screen edge). ModalHeader actions puts a CTA on the title row; closeLabel names its close button (default 'Close'; localize it).",
       "props": [
         {
           "name": "size",
@@ -6164,11 +6503,19 @@
             "dark",
             "default",
             "dark-inset",
+            "light-inset",
             "translucent"
           ],
           "required": false,
           "default": "default",
-          "description": "Panel surface. `dark` is the `#444` photo-flow shell; `dark-inset` frames a white `ModalBody` card\n(selection dialogs); `translucent` is the see-through crop surface."
+          "description": "Panel surface. `dark` is the `#444` photo-flow shell; `dark-inset` frames a white `ModalBody` card\n(selection dialogs) and `light-inset` is its light `#F6F6F6` counterpart; `translucent` is the see-through crop surface.\nDark surfaces (`dark`, `dark-inset`, `translucent`) draw focus rings in white."
+        },
+        {
+          "name": "clip",
+          "type": "boolean | undefined",
+          "required": false,
+          "default": "true",
+          "description": "Clips the content to the panel and casts its shadow. Set `false` to let content overflow the panel without a\nshadow, e.g. a banner tucked under the camera shell (give it `-z-10`); round the `Dialog` yourself\n(`rounded-[inherit]`) if its content must still follow the corners."
         }
       ],
       "slots": [],
@@ -6185,7 +6532,13 @@
           "default",
           "dark",
           "dark-inset",
+          "light-inset",
           "translucent"
+        ],
+        "mobileLayout": [
+          "sheet",
+          "bottom",
+          "fullscreen"
         ],
         "backdrop": [
           "light",
@@ -6218,6 +6571,10 @@
         {
           "title": "Wide preview",
           "code": "<Modal size=\"2xl\">...</Modal>"
+        },
+        {
+          "title": "Light selection dialog, docked to the bottom on phones",
+          "code": "<ModalOverlay mobileLayout=\"bottom\" backdrop=\"dark\">\n  <Modal variant=\"light-inset\" className=\"sm:max-w-93\">\n    <Dialog>\n      <ModalHeader title=\"What are you taking this shot for?\" showCloseButton={false} />\n      <ModalBody>{radioGroup}</ModalBody>\n      <ModalFooter>{cancelAndContinue}</ModalFooter>\n    </Dialog>\n  </Modal>\n</ModalOverlay>"
         }
       ],
       "a11y": "Focus moves into the dialog on open, Tab is trapped inside, Escape closes it and focus returns to the trigger. ModalHeader's title labels the dialog. Use Dialog role=\"alertdialog\" for confirmations, keep Cancel as the first focusable button, and set ModalOverlay isDismissable={false} while a destructive action is running.",
@@ -6821,6 +7178,52 @@
         "Do not build separate desktop table and mobile card markup; hide non-essential columns by breakpoint instead."
       ],
       "docsUrl": "/docs/application/table/table",
+      "isExtracted": true
+    },
+    {
+      "id": "application/tabs/anchor-nav",
+      "name": "AnchorNav",
+      "importName": "AnchorNav",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/tabs/anchor-nav",
+      "category": "application",
+      "description": "In-page section links (BetterShot persona side nav). AnchorNav (items: { id, href, label, icon? }[], currentId, onNavigate(id), aria-label default \"Sections\", plus nav attributes) renders a vertical nav of plain <a href=\"#section\"> links, 12px apart: a 28px icon (20% opacity until current) and a Medium 14 label; the current link is SemiBold text-secondary with the icon in brand colour. The caller decides which section is current (e.g. from the scroll position).",
+      "props": [
+        {
+          "name": "items",
+          "type": "AnchorNavItem[]",
+          "required": true
+        },
+        {
+          "name": "currentId",
+          "type": "string | undefined",
+          "required": false,
+          "description": "The section in view; its link gets `aria-current` and the active look."
+        },
+        {
+          "name": "onNavigate",
+          "type": "((id: string) => void) | undefined",
+          "required": false,
+          "description": "Called when a link is clicked (the browser still follows the `#` link)."
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "AnchorNav"
+      ],
+      "examples": [
+        {
+          "title": "Persona sections",
+          "code": "<AnchorNav aria-label=\"Persona sections\" currentId={inView} items={[{ id: \"basic\", href: \"#basic-details\", label: \"Basic Details\", icon: UserAccountIcon }, { id: \"features\", href: \"#facial-features\", label: \"Facial Features\", icon: HijabIcon }]} />"
+        }
+      ],
+      "a11y": "A nav landmark (name it with aria-label) of native links; the current one has aria-current=\"true\", so the state is not carried by colour alone. Icons are aria-hidden. Each href must point at an element id on the page (give the target a heading).",
+      "doNot": [
+        "Do not use Tabs for in-page anchors -- a tablist hides the other panels.",
+        "Do not use it for page-to-page navigation; use the sidebar or header navigation."
+      ],
+      "docsUrl": "/docs/application/tabs/anchor-nav",
       "isExtracted": true
     },
     {
@@ -7753,7 +8156,7 @@
       "importName": "Button",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/buttons/button",
       "category": "base",
-      "description": "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants. Sizes (text 14px at xs/sm, 16px at md+; weight 500): xs 28px, sm 32px (default), md 36px (was 40px), lg 40px, xl 48px. Colors: primary, secondary, secondary-brand (secondary with brand-colored text), white (solid white, no border, for dark bg-inverse surfaces), outline-pill (border-only fully rounded info pill, 14px trailing icon; sets its own padding so size only picks the type size), tertiary, link-*, and the *-destructive family. noTextPadding is deprecated and does nothing.",
+      "description": "The primary interactive button/link element. Renders as an <a> when href is passed, otherwise a <button>. Never use the raw HTML button or a elements -- always use this component, including for link-styled text via the link-* color variants. Sizes (text 14px at xs/sm, 16px at md+; weight 500): xs 28px (label 7px from each side, Figma's 6px padding inside a 1px stroke), sm 32px (default), md 36px (was 40px), lg 40px, xl 48px. Colors: primary, secondary, secondary-brand (secondary with brand-colored text), white (solid white, no border, for dark bg-inverse surfaces), outline-pill (border-only fully rounded info pill, 14px trailing icon; sets its own padding so size only picks the type size), tertiary, link-*, and the *-destructive family. noTextPadding is deprecated and does nothing.",
       "props": [
         {
           "name": "href",
@@ -8554,8 +8957,20 @@
       "importName": "ColorSwatchPicker",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/color-picker/color-swatch-picker",
       "category": "base",
-      "description": "Single choice from a set of colors. ColorSwatchPicker (size md|lg, layout grid|stack, value/onChange or defaultValue) > ColorSwatchPickerItem (color, label, fill, aria-label, isDisabled). size=\"md\" (default): 36px circles in a wrapping row; the selected one shows a centre dot (dark on light swatches). size=\"lg\": 48px discs inside a 2px ring that turns violet when selected, in a grid of equal columns. Item label is a visible caption under the swatch (also the accessible name when it is a string, else the generated color name). Item fill is a CSS `background` painted instead of the flat color (e.g. a radial gradient); color stays the value.",
+      "description": "Single choice from a set of colors. ColorSwatchPicker (size md|lg, layout grid|stack|tile, value/onChange or defaultValue) > ColorSwatchPickerItem (color, label, fill, aria-label, isDisabled). size=\"md\" (default): 36px circles in a wrapping row; the selected one shows a centre dot (dark on light swatches). size=\"lg\": 48px discs inside a 2px ring that turns violet when selected, in a grid of equal columns. layout=\"tile\": the phone grid, three columns of bordered white tiles (41px circle over a Medium 14 label); the selected tile gets a brand border plus the centre dot; size is ignored. Item label is a visible caption under the swatch (also the accessible name when it is a string, else the generated color name). Item fill is a CSS `background` painted instead of the flat color (e.g. a radial gradient); color stays the value.",
       "props": [
+        {
+          "name": "layout",
+          "type": "enum",
+          "enumValues": [
+            "grid",
+            "stack",
+            "tile"
+          ],
+          "required": false,
+          "default": "grid",
+          "description": "`\"grid\"` / `\"stack\"` as in React Aria. `\"tile\"`: the phone grid, three columns of bordered tiles (41px circle over a\n14px label); the selected tile gets a brand border and the centre dot. `size` is ignored for tiles."
+        },
         {
           "name": "size",
           "type": "enum",
@@ -8583,7 +8998,8 @@
         ],
         "layout": [
           "grid",
-          "stack"
+          "stack",
+          "tile"
         ]
       },
       "allowedChildren": "any",
@@ -9124,7 +9540,7 @@
       "importName": "Dropdown",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/dropdown/dropdown",
       "category": "base",
-      "description": "Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, count (a small chip right after the label, e.g. 32 for \"All 32\"), href, and variant=\"destructive\" for delete/remove actions. Menus with selectionMode render checks/radios on items.",
+      "description": "Action menu. Compose Dropdown.Root > trigger (Button, or Dropdown.DotsButton for a kebab) + Dropdown.Popover > Dropdown.Menu > Dropdown.Item (optionally grouped in Dropdown.Section with Dropdown.SectionHeader and Dropdown.Separator). Dropdown.Item takes label, icon, addon, count (a small chip right after the label, e.g. 32 for \"All 32\"), href, and variant=\"destructive\" for delete/remove actions. Menus with selectionMode render checks/radios on items. Below the md breakpoint Dropdown.Popover becomes a bottom sheet; pass mobileSheet={false} to keep a short menu anchored to its trigger on phones (e.g. a toolbar Download menu). backLabel (default \"Back\") names the button that closes a submenu sheet.",
       "props": [],
       "slots": [],
       "variants": {},
@@ -9147,11 +9563,15 @@
           "code": "<Dropdown.Root>\n  <Dropdown.DotsButton aria-label={`Actions for ${row.name}`} />\n  <Dropdown.Popover>\n    <Dropdown.Menu onAction={(key) => handle(key)}>\n      <Dropdown.Item id=\"edit\" label=\"Edit\" icon={Edit01} />\n      <Dropdown.Item id=\"duplicate\" label=\"Duplicate\" icon={Copy01} />\n      <Dropdown.Separator />\n      <Dropdown.Item id=\"delete\" label=\"Delete\" icon={Trash01} variant=\"destructive\" />\n    </Dropdown.Menu>\n  </Dropdown.Popover>\n</Dropdown.Root>"
         },
         {
+          "title": "Anchored on phones",
+          "code": "<Dropdown.Root>\n  <Button color=\"secondary\" size=\"sm\">Download</Button>\n  <Dropdown.Popover mobileSheet={false} placement=\"bottom right\" offset={5} className=\"w-[116px]\">\n    <Dropdown.Menu aria-label=\"Download\" onAction={download}>\n      <Dropdown.Item id=\"all\" label=\"All\" count={32} />\n      <Dropdown.Separator />\n      <Dropdown.Item id=\"favorites\" label=\"Favorites\" count={8} />\n    </Dropdown.Menu>\n  </Dropdown.Popover>\n</Dropdown.Root>"
+        },
+        {
           "title": "Single-choice section",
           "code": "<Dropdown.Menu>\n  <Dropdown.Section selectionMode=\"single\" selectedKeys={[theme]} onSelectionChange={(keys) => setTheme([...keys][0])}>\n    <Dropdown.SectionHeader>Theme</Dropdown.SectionHeader>\n    <Dropdown.Item id=\"light\" label=\"Light\" />\n    <Dropdown.Item id=\"dark\" label=\"Dark\" />\n  </Dropdown.Section>\n</Dropdown.Menu>"
         }
       ],
-      "a11y": "Arrow keys move between items, typeahead jumps, Enter/Space activates, Escape closes and returns focus to the trigger. Give an icon-only trigger a specific name: <Dropdown.DotsButton aria-label=\"Actions for Acme\" /> (defaults to \"Open menu\").",
+      "a11y": "Arrow keys move between items, typeahead jumps, Enter/Space activates, Escape closes and returns focus to the trigger. Give an icon-only trigger a specific name: <Dropdown.DotsButton aria-label=\"Actions for Acme\" /> (defaults to \"Open menu\"). Translate backLabel when submenus are used.",
       "doNot": [
         "Do not hand-position a portal menu -- use Dropdown (keyboard navigation and focus return come with it).",
         "Do not signal a destructive item by color alone and run it immediately; use variant=\"destructive\" and confirm with a dialog."
@@ -10234,13 +10654,36 @@
       "importName": "Popover",
       "importPath": "@your-job-search-genius/odyssey-ui/components/base/popover/popover",
       "category": "base",
-      "description": "Dark, interactive explainer anchored to its trigger: body text plus an optional acknowledgement button. Popover props: children (body text; also names the dialog unless aria-label is set), acknowledgeLabel (label of the dismiss button, e.g. \"Okay! Got It\"; omit for none), onAcknowledge (called before it closes), aria-label, placement (default \"bottom start\"), offset (default 8), className, plus React Aria Popover props. Wrap the trigger (any pressable, e.g. Button) and the Popover in PopoverTrigger (opens on press; supports defaultOpen, isOpen, onOpenChange). Unlike Tooltip it is a non-modal dialog that can hold focusable content and returns focus to the trigger.",
+      "description": "Dark, interactive explainer anchored to its trigger: body text plus an optional acknowledgement button. Popover props: children (body text, or any content with variant \"bare\"; also names the dialog unless aria-label is set), variant (\"default\": the dark padded text explainer; \"bare\": no surface, padding or width, for rich content such as a QRCard that brings its own -- give it an aria-label), size (\"md\" default: 273px wide; \"sm\": the phone explainer, viewport width minus 17px; \"responsive\": sm below the md breakpoint, md from it; ignored by bare; sm/responsive default containerPadding to 8), acknowledgeLabel (label of the dismiss button, e.g. \"Okay! Got It\"; omit for none), onAcknowledge (called before it closes), aria-label, placement (default \"bottom start\"), offset (default 8), className, plus React Aria Popover props. Wrap the trigger (any pressable, e.g. Button) and the Popover in PopoverTrigger (opens on press; supports defaultOpen, isOpen, onOpenChange). Unlike Tooltip it is a non-modal dialog that can hold focusable content and returns focus to the trigger.",
       "props": [
         {
           "name": "children",
           "type": "ReactNode",
           "required": true,
-          "description": "Body text. It also names the dialog unless `aria-label` is set."
+          "description": "Body content: text for the explainer, any content (e.g. a `QRCard`) for `bare`. It also names the dialog unless `aria-label` is set."
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "enumValues": [
+            "default",
+            "bare"
+          ],
+          "required": false,
+          "default": "default",
+          "description": "`default` is the dark text explainer (padded `#151515` box). `bare` draws no surface, padding or width, so rich\ncontent such as a `QRCard` brings its own; prefer an `aria-label` then."
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "enumValues": [
+            "sm",
+            "md",
+            "responsive"
+          ],
+          "required": false,
+          "default": "md",
+          "description": "Explainer width: `md` 273px (desktop); `sm` the phone explainer, nearly the full viewport width (385px of 402);\n`responsive` is `sm` below the `md` breakpoint and `md` from it. Ignored by `bare`."
         },
         {
           "name": "acknowledgeLabel",
@@ -10262,7 +10705,17 @@
         }
       ],
       "slots": [],
-      "variants": {},
+      "variants": {
+        "variant": [
+          "default",
+          "bare"
+        ],
+        "size": [
+          "md",
+          "sm",
+          "responsive"
+        ]
+      },
       "allowedChildren": "any",
       "moduleExports": [
         "Popover",
@@ -10272,9 +10725,13 @@
         {
           "title": "Explainer with acknowledge button",
           "code": "<PopoverTrigger>\n  <Button size=\"sm\" color=\"outline-pill\" iconTrailing={HelpCircleIcon}>Why this takes time</Button>\n  <Popover acknowledgeLabel=\"Okay! Got It\">We train a private model on your selfies, then generate every look.</Popover>\n</PopoverTrigger>"
+        },
+        {
+          "title": "QR code beside a trigger",
+          "code": "<PopoverTrigger>\n  <Button>Use Phone Camera</Button>\n  <Popover variant=\"bare\" placement=\"right bottom\" offset={11} aria-label=\"Continue on your phone\">\n    <QRCard value={captureUrl} caption=\"Use your phone to take the picture for a better quality\" onClose={() => {}} />\n  </Popover>\n</PopoverTrigger>"
         }
       ],
-      "a11y": "A non-modal dialog named by its body text (aria-labelledby) or aria-label; opens on press, closes on Escape, outside press or the acknowledge button, and returns focus to the trigger. The body is plain text; keep it short.",
+      "a11y": "A non-modal dialog named by its body text (aria-labelledby) or aria-label; opens on press, closes on Escape, outside press or the acknowledge button, and returns focus to the trigger. The default body is plain text; keep it short. Focus rings inside the default (dark) explainer are white so they stay visible on #151515. With variant bare, pass an aria-label and make sure the content provides its own focus-visible styles; a QRCard close button (onClose) also closes the popover through its close slot.",
       "doNot": [
         "Do not use it for a hover or focus label with nothing to press; use Tooltip.",
         "Do not put long forms or critical blocking content in it; use Modal.",

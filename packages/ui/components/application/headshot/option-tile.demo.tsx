@@ -55,3 +55,12 @@ export const OptionTileCarouselDemo = ({ label = "Eyewear", src, defaultValue = 
         </Card>
     );
 };
+
+/** Browse-all grid: large tiles that shrink to their column, every hair image faded. */
+export const OptionTileBrowseAllDemo = ({ src }: { src?: string }) => (
+    <OptionTileGroup aria-label="Style" defaultValue="style-2" className="grid w-full max-w-[824px] grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+        {options.slice(1, 5).map((option) => (
+            <OptionTile key={option.id} value={option.id} label={option.label} src={src} size="lg" fade="always" />
+        ))}
+    </OptionTileGroup>
+);

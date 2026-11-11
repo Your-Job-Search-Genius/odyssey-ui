@@ -25,6 +25,28 @@ export const Figma = () => (
     </div>
 );
 
+/** Phone bar (Figma 14853:261150), 370px wide as in the 402px frame. */
+export const FigmaPhone = () => (
+    <div data-compare className="inline-flex w-[370px] shrink-0 flex-col items-start gap-4 bg-white p-0">
+        <FavoritesBar
+            size="sm"
+            count={8}
+            thumbnails={[favorite, favorite]}
+            feedbackTitle="Get Feedback from Friends on your Favourites"
+            onShare={() => {}}
+            shareLabel="Share"
+        />
+    </div>
+);
+
+/** Without a feedback prompt or share action only the tab shows; `isFavoritesActive` makes it a pressed toggle. */
+export const TabOnly = () => (
+    <div className="flex items-end gap-6">
+        <FavoritesBar count={8} thumbnails={[favorite, favorite]} isFavoritesActive />
+        <FavoritesBar size="sm" count={8} thumbnails={[favorite, favorite]} isFavoritesActive={false} />
+    </div>
+);
+
 export const FigmaEmpty = () => (
     <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
         <FavoritesBar count={0} />

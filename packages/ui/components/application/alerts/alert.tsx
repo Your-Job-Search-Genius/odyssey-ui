@@ -2,6 +2,7 @@
 
 import { type ComponentPropsWithRef, type FC, type ReactNode, isValidElement, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "motion/react";
+import { Overlay as AriaOverlay } from "react-aria";
 import { Button as AriaButton } from "react-aria-components";
 import { CloseButton } from "@/components/base/buttons/close-button";
 import { MultiplicationSignSquareIcon } from "@/components/foundations/hugeicons";
@@ -60,6 +61,8 @@ export interface AlertProps extends Omit<ComponentPropsWithRef<"div">, "title"> 
      * @default true
      */
     autoFocus?: boolean;
+    /** Accessible name of the dismiss button. @default "Dismiss" */
+    dismissLabel?: string;
 }
 
 /**
@@ -76,6 +79,7 @@ export const Alert = ({
     actions,
     onDismiss,
     autoFocus = true,
+    dismissLabel = "Dismiss",
     className,
     children,
     ...props
@@ -107,7 +111,7 @@ export const Alert = ({
             </div>
 
             {onDismiss && (
-                <CloseButton size="sm" slot={null} label="Dismiss" autoFocus={autoFocus} className="absolute top-2.5 right-2.5" onClick={onDismiss} />
+                <CloseButton size="sm" slot={null} label={dismissLabel} autoFocus={autoFocus} className="absolute top-2.5 right-2.5" onClick={onDismiss} />
             )}
         </div>
     );
@@ -233,7 +237,7 @@ export const toast = Object.assign((title: ReactNode, options?: Omit<ToastOption
     },
 });
 
-const ToastCard = ({ item }: { item: ToastItem }) => {
+const ToastCard = ({ item, dismissLabel }: { item: ToastItem; dismissLabel: string }) => {
     const shouldReduceMotion = useReducedMotion();
     const [isPaused, setIsPaused] = useState(false);
     const remainingRef = useRef(item.duration);
@@ -316,7 +320,7 @@ const ToastCard = ({ item }: { item: ToastItem }) => {
             </div>
 
             <AriaButton
-                aria-label="Dismiss"
+                aria-label={dismissLabel}
                 autoFocus={item.autoFocus}
                 onPress={() => dismissToast(item.id)}
                 className="shrink-0 cursor-pointer rounded-sm text-white outline-focus-ring transition duration-100 ease-linear hover:text-white/80 focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -339,27 +343,38 @@ const positions = sortCx({
 interface ToasterProps {
     /** Screen edge/corner the toast stack anchors to. @default "top-center" */
     position?: keyof typeof positions;
+    /** Accessible name of each toast's dismiss button. @default "Dismiss" */
+    dismissLabel?: string;
 }
 
-/** Mount once near the root of the app. Renders whatever toasts are pushed via `toast()`. */
-export const Toaster = ({ position = "top-center" }: ToasterProps) => {
+/**
+ * Mount once near the root of the app. Renders whatever toasts are pushed via `toast()`. The stack is portaled like
+ * the modals (into the nearest `PortalProvider` container, else `document.body`) and sits above them (`z-[100]` vs
+ * the modal overlay's `z-50`), so a toast fired while a dialog is open shows over it.
+ */
+export const Toaster = ({ position = "top-center", dismissLabel = "Dismiss" }: ToasterProps) => {
     const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
     return (
-        <div
-            className={cx("pointer-events-none fixed z-[100] flex max-h-dvh w-full max-w-sm flex-col gap-3 overflow-hidden p-4 sm:p-6", positions[position])}
-            aria-live="polite"
-            aria-atomic="false"
-            // An open Modal makes everything outside it inert. Without this the live region is inert when a
-            // toast fires from a dialog (e.g. a confirm) and comes back in the same update as the toast, so
-            // screen readers never announce it. React Aria leaves top-layer nodes exposed under a modal.
-            data-react-aria-top-layer=""
-        >
-            <AnimatePresence mode="popLayout">
-                {items.map((item) => (
-                    <ToastCard key={item.id} item={item} />
-                ))}
-            </AnimatePresence>
-        </div>
+        <AriaOverlay disableFocusManagement>
+            <div
+                className={cx(
+                    "pointer-events-none fixed z-[100] flex max-h-dvh w-full max-w-sm flex-col gap-3 overflow-hidden p-4 sm:p-6",
+                    positions[position],
+                )}
+                aria-live="polite"
+                aria-atomic="false"
+                // An open Modal makes everything outside it inert. Without this the live region is inert when a
+                // toast fires from a dialog (e.g. a confirm) and comes back in the same update as the toast, so
+                // screen readers never announce it. React Aria leaves top-layer nodes exposed under a modal.
+                data-react-aria-top-layer=""
+            >
+                <AnimatePresence mode="popLayout">
+                    {items.map((item) => (
+                        <ToastCard key={item.id} item={item} dismissLabel={dismissLabel} />
+                    ))}
+                </AnimatePresence>
+            </div>
+        </AriaOverlay>
     );
 };

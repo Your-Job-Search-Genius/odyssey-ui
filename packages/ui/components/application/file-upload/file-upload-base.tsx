@@ -31,11 +31,14 @@ interface FileUploadDropZoneProps {
     /** The class name of the drop zone. */
     className?: string;
     /**
-     * A hint text explaining what files can be dropped.
+     * A hint text explaining what files can be dropped (pass a localised one; empty falls back to the default).
+     * @default "SVG, PNG, JPG or GIF (max. 800x400px)"
      */
     hint?: string;
-    /** Visible title; it is also the button that opens the file picker. @default "Click to upload" (followed by "or drag and drop") */
+    /** Visible title; it is also the button that opens the file picker. @default "Click to upload" (followed by `dragDropLabel`) */
     title?: ReactNode;
+    /** Text after the default title (screen-reader only when `title` is set). @default "or drag and drop" */
+    dragDropLabel?: string;
     /** Icon shown before the text, sized 32px. @default UploadCloud02 */
     icon?: FC<{ className?: string }>;
     /** Short status shown as a pill after the title, e.g. "1/5 Uploaded". */
@@ -78,6 +81,7 @@ export const FileUploadDropZone = ({
     className,
     hint,
     title,
+    dragDropLabel = "or drag and drop",
     icon: Icon = UploadCloud02,
     badge,
     isDisabled,
@@ -250,7 +254,7 @@ export const FileUploadDropZone = ({
                     {/* Part of the button's description so screen readers hear that files can also be dropped here.
                         Visible only next to the default title; kept for screen readers when a custom title replaces it. */}
                     <span id={`${id}-drop`} className={cx("text-md font-medium text-subtle", title !== undefined && "sr-only")}>
-                        or drag and drop
+                        {dragDropLabel}
                     </span>
                     {badge && <span className="rounded-[17px] bg-brand-primary py-1 pr-2.25 pl-2 text-xs/4 font-medium text-brand-tertiary">{badge}</span>}
                 </div>

@@ -21,7 +21,10 @@ export const Basic = () => <Demos.BasicDemo />;
 /** Figma component set: `default` and `onHover` (forced visible here). */
 export const Figma = () => (
     <div data-compare className="inline-flex gap-[14px] bg-[#626262] p-5">
-        <ResultTile src={face} alt="Headshot 1" onOpen={noop} onDownload={noop} />
-        <ResultTile src={face} alt="Headshot 1" onOpen={noop} onDownload={noop} className="[&_button]:opacity-100" />
+        <ResultTile src={face} alt="Headshot 1" onFavoriteChange={noop} onOpen={noop} onDownload={noop} />
+        <ResultTile src={face} alt="Headshot 1" onFavoriteChange={noop} onOpen={noop} onDownload={noop} className="[&_button]:opacity-100" />
     </div>
 );
+
+/** Without `onFavoriteChange` there is no heart (e.g. while favourites aren't available). */
+export const WithoutFavorite = () => <ResultTile src={face} alt="Headshot 1" onOpen={noop} onDownload={noop} />;

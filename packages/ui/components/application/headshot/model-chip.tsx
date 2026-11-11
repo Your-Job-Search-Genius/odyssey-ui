@@ -5,6 +5,13 @@ import { useId } from "react";
 import { Button } from "@/components/base/buttons/button";
 import { cx } from "@/utils/cx";
 
+// `md`: the 198px-min desktop chip with the name pushed right; `sm`: Figma's phone chip, which hugs its content (gap 25).
+const sizes = {
+    md: "min-w-[198px] justify-between gap-3",
+    sm: "gap-[25px]",
+    responsive: "gap-[25px] md:min-w-[198px] md:justify-between md:gap-3",
+};
+
 export interface ModelChipProps {
     /** Leading caption, rendered uppercase. @default "Model" */
     label?: ReactNode;
@@ -16,16 +23,18 @@ export interface ModelChipProps {
     changeLabel?: ReactNode;
     /** Opens the model picker. */
     onPressChange?: () => void;
+    /** `md` keeps the inner box at least 198px wide (desktop); `sm` hugs its content (phone); `responsive` is `sm` below `md`. @default "md" */
+    size?: keyof typeof sizes;
     className?: string;
 }
 
 /** "MODEL | avatar Name | Change": shows the model outfits are tried on, with a button to swap it. */
-export const ModelChip = ({ label = "Model", name, avatarSrc, changeLabel = "Change", onPressChange, className }: ModelChipProps) => {
+export const ModelChip = ({ label = "Model", name, avatarSrc, changeLabel = "Change", onPressChange, size = "md", className }: ModelChipProps) => {
     const id = useId();
 
     return (
         <div className={cx("inline-flex items-center rounded-[10px] bg-tertiary p-0.5", className)}>
-            <div id={id} className="flex h-9 min-w-[198px] items-center justify-between gap-3 rounded-lg bg-primary px-1 py-0.5">
+            <div id={id} className={cx("flex h-9 items-center rounded-lg bg-primary px-1 py-0.5", sizes[size])}>
                 <span className="text-sm font-medium text-subtle uppercase">{label}</span>
                 <span className="flex items-center gap-[5px] text-sm font-medium text-primary">
                     {avatarSrc && <img src={avatarSrc} alt="" className="size-8 shrink-0 rounded-[7px] bg-(--color-border-primary) object-cover object-top" />}

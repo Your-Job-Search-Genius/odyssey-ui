@@ -18,6 +18,8 @@ export default {
 
 export const States = () => <Demos.StatesDemo />;
 
+export const Responsive = () => <Demos.ResponsiveDemo />;
+
 export const Figma = () => (
     <div data-compare className="inline-flex flex-col items-start gap-4 bg-[#444] p-0">
         <PhotoSlot status="ok" src={portrait} alt="Photo 1" onRetake={() => {}} />
@@ -43,5 +45,22 @@ export const FigmaModal = () => (
                 <PhotoSlot onAdd={() => {}} />
             </div>
         </div>
+    </div>
+);
+
+/** Phone tiles (Figma 14846:189349, first row): fluid 183×242 in a 370px two-column grid. */
+export const FigmaPhone = () => (
+    <div data-compare className="inline-grid w-[370px] grid-cols-2 gap-x-1 bg-[#444] p-0">
+        <PhotoSlot
+            size="sm"
+            label="Photo 1"
+            status="fail"
+            src={portrait}
+            alt=""
+            failLabel="Failed"
+            onReupload={() => {}}
+            whyAction={<GlassPill>Why?</GlassPill>}
+        />
+        <PhotoSlot size="sm" label="Photo 2" status="ok" src={portrait} alt="" onRetake={() => {}} />
     </div>
 );

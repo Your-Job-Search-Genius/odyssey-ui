@@ -5,6 +5,7 @@ export const componentMeta = {
     a11y: "A section with the title as a heading; set headingLevel to fit the page outline. The media slot is wrapped in aria-hidden and hidden below md, so it must be purely decorative.",
     doNot: [
         "Do not put informative content in media; it is aria-hidden.",
+        "Do not put FractalGlass straight on the banner; give its wrapper a white (bg-primary) fill, or its overlay-blended stripes show as grey bars.",
         "Do not put more than one action in the action slot.",
         "Do not use it for validation or status messages; use Alert.",
     ],

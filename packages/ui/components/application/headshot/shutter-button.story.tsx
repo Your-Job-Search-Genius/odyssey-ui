@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { ShutterButton } from "@/components/application/headshot/shutter-button";
 import * as Demos from "@/components/application/headshot/shutter-button.demo";
 
 export default {
@@ -15,3 +16,12 @@ export default {
 export const Basic = () => <Demos.BasicDemo />;
 
 export const Disabled = () => <Demos.DisabledDemo />;
+
+export const Progress = () => <Demos.ProgressDemo />;
+
+/** Webcam state 7 (Figma 14777:126114): top and right poses done, bottom current. */
+export const FigmaProgress = () => (
+    <div data-compare className="inline-flex flex-col items-start bg-[#1E1E1E] p-0">
+        <ShutterButton currentStep={2} />
+    </div>
+);

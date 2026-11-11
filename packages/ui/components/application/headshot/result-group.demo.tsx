@@ -10,8 +10,22 @@ export const BasicDemo = () => (
         count={2}
         countLabel="Photos"
         title="White T-Shirt and Leather Jacket"
+        headingLevel={2}
     >
-        <ResultTile src="https://www.untitledui.com/images/avatars/olivia-rhye" alt="Headshot 1" onOpen={() => {}} onDownload={() => {}} />
-        <ResultTile src="https://www.untitledui.com/images/avatars/phoenix-baker" alt="Headshot 2" isFavorite onOpen={() => {}} onDownload={() => {}} />
+        <ResultTile
+            src="https://www.untitledui.com/images/avatars/olivia-rhye"
+            alt="Headshot 1"
+            onFavoriteChange={() => {}}
+            onOpen={() => {}}
+            onDownload={() => {}}
+        />
+        <ResultTile
+            src="https://www.untitledui.com/images/avatars/phoenix-baker"
+            alt="Headshot 2"
+            isFavorite
+            onFavoriteChange={() => {}}
+            onOpen={() => {}}
+            onDownload={() => {}}
+        />
     </ResultGroup>
 );

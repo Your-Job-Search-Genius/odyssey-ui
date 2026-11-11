@@ -95,3 +95,21 @@ export const Figma = () => (
         </Dropdown.Root>
     </div>
 );
+
+/** Phone (Figma 14866:262194): `mobileSheet={false}` keeps the menu anchored under its button instead of a bottom sheet. Shoot at 402px. */
+export const FigmaPhoneAnchored = () => (
+    <div data-compare className="flex w-full justify-end bg-white p-0 pr-[73px]">
+        <Dropdown.Root defaultOpen>
+            <Button color="secondary" size="sm" className="px-1.5">
+                Download
+            </Button>
+            <Dropdown.Popover mobileSheet={false} placement="bottom right" offset={5} className="w-[116px]">
+                <Dropdown.Menu aria-label="Download">
+                    <Dropdown.Item id="all" label="All" count={32} />
+                    <Dropdown.Separator />
+                    <Dropdown.Item id="favorites" label="Favorites" count={8} />
+                </Dropdown.Menu>
+            </Dropdown.Popover>
+        </Dropdown.Root>
+    </div>
+);

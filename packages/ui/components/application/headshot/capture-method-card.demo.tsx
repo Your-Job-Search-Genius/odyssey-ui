@@ -22,6 +22,7 @@ export const FaceScanMark = () => (
 export const CaptureMethodsDemo = () => (
     <div className="flex w-full max-w-[393px] flex-col gap-2.5">
         <CaptureMethodCard
+            size="responsive"
             tab="Recommended"
             icon={<FaceScanMark />}
             title="Computer Webcam"

@@ -6,9 +6,16 @@ import { ColorSwatchPicker as AriaColorSwatchPicker, ColorSwatchPickerItem as Ar
 import { ColorSwatch } from "@/components/base/color-picker/color-swatch";
 import { cx } from "@/utils/cx";
 
-const SizeContext = createContext<"md" | "lg">("md");
+// "tile" is the phone hair-colour grid: each swatch in a bordered tile with its label.
+const SizeContext = createContext<"md" | "lg" | "tile">("md");
 
-export interface ColorSwatchPickerProps extends AriaColorSwatchPickerProps {
+export interface ColorSwatchPickerProps extends Omit<AriaColorSwatchPickerProps, "layout"> {
+    /**
+     * `"grid"` / `"stack"` as in React Aria. `"tile"`: the phone grid, three columns of bordered tiles (41px circle over a
+     * 14px label); the selected tile gets a brand border and the centre dot. `size` is ignored for tiles.
+     * @default "grid"
+     */
+    layout?: AriaColorSwatchPickerProps["layout"] | "tile";
     /**
      * `"md"`: 36px circles in a wrapping row; the selected one shows a centre dot.
      * `"lg"`: 48px discs inside a 2px ring that turns violet when selected, in a grid of equal columns.
@@ -25,12 +32,16 @@ export interface ColorSwatchPickerProps extends AriaColorSwatchPickerProps {
  */
 export const ColorSwatchPicker = ({ className, layout = "grid", size = "md", ...props }: ColorSwatchPickerProps) => {
     return (
-        <SizeContext.Provider value={size}>
+        <SizeContext.Provider value={layout === "tile" ? "tile" : size}>
             <AriaColorSwatchPicker
                 {...props}
-                layout={layout}
+                layout={layout === "tile" ? "grid" : layout}
                 className={cx(
-                    size === "md" ? "flex flex-wrap gap-5" : "grid grid-cols-[repeat(auto-fill,minmax(62px,1fr))] justify-items-center gap-x-6 gap-y-4",
+                    layout === "tile"
+                        ? "grid w-full grid-cols-3 gap-1"
+                        : size === "md"
+                          ? "flex flex-wrap gap-5"
+                          : "grid grid-cols-[repeat(auto-fill,minmax(62px,1fr))] justify-items-center gap-x-6 gap-y-4",
                     layout === "stack" && "flex flex-col",
                     className,
                 )}
@@ -78,10 +89,14 @@ export const ColorSwatchPickerItem = ({ className, color, label, fill, "aria-lab
             {...props}
             color={color}
             aria-label={ariaLabel ?? (typeof label === "string" ? label : parsedColor.getColorName(locale))}
-            className={({ isDisabled }) =>
+            className={({ isDisabled, isSelected, isFocusVisible }) =>
                 cx(
                     "flex w-fit cursor-pointer flex-col items-center outline-hidden",
                     size === "md" ? "gap-1.5" : "gap-2",
+                    size === "tile" &&
+                        "w-full gap-[7px] rounded-[11px] border border-tertiary bg-primary px-1 py-[15px] outline-focus-ring transition duration-100 ease-linear",
+                    size === "tile" && isSelected && "border-brand-500",
+                    size === "tile" && isFocusVisible && "outline-2 outline-offset-2",
                     isDisabled && "cursor-not-allowed opacity-50",
                     className,
                 )
@@ -89,11 +104,12 @@ export const ColorSwatchPickerItem = ({ className, color, label, fill, "aria-lab
         >
             {({ isSelected, isFocusVisible }) => (
                 <>
-                    {size === "md" ? (
-                        <span className={cx("relative flex rounded-full", isFocusVisible && "outline-2 outline-offset-2 outline-focus-ring")}>
+                    {size !== "lg" ? (
+                        <span className={cx("relative flex rounded-full", size === "md" && isFocusVisible && "outline-2 outline-offset-2 outline-focus-ring")}>
                             <ColorSwatch
                                 aria-hidden="true"
-                                className={cx(isSelected && !isLight && "ring-0")}
+                                // Tiles outline only light swatches (Figma: White); the circles keep it when selected for contrast.
+                                className={cx(size === "tile" && "size-[41px]", (isSelected || size === "tile") && !isLight && "ring-0")}
                                 style={fill ? { background: fill } : undefined}
                             />
                             {isSelected && <span className={cx("absolute inset-0 m-auto size-2 rounded-full", isLight ? "bg-[#101419]" : "bg-white")} />}
@@ -115,8 +131,9 @@ export const ColorSwatchPickerItem = ({ className, color, label, fill, "aria-lab
                         <span
                             className={cx(
                                 // Size before leading: tailwind-merge drops a leading-* that precedes a text-size class.
-                                size === "md" ? "text-[11px]" : "text-xs",
-                                "leading-[normal] whitespace-nowrap text-tertiary",
+                                size === "md" ? "text-[11px]" : size === "tile" ? "text-sm font-medium" : "text-xs",
+                                "leading-[normal] whitespace-nowrap",
+                                size === "tile" ? "text-primary" : "text-tertiary",
                                 size === "lg" && isSelected && "font-medium text-primary",
                             )}
                         >

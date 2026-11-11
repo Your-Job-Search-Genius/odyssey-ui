@@ -2,14 +2,14 @@
 export const componentMeta = {
     importName: "CaptureMethodCard",
     description:
-        'One way to add photos (webcam, phone). The whole card is a single button or link: pass exactly one of `onPress` or `href`. `layout` "featured" (tall grey card, large decorative `icon` on top) or "compact" (short brand-tinted row). Props: title, description, icon, tab (a "Recommended" badge glued above the card), isDisabled, className. CapturePrivacyNote (children, className) renders a lock icon with a one-line privacy note.',
-    variants: { layout: ["featured", "compact"] },
+        'One way to add photos (webcam, phone). The whole card is a single button or link: pass exactly one of `onPress` or `href`. `layout` "featured" (tall grey card, large decorative `icon` on top) or "compact" (short brand-tinted row). `size` (featured only): "md" (default, icon on top), "sm" (phone: icon left of the text), "responsive" (sm below the md breakpoint). Props: title, description, icon, tab (a "Recommended" badge glued above the card), isDisabled, className. CapturePrivacyNote (children, className) renders a lock icon with a one-line privacy note.',
+    variants: { layout: ["featured", "compact"], size: ["md", "sm", "responsive"] },
     a11y: "Built on Card, so it is one button/link with title and description as its name. `tab` text is exposed as the card's description (aria-describedby) while the visible badge is aria-hidden. The icon and arrow are aria-hidden; keep the title self-explanatory.",
     doNot: ["Do not pass both onPress and href.", "Do not put interactive elements in title, description or icon -- the whole card is already the control."],
     examples: [
         {
-            title: "Featured with recommended tab",
-            code: '<CaptureMethodCard tab="Recommended" icon={<FaceScanMark />} title="Computer Webcam" description="See your framing and get guidance before every shot" onPress={openWebcam} />',
+            title: "Featured with recommended tab (phone layout below md)",
+            code: '<CaptureMethodCard size="responsive" tab="Recommended" icon={<FaceScanMark />} title="Computer Webcam" description="See your framing and get guidance before every shot" onPress={openWebcam} />',
         },
         {
             title: "Compact row and privacy note",

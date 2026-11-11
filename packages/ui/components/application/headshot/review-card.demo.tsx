@@ -21,8 +21,10 @@ export const ReviewCardDemo = ({ selfieSrc = selfie, lookSrc = look }: { selfieS
             </Button>
         }
         className="w-full max-w-[734px]"
+        headingLevel={2}
     >
         <ReviewCard.Section
+            headingLevel={3}
             title="Selfies"
             count={5}
             action={
@@ -31,7 +33,13 @@ export const ReviewCardDemo = ({ selfieSrc = selfie, lookSrc = look }: { selfieS
                 </Button>
             }
         >
-            <div className="flex gap-2 overflow-x-auto">
+            {/* Runs through the section's right padding to its edge, like the looks carousel; scrollable by keyboard too. */}
+            <div
+                role="group"
+                aria-label="Selfies"
+                tabIndex={0}
+                className="-mr-3.5 flex gap-2 overflow-x-auto pr-3.5 outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
                 {Array.from({ length: 5 }, (_, index) => (
                     <ReviewCard.Photo key={index} src={selfieSrc} alt={`Selfie ${index + 1}`} />
                 ))}
@@ -39,6 +47,7 @@ export const ReviewCardDemo = ({ selfieSrc = selfie, lookSrc = look }: { selfieS
         </ReviewCard.Section>
         {/* The board crops the looks section 10px under the photos. */}
         <ReviewCard.Section
+            headingLevel={3}
             className="pb-2.5"
             title="Looks"
             count={12}

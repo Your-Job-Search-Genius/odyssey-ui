@@ -18,9 +18,9 @@ export const ModelCardGridDemo = ({ src }: { src?: string }) => {
 
     return (
         <div className="w-full max-w-[856px] rounded-[20px] bg-inverse p-4">
-            <ModelCardGroup aria-label="Model for outfit try-ons" value={value} onChange={setValue}>
+            <ModelCardGroup aria-label="Model for outfit try-ons" size="responsive" value={value} onChange={setValue}>
                 {models.map((model) => (
-                    <ModelCard key={model.id} value={model.id} name={model.name} src={src ?? model.src} />
+                    <ModelCard key={model.id} size="responsive" value={model.id} name={model.name} src={src ?? model.src} />
                 ))}
             </ModelCardGroup>
         </div>
@@ -28,8 +28,8 @@ export const ModelCardGridDemo = ({ src }: { src?: string }) => {
 };
 
 /** One card, selected. */
-export const SelectedModelCardDemo = ({ src = models[0].src }: { src?: string }) => (
-    <ModelCardGroup aria-label="Model for outfit try-ons" defaultValue="malik" className="block w-[197px]">
-        <ModelCard value="malik" name="Malik" src={src} />
+export const SelectedModelCardDemo = ({ src = models[0].src, size = "md" }: { src?: string; size?: "md" | "sm" }) => (
+    <ModelCardGroup aria-label="Model for outfit try-ons" defaultValue="malik" className={size === "sm" ? "block w-[181px]" : "block w-[197px]"}>
+        <ModelCard value="malik" name="Malik" src={src} size={size} />
     </ModelCardGroup>
 );

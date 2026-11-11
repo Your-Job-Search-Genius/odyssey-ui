@@ -16,18 +16,22 @@ export interface ResultTileProps {
     src: string;
     alt: string;
     isFavorite?: boolean;
+    /** Shows the favourite toggle (bottom-left); without it the tile has no heart. */
     onFavoriteChange?: (isFavorite: boolean) => void;
     /** Shows the expand button (opens the lightbox). */
     onOpen?: () => void;
     /** Shows the download button. */
     onDownload?: () => void;
+    /** Accessible name of the favourite toggle. @default "Favourite" */
     favoriteLabel?: string;
+    /** @default "Open" */
     openLabel?: string;
+    /** @default "Download" */
     downloadLabel?: string;
     className?: string;
 }
 
-/** One generated headshot with its glow, favourite toggle and hover actions. */
+/** One generated headshot with its glow, an optional favourite toggle and hover actions. */
 export const ResultTile = ({
     src,
     alt,
@@ -44,9 +48,16 @@ export const ResultTile = ({
         <img src={src} alt="" aria-hidden="true" className="absolute top-20 left-[63px] h-[146px] w-[108px] rounded-[5px] object-cover opacity-50 blur-lg" />
         <img src={src} alt={alt} className="absolute top-[33px] left-[47px] h-[185px] w-[140px] rounded-[9px] object-cover" />
 
-        <AriaToggleButton aria-label={favoriteLabel} isSelected={isFavorite} onChange={onFavoriteChange} className={cx(control, "left-2 size-7 rounded-full")}>
-            <FavouriteIcon aria-hidden="true" className={cx("size-4", isFavorite && "text-[#FA1D37] [&_path]:fill-current")} />
-        </AriaToggleButton>
+        {onFavoriteChange && (
+            <AriaToggleButton
+                aria-label={favoriteLabel}
+                isSelected={isFavorite}
+                onChange={onFavoriteChange}
+                className={cx(control, "left-2 size-7 rounded-full")}
+            >
+                <FavouriteIcon aria-hidden="true" className={cx("size-4", isFavorite && "text-[#FA1D37] [&_path]:fill-current")} />
+            </AriaToggleButton>
+        )}
         {onOpen && (
             <AriaButton aria-label={openLabel} onPress={onOpen} className={cx(hoverAction, "left-1/2 -translate-x-1/2")}>
                 <SquareArrowExpand01SharpIcon aria-hidden="true" className="size-4" />

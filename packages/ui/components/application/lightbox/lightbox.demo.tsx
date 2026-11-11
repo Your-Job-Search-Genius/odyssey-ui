@@ -42,6 +42,9 @@ export const LightboxDemo = ({ defaultOpen }: { defaultOpen?: boolean }) => {
                 isOpen={isOpen}
                 onOpenChange={setIsOpen}
                 images={images}
+                // Pass translated strings; these are the English defaults.
+                closeLabel="Close"
+                positionLabel={(position, total) => `Image ${position} of ${total}`}
                 header={<HeaderChip />}
                 actions={(index) => (
                     <>

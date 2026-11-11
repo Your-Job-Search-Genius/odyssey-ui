@@ -40,3 +40,23 @@ export const SelectedBackgroundTileDemo = ({ src = office }: { src?: string }) =
         <BackgroundTile value="office" label="Office" src={src} swatch="linear-gradient(#D4CFC8, #E8E4DD 45%, #C9C4BB)" />
     </BackgroundTileGroup>
 );
+
+/** The phone picker's grid: 4 fluid columns (`size="sm"`; `"responsive"` switches at `md`). */
+export const PhoneBackgroundTileGridDemo = ({ src }: { src?: string }) => {
+    const [value, setValue] = useState("office");
+
+    return (
+        <BackgroundTileGroup aria-label="Background" size="sm" value={value} onChange={setValue} className="w-[370px]">
+            {backgrounds.map((background) => (
+                <BackgroundTile
+                    key={background.id}
+                    size="sm"
+                    value={background.id}
+                    label={background.label}
+                    src={background.id === "office" && src ? src : background.src}
+                    swatch={background.swatch}
+                />
+            ))}
+        </BackgroundTileGroup>
+    );
+};

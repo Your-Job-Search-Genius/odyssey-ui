@@ -29,6 +29,21 @@ export const FigmaSelectionList = () => <ModalDemos.SelectionListDialogDemo defa
 export const FigmaGuidance = () => <ModalDemos.GuidanceModalDemo defaultOpen />;
 export const FigmaBrowseAll = () => <ModalDemos.BrowseAllModalDemo defaultOpen />;
 export const FigmaSplash = () => <ModalDemos.SplashModalDemo defaultOpen />;
+/** The board's light selection dialog (17102:121905, 372×433): `variant="light-inset"`. */
+export const FigmaLightSelectionDialog = () => <ModalDemos.SelectionDialogDemo variant="light-inset" defaultOpen />;
+
+const phone402 = { viewport: { options: { phone402: { name: "Phone 402", styles: { width: "402px", height: "691px" } } } } };
+
+/** Purpose dialog on a phone (16160:63119): `mobileLayout="bottom"`, edge to edge and flush with the bottom. */
+export const FigmaLightSelectionDialogPhone = () => <ModalDemos.SelectionDialogDemo variant="light-inset" mobileLayout="bottom" defaultOpen />;
+FigmaLightSelectionDialogPhone.parameters = phone402;
+FigmaLightSelectionDialogPhone.globals = { viewport: { value: "phone402" } };
+
+/** Splash on a phone (14866:351502): `mobileLayout="bottom"`, 17px from the top. */
+export const FigmaSplashPhone = () => <ModalDemos.SplashModalDemo mobileLayout="bottom" defaultOpen />;
+FigmaSplashPhone.parameters = phone402;
+FigmaSplashPhone.globals = { viewport: { value: "phone402" } };
+
 export const FigmaCameraShell = () => <ModalDemos.CameraModalShellDemo defaultOpen />;
 
 /** `mobileLayout="fullscreen"` at 390px: edge to edge, no radius, fills the dynamic viewport. */
@@ -38,4 +53,9 @@ FigmaCameraShellMobile.globals = { viewport: { value: "phone390" } };
 export const FigmaPhotoSlotShell = () => <ModalDemos.PhotoSlotModalShellDemo defaultOpen />;
 export const FigmaCropShell = () => <ModalDemos.CropModalShellDemo defaultOpen />;
 export const FigmaModelPickerShell = () => <ModalDemos.ModelPickerModalShellDemo defaultOpen />;
+
+/** `mobileLayout="fullscreen"`: the Dialog fills the screen, so the floating footer sits at the bottom edge. */
+export const FigmaModelPickerShellPhone = () => <ModalDemos.ModelPickerModalShellDemo defaultOpen />;
+FigmaModelPickerShellPhone.parameters = phone402;
+FigmaModelPickerShellPhone.globals = { viewport: { value: "phone402" } };
 export const FigmaBackgroundPickerShell = () => <ModalDemos.BackgroundPickerModalShellDemo defaultOpen />;

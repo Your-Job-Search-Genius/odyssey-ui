@@ -69,7 +69,7 @@ export const FigmaPrimary = () => (
 );
 
 export const FigmaSecondary = () => (
-    <Compare className="bg-white pt-px pr-0.75 pb-1 pl-0.5">
+    <Compare className="bg-white pt-px pr-0.5 pb-1 pl-0.5">
         <Button color="secondary-brand" size="xs">
             Edit Details
         </Button>

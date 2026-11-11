@@ -83,10 +83,11 @@ export const LicenceDemo = () => (
             <EmptyState.Title>Over 3 million are generating headshots with BetterShot.</EmptyState.Title>
         </EmptyState.Content>
         <EmptyState.Footer className="flex-col items-center gap-0">
-            <Button size="md" isDisabled className="rounded-[10px] pt-1 pb-[13px]">
+            {/* Figma clips the 36px button and tucks the pill 7.5px over its bottom, with the label raised to stay clear. */}
+            <Button size="md" isDisabled className="h-9 items-start rounded-lg px-2 pt-1 pb-0">
                 Email Sent!
             </Button>
-            <EmptyState.Caption className="-mt-2.5">Your admin has been notified about your interest in BetterShot</EmptyState.Caption>
+            <EmptyState.Caption className="-mt-[7.5px]">Your admin has been notified about your interest in BetterShot</EmptyState.Caption>
         </EmptyState.Footer>
     </EmptyState>
 );

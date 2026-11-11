@@ -181,15 +181,23 @@ const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
     );
 };
 
-interface DropdownPopoverProps extends AriaPopoverProps {}
+interface DropdownPopoverProps extends AriaPopoverProps {
+    /**
+     * Below the `md` breakpoint the popover becomes a bottom sheet. Set `false` to keep it anchored to its
+     * trigger on phones too, e.g. for a short menu under a toolbar button. @default true
+     */
+    mobileSheet?: boolean;
+    /** Label of the button that closes a submenu sheet on phones. @default "Back" */
+    backLabel?: string;
+}
 
-const DropdownPopover = (props: DropdownPopoverProps) => {
+const DropdownPopover = ({ mobileSheet = true, backLabel = "Back", ...props }: DropdownPopoverProps) => {
     const isDesktop = useBreakpoint("md");
     // Inside a SubmenuTrigger, these are the submenu's own popover settings and open state.
     const popoverContext = useSlottedContext(AriaPopoverContext);
     const submenuState = useContext(AriaOverlayTriggerStateContext);
     // A submenu opens as a stacked sheet below md; touch has no Escape, so it needs its own way back one level.
-    const showBack = !isDesktop && popoverContext?.trigger === "SubmenuTrigger";
+    const showBack = mobileSheet && !isDesktop && popoverContext?.trigger === "SubmenuTrigger";
 
     return (
         <AriaPopover
@@ -205,7 +213,7 @@ const DropdownPopover = (props: DropdownPopoverProps) => {
                     typeof props.className === "function" ? props.className(state) : props.className,
 
                     // Bottom sheet below md (submenus stack as a second sheet); after the consumer's width so it wins.
-                    SHEET_POPOVER,
+                    mobileSheet && SHEET_POPOVER,
                 )
             }
         >
@@ -218,7 +226,7 @@ const DropdownPopover = (props: DropdownPopoverProps) => {
                             className="sticky top-0 z-10 flex w-full shrink-0 cursor-pointer items-center gap-2 border-b border-secondary bg-primary px-4 py-2.5 text-sm font-semibold text-secondary outline-focus-ring focus-visible:outline-2 focus-visible:-outline-offset-2"
                         >
                             <ChevronLeft aria-hidden="true" className="size-4 text-fg-quaternary" />
-                            Back
+                            {backLabel}
                         </button>
                     )}
                     {typeof props.children === "function" ? props.children(renderProps) : props.children}

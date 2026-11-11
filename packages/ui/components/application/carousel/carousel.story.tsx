@@ -52,3 +52,19 @@ export const FigmaOptionCarousel = () => (
         </Carousel.Root>
     </div>
 );
+
+/** Phone arrows (persona mobile `14853:216304`): `Carousel.Arrows size="sm"`, 17px chevrons, prev dimmed at the start. */
+export const FigmaArrowsPhone = () => (
+    <Carousel.Root aria-label="Eyewear" opts={{ align: "start" }} className="flex w-[300px] flex-col gap-4">
+        <div data-compare className="inline-flex self-start bg-white p-0">
+            <Carousel.Arrows size="sm" />
+        </div>
+        <Carousel.Content className="gap-2">
+            {["None", "Style 1", "Style 2", "Style 3", "Style 4"].map((label) => (
+                <Carousel.Item key={label} className="flex h-20 basis-[109px] items-end rounded-[10px] border border-secondary p-1 text-xs">
+                    {label}
+                </Carousel.Item>
+            ))}
+        </Carousel.Content>
+    </Carousel.Root>
+);

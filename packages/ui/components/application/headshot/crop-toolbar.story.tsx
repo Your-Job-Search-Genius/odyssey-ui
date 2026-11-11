@@ -18,6 +18,8 @@ export default {
 
 export const Basic = () => <Demos.BasicDemo />;
 
+export const Phone = () => <Demos.PhoneDemo />;
+
 // Figma's thumb sits 12px into the 167px travel.
 const figmaZoom = 1 + (2 * 12) / 167;
 
@@ -34,5 +36,12 @@ export const FigmaOnPhoto = () => (
         <GlassPill variant="light" className="h-[41px]">
             Skip this photo
         </GlassPill>
+    </div>
+);
+
+/** Phone layout (Figma 14881:11187): two full-width frosted pills, Re-Upload left to the screen's bottom bar. */
+export const FigmaPhone = () => (
+    <div data-compare className="inline-flex w-[384px] flex-col items-start bg-[#34220d] p-0">
+        <CropToolbar size="sm" zoom={1.04} onZoomChange={noop} onRotateLeft={noop} onRotateRight={noop} onReset={noop} isResetDisabled />
     </div>
 );

@@ -14,3 +14,10 @@ export const Figma = () => (
         <Demos.ModelChipDemo avatarSrc={man} />
     </div>
 );
+
+/** Phone chip from the styling mobile frame (14839:181916): hugs its content, 226×41. */
+export const FigmaPhone = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-white p-0">
+        <Demos.ModelChipDemo avatarSrc={man} size="sm" />
+    </div>
+);

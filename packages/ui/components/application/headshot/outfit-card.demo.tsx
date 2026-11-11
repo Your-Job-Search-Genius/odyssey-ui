@@ -26,6 +26,7 @@ export const OutfitGridDemo = ({ max = 2, src = photo, backgroundSrc = office }:
                 return (
                     <OutfitCard
                         key={outfit.id}
+                        size="responsive"
                         src={src}
                         caption={outfit.caption}
                         backgroundSrc={backgroundSrc}
@@ -39,6 +40,22 @@ export const OutfitGridDemo = ({ max = 2, src = photo, backgroundSrc = office }:
     );
 };
 
-export const SelectedOutfitCardDemo = ({ src = photo, backgroundSrc = office }: { src?: string; backgroundSrc?: string }) => (
-    <OutfitCard src={src} caption="Black T-Shirt and Leather Jacket" backgroundSrc={backgroundSrc} defaultSelected className="w-60" />
+export const SelectedOutfitCardDemo = ({
+    src = photo,
+    backgroundSrc = office,
+    size,
+}: {
+    src?: string;
+    backgroundSrc?: string;
+    size?: "md" | "sm" | "responsive";
+}) => (
+    <OutfitCard
+        src={src}
+        caption="Black T-Shirt and Leather Jacket"
+        backgroundLabel={size === "sm" ? "Background" : undefined}
+        backgroundSrc={backgroundSrc}
+        size={size}
+        defaultSelected
+        className={size === "sm" ? "w-[178px]" : "w-60"}
+    />
 );

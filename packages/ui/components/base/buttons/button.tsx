@@ -27,7 +27,8 @@ export const styles = sortCx({
     sizes: {
         xs: {
             root: [
-                "gap-1 rounded-lg px-2 py-1 text-sm font-medium data-icon-only:p-1.5",
+                // Figma: 6px padding inside a 1px stroke that takes layout space, so the label sits 7px in.
+                "gap-1 rounded-lg px-[7px] py-1 text-sm font-medium data-icon-only:p-1.5",
                 "in-data-input-wrapper:px-4 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
                 "*:data-icon:size-4 *:data-icon:stroke-[2.25px]",
             ].join(" "),

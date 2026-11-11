@@ -12,3 +12,10 @@ export const Figma = () => (
         <Demos.SelectedModelCardDemo src={man} />
     </div>
 );
+
+/** Phone card from the model picker mobile frame (14853:229834): 181×216, selected. */
+export const FigmaPhone = () => (
+    <div data-compare className="inline-flex flex-col items-start gap-4 bg-inverse p-0">
+        <Demos.SelectedModelCardDemo src={man} size="sm" />
+    </div>
+);

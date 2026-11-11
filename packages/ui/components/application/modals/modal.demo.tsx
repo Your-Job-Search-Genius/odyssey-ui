@@ -168,12 +168,16 @@ export const SizesModalDemo = () => {
 
 const purposes = ["Personal Use", "Career Fair", "Networking Event", "Job Interview Workshop", "Resume Building Session"];
 
-/** P09: dark selection dialog with a radio list. */
-export const SelectionDialogDemo = ({ defaultOpen }: OpenProps) => (
+/** P09: selection dialog with a radio list: dark (`dark-inset`) or, as the board now draws it, light (`light-inset`). Phones: `mobileLayout="bottom"`. */
+export const SelectionDialogDemo = ({
+    defaultOpen,
+    variant = "dark-inset",
+    mobileLayout,
+}: OpenProps & { variant?: "dark-inset" | "light-inset"; mobileLayout?: "sheet" | "bottom" }) => (
     <DialogTrigger defaultOpen={defaultOpen}>
         <Button size="md">New shoot</Button>
-        <ModalOverlay>
-            <Modal variant="dark-inset" className="sm:max-w-93">
+        <ModalOverlay backdrop={mobileLayout === "bottom" ? "dark" : undefined} mobileLayout={mobileLayout}>
+            <Modal variant={variant} className="sm:max-w-93">
                 <Dialog>
                     {({ close }) => (
                         <>
@@ -387,12 +391,13 @@ export const BrowseAllModalDemo = ({ defaultOpen }: OpenProps) => {
 };
 
 /** P36: splash / licence modal with the fractal-glass hero. */
-export const SplashModalDemo = ({ defaultOpen }: OpenProps) => (
+export const SplashModalDemo = ({ defaultOpen, mobileLayout }: OpenProps & { mobileLayout?: "sheet" | "bottom" }) => (
     <DialogTrigger defaultOpen={defaultOpen}>
         <Button size="md">Open splash</Button>
-        <ModalOverlay backdrop="splash">
-            <Modal className="rounded-[20px] sm:max-w-[475px]">
-                <Dialog className="pt-[438px]">
+        <ModalOverlay backdrop="splash" mobileLayout={mobileLayout}>
+            {/* Phones (`mobileLayout="bottom"`): the panel fills the height down from 17px below the top. */}
+            <Modal className="rounded-[20px] max-sm:h-full sm:max-w-[475px]">
+                <Dialog className="pt-[438px] max-sm:h-full max-sm:justify-end">
                     {({ close }) => (
                         <>
                             <FractalGlass />
@@ -499,7 +504,7 @@ export const CropModalShellDemo = ({ defaultOpen }: OpenProps) => (
 export const ModelPickerModalShellDemo = ({ defaultOpen }: OpenProps) => (
     <DialogTrigger defaultOpen={defaultOpen}>
         <Button size="md">Change model</Button>
-        <ModalOverlay backdrop="dark">
+        <ModalOverlay backdrop="dark" mobileLayout="fullscreen">
             <Modal variant="dark" className="sm:max-w-214">
                 <Dialog>
                     {({ close }) => (
@@ -509,14 +514,15 @@ export const ModelPickerModalShellDemo = ({ defaultOpen }: OpenProps) => (
                                 description="Select the closest match. Same clothes, different person."
                                 showCloseButton={false}
                             />
-                            <ModalBody className="grid grid-cols-4 gap-3">
+                            <ModalBody className="grid grid-cols-2 gap-2 max-md:pb-28 md:grid-cols-4 md:gap-3">
                                 {Array.from({ length: 8 }, (_, i) => (
-                                    <Placeholder key={i} className="h-[261px] border-solid bg-[#545454]">
+                                    <Placeholder key={i} className="h-[216px] border-solid bg-[#545454] md:h-[261px]">
                                         Model card
                                     </Placeholder>
                                 ))}
                             </ModalBody>
-                            <ModalFooter className="pt-0">
+                            {/* Phones: the footer floats at the bottom of the full-screen panel (the Dialog fills it). */}
+                            <ModalFooter className="pt-0 max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:justify-center">
                                 <Button size="md" color="white" onPress={close}>
                                     Continue to Styling
                                 </Button>

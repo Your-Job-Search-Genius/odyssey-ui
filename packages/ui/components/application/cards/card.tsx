@@ -80,6 +80,10 @@ type CardCommonProps = {
     isSelected?: boolean;
     /** Replaces `children` with a skeleton placeholder while content is loading. */
     isLoading?: boolean;
+    /** Screen-reader text for a selected static/link card (a button card uses `aria-pressed`). @default "Selected" */
+    selectedLabel?: string;
+    /** Screen-reader text while `isLoading`. @default "Loading" */
+    loadingLabel?: string;
     className?: string;
     children?: ReactNode;
 };
@@ -134,7 +138,19 @@ const cardRootClassName = ({
  * `onPress` to render as a button — exactly one of the two, matching `Button`'s own polymorphic
  * pattern.
  */
-const CardRoot = ({ size = "md", variant = "outline", elevation = "xs", isDisabled, isSelected, isLoading, className, children, ...props }: CardProps) => {
+const CardRoot = ({
+    size = "md",
+    variant = "outline",
+    elevation = "xs",
+    isDisabled,
+    isSelected,
+    isLoading,
+    selectedLabel = "Selected",
+    loadingLabel = "Loading",
+    className,
+    children,
+    ...props
+}: CardProps) => {
     const content = isLoading ? <CardSkeleton size={size} /> : children;
 
     const body = (
@@ -142,8 +158,8 @@ const CardRoot = ({ size = "md", variant = "outline", elevation = "xs", isDisabl
             {content}
             {isSelected && <SelectedIndicator />}
             {/* The button variant reports selection via `aria-pressed` instead. */}
-            {isSelected && !("onPress" in props) && <span className="sr-only">Selected</span>}
-            {isLoading && <span className="sr-only">Loading</span>}
+            {isSelected && !("onPress" in props) && <span className="sr-only">{selectedLabel}</span>}
+            {isLoading && <span className="sr-only">{loadingLabel}</span>}
         </>
     );
 
@@ -245,6 +261,8 @@ export interface CardMediaProps extends Omit<ComponentPropsWithRef<"img">, "alt"
      * e.g. wrap `Card.Media` in a `div` with an explicit `h-48` and it will fill it completely.
      */
     aspectRatio?: keyof typeof aspectRatios;
+    /** Accessible name of the placeholder when `src` is missing or fails and `alt` is empty. @default "Image unavailable" */
+    unavailableLabel?: string;
 }
 
 /**
@@ -254,7 +272,7 @@ export interface CardMediaProps extends Omit<ComponentPropsWithRef<"img">, "alt"
  * `aspectRatio` for a self-contained ratio instead. Falls back to a placeholder icon when `src` is
  * missing or fails to load, so a broken image never leaves an empty gap in the layout.
  */
-const CardMedia = ({ alt, aspectRatio, className, onError, ...props }: CardMediaProps) => {
+const CardMedia = ({ alt, aspectRatio, unavailableLabel = "Image unavailable", className, onError, ...props }: CardMediaProps) => {
     const size = useContext(CardSizeContext);
     const [hasError, setHasError] = useState(false);
 
@@ -264,7 +282,7 @@ const CardMedia = ({ alt, aspectRatio, className, onError, ...props }: CardMedia
         return (
             <div
                 role="img"
-                aria-label={alt || "Image unavailable"}
+                aria-label={alt || unavailableLabel}
                 className={cx("flex items-center justify-center bg-secondary text-fg-quaternary", sizeClassName, mediaBleed[size], className)}
             >
                 <Image01 aria-hidden="true" className="size-8" />

@@ -184,6 +184,15 @@ export const ColorSwatchPickerHairColor = () => {
     );
 };
 
+/** The phone hair-colour grid: `layout="tile"`. */
+export const ColorSwatchPickerHairColorTiles = ({ defaultValue = "#111827" }: { defaultValue?: string }) => (
+    <ColorSwatchPicker aria-label="Hair Color" layout="tile" defaultValue={defaultValue}>
+        {HAIR_COLORS.map(([label, color]) => (
+            <ColorSwatchPickerItem key={label} color={color} label={label} />
+        ))}
+    </ColorSwatchPicker>
+);
+
 export const ColorSwatchPickerEyeColor = () => {
     const labelId = useId();
     const [value, setValue] = useState<Color | string>("#3B82F6");

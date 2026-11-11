@@ -23,8 +23,8 @@ export const Basic = () => <Demos.BasicDemo />;
 export const Figma = () => (
     <div data-compare className="inline-flex w-[478px] flex-col items-start gap-4 bg-white p-0">
         <ResultGroup thumbnail={{ src: portrait, alt: "" }} eyebrow="OUTFIT 1" count={2} countLabel="Photos" title="White T-Shirt and Leather Jacket">
-            <ResultTile src={face} alt="Headshot 1" onOpen={noop} onDownload={noop} />
-            <ResultTile src={portrait} alt="Headshot 2" isFavorite onOpen={noop} onDownload={noop} />
+            <ResultTile src={face} alt="Headshot 1" onFavoriteChange={noop} onOpen={noop} onDownload={noop} />
+            <ResultTile src={portrait} alt="Headshot 2" isFavorite onFavoriteChange={noop} onOpen={noop} onDownload={noop} />
         </ResultGroup>
     </div>
 );

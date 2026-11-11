@@ -10,9 +10,9 @@ export const Default = () => (
 );
 Default.globals = { viewport: { value: "mobile" } };
 
-/** P40 (14853:231227): the bar at the bottom of a 402px-wide slice of the mobile frame (compare against the PNG cropped to 162px). */
+/** P40 (14853:229395): the bar at the bottom of the visible viewport, a 402×134 slice of the mobile frame ending at Safari's toolbar (y 660–794). */
 export const Figma = () => (
-    <div data-compare className="relative inline-flex h-[162px] w-[402px] [transform:translateZ(0)] flex-col items-start gap-4 overflow-hidden bg-white p-0">
+    <div data-compare className="relative inline-flex h-[134px] w-[402px] [transform:translateZ(0)] flex-col items-start gap-4 overflow-hidden bg-white p-0">
         <Demos.BottomBarDemo className="absolute md:block" />
     </div>
 );

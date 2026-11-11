@@ -2,7 +2,8 @@
 export const componentMeta = {
     importName: "BackgroundTile",
     description:
-        "Single-choice background picker tile for the headshot flow. BackgroundTileGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, className) lays tiles out in 3 columns of 77px; BackgroundTile (value, label required, src, swatch, isDisabled, className) is one radio. Give it a photo with `src` or a CSS `background` (e.g. a gradient) with `swatch`. The label strip is always white because the picker surface is dark.",
+        "Single-choice background picker tile for the headshot flow. BackgroundTileGroup (a React Aria RadioGroup: value/onChange or defaultValue, aria-label, size, className) lays tiles out in 3 columns of 77px; BackgroundTile (value, label required, src, swatch, size, isDisabled, className) is one radio. size: 'md' (default) is the 77px desktop tile in a 3x77px grid; 'sm' the phone tile (fills one of 4 fluid columns, 55px thumbnail, 14px label, lighter brand-200 selected border); 'responsive' is sm below the md breakpoint and md from it (set it on the group and every tile). Give it a photo with `src` or a CSS `background` (e.g. a gradient) with `swatch`. The label strip is always white because the picker surface is dark.",
+    variants: { size: ["md", "sm", "responsive"] },
     a11y: 'Renders native radios in a radiogroup; name the group with aria-label or aria-labelledby. The `label` is the option\'s accessible name; the thumbnail is decorative (alt=""). Arrow keys move and select; the selected tile gets a brand border and a visible focus ring on keyboard focus.',
     doNot: [
         "Do not omit aria-label/aria-labelledby on BackgroundTileGroup.",

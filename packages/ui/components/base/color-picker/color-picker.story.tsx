@@ -124,6 +124,13 @@ export const FigmaHairColor = () => (
     </div>
 );
 
+/** BetterShot phone hair colour (`14853:216277`): `layout="tile"`, Brown selected. */
+export const FigmaHairColorTiles = () => (
+    <div data-compare className="inline-flex w-[346px] flex-col items-start gap-4 bg-white p-0">
+        <ColorPickers.ColorSwatchPickerHairColorTiles defaultValue="#4B3621" />
+    </div>
+);
+
 // ColorPicker
 
 export const ColorPickerDefault = () => <ColorPickers.ColorPickerDefault />;

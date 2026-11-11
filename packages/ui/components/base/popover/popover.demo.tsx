@@ -1,5 +1,6 @@
 "use client";
 
+import { QRCard } from "@/components/application/headshot/qr-card";
 import { Button } from "@/components/base/buttons/button";
 import { HelpCircleIcon } from "@/components/foundations/hugeicons";
 import { Popover, PopoverTrigger } from "./popover";
@@ -22,5 +23,29 @@ export const FigmaPopoverDemo = () => (
             Why?
         </Button>
         <Popover acknowledgeLabel="Okay! Got It">Why Description</Popover>
+    </PopoverTrigger>
+);
+
+/** Phone explainer: nearly the full viewport width (`size="sm"`; `"responsive"` switches at `md`). */
+export const PhonePopoverDemo = ({ defaultOpen }: { defaultOpen?: boolean }) => (
+    <PopoverTrigger defaultOpen={defaultOpen}>
+        <Button size="sm" color="outline-pill">
+            Why?
+        </Button>
+        <Popover size="sm" placement="top" acknowledgeLabel="Okay! Got It">
+            Why Description
+        </Popover>
+    </PopoverTrigger>
+);
+
+/** `bare`: rich content (a `QRCard`) brings its own surface; its close button closes the popover. */
+export const QRPopoverDemo = ({ defaultOpen }: { defaultOpen?: boolean }) => (
+    <PopoverTrigger defaultOpen={defaultOpen}>
+        <Button size="md" color="secondary">
+            Use Phone Camera
+        </Button>
+        <Popover variant="bare" placement="right bottom" offset={11} aria-label="Continue on your phone">
+            <QRCard value="https://example.com/headshot/capture" caption="Use your phone to take the picture for a better quality" onClose={() => {}} />
+        </Popover>
     </PopoverTrigger>
 );

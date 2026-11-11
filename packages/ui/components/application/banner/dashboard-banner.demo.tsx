@@ -10,7 +10,8 @@ const logo = new URL("./story-assets/bettershot-logo.png", import.meta.url).href
 /** The Figma art: the splash modal's fractal glass, faded out towards the bottom, with the product logo. */
 const BettershotArt = () => (
     <>
-        <div className="absolute inset-0 overflow-hidden rounded-[20px] mask-[linear-gradient(to_bottom,black_12.6%,transparent_84.5%)]">
+        {/* White under the glass: its stripes overlay-blend, so over nothing (or a grey page) they show as grey bars. */}
+        <div className="absolute inset-0 overflow-hidden rounded-[20px] bg-primary mask-[linear-gradient(to_bottom,black_12.6%,transparent_84.5%)]">
             <FractalGlass className="left-[172px] h-full overflow-visible mask-none" />
         </div>
         <img src={logo} alt="" className="absolute top-5 left-34 h-4 w-25 object-cover object-top" />
