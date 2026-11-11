@@ -1,3 +1,7 @@
+"use client";
+
+// The docs preview this file's exports (dropdown has no *.demo.tsx), and their static export renders a story file
+// on the server unless it is a client module: the Figma stories' compound Dropdown.* parts and icon props need this.
 import type { FC } from "react";
 import { Button } from "@/components/base/buttons/button";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
