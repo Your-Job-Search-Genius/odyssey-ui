@@ -3,6 +3,12 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## Unreleased
+
+### Fixes
+
+- **A button that disables itself no longer hands focus to a toast.** `Button`, `ButtonUtility`, `Input` and pagination move focus on when they become disabled while focused, so it doesn't fall to `<body>`. After a save, the next element was often the Dismiss button of the toast the save had just shown, because the `Toaster` sits at the end of the page. Focus parked there fell to `<body>` again when the toast closed or timed out, so keyboard and screen-reader users lost their place (WCAG 2.4.3). Elements in a top layer (`[data-react-aria-top-layer]`, i.e. toasts) are now skipped unless the disabled control is inside that layer itself, so focus goes to the nearest control on the page instead. Found on the admin app's SSO User Provisioning page. Jira: ACMS-4160.
+
 ## odyssey-ui 4.0.0
 
 Major: the restyle changes defaults that move layouts (button and input heights, toast position, mobile modals), as 3.0.0's bottom sheets did, so `^3` consumers don't pick it up unasked.
