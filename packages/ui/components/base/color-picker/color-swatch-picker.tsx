@@ -132,7 +132,13 @@ export const ColorSwatchPickerItem = ({ className, color, label, fill, "aria-lab
                             className={cx(
                                 // Size before leading: tailwind-merge drops a leading-* that precedes a text-size class.
                                 size === "md" ? "text-[11px]" : size === "tile" ? "text-sm font-medium" : "text-xs",
-                                "leading-[normal] whitespace-nowrap",
+                                "leading-[normal]",
+                                // The grid sizes: a long catalog name wraps inside its column (the 62px minimum plus the
+                                // 24px gap) or its tile instead of running into the next swatch; the md row just grows.
+                                size === "md" ? "whitespace-nowrap" : "text-center text-balance",
+                                // w-max: the label (not the 62px column) sets the width, so a short name stays on one line.
+                                size === "lg" && "w-max max-w-[86px]",
+                                size === "tile" && "max-w-full",
                                 size === "tile" ? "text-primary" : "text-tertiary",
                                 size === "lg" && isSelected && "font-medium text-primary",
                             )}
