@@ -1,6 +1,6 @@
 {
   "version": "3.0.1",
-  "generatedAt": "library@3.0.1+components:176+tokens:278+icons:1234",
+  "generatedAt": "library@3.0.1+components:177+tokens:278+icons:1234",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
@@ -5194,6 +5194,55 @@
       "isExtracted": true
     },
     {
+      "id": "application/headshot/model-switcher",
+      "name": "ModelSwitcher",
+      "importName": "ModelSwitcher",
+      "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/model-switcher",
+      "category": "application",
+      "description": "One-tap strip choosing who wears the outfit previews (the headshot fitting room): a visible uppercase label over a grey rounded strip of 64px options, each a 40px round portrait with the name under it; usually a \"Mix\" option first. The selected option sits on a white tile with a brand ring around its portrait and a semibold name. Scrolls sideways when it runs out of room. ModelSwitcher props: label (ReactNode, required; names the radio group), value / defaultValue / onChange (the option values, React Aria RadioGroup), isDisabled, className, children (ModelSwitcherOption). ModelSwitcherOption props: value (required), name (required; visible text and accessible name), src (the portrait), srcs (the mix: up to three portraits side by side in the circle, instead of src), isDisabled, className.",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Visible label above the strip, e.g. \"Who wears the outfits\"; it names the radio group."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "`ModelSwitcherOption`s, usually the mix first."
+        },
+        {
+          "name": "className",
+          "type": "string | undefined",
+          "required": false,
+          "acceptsClassName": true
+        }
+      ],
+      "slots": [],
+      "variants": {},
+      "allowedChildren": "any",
+      "moduleExports": [
+        "ModelSwitcher",
+        "ModelSwitcherOption"
+      ],
+      "examples": [
+        {
+          "title": "Mix first, then the people",
+          "code": "<ModelSwitcher label=\"Who wears the outfits\" value={modelId ?? \"mix\"} onChange={(id) => setModelId(id === \"mix\" ? null : id)}>\n  <ModelSwitcherOption value=\"mix\" name=\"Mix\" srcs={[malik, owen, vikram]} />\n  {models.map((m) => <ModelSwitcherOption key={m.id} value={m.id} name={m.name} src={m.portrait} />)}\n</ModelSwitcher>"
+        }
+      ],
+      "a11y": "A React Aria radio group named by its visible label; arrow keys move the selection, Tab enters and leaves it. Each option's name is its accessible name; portraits are decorative (aria-hidden). Selection is shown by the white tile, the brand ring and the bold name, never colour alone. Options are positioned, so the hidden native input stays inside them and focusing one never scrolls a parent.",
+      "doNot": [
+        "Do not use it for more than about ten people; a longer list belongs in a picker dialog (ModelCardGroup).",
+        "Do not leave out the visible label; it names the group for screen readers.",
+        "Do not put text on the portraits; the name under them is the label."
+      ],
+      "docsUrl": "/docs/application/headshot/model-switcher",
+      "isExtracted": true
+    },
+    {
       "id": "application/headshot/option-tile",
       "name": "OptionTile",
       "importName": "OptionTile",
@@ -5565,13 +5614,20 @@
       "importName": "QRCard",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/headshot/qr-card",
       "category": "application",
-      "description": "Dark 230px card with a white-on-black QR code for continuing on a phone. Props: value (URL or text to encode, required), caption (ReactNode above the code, required), onClose (shows the corner close button; inside a Dialog/Popover the button also closes it), closeLabel (accessible name of the close button, default \"Close\"), codeSize (drawn size of the code inside its 180px slot, default 158 as in Figma; up to 180), className.",
+      "description": "Dark 230px card with a white-on-black QR code for continuing on a phone. Props: value (URL or text to encode; leave it out while it is being fetched and the card shows a white spinner with loadingLabel in place of the code, same size), loadingLabel (default \"Creating your code…\"), caption (ReactNode above the code, required), onClose (shows the corner close button; inside a Dialog/Popover the button also closes it), closeLabel (accessible name of the close button, default \"Close\"), codeSize (drawn size of the code inside its 180px slot, default 158 as in Figma; up to 180), className.",
       "props": [
         {
           "name": "value",
-          "type": "string",
-          "required": true,
-          "description": "The URL or text to encode."
+          "type": "string | undefined",
+          "required": false,
+          "description": "The URL or text to encode. Leave it out while it is being fetched: the card shows a spinner in the code's place."
+        },
+        {
+          "name": "loadingLabel",
+          "type": "string | undefined",
+          "required": false,
+          "default": "Creating your code…",
+          "description": "Announced and shown under the spinner while `value` is missing."
         },
         {
           "name": "caption",
@@ -5619,7 +5675,8 @@
       "a11y": "The close button is a CloseButton with an accessible name (set closeLabel when localising). The caption is plain text above the code; the QR graphic itself is not announced, so make the caption say what to do and offer the link another way if it matters.",
       "doNot": [
         "Do not omit caption; it is the only text alternative for the code.",
-        "Do not use it on a light surface; the code is drawn in white on a dark card."
+        "Do not use it on a light surface; the code is drawn in white on a dark card.",
+        "Do not build a separate loading box while the link is fetched; render QRCard without value."
       ],
       "docsUrl": "/docs/application/headshot/qr-card",
       "isExtracted": true
@@ -6297,7 +6354,7 @@
       "importName": "Lightbox",
       "importPath": "@your-job-search-genius/odyssey-ui/components/application/lightbox/lightbox",
       "category": "application",
-      "description": "Full-bleed image viewer over a near-opaque frosted backdrop (a ModalOverlay with backdrop=\"lightbox\"): the current photo on a glass card with its own colour glow, actions below it, previous/next buttons at the screen edges and a peek of the next photo. Below the md breakpoint it switches to the phone layout by itself: an edge-to-edge card with the previous/next buttons under the photo and small actions (24px icons, one-line labels in equal columns, up to three) below the card. Lightbox props: images ({ src, alt }[], required), index + onIndexChange (controlled) or defaultIndex (default 0), header (ReactNode or (index) => ReactNode, caption above the card), actions (ReactNode or (index) => ReactNode, use LightboxAction), aria-label (default \"Image viewer\"), closeLabel (\"Close\"), previousLabel (\"Previous image\"), nextLabel (\"Next image\"), positionLabel ((position, total) => string, default \"Image n of total\", the live-region text), plus ModalOverlay props (isOpen, onOpenChange, isDismissable...). Open it inside a DialogTrigger or with isOpen/onOpenChange. LightboxAction props: label (visible text and accessible name), icon (required), shape circle (56px round, 24px on phones; default) | square (55px tile, 24x28 on phones), isSelected (sets aria-pressed and fills the icon), plus Button press props.",
+      "description": "Full-bleed image viewer over a near-opaque frosted backdrop (a ModalOverlay with backdrop=\"lightbox\"): the current photo on a glass card with its own colour glow, actions below it, previous/next buttons at the screen edges and peeks of the previous and next photo either side (xl+). Changing photo animates (the photo swings in on a 3D turn out of a blur and leaves the other way; the glow crossfades) and the photo can be dragged sideways to change it (it tilts as it goes; past 80px or a fast flick turns the page, less springs back, firm at the first and last photo). Below the md breakpoint it switches to the phone layout by itself: an edge-to-edge card with the previous/next buttons under the photo and small actions (24px icons, one-line labels in equal columns, up to three) below the card. Lightbox props: images ({ src, alt }[], required), index + onIndexChange (controlled) or defaultIndex (default 0), header (ReactNode or (index) => ReactNode, caption above the card), actions (ReactNode or (index) => ReactNode, use LightboxAction), aria-label (default \"Image viewer\"), closeLabel (\"Close\"), previousLabel (\"Previous image\"), nextLabel (\"Next image\"), positionLabel ((position, total) => string, default \"Image n of total\", the live-region text), plus ModalOverlay props (isOpen, onOpenChange, isDismissable...). Open it inside a DialogTrigger or with isOpen/onOpenChange. LightboxAction props: label (visible text and accessible name), icon (required), shape circle (56px round, 24px on phones; default) | square (55px tile, 24x28 on phones), isSelected (sets aria-pressed and fills the icon), plus Button press props.",
       "props": [
         {
           "name": "images",
@@ -6384,7 +6441,7 @@
           "code": "<Lightbox isOpen={isOpen} onOpenChange={setIsOpen} images={images} actions={(index) => (\n  <>\n    <LightboxAction label=\"Add to Favorite\" icon={FavouriteIcon} isSelected={favourites.has(index)} onPress={() => toggle(index)} />\n    <LightboxAction label=\"Download\" icon={ImageDownloadIcon} shape=\"square\" />\n  </>\n)} />"
         }
       ],
-      "a11y": "A modal dialog named by aria-label: focus is trapped and returns to the trigger, Escape closes, Left/Right arrows step through images. A polite live region announces positionLabel (\"Image n of total\" by default); each photo's alt text says what it is. Close, Previous image and Next image are labelled icon buttons (closeLabel/previousLabel/nextLabel; translate them with aria-label and positionLabel) (disabled at the ends); the glow and peek images are aria-hidden. LightboxAction uses aria-pressed when isSelected is set.",
+      "a11y": "A modal dialog named by aria-label: focus is trapped and returns to the trigger, Escape closes, Left/Right arrows step through images; dragging the photo is only a pointer shortcut for the Previous/Next buttons (WCAG 2.5.7). With prefers-reduced-motion the photos only fade. A polite live region announces positionLabel (\"Image n of total\" by default); each photo's alt text says what it is. Close, Previous image and Next image are labelled icon buttons (closeLabel/previousLabel/nextLabel; translate them with aria-label and positionLabel) (disabled at the ends); the glow and peek images are aria-hidden. LightboxAction uses aria-pressed when isSelected is set.",
       "doNot": [
         "Do not render it without images or with images missing alt text.",
         "Do not build a custom full-screen modal for photos; use Lightbox.",
@@ -6432,6 +6489,12 @@
           "type": "string | undefined",
           "required": false,
           "description": "Optional text label displayed below the indicator."
+        },
+        {
+          "name": "inverse",
+          "type": "boolean | undefined",
+          "required": false,
+          "description": "For dark surfaces: a white spinner and label."
         }
       ],
       "slots": [],
