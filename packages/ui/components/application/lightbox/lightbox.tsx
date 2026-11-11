@@ -106,10 +106,12 @@ export const Lightbox = ({
                         </p>
 
                         {image && (
-                            <figure className="relative isolate flex w-full flex-col items-center gap-4 md:w-auto md:max-w-full md:gap-[27px] md:overflow-hidden md:rounded-[32px] md:bg-white/10 md:px-[81.5px] md:pt-[68px] md:pb-14">
+                            // overflow-clip, not hidden: a hidden box can still be scrolled (focus moving to an action, a
+                            // dialog opening over it), which shifted the photo and kept it shifted for every slide.
+                            <figure className="relative isolate flex w-full flex-col items-center gap-4 md:w-auto md:max-w-full md:gap-[27px] md:overflow-clip md:rounded-[32px] md:bg-white/10 md:px-[81.5px] md:pt-[68px] md:pb-14">
                                 {/* Phones: the glass card holds the photo and arrows, with the actions below it. md+: it
                                     dissolves (contents) and the figure itself is the card, actions inside. */}
-                                <div className="relative isolate flex w-full flex-col items-center gap-[11px] overflow-hidden rounded-[26px] bg-white/10 px-[34px] pt-[46px] pb-3.5 md:contents">
+                                <div className="relative isolate flex w-full flex-col items-center gap-[11px] overflow-clip rounded-[26px] bg-white/10 px-[34px] pt-[46px] pb-3.5 md:contents">
                                     {/* Colour glow: the photo itself, heavily blurred, behind the glass. */}
                                     <img
                                         src={image.src}
