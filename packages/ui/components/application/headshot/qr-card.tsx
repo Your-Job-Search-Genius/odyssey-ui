@@ -2,6 +2,7 @@
 
 import { type ReactNode, useMemo } from "react";
 import type { Options as QRCodeStylingOptions } from "qr-code-styling";
+import { LoadingIndicator } from "@/components/application/loading-indicator/loading-indicator";
 import { CloseButton } from "@/components/base/buttons/close-button";
 import { QRCode } from "@/components/shared-assets/qr-code";
 import { cx } from "@/utils/cx";
@@ -23,8 +24,10 @@ const qrOptions = (codeSize: number): QRCodeStylingOptions => ({
 });
 
 export interface QRCardProps {
-    /** The URL or text to encode. */
-    value: string;
+    /** The URL or text to encode. Leave it out while it is being fetched: the card shows a spinner in the code's place. */
+    value?: string;
+    /** Announced and shown under the spinner while `value` is missing. @default "Creating your code…" */
+    loadingLabel?: string;
     /** Instruction above the code, e.g. "Use your phone to take the picture for a better quality". */
     caption: ReactNode;
     /** Shows the corner close button. Inside a Dialog/Popover the button also closes it. */
@@ -36,17 +39,24 @@ export interface QRCardProps {
 }
 
 /** Dark card with a white-on-black QR code for continuing on a phone. */
-export const QRCard = ({ value, caption, onClose, closeLabel, codeSize = 158, className }: QRCardProps) => {
+export const QRCard = ({ value, loadingLabel = "Creating your code…", caption, onClose, closeLabel, codeSize = 158, className }: QRCardProps) => {
     // Memoised so `QRCode` (which re-appends on every options change) renders once per size.
     const options = useMemo(() => qrOptions(codeSize), [codeSize]);
 
     return (
         <div className={cx("relative flex w-[230px] flex-col rounded-[20px] bg-[#4F4F4F]", className)}>
             <p className="mx-auto w-[180px] pt-[13px] pb-[9px] text-center text-sm leading-[18px] font-medium text-white">{caption}</p>
-            <div className="h-[202px] rounded-[18px] bg-black/40 pt-3 pl-[23px]">
-                {/* The shared QRCode draws decorative corner handles after the code; this card has none. */}
-                <QRCode value={value} options={options} className="inline-flex p-0 [&_canvas]:size-[180px] [&>div~div]:hidden" />
-            </div>
+            {value ? (
+                <div className="h-[202px] rounded-[18px] bg-black/40 pt-3 pl-[23px]">
+                    {/* The shared QRCode draws decorative corner handles after the code; this card has none. */}
+                    <QRCode value={value} options={options} className="inline-flex p-0 [&_canvas]:size-[180px] [&>div~div]:hidden" />
+                </div>
+            ) : (
+                // Same slot, so the card doesn't change size when the code arrives.
+                <div className="flex h-[202px] items-center justify-center rounded-[18px] bg-black/40">
+                    <LoadingIndicator type="line-simple" inverse label={loadingLabel} />
+                </div>
+            )}
             {onClose && <CloseButton theme="white" label={closeLabel} onPress={onClose} className="absolute -top-[5px] -right-[7px]" />}
         </div>
     );
