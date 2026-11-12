@@ -14,7 +14,6 @@ import {
     Cell as AriaCell,
     Collection as AriaCollection,
     Column as AriaColumn,
-    Group as AriaGroup,
     Row as AriaRow,
     Table as AriaTable,
     TableBody as AriaTableBody,
@@ -179,6 +178,9 @@ const TableHead = ({ className, tooltip, label, children, ...props }: TableHeadP
 
     return (
         <AriaColumn
+            // The content is a render function, so React Aria can't read the column's name from it; without textValue its
+            // sort announcement was "sorted by column  in ascending order" (no name).
+            textValue={label}
             {...props}
             className={(state) =>
                 cx(
@@ -190,7 +192,8 @@ const TableHead = ({ className, tooltip, label, children, ...props }: TableHeadP
             }
         >
             {(state) => (
-                <AriaGroup className="flex items-center gap-1">
+                // A plain div: an unlabelled role="group" inside the header cell only added noise for screen readers.
+                <div className="flex items-center gap-1">
                     <div className="flex items-center gap-1">
                         {label && <span className="text-xs font-semibold whitespace-nowrap text-quaternary">{label}</span>}
                         {typeof children === "function" ? children(state) : children}
@@ -213,7 +216,7 @@ const TableHead = ({ className, tooltip, label, children, ...props }: TableHeadP
                         ) : (
                             <ChevronSelectorVertical size={12} strokeWidth={3} className="text-fg-quaternary" />
                         ))}
-                </AriaGroup>
+                </div>
             )}
         </AriaColumn>
     );
