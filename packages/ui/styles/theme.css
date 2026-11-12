@@ -304,8 +304,8 @@
     /* Figma "text-subtle" (#A4A7AE) darkened to pass AA (4.5:1) on every light surface up to #F6F6F6. */
     --color-text-subtle: rgb(110 112 117);
     --color-text-error-primary: var(--color-red-600);
-    --color-text-warning-primary: var(--color-yellow-600);
-    --color-text-success-primary: var(--color-green-600);
+    --color-text-warning-primary: var(--color-yellow-700);
+    --color-text-success-primary: var(--color-green-700);
     --color-text-secondary: rgb(65 70 81);
     --color-text-secondary_hover: var(--color-neutral-800);
     --color-text-tertiary_hover: var(--color-neutral-700);
@@ -345,8 +345,8 @@
     --color-fg-primary: var(--color-neutral-900);
     --color-fg-brand-secondary: var(--color-brand-500);
     --color-fg-brand-primary: var(--color-brand-600);
-    --color-fg-quaternary: var(--color-neutral-400);
-    --color-fg-quaternary_hover: var(--color-neutral-500);
+    --color-fg-quaternary: var(--color-neutral-500);
+    --color-fg-quaternary_hover: var(--color-neutral-600);
     --color-fg-error-primary: var(--color-red-600);
     --color-fg-warning-secondary: var(--color-yellow-500);
     --color-fg-error-secondary: var(--color-red-500);
@@ -767,8 +767,8 @@
         --color-fg-primary: var(--color-white);
         --color-fg-brand-secondary: var(--color-brand-500);
         --color-fg-brand-primary: var(--color-brand-500);
-        --color-fg-quaternary: var(--color-neutral-600);
-        --color-fg-quaternary_hover: var(--color-neutral-500);
+        --color-fg-quaternary: var(--color-neutral-500);
+        --color-fg-quaternary_hover: var(--color-neutral-400);
         --color-fg-error-primary: var(--color-red-500);
         --color-fg-warning-secondary: var(--color-yellow-400);
         --color-fg-error-secondary: var(--color-red-400);
