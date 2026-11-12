@@ -3,6 +3,15 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## Unreleased
+
+### Fixes
+
+- **Quaternary icons and success / warning text meet WCAG 2.2 AA contrast.** Ported to 4.0.0 from the in-progress token-contrast work, for these three tokens only:
+    - `fg-quaternary` `neutral-400` → `neutral-500` (light, was 2.58:1 on white) and `neutral-600` → `neutral-500` (dark, was 2.53:1); now 4.74:1 and 4.18:1 (non-text needs 3:1). `fg-quaternary_hover` moves one step (`neutral-600` light, `neutral-400` dark) so hover still differs from rest. Covers `Dropdown.DotsButton`, tertiary `ButtonUtility` icons and everything else on `fg-quaternary`.
+    - `text-success-primary` `green-600` → `green-700` and `text-warning-primary` `yellow-600` → `yellow-700` (light; were 3.22:1 and 2.94:1 on white, now 4.95:1 and 4.93:1). Dark mode is unchanged and already passes.
+    - Jira: ACMS-4184, ACMS-4185, ACMS-4186.
+
 ## odyssey-ui 4.0.0
 
 Major: the restyle changes defaults that move layouts (button and input heights, toast position, mobile modals), as 3.0.0's bottom sheets did, so `^3` consumers don't pick it up unasked.
