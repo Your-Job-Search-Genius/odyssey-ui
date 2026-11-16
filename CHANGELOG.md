@@ -3,6 +3,11 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## Unreleased
+
+- **DateRangePicker**: below `lg`, in the bottom sheet and on phones, every preset (Today, Yesterday, This week…) is shown in the calendar's preset row. Before, the preset column was simply hidden at 200%+ zoom (ACMS-4300).
+- **DateRangePicker**: the sheet/popover layout chosen at open is kept until the picker closes. Zooming back to 100% (Ctrl+0) with the sheet open swapped in an unpositioned, invisible popover while the page stayed inert (ACMS-4300).
+
 ## odyssey-ui 4.0.0
 
 Major: the restyle changes defaults that move layouts (button and input heights, toast position, mobile modals), as 3.0.0's bottom sheets did, so `^3` consumers don't pick it up unasked.

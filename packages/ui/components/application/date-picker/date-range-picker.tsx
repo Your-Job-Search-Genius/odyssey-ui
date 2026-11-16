@@ -50,7 +50,16 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
     // off. A bottom sheet gets most of the window's height, scrolls the calendar and keeps Cancel / Apply in view.
     const isDesktop = useBreakpoint("md");
     const isShortViewport = useSyncExternalStore(subscribeShortViewport, getShortViewport, () => false);
-    const isSheet = !isDesktop || isShortViewport;
+    const isSheetNow = !isDesktop || isShortViewport;
+    // Keep the layout chosen at open until the picker closes. Zooming back to 100% (Ctrl+0) with the sheet open used to
+    // swap in the popover already open; it never got positioned (opacity 0 at 0,0) while the page stayed inert, so the
+    // calendar vanished and the keyboard was stuck.
+    const [sheetAtOpen, setSheetAtOpen] = useState<boolean | null>(null);
+    const isSheet = sheetAtOpen ?? isSheetNow;
+    // The preset column only fits a wide popover. Otherwise every preset goes in the calendar's wrapping preset row, so
+    // zoomed (200%+) and mobile layouts keep Today, Yesterday, This week… instead of losing them.
+    const isLarge = useBreakpoint("lg");
+    const showPresetColumn = !isSheet && isLarge;
 
     const formattedStartDate = value?.start ? formatter.format(value.start.toDate(getLocalTimeZone())) : "Select date";
     const formattedEndDate = value?.end ? formatter.format(value.end.toDate(getLocalTimeZone())) : "Select date";
@@ -99,11 +108,16 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
             focusedValue={focusedValue}
             onFocusChange={setFocusedValue}
             highlightedDates={highlightedDates}
-            presets={{
-                lastWeek: presets.lastWeek,
-                lastMonth: presets.lastMonth,
-                lastYear: presets.lastYear,
-            }}
+            presets={
+                showPresetColumn
+                    ? {
+                          lastWeek: presets.lastWeek,
+                          lastMonth: presets.lastMonth,
+                          lastYear: presets.lastYear,
+                      }
+                    : presets
+            }
+            showPresetsOnDesktop={!showPresetColumn}
         />
     );
 
@@ -151,6 +165,7 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
             onChange={setValue}
             onOpenChange={(isOpen) => {
                 if (isOpen) valueAtOpen.current = value;
+                setSheetAtOpen(isOpen ? isSheetNow : null);
                 onOpenChange?.(isOpen);
             }}
         >
@@ -192,20 +207,22 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                     <AriaDialog aria-label="Date range picker" className="flex outline-hidden">
                         {({ close }) => (
                             <>
-                                <div className="hidden w-38 flex-col gap-0.5 border-r border-solid border-secondary p-3 lg:flex">
-                                    {Object.values(presets).map((preset) => (
-                                        <RangePresetButton
-                                            key={preset.label}
-                                            value={preset.value}
-                                            onClick={() => {
-                                                setValue(preset.value);
-                                                setFocusedValue(preset.value.start);
-                                            }}
-                                        >
-                                            {preset.label}
-                                        </RangePresetButton>
-                                    ))}
-                                </div>
+                                {showPresetColumn && (
+                                    <div className="flex w-38 flex-col gap-0.5 border-r border-solid border-secondary p-3">
+                                        {Object.values(presets).map((preset) => (
+                                            <RangePresetButton
+                                                key={preset.label}
+                                                value={preset.value}
+                                                onClick={() => {
+                                                    setValue(preset.value);
+                                                    setFocusedValue(preset.value.start);
+                                                }}
+                                            >
+                                                {preset.label}
+                                            </RangePresetButton>
+                                        ))}
+                                    </div>
+                                )}
                                 <div className="flex flex-col">
                                     {calendar}
                                     <div className="border-t border-secondary p-4">{renderActions(close)}</div>
