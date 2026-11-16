@@ -7,10 +7,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ### Fixes
 
-- **Quaternary icons and success / warning text meet WCAG 2.2 AA contrast.** Ported to 4.0.0 from the in-progress token-contrast work, for these three tokens only:
-    - `fg-quaternary` `neutral-400` → `neutral-500` (light, was 2.58:1 on white) and `neutral-600` → `neutral-500` (dark, was 2.53:1); now 4.74:1 and 4.18:1 (non-text needs 3:1). `fg-quaternary_hover` moves one step (`neutral-600` light, `neutral-400` dark) so hover still differs from rest. Covers `Dropdown.DotsButton`, tertiary `ButtonUtility` icons and everything else on `fg-quaternary`.
-    - `text-success-primary` `green-600` → `green-700` and `text-warning-primary` `yellow-600` → `yellow-700` (light; were 3.22:1 and 2.94:1 on white, now 4.95:1 and 4.93:1). Dark mode is unchanged and already passes.
-    - Jira: ACMS-4184, ACMS-4185, ACMS-4186.
+- **Sorting a `Table` column announces the column's name.** `Table.Head` renders its content with a render function, so React Aria had no text for the column and its live announcement after sorting was `sorted by column  in ascending order` (no name); NVDA users heard "column 1 sorted ...". `Table.Head` now passes `label` as the column's `textValue` (a `textValue` prop still wins). The header content is also wrapped in a plain `div` instead of an unlabelled React Aria `Group` (`role="group"`), which only added noise inside the column header. No visual change. Jira: ACMS-4279, ACMS-4280.
 
 ## odyssey-ui 4.0.0
 
