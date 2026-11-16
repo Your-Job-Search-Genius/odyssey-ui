@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type ReactNode, type RefAttributes, useCallback, useContext } from "react";
+import { type FC, type FocusEvent, type ReactNode, type RefAttributes, useCallback, useContext } from "react";
 import type {
     ButtonProps as AriaButtonProps,
     MenuItemProps as AriaMenuItemProps,
@@ -170,14 +170,31 @@ const DropdownItem = ({
 
 interface DropdownMenuProps<T extends object> extends AriaMenuProps<T> {}
 
+/**
+ * On a screen-reader (virtual) open React Aria marks the first item focused, but its queued focus for the menu itself lands
+ * later and wins, so NVDA sits on the menu with no option focused and ArrowDown can't reach a lone item. Hand focus on to the
+ * item React Aria marked (tabindex 0). Mouse opens mark no item, so they keep focus on the menu.
+ */
+const focusMarkedItem = (event: FocusEvent<HTMLDivElement>) => {
+    // Only the menu itself, not a submenu whose focus event bubbles here through its portal.
+    if (event.target.getAttribute("role") !== "menu" || event.target.parentElement !== event.currentTarget) return;
+    event.target.querySelector<HTMLElement>('[role^="menuitem"][tabindex="0"]')?.focus({ preventScroll: true });
+};
+
 const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
     return (
-        <AriaMenu
-            {...props}
-            className={(state) =>
-                cx("h-min overflow-y-auto p-0.5 outline-hidden select-none", typeof props.className === "function" ? props.className(state) : props.className)
-            }
-        />
+        // `contents`: the wrapper only listens for focus and adds no box.
+        <div className="contents" onFocus={focusMarkedItem}>
+            <AriaMenu
+                {...props}
+                className={(state) =>
+                    cx(
+                        "h-min overflow-y-auto p-0.5 outline-hidden select-none",
+                        typeof props.className === "function" ? props.className(state) : props.className,
+                    )
+                }
+            />
+        </div>
     );
 };
 
