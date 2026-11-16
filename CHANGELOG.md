@@ -3,16 +3,21 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 4.0.2
+
+### Fixes
+
+- **Sorting a `Table` column announces the column's name.** `Table.Head` renders its content with a render function, so React Aria had no text for the column and its live announcement after sorting was `sorted by column  in ascending order` (no name); NVDA users heard "column 1 sorted ...". `Table.Head` now passes `label` as the column's `textValue` (a `textValue` prop still wins). The header content is also wrapped in a plain `div` instead of an unlabelled React Aria `Group` (`role="group"`), which only added noise inside the column header. No visual change. Jira: ACMS-4279, ACMS-4280.
+- **Charts work with NVDA and JAWS arrow keys.** The plot `<svg>` of every `<Chart>`-based chart is `role="application"` (named by the chart `label`, `aria-roledescription="chart"`), so screen readers switch to focus mode on a data point and the arrow keys move between points and bars instead of the virtual cursor. The chart's data table stays readable in browse mode. Jira: ACMS-4281, ACMS-4301, ACMS-4302.
+- **Chart legend toggles say what changed.** Toggling a legend entry also announces "<series> hidden from the chart" / "<series> shown on the chart" through the chart's live region, not just "pressed / not pressed". Jira: ACMS-4301, ACMS-4302.
+- **`DateRangePicker` keeps its presets when zoomed.** The preset column (Today … All time) only fits a wide popover (`lg` and up). Below that, in the bottom sheet and on phones, every preset is shown in the calendar's preset row instead of being hidden. Jira: ACMS-4300.
+- **`DateRangePicker` stays usable after Ctrl+0.** The sheet/popover layout chosen at open is kept until the picker closes. Zooming back to 100% with the sheet open used to swap in a popover that was never positioned (invisible at 0,0) while the page stayed inert. Jira: ACMS-4300.
+
 ## odyssey-ui 4.0.1
 
 ### Fixes
 
 - **Docs static export no longer crashes on the dropdown Figma preview.** `dropdown.story.tsx` is a client module (`"use client"`), like the demo files. Dropdown has no `*.demo.tsx`, so the docs site previews this story, and the static export was rendering it on the server. The Figma stories' compound `Dropdown.*` parts and icon props need that client boundary.
-## Unreleased
-
-### Fixes
-
-- **Sorting a `Table` column announces the column's name.** `Table.Head` renders its content with a render function, so React Aria had no text for the column and its live announcement after sorting was `sorted by column  in ascending order` (no name); NVDA users heard "column 1 sorted ...". `Table.Head` now passes `label` as the column's `textValue` (a `textValue` prop still wins). The header content is also wrapped in a plain `div` instead of an unlabelled React Aria `Group` (`role="group"`), which only added noise inside the column header. No visual change. Jira: ACMS-4279, ACMS-4280.
 
 ## odyssey-ui 4.0.0
 
