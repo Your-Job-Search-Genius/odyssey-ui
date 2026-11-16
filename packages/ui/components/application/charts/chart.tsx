@@ -141,8 +141,7 @@ export const Chart = ({
               announce(willShow ? `${name} shown on the chart` : `${name} hidden from the chart`);
           }
         : undefined;
-    const legendNode =
-        legend && legend.length > 0 ? <ChartLegend items={legend} hiddenKeys={hiddenKeys} onToggle={handleLegendToggle} /> : null;
+    const legendNode = legend && legend.length > 0 ? <ChartLegend items={legend} hiddenKeys={hiddenKeys} onToggle={handleLegendToggle} /> : null;
 
     return (
         <ChartContext.Provider value={context}>
