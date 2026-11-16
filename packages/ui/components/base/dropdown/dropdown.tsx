@@ -205,7 +205,8 @@ const DropdownPopover = ({ mobileSheet = true, backLabel = "Back", ...props }: D
             {...props}
             className={(state) =>
                 cx(
-                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-xl bg-primary shadow-[0_30px_30px_rgba(0,0,0,0.05)] ring-1 ring-secondary will-change-transform ring-inset",
+                    // transition-none: without it screen-reader opens lose focus (see select/popover.tsx).
+                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-xl bg-primary shadow-[0_30px_30px_rgba(0,0,0,0.05)] ring-1 ring-secondary transition-none will-change-transform ring-inset",
                     state.isEntering &&
                         "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                     state.isExiting &&

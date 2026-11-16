@@ -262,7 +262,8 @@ const ComboBoxRoot = ({
                             aria-label={isSheet ? (typeof otherProps.label === "string" ? otherProps.label : "Options") : undefined}
                             className={(popoverState) =>
                                 cx(
-                                    "w-(--trigger-width) origin-(--trigger-anchor-point) overflow-hidden rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt outline-hidden will-change-transform",
+                                    // transition-none: without it screen-reader opens lose focus (see select/popover.tsx).
+                                    "w-(--trigger-width) origin-(--trigger-anchor-point) overflow-hidden rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt outline-hidden transition-none will-change-transform",
                                     popoverState.isEntering &&
                                         "duration-150 ease-out animate-in fade-in placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                                     popoverState.isExiting &&

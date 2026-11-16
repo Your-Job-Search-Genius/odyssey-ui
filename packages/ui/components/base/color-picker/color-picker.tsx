@@ -90,7 +90,8 @@ export const ColorPicker = ({ label = "Color", hint, value, defaultValue, onChan
                         offset={8}
                         className={({ isEntering, isExiting }) =>
                             cx(
-                                "w-64 origin-(--trigger-anchor-point) rounded-xl bg-primary p-4 shadow-lg ring-1 ring-secondary_alt outline-hidden will-change-transform",
+                                // transition-none: without it screen-reader opens lose focus (see select/popover.tsx).
+                                "w-64 origin-(--trigger-anchor-point) rounded-xl bg-primary p-4 shadow-lg ring-1 ring-secondary_alt outline-hidden transition-none will-change-transform",
                                 isEntering &&
                                     "duration-150 ease-out animate-in fade-in placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                                 isExiting &&

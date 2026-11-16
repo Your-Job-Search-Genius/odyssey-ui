@@ -1,6 +1,6 @@
 {
-  "version": "4.0.2",
-  "generatedAt": "library@4.0.2+components:177+tokens:278+icons:1234",
+  "version": "4.0.3",
+  "generatedAt": "library@4.0.3+components:177+tokens:278+icons:1234",
   "library": {
     "packageName": "@your-job-search-genius/odyssey-ui",
     "importPath": "@your-job-search-genius/odyssey-ui/components"
