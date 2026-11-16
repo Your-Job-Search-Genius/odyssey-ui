@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const FOCUSABLE = "a[href], button, input, select, textarea, [tabindex]";
+const TOP_LAYER = "[data-react-aria-top-layer]";
 
 function isTabbable(el: HTMLElement): boolean {
     return el.tabIndex >= 0 && !el.matches(":disabled") && !el.closest("[inert], [hidden], [aria-hidden='true']") && el.getClientRects().length > 0;
@@ -10,7 +11,12 @@ function isTabbable(el: HTMLElement): boolean {
 
 /** The next tabbable element after `from` in document order, else the previous one, so focus never falls to <body>. */
 function adjacentTabbable(from: HTMLElement): HTMLElement | null {
-    const all = Array.from(document.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => !from.contains(el) && isTabbable(el));
+    // Toasts sit in a top layer at the end of the page and close on their own. A save that disables its own button
+    // usually fires one, so its Dismiss button was "next"; focus parked there fell to <body> when the toast left.
+    const inTopLayer = !!from.closest(TOP_LAYER);
+    const all = Array.from(document.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => !from.contains(el) && isTabbable(el) && (inTopLayer || !el.closest(TOP_LAYER)),
+    );
     const next = all.find((el) => from.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
     return next ?? all.filter((el) => from.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_PRECEDING).at(-1) ?? null;
 }

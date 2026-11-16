@@ -8,6 +8,11 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 ### Fixes
 
 - **Docs static export no longer crashes on the dropdown Figma preview.** `dropdown.story.tsx` is a client module (`"use client"`), like the demo files. Dropdown has no `*.demo.tsx`, so the docs site previews this story, and the static export was rendering it on the server. The Figma stories' compound `Dropdown.*` parts and icon props need that client boundary.
+## Unreleased
+
+### Fixes
+
+- **Sorting a `Table` column announces the column's name.** `Table.Head` renders its content with a render function, so React Aria had no text for the column and its live announcement after sorting was `sorted by column  in ascending order` (no name); NVDA users heard "column 1 sorted ...". `Table.Head` now passes `label` as the column's `textValue` (a `textValue` prop still wins). The header content is also wrapped in a plain `div` instead of an unlabelled React Aria `Group` (`role="group"`), which only added noise inside the column header. No visual change. Jira: ACMS-4279, ACMS-4280.
 
 ## odyssey-ui 4.0.0
 
