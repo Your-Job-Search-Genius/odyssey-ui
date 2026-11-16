@@ -7,7 +7,7 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ### Fixes
 
-- **Sorting a `Table` column announces the column's name.** `Table.Head` renders its content with a render function, so React Aria had no text for the column and its live announcement after sorting was "sorted by column  in ascending order" (no name); NVDA users heard "column 1 sorted ...". `Table.Head` now passes `label` as the column's `textValue` (a `textValue` prop still wins). The header content is also wrapped in a plain `div` instead of an unlabelled React Aria `Group` (`role="group"`), which only added noise inside the column header. No visual change. Jira: ACMS-4279, ACMS-4280.
+- **Sorting a `Table` column announces the column's name.** `Table.Head` renders its content with a render function, so React Aria had no text for the column and its live announcement after sorting was `sorted by column  in ascending order` (no name); NVDA users heard "column 1 sorted ...". `Table.Head` now passes `label` as the column's `textValue` (a `textValue` prop still wins). The header content is also wrapped in a plain `div` instead of an unlabelled React Aria `Group` (`role="group"`), which only added noise inside the column header. No visual change. Jira: ACMS-4279, ACMS-4280.
 
 ## odyssey-ui 4.0.0
 
