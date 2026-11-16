@@ -212,7 +212,8 @@ export const NavAccountCard = ({
                     offset={8}
                     className={({ isEntering, isExiting }) =>
                         cx(
-                            "origin-(--trigger-anchor-point) will-change-transform",
+                            // transition-none: without it screen-reader opens lose focus (see select/popover.tsx).
+                            "origin-(--trigger-anchor-point) transition-none will-change-transform",
                             isEntering &&
                                 "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                             isExiting &&

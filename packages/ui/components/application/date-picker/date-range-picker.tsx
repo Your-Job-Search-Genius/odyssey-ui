@@ -196,7 +196,8 @@ export const DateRangePicker = ({ value: valueProp, defaultValue, onChange, onAp
                     offset={8}
                     className={({ isEntering, isExiting }) =>
                         cx(
-                            "max-w-[calc(100vw-24px)] origin-(--trigger-anchor-point) overflow-auto rounded-2xl bg-primary shadow-xl ring ring-secondary_alt outline-hidden will-change-transform",
+                            // transition-none: without it screen-reader opens lose focus (see select/popover.tsx).
+                            "max-w-[calc(100vw-24px)] origin-(--trigger-anchor-point) overflow-auto rounded-2xl bg-primary shadow-xl ring ring-secondary_alt outline-hidden transition-none will-change-transform",
                             isEntering &&
                                 "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                             isExiting &&

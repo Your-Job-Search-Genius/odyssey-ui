@@ -3,6 +3,13 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 4.0.3
+
+### Fixes
+
+- **Screen readers can open and use popovers.** The `Select`, `MultiSelect`, `ComboBox`, `Dropdown`, `ColorPicker`, `DatePicker`, `DateRangePicker` and nav account card popovers are now `transition-none`. Their enter/exit `duration-*` classes also set `transition-duration`, so React Aria's top/left positioning ran as CSS transitions that got cancelled partway. React Aria's `runAfterTransition` then never finished, and opening the list with a screen reader (a virtual click) didn't move focus into it. NVDA lost focus, and the arrow keys and Escape did nothing. The enter/exit keyframe animations still run, and mouse and keyboard use is unchanged. Jira: ACMS-3971, ACMS-4004, ACMS-4013, ACMS-4035, ACMS-4271, ACMS-4272.
+- **A screen-reader open of a `Dropdown` focuses its first item.** React Aria marks the first item focused, but its own queued focus for the menu lands later and wins, so NVDA stayed on the menu and ArrowDown couldn't reach a menu with only one item. `Dropdown.Menu` now passes focus from the menu to the item React Aria marked. Keyboard opens already focused the item, and mouse opens mark no item, so both are unchanged. Jira: ACMS-3971.
+
 ## odyssey-ui 4.0.2
 
 ### Fixes

@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type ReactNode, type RefAttributes, useCallback, useContext } from "react";
+import { type FC, type FocusEvent, type ReactNode, type RefAttributes, useCallback, useContext } from "react";
 import type {
     ButtonProps as AriaButtonProps,
     MenuItemProps as AriaMenuItemProps,
@@ -170,14 +170,31 @@ const DropdownItem = ({
 
 interface DropdownMenuProps<T extends object> extends AriaMenuProps<T> {}
 
+/**
+ * On a screen-reader (virtual) open React Aria marks the first item focused, but its queued focus for the menu itself lands
+ * later and wins, so NVDA sits on the menu with no option focused and ArrowDown can't reach a lone item. Hand focus on to the
+ * item React Aria marked (tabindex 0). Mouse opens mark no item, so they keep focus on the menu.
+ */
+const focusMarkedItem = (event: FocusEvent<HTMLDivElement>) => {
+    // Only the menu itself, not a submenu whose focus event bubbles here through its portal.
+    if (event.target.getAttribute("role") !== "menu" || event.target.parentElement !== event.currentTarget) return;
+    event.target.querySelector<HTMLElement>('[role^="menuitem"][tabindex="0"]')?.focus({ preventScroll: true });
+};
+
 const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
     return (
-        <AriaMenu
-            {...props}
-            className={(state) =>
-                cx("h-min overflow-y-auto p-0.5 outline-hidden select-none", typeof props.className === "function" ? props.className(state) : props.className)
-            }
-        />
+        // `contents`: the wrapper only listens for focus and adds no box.
+        <div className="contents" onFocus={focusMarkedItem}>
+            <AriaMenu
+                {...props}
+                className={(state) =>
+                    cx(
+                        "h-min overflow-y-auto p-0.5 outline-hidden select-none",
+                        typeof props.className === "function" ? props.className(state) : props.className,
+                    )
+                }
+            />
+        </div>
     );
 };
 
@@ -205,7 +222,8 @@ const DropdownPopover = ({ mobileSheet = true, backLabel = "Back", ...props }: D
             {...props}
             className={(state) =>
                 cx(
-                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-xl bg-primary shadow-[0_30px_30px_rgba(0,0,0,0.05)] ring-1 ring-secondary will-change-transform ring-inset",
+                    // transition-none: without it screen-reader opens lose focus (see select/popover.tsx).
+                    "w-62 origin-(--trigger-anchor-point) overflow-auto rounded-xl bg-primary shadow-[0_30px_30px_rgba(0,0,0,0.05)] ring-1 ring-secondary transition-none will-change-transform ring-inset",
                     state.isEntering &&
                         "duration-150 ease-out animate-in fade-in placement-right:slide-in-from-left-0.5 placement-top:slide-in-from-bottom-0.5 placement-bottom:slide-in-from-top-0.5",
                     state.isExiting &&
