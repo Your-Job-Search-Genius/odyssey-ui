@@ -7,7 +7,10 @@ Notable changes to the published packages. Versions are bumped by hand in each p
 
 ### Fixes
 
-- **A button that disables itself no longer hands focus to a toast.** `Button`, `ButtonUtility`, `Input` and pagination move focus on when they become disabled while focused, so it doesn't fall to `<body>`. After a save, the next element was often the Dismiss button of the toast the save had just shown, because the `Toaster` sits at the end of the page. Focus parked there fell to `<body>` again when the toast closed or timed out, so keyboard and screen-reader users lost their place (WCAG 2.4.3). Elements in a top layer (`[data-react-aria-top-layer]`, i.e. toasts) are now skipped unless the disabled control is inside that layer itself, so focus goes to the nearest control on the page instead. Found on the admin app's SSO User Provisioning page. Jira: ACMS-4160.
+- **Quaternary icons and success / warning text meet WCAG 2.2 AA contrast.** Ported to 4.0.0 from the in-progress token-contrast work, for these three tokens only:
+    - `fg-quaternary` `neutral-400` → `neutral-500` (light, was 2.58:1 on white) and `neutral-600` → `neutral-500` (dark, was 2.53:1); now 4.74:1 and 4.18:1 (non-text needs 3:1). `fg-quaternary_hover` moves one step (`neutral-600` light, `neutral-400` dark) so hover still differs from rest. Covers `Dropdown.DotsButton`, tertiary `ButtonUtility` icons and everything else on `fg-quaternary`.
+    - `text-success-primary` `green-600` → `green-700` and `text-warning-primary` `yellow-600` → `yellow-700` (light; were 3.22:1 and 2.94:1 on white, now 4.95:1 and 4.93:1). Dark mode is unchanged and already passes.
+    - Jira: ACMS-4184, ACMS-4185, ACMS-4186.
 
 ## odyssey-ui 4.0.0
 
