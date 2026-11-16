@@ -3,6 +3,11 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## odyssey-ui 4.0.1
+
+### Fixes
+
+- **Docs static export no longer crashes on the dropdown Figma preview.** `dropdown.story.tsx` is a client module (`"use client"`), like the demo files. Dropdown has no `*.demo.tsx`, so the docs site previews this story, and the static export was rendering it on the server. The Figma stories' compound `Dropdown.*` parts and icon props need that client boundary.
 ## Unreleased
 
 ### Fixes
