@@ -132,7 +132,17 @@ export const Chart = ({
 
     const descriptionId = `${id}-description`;
     const hasHeader = Boolean(title || subtitle || actions || (legend && legendPosition === "top"));
-    const legendNode = legend && legend.length > 0 ? <ChartLegend items={legend} hiddenKeys={hiddenKeys} onToggle={onLegendToggle} /> : null;
+    // A pressed/not pressed state alone doesn't say what changed, so also announce the effect on the chart.
+    const handleLegendToggle = onLegendToggle
+        ? (key: string) => {
+              const name = legend?.find((item) => item.key === key)?.name ?? key;
+              const willShow = hiddenKeys?.has(key) ?? false;
+              onLegendToggle(key);
+              announce(willShow ? `${name} shown on the chart` : `${name} hidden from the chart`);
+          }
+        : undefined;
+    const legendNode =
+        legend && legend.length > 0 ? <ChartLegend items={legend} hiddenKeys={hiddenKeys} onToggle={handleLegendToggle} /> : null;
 
     return (
         <ChartContext.Provider value={context}>
@@ -162,6 +172,12 @@ export const Chart = ({
                     ) : (
                         width > 0 && (
                             <svg
+                                // Every chart's marks use a roving tabindex driven by the arrow keys. In browse mode
+                                // NVDA/JAWS keep the arrows for their virtual cursor, so the plot is an application:
+                                // focusing a mark switches the reader to focus mode and the arrows reach the chart.
+                                role="application"
+                                aria-label={label}
+                                aria-roledescription="chart"
                                 width={width}
                                 height={height}
                                 viewBox={`0 0 ${width} ${height}`}

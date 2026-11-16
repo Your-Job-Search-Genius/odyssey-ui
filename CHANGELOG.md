@@ -3,6 +3,11 @@
 Notable changes to the published packages. Versions are bumped by hand in each package's
 `package.json`; the publish workflow releases any version not yet on GitHub Packages.
 
+## Unreleased
+
+- **Charts**: the plot `<svg>` is `role="application"` (named by the chart `label`), so NVDA and JAWS switch to focus mode on a data point and the arrow keys move between points instead of the virtual cursor (ACMS-4281, ACMS-4301, ACMS-4302).
+- **Charts**: toggling a legend entry also announces "<series> hidden from the chart" / "<series> shown on the chart" through the chart's live region (ACMS-4301, ACMS-4302).
+
 ## odyssey-ui 4.0.0
 
 Major: the restyle changes defaults that move layouts (button and input heights, toast position, mobile modals), as 3.0.0's bottom sheets did, so `^3` consumers don't pick it up unasked.
